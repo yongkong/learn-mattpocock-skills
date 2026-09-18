@@ -20,9 +20,21 @@ _Avoid_: 文档、 cheatsheet 之外的说法、notes
 收录 AI 编码核心术语的 Reference,本身构成一门相对独立的概念课程:释义以中文撰写、术语保留英文,一词一个 MD 文件,卡片弹层阅读。源出 mattpocock/dictionary-of-ai-coding。
 _Avoid_: 字典、词汇表(「词汇表」特指本文件 CONTEXT.md)、单词表
 
+**Site(站点)**:
+面向公众的 Course 网站,名为「Agent Skills 中文课」,以「非官方社区课程」自居并注明源出 Matt Pocock 的 skills 体系;部署于本仓库,与教学工作区同体。
+_Avoid_: 官网、平台
+
 **Course Home(课程主页)**:
-仓库根的 `index.html`,Course 的唯一入口:列出全部 Lesson 与 Reference。
+Site 的首页,同时是 Course 的总览入口(仓库根 `index.html`):按 Module 分章列出全部 Lesson 与 Reference,辅以情境入口与续学入口。
 _Avoid_: 首页、主页(单独使用时)、index 页
+
+**Module(模块章)**:
+Course 目录的顶级分类单位,共五章:主流程 / 参考层 / Shaping / Upkeep / 协作。每份 Lesson 恰属一章;Reference 与 Dictionary 不入章,是导航中的顶级类目。
+_Avoid_: 分类、部分、chapter
+
+**Register(语域)**:
+Site 全部内容(含未来 Lesson)的写作标准:写给只读网页的零背景读者,课件自成一体;人称定「你」;引用必有出处。可执行细则在 `docs/register.md`。
+_Avoid_: 文风指南、语气规范、style guide
 
 **Progress(学习进度)**:
 学习者对某个 Lesson 的完成判定,只有「未学 / 已学」两态,由学习者手动标记。
