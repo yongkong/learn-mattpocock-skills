@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>课程 0003 · 实战:跑通主流程前三站</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main>
+  <p class="kicker">Lesson 0003 · 实战</p>
+  <h1>实战:跑通主流程前三站</h1>
+  <p class="lede">地图(<a href="0001-the-map.html">0001</a>)和四台发动机(<a href="0002-reference-layer.html">0002</a>)都认识了。这课没有新知识——它是一份飞行清单,带你在本仓库把 <code>/grill-with-docs</code> → <code>/to-spec</code> → <code>/to-tickets</code> 真正跑一遍。跑完,前三站就从「知道」变成「做过」。</p>
+
+  <div class="callout">
+    <p><strong>练习题已经选好:</strong>给这个课程工作区做一个真实有用的小功能——<strong>课程主页(course-homepage)</strong>:一个 <code>index.html</code>,列出全部课程与速查文档、标注学习进度,点击直达。它够小(一个会话能装下)、够真实(以后真的会用到)、又够完整(能打通每一层)。</p>
+    <p>想换成自己工作里的真实想法?完全可以,流程一字不差——把想法直接发给老师(对话里的 agent)即可。</p>
+  </div>
+
+  <h2>起飞前检查</h2>
+  <ul>
+    <li>✅ skills 已安装(mattpocock-skills 插件)</li>
+    <li>✅ 本仓库已跑过 <code>/setup-matt-pocock-skills</code>:issue tracker = local markdown(<code>.scratch/</code>),triage 标签为默认五件套——这两样正是 to-spec 和 to-tickets 的前置条件</li>
+    <li>✅ 想法已选定(课程主页,或你自己的)</li>
+  </ul>
+
+  <h2>第一站:/grill-with-docs(访谈 + 沉淀)</h2>
+  <table>
+    <tr><td style="width:6rem;"><strong>你敲什么</strong></td><td><code>/grill-with-docs</code>(或直接对老师说「开始实战课」)</td></tr>
+    <tr><td><strong>agent 会做什么</strong></td><td>按 frontier 分轮提问:每轮一批编号问题,每题附推荐答案;能查代码自己查,只有决策问你</td></tr>
+    <tr><td><strong>交接物</strong></td><td>达成共识的设计 + 顺手更新的 <code>CONTEXT.md</code> 词条 / ADR(如有够格的)</td></tr>
+    <tr><td><strong>你的验收点</strong></td><td>结束标志是 frontier 清空<strong>且你确认共识</strong>;结束后看一眼 CONTEXT.md 是否多了词条</td></tr>
+  </table>
+
+  <h2>第二站:/to-spec(综合成文)</h2>
+  <table>
+    <tr><td style="width:6rem;"><strong>你敲什么</strong></td><td><code>/to-spec</code></td></tr>
+    <tr><td><strong>agent 会做什么</strong></td><td><strong>不再问你问题</strong>,只综合已有对话;探索仓库;提出测试 seams 请你确认(优先已有 seam、用最高 seam、越少越好);按模板写 spec</td></tr>
+    <tr><td><strong>交接物</strong></td><td><code>.scratch/course-homepage/spec.md</code>,贴 <code>ready-for-agent</code> 标签</td></tr>
+    <tr><td><strong>你的验收点</strong></td><td>user stories 是否覆盖全面;spec 里是否偷跑了实现细节(<strong>不该出现具体文件路径和代码片段</strong>——过时太快)</td></tr>
+  </table>
+
+  <h2>第三站:/to-tickets(拆成工单)</h2>
+  <table>
+    <tr><td style="width:6rem;"><strong>你敲什么</strong></td><td><code>/to-tickets</code>(可带上 spec 路径)</td></tr>
+    <tr><td><strong>agent 会做什么</strong></td><td>把 spec 拆成竖切(tracer bullet)工单,声明 blocking 边;发布前拿三个问题考你:粒度对吗?边对吗?要合并/拆分吗?</td></tr>
+    <tr><td><strong>交接物</strong></td><td><code>.scratch/course-homepage/issues/01-*.md</code>、<code>02-*.md</code>……一票一文件,按依赖顺序编号,每张贴 <code>ready-for-agent</code></td></tr>
+    <tr><td><strong>你的验收点</strong></td><td>每张工单是否独立可演示;编号顺序是否 = 依赖顺序(blocker 在前);frontier 是否清晰(blocker 全完成的随时可开工)</td></tr>
+  </table>
+
+  <h2>降落与复盘</h2>
+  <p>三站跑完后,回到对话说<strong>「复盘」</strong>:老师陪你逐份查看 <code>.scratch/</code> 里产出的 spec 和工单,对照 <a href="../reference/artifact-shapes.html">spec 与工单速查</a>挑毛病——格式跑样、竖切不竖、blocking 边画错,都是这一课最有价值的收获。</p>
+  <p>想继续飞?下一站是 <code>/implement</code>:挑一张无阻塞的工单(工作 frontier),它会内部驱动 <code>/tdd</code>(red → green,seam 上见)并在收尾自动跑 <code>/code-review</code>——那已经是另一课的内容了。</p>
+
+  <h2>练一练:飞行手册考核</h2>
+  <p>起飞前先过一遍这 7 题——全部关于「每一站你会遇到什么、该做什么」。</p>
+  <div id="quiz"></div>
+
+  <h2>速查与提醒</h2>
+  <p>飞行中迷路就开这两份:<a href="../reference/artifact-shapes.html">spec 与工单长什么样</a>(交接物格式)和 <a href="../reference/skill-flow-map.html">全局地图</a>(情境路由)。</p>
+
+  <div class="callout">
+    <p><strong>卡住了就问老师。</strong>无论是对问题答不上来、觉得某站的输出不对劲,还是想中途换想法——对话里直接说。</p>
+  </div>
+
+  <p class="lesson-nav">上一课:<a href="0002-reference-layer.html">0002 · 参考层四技能</a> · 速查:<a href="../reference/artifact-shapes.html">spec 与工单</a>、<a href="../reference/skill-flow-map.html">全局地图</a></p>
+</main>
+
+<script src="../assets/quiz.js"></script>
+<script>
+MtQuiz.render(document.getElementById("quiz"), {
+  questions: [
+    {
+      scenario: "/grill-with-docs 实际上由哪两个技能组成?",
+      options: ["grilling + domain-modeling", "grilling + to-spec", "domain-modeling + tdd", "to-spec + to-tickets"],
+      answer: 0,
+      explain: "它的 SKILL.md 正文只有一句:Call the Skill tool twice, for 'grilling' and 'domain-modeling'。访谈方法 + 领域建模,一次调用两个都上。"
+    },
+    {
+      scenario: "进入 /to-spec 之后,它还会继续访谈你吗?",
+      options: ["不会,它只综合已有共识", "会,再问一轮细节问题", "只问测试相关的问题", "只问范围外的问题"],
+      answer: 0,
+      explain: "to-spec 的定位是『no interview, just synthesis』:访谈在 grill 阶段已经完成,写 spec 时不再问。"
+    },
+    {
+      scenario: "spec 里 user stories 的固定格式是什么?",
+      options: ["As an actor, I want..., so that...", "Given-When-Then 三段式", "输入-处理-输出三栏表", "角色-目标-任务三层树"],
+      answer: 0,
+      explain: "As an <actor>, I want <feature>, so that <benefit>,而且要求是很长的编号列表,覆盖特性所有方面。"
+    },
+    {
+      scenario: "spec 为什么禁止出现具体文件路径和代码片段?",
+      options: ["它们过时得非常快", "agent 看不懂代码", "会让 spec 超出长度限制", "它们属于测试决策"],
+      answer: 0,
+      explain: "文件路径和代码片段极易过时。唯一例外:原型得出的状态机/类型形状等决策性片段可以内联,并注明来自 prototype。"
+    },
+    {
+      scenario: "to-tickets 拆完工单、发布之前必须做什么?",
+      options: ["拿粒度/依赖边/拆分合并来问你", "直接发布到 .scratch/", "先把第一张工单实现掉", "给每张工单写好测试"],
+      answer: 0,
+      explain: "三连问:粒度对吗?blocking 边对吗?要合并/拆分吗?你批准后才发布——工单是你验收过的,不是 agent 自作主张的。"
+    },
+    {
+      scenario: "哪类任务允许不按竖切(tracer bullet)拆?",
+      options: ["波及全库的 wide refactor", "只有一层的纯 UI 改动", "只有一个函数的小修", "新增一张数据库表"],
+      answer: 0,
+      explain: "wide refactor(一次机械改动波及全库)走 expand–contract:先加新形式,分批迁移,最后删旧形式,每批一张工单保 CI 绿。"
+    },
+    {
+      scenario: "本地 markdown 模式下,工单发布成什么样子?",
+      options: [".scratch/<feature>/issues/ 一票一文件", "一个大 issues.md 全部堆一起", "README 里加一个清单", "发到邮箱草稿箱"],
+      answer: 0,
+      explain: ".scratch/<feature-slug>/issues/NN-<slug>.md,从 01 按依赖顺序编号;每张含 What to build / Blocked by / Status / 验收标准。"
+    }
+  ]
+});
+</script>
+</body>
+</html>

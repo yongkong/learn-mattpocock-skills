@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>速查:mattpocock/skills 全局地图</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main>
+  <p class="kicker">Reference · mattpocock/skills v1.2</p>
+  <h1>全局地图:25 个技能,一条流水线</h1>
+  <p class="lede">打印出来贴在手边。任何时刻,先定位你在主流程的哪一步,再决定进入哪个外围模块。</p>
+
+  <h2>主流程 The Main Flow(idea → ship)</h2>
+  <ol class="flow">
+    <li><span class="cmd">/grill-with-docs</span><span class="io">输入:一个想法或计划 · 产出:共识 + 决策记录(CONTEXT.md / ADR 同步更新)</span></li>
+    <li><span class="cmd">/to-spec</span><span class="io">输入:达成共识的对话 · 产出:spec(含 user stories),发布到 issue tracker</span></li>
+    <li><span class="cmd">/to-tickets</span><span class="io">输入:spec · 产出:一组 tracer-bullet 工单,声明 blocking 关系,可并行认领</span></li>
+    <li><span class="cmd">/implement</span><span class="io">输入:工单/spec · 产出:代码(内部驱动 /tdd,收尾跑 /code-review)</span></li>
+    <li><span class="cmd">/code-review</span><span class="io">输入:diff + 来源 spec · 产出:两轴审查报告(Standards 轴 + Spec 轴)</span></li>
+    <li><strong>ship</strong><span class="io">提交、合并。回到起点接下一个想法。</span></li>
+  </ol>
+
+  <h2>参考层 Reference(被其他技能调用,一般不直接敲)</h2>
+  <table>
+    <tr><th>技能</th><th>管什么</th><th>被谁调用</th></tr>
+    <tr><td><code>/tdd</code></td><td>red-green-refactor 循环规则</td><td>/implement</td></tr>
+    <tr><td><code>/grilling</code></td><td>穷追不舍的访谈法(design tree)</td><td>/grill-me、/grill-with-docs、/improve-codebase-architecture 等</td></tr>
+    <tr><td><code>/domain-modeling</code></td><td>统一语言、CONTEXT.md 与 ADR</td><td>/grill-with-docs</td></tr>
+    <tr><td><code>/codebase-design</code></td><td>deep module 设计词汇</td><td>贯穿各技能的共同语言</td></tr>
+  </table>
+
+  <h2>四个外围模块</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Getting Started(一次性)</h3>
+      <ul>
+        <li><code>/setup-matt-pocock-skills</code> — 每仓库配置一次</li>
+        <li><code>/ask-matt</code> — 不知道用哪个技能时问它</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Shaping(把不确定变成决策,喂给主流程)</h3>
+      <ul>
+        <li><code>/wayfinder</code> — 超大会话的决策地图(入口)</li>
+        <li><code>/prototype</code> — 用完即弃的原型答题</li>
+        <li><code>/research</code> — 带引用的调研(后台 agent)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Upkeep(保持代码库与工单健康)</h3>
+      <ul>
+        <li><code>/improve-codebase-architecture</code> — 找 deepening 机会</li>
+        <li><code>/diagnosing-bugs</code> — 疑难 bug 诊断循环</li>
+        <li><code>/resolving-merge-conflicts</code> — 逐 hunk 解冲突</li>
+        <li><code>/triage</code> — 工单状态机分诊</li>
+        <li><code>/wizard</code> — 生成人类操作向导脚本</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Productivity(人自己的工作流)</h3>
+      <ul>
+        <li><code>/grill-me</code> — 被穷追不舍地访谈</li>
+        <li><code>/handoff</code> — 会话压缩成交接文档</li>
+        <li><code>/to-questionnaire</code> — 决策变成问卷</li>
+        <li><code>/teach</code> — 多次会话教学(本课程)</li>
+        <li><code>/wait-what</code> — 没看懂的消息重新讲一遍</li>
+        <li><code>/writing-for-agents</code> — 为 agent 写文档</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>情境路由表</h2>
+  <table>
+    <tr><th>情境</th><th>用哪个</th></tr>
+    <tr><td>想法模糊,边界没想清</td><td><code>/grill-me</code> 或 <code>/grill-with-docs</code>(想沉淀领域文档时)</td></tr>
+    <tr><td>共识已达成,要落成文字</td><td><code>/to-spec</code>(它不再访谈你)</td></tr>
+    <tr><td>spec 要拆成可并行的工作</td><td><code>/to-tickets</code></td></tr>
+    <tr><td>工单就绪,开始写代码</td><td><code>/implement</code>(内部自动走 /tdd + /code-review)</td></tr>
+    <tr><td>活太大,一个会话装不下</td><td><code>/wayfinder</code></td></tr>
+    <tr><td>设计问题悬而未决</td><td><code>/prototype</code>(要证据)或 <code>/research</code>(要文献)</td></tr>
+    <tr><td>疑难 bug 复现不了</td><td><code>/diagnosing-bugs</code></td></tr>
+    <tr><td>merge/rebase 冲突堆着</td><td><code>/resolving-merge-conflicts</code></td></tr>
+    <tr><td>工单堆积分不清先后</td><td><code>/triage</code></td></tr>
+    <tr><td>开发一阵子后质量下滑</td><td><code>/improve-codebase-architecture</code>(每周或冲刺后)</td></tr>
+    <tr><td>同事的消息/回复看不懂</td><td><code>/wait-what</code></td></tr>
+    <tr><td>不确定该用哪个技能</td><td><code>/ask-matt</code></td></tr>
+  </table>
+
+  <p class="cite">来源:<a href="https://www.aihero.dev/skills">aihero.dev/skills</a> · <a href="https://github.com/mattpocock/skills">github.com/mattpocock/skills</a> · 本地插件 v1.2.3 的 engineering/ 与 productivity/ README。技能行为以各 SKILL.md 为最权威定义。</p>
+
+  <p class="lesson-nav">← 配套课程:<a href="../lessons/0001-the-map.html">0001 · 全局地图</a></p>
+</main>
+</body>
+</html>

@@ -1,0 +1,142 @@
+/* mattpocock-skills 课程共享样式 —— 所有 lessons/*.html 与 reference/*.html 都应链接本文件 */
+:root {
+  --ink: #1a1a18;
+  --ink-soft: #57534e;
+  --paper: #fffdf9;
+  --accent: #b45309;      /* amber-700 */
+  --accent-soft: #fef3c7;
+  --line: #e7e5e4;
+  --good: #15803d;
+  --good-soft: #dcfce7;
+  --bad: #b91c1c;
+  --bad-soft: #fee2e2;
+  --code-bg: #f5f5f4;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 17px; }
+
+body {
+  margin: 0;
+  padding: 3rem 1.5rem 6rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", "Source Han Serif SC", SimSun, serif;
+  line-height: 1.75;
+}
+
+main { max-width: 46rem; margin: 0 auto; }
+
+h1, h2, h3 {
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.4rem; margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+h3 { font-size: 1.1rem; margin-top: 2rem; }
+
+p { margin: 1rem 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+code, kbd {
+  font-family: "Cascadia Code", Consolas, "JetBrains Mono", monospace;
+  font-size: 0.86em;
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+.kicker {
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.lede { font-size: 1.15rem; color: var(--ink-soft); margin-top: 0; }
+
+.callout {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 0.9rem 1.2rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1.5rem 0;
+}
+.callout p { margin: 0.35rem 0; }
+
+.cite { font-size: 0.85rem; color: var(--ink-soft); }
+.cite a { color: inherit; }
+
+/* 流程图(纵向管道) */
+.flow { list-style: none; margin: 2rem 0; padding: 0; }
+.flow li {
+  position: relative;
+  padding: 0 0 1.6rem 2.4rem;
+  border-left: 2px solid var(--line);
+  margin-left: 0.9rem;
+}
+.flow li:last-child { border-left-color: transparent; padding-bottom: 0.2rem; }
+.flow li::before {
+  content: "";
+  position: absolute;
+  left: -0.62rem;
+  top: 0.32rem;
+  width: 0.9rem; height: 0.9rem;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--accent);
+}
+.flow .cmd { font-family: "Cascadia Code", Consolas, monospace; font-weight: 700; color: var(--accent); }
+.flow .io { display: block; font-size: 0.88rem; color: var(--ink-soft); margin-top: 0.15rem; }
+
+/* 卡片组(模块一览) */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.card { border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.2rem; background: #fff; }
+.card h3 { margin: 0 0 0.4rem; font-size: 1rem; }
+.card .hint { font-size: 0.85rem; color: var(--ink-soft); }
+.card ul { margin: 0.5rem 0 0; padding-left: 1.1rem; }
+.card li { margin: 0.2rem 0; font-size: 0.92rem; }
+
+/* 表格 */
+table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: "Cascadia Code", Consolas, monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); }
+
+/* 测验挂载点 */
+.quiz { border: 1px solid var(--line); border-radius: 12px; padding: 1.2rem 1.4rem; margin: 1.5rem 0; background: #fff; }
+.quiz .q { margin: 1.5rem 0; }
+.quiz .q:first-of-type { margin-top: 0.5rem; }
+.quiz .scenario { font-weight: 600; }
+.quiz .options { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.7rem 0 0; }
+.quiz .options button {
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 0.88rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  cursor: pointer;
+}
+.quiz .options button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.quiz .options button:disabled { cursor: default; opacity: 0.55; }
+.quiz .options button.correct { background: var(--good-soft); border-color: var(--good); color: var(--good); opacity: 1; font-weight: 700; }
+.quiz .options button.wrong { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); opacity: 1; }
+.quiz .explain { font-size: 0.9rem; margin-top: 0.6rem; padding: 0.6rem 0.9rem; border-radius: 8px; }
+.quiz .explain.ok { background: var(--good-soft); }
+.quiz .explain.no { background: var(--bad-soft); }
+.quiz .score { font-weight: 700; margin-top: 1rem; }
+
+.lesson-nav { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.92rem; color: var(--ink-soft); }
+
+@media print {
+  body { padding: 0; font-size: 11pt; background: #fff; }
+  .quiz .options button { border: 1px solid #999; }
+  a { color: inherit; }
+  h2 { break-before: auto; }
+}
