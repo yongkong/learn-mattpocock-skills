@@ -103,98 +103,111 @@
 
   var MANIFEST = [
     { id: "the-model", zh: "模型本身", en: "The Model", terms: [
-      { term: "AI", zh: "人工智能", file: "AI.md" },
-      { term: "Model", zh: "模型", file: "Model.md" },
-      { term: "Parameters", zh: "参数", file: "Parameters.md" },
-      { term: "Training", zh: "训练", file: "Training.md" },
-      { term: "Inference", zh: "推理", file: "Inference.md" },
-      { term: "Effort", zh: "思考力度", file: "Effort.md" },
-      { term: "Token", zh: "词元", file: "Token.md" },
-      { term: "Next-token prediction", zh: "下一词元预测", file: "Next-token prediction.md" },
-      { term: "Non-determinism", zh: "非确定性", file: "Non-determinism.md" },
-      { term: "Model provider", zh: "模型供应商", file: "Model provider.md" },
-      { term: "Harness", zh: "挽具", file: "Harness.md" },
-      { term: "Model provider request", zh: "模型供应商请求", file: "Model provider request.md" },
-      { term: "Input tokens", zh: "输入词元", file: "Input tokens.md" },
-      { term: "Output tokens", zh: "输出词元", file: "Output tokens.md" },
-      { term: "Prefix cache", zh: "前缀缓存", file: "Prefix cache.md" },
-      { term: "Cache tokens", zh: "缓存词元", file: "Cache tokens.md" }
+      { term: "AI", zh: "人工智能" },
+      { term: "Model", zh: "模型" },
+      { term: "Parameters", zh: "参数" },
+      { term: "Training", zh: "训练" },
+      { term: "Inference", zh: "推理" },
+      { term: "Effort", zh: "思考力度" },
+      { term: "Token", zh: "词元" },
+      { term: "Next-token prediction", zh: "下一词元预测" },
+      { term: "Non-determinism", zh: "非确定性" },
+      { term: "Model provider", zh: "模型供应商" },
+      { term: "Harness", zh: "挽具" },
+      { term: "Model provider request", zh: "模型供应商请求" },
+      { term: "Input tokens", zh: "输入词元" },
+      { term: "Output tokens", zh: "输出词元" },
+      { term: "Prefix cache", zh: "前缀缓存" },
+      { term: "Cache tokens", zh: "缓存词元" }
     ] },
     { id: "sessions-context-windows-turns", zh: "会话、上下文窗口与轮次", en: "Sessions, Context Windows & Turns", terms: [
-      { term: "Stateless", zh: "无状态", file: "Stateless.md" },
-      { term: "Context", zh: "上下文", file: "Context.md" },
-      { term: "Context window", zh: "上下文窗口", file: "Context window.md" },
-      { term: "Stateful", zh: "有状态", file: "Stateful.md" },
-      { term: "Agent", zh: "智能体", file: "Agent.md" },
-      { term: "System prompt", zh: "系统提示词", file: "System prompt.md" },
-      { term: "Session", zh: "会话", file: "Session.md" },
-      { term: "Turn", zh: "轮次", file: "Turn.md" }
+      { term: "Stateless", zh: "无状态" },
+      { term: "Context", zh: "上下文" },
+      { term: "Context window", zh: "上下文窗口" },
+      { term: "Stateful", zh: "有状态" },
+      { term: "Agent", zh: "智能体" },
+      { term: "System prompt", zh: "系统提示词" },
+      { term: "Session", zh: "会话" },
+      { term: "Turn", zh: "轮次" }
     ] },
     { id: "tools-environment", zh: "工具与环境", en: "Tools & Environment", terms: [
-      { term: "Environment", zh: "环境", file: "Environment.md" },
-      { term: "Filesystem", zh: "文件系统", file: "Filesystem.md" },
-      { term: "Tool", zh: "工具", file: "Tool.md" },
-      { term: "Tool call", zh: "工具调用", file: "Tool call.md" },
-      { term: "Tool result", zh: "工具结果", file: "Tool result.md" },
-      { term: "MCP", zh: "模型上下文协议", file: "MCP.md" },
-      { term: "Permission request", zh: "权限请求", file: "Permission request.md" },
-      { term: "Permission mode", zh: "权限模式", file: "Permission mode.md" },
-      { term: "Agent mode", zh: "智能体模式", file: "Agent mode.md" },
-      { term: "Sandbox", zh: "沙箱", file: "Sandbox.md" }
+      { term: "Environment", zh: "环境" },
+      { term: "Filesystem", zh: "文件系统" },
+      { term: "Tool", zh: "工具" },
+      { term: "Tool call", zh: "工具调用" },
+      { term: "Tool result", zh: "工具结果" },
+      { term: "MCP", zh: "模型上下文协议" },
+      { term: "Permission request", zh: "权限请求" },
+      { term: "Permission mode", zh: "权限模式" },
+      { term: "Agent mode", zh: "智能体模式" },
+      { term: "Sandbox", zh: "沙箱" }
     ] },
     { id: "failure-modes", zh: "失效模式", en: "Failure Modes", terms: [
-      { term: "Sycophancy", zh: "谄媚", file: "Sycophancy.md" },
-      { term: "Hallucination", zh: "幻觉", file: "Hallucination.md" },
-      { term: "Parametric knowledge", zh: "参数化知识", file: "Parametric knowledge.md" },
-      { term: "Knowledge cutoff", zh: "知识截止点", file: "Knowledge cutoff.md" },
-      { term: "Contextual knowledge", zh: "上下文知识", file: "Contextual knowledge.md" },
-      { term: "Attention relationship", zh: "注意力关系", file: "Attention relationship.md" },
-      { term: "Attention budget", zh: "注意力预算", file: "Attention budget.md" },
-      { term: "Attention degradation", zh: "注意力衰退", file: "Attention degradation.md" },
-      { term: "Smart zone", zh: "聪明区", file: "Smart zone.md" }
+      { term: "Sycophancy", zh: "谄媚" },
+      { term: "Hallucination", zh: "幻觉" },
+      { term: "Parametric knowledge", zh: "参数化知识" },
+      { term: "Knowledge cutoff", zh: "知识截止点" },
+      { term: "Contextual knowledge", zh: "上下文知识" },
+      { term: "Attention relationship", zh: "注意力关系" },
+      { term: "Attention budget", zh: "注意力预算" },
+      { term: "Attention degradation", zh: "注意力衰退" },
+      { term: "Smart zone", zh: "聪明区" }
     ] },
     { id: "handoffs", zh: "交接", en: "Handoffs", terms: [
-      { term: "Clearing", zh: "清空", file: "Clearing.md" },
-      { term: "Handoff", zh: "交接", file: "Handoff.md" },
-      { term: "Primary source", zh: "一手来源", file: "Primary source.md" },
-      { term: "Secondary source", zh: "二手来源", file: "Secondary source.md" },
-      { term: "Handoff artifact", zh: "交接物", file: "Handoff artifact.md" },
-      { term: "Spec", zh: "规格", file: "Spec.md" },
-      { term: "Ticket", zh: "工单", file: "Ticket.md" },
-      { term: "Compaction", zh: "压缩", file: "Compaction.md" },
-      { term: "Autocompact", zh: "自动压缩", file: "Autocompact.md" }
+      { term: "Clearing", zh: "清空" },
+      { term: "Handoff", zh: "交接" },
+      { term: "Primary source", zh: "一手来源" },
+      { term: "Secondary source", zh: "二手来源" },
+      { term: "Handoff artifact", zh: "交接物" },
+      { term: "Spec", zh: "规格" },
+      { term: "Ticket", zh: "工单" },
+      { term: "Compaction", zh: "压缩" },
+      { term: "Autocompact", zh: "自动压缩" }
     ] },
     { id: "memory-and-steering", zh: "记忆与转向", en: "Memory and Steering", terms: [
-      { term: "Memory system", zh: "记忆系统", file: "Memory system.md" },
-      { term: "AGENTS.md", zh: "AGENTS.md 文件", file: "AGENTS.md.md" },
-      { term: "Progressive disclosure", zh: "渐进式披露", file: "Progressive disclosure.md" },
-      { term: "Context pointer", zh: "上下文指针", file: "Context pointer.md" },
-      { term: "Skill", zh: "技能", file: "Skill.md" },
-      { term: "Subagent", zh: "子代理", file: "Subagent.md" }
+      { term: "Memory system", zh: "记忆系统" },
+      { term: "AGENTS.md", zh: "AGENTS.md 文件" },
+      { term: "Progressive disclosure", zh: "渐进式披露" },
+      { term: "Context pointer", zh: "上下文指针" },
+      { term: "Skill", zh: "技能" },
+      { term: "Subagent", zh: "子代理" }
     ] },
     { id: "patterns-of-work", zh: "工作模式", en: "Patterns of Work", terms: [
-      { term: "Human-in-the-loop", zh: "人在环中", file: "Human-in-the-loop.md" },
-      { term: "AFK", zh: "挂机", file: "AFK.md" },
-      { term: "Automated check", zh: "自动化检查", file: "Automated check.md" },
-      { term: "Automated review", zh: "自动化评审", file: "Automated review.md" },
-      { term: "Human review", zh: "人工评审", file: "Human review.md" },
-      { term: "Vibe coding", zh: "氛围编程", file: "Vibe coding.md" },
-      { term: "Design concept", zh: "设计概念", file: "Design concept.md" },
-      { term: "Grilling", zh: "追问式访谈", file: "Grilling.md" },
-      { term: "Prototyping", zh: "原型实验", file: "Prototyping.md" },
-      { term: "DX", zh: "开发者体验", file: "DX.md" },
-      { term: "AX", zh: "智能体体验", file: "AX.md" }
+      { term: "Human-in-the-loop", zh: "人在环中" },
+      { term: "AFK", zh: "挂机" },
+      { term: "Automated check", zh: "自动化检查" },
+      { term: "Automated review", zh: "自动化评审" },
+      { term: "Human review", zh: "人工评审" },
+      { term: "Vibe coding", zh: "氛围编程" },
+      { term: "Design concept", zh: "设计概念" },
+      { term: "Grilling", zh: "追问式访谈" },
+      { term: "Prototyping", zh: "原型实验" },
+      { term: "DX", zh: "开发者体验" },
+      { term: "AX", zh: "智能体体验" }
     ] }
   ];
 
-  // 扁平化:全簿顺序 = 节顺序 × 节内顺序,卡片的上/下一条按此序推进
+  // 扁平化:全簿顺序 = 节顺序 × 节内顺序,卡片的上/下一条按此序推进;文件名由术语名派生:<术语>.md
   var FLAT = [];
   MANIFEST.forEach(function (s) {
-    s.terms.forEach(function (t) { FLAT.push({ sec: s, term: t }); });
+    s.terms.forEach(function (t) { FLAT.push({ sec: s, term: t, file: t.term + ".md" }); });
   });
 
   function slug(term) {
     return term.toLowerCase().replace(/\s+/g, "-");
+  }
+
+  function findBySlug(s) {
+    for (var i = 0; i < FLAT.length; i++) {
+      if (slug(FLAT[i].term.term) === s) return i;
+    }
+    return -1;
+  }
+
+  function setHash(hash) {
+    try {
+      history.replaceState(null, "", hash);
+    } catch (e) { /* file:// 等场景下浏览器可能拒绝,静默降级 */ }
   }
 
   function el(tag, cls, text) {
@@ -264,7 +277,7 @@
     body.textContent = "";
 
     var seq = ++loadSeq;
-    fetch("dictionary/" + encodeURIComponent(t.file))
+    fetch("dictionary/" + encodeURIComponent(entry.file))
       .then(function (res) {
         if (!res.ok) throw new Error("HTTP " + res.status);
         return res.text();
@@ -309,7 +322,7 @@
     overlay.hidden = false;
     document.body.style.overflow = "hidden";
     if (opts.updateHash !== false) {
-      history.replaceState(null, "", "#" + slug(FLAT[idx].term.term));
+      setHash("#" + slug(FLAT[idx].term.term));
     }
     document.getElementById("card-close").focus();
   }
@@ -321,7 +334,7 @@
     overlay.hidden = true;
     document.body.style.overflow = "";
     if (opts.updateHash !== false) {
-      history.replaceState(null, "", location.pathname + location.search);
+      setHash(location.pathname + location.search);
     }
     if (lastFocus && lastFocus.focus) lastFocus.focus();
     lastFocus = null;
@@ -339,12 +352,8 @@
     document.getElementById("sections").addEventListener("click", function (ev) {
       var btn = ev.target.closest(".term-chip");
       if (!btn) return;
-      for (var i = 0; i < FLAT.length; i++) {
-        if (FLAT[i].term.term && slug(FLAT[i].term.term) === btn.dataset.slug) {
-          openTerm(i);
-          return;
-        }
-      }
+      var idx = findBySlug(btn.dataset.slug);
+      if (idx >= 0) openTerm(idx);
     });
 
     document.getElementById("card-close").addEventListener("click", function () { closeCard(); });
@@ -374,11 +383,7 @@
 
   function indexOfHash(hash) {
     if (!hash || hash.length < 2) return -1;
-    var s = decodeURIComponent(hash.slice(1));
-    for (var i = 0; i < FLAT.length; i++) {
-      if (slug(FLAT[i].term.term) === s) return i;
-    }
-    return -1;
+    return findBySlug(decodeURIComponent(hash.slice(1)));
   }
 
   init();
