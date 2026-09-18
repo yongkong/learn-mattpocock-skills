@@ -1,0 +1,83 @@
+import { Card, Cards, Cite, Flow, Step } from "@/components/lesson/elements";
+
+<Flow>
+  <Step cmd="/grill-with-docs">
+    输入:一个想法或计划 · 产出:共识 + 决策记录(CONTEXT.md / ADR 同步更新)
+  </Step>
+  <Step cmd="/to-spec">
+    输入:达成共识的对话 · 产出:spec(含 user stories),发布到 issue tracker
+  </Step>
+  <Step cmd="/to-tickets">
+    输入:spec · 产出:一组 tracer-bullet 工单,声明 blocking 关系,可并行认领
+  </Step>
+  <Step cmd="/implement">
+    输入:工单/spec · 产出:代码(内部驱动 /tdd,收尾跑 /code-review)
+  </Step>
+  <Step cmd="/code-review">
+    输入:diff + 来源 spec · 产出:两轴审查报告(Standards 轴 + Spec 轴)
+  </Step>
+  <Step cmd="ship">提交、合并。回到起点接下一个想法。</Step>
+</Flow>
+
+## 参考层 Reference(被其他技能调用,一般不直接敲)
+
+| 技能                 | 管什么                        | 被谁调用                          |
+| -------------------- | ----------------------------- | --------------------------------- |
+| `/tdd`               | red-green-refactor 循环规则    | /implement                        |
+| `/grilling`          | 穷追不舍的访谈法(design tree) | /grill-me、/grill-with-docs、/improve-codebase-architecture 等 |
+| `/domain-modeling`   | 统一语言、CONTEXT.md 与 ADR    | /grill-with-docs                  |
+| `/codebase-design`   | deep module 设计词汇           | 贯穿各技能的共同语言               |
+
+## 四个外围模块
+
+<Cards>
+  <Card title="Getting Started(一次性)">
+    - `/setup-matt-pocock-skills` — 每仓库配置一次
+    - `/ask-matt` — 不知道用哪个技能时问它
+  </Card>
+  <Card title="Shaping(把不确定变成决策,喂给主流程)">
+    - `/wayfinder` — 超大会话的决策地图(入口)
+    - `/prototype` — 用完即弃的原型答题
+    - `/research` — 带引用的调研(后台 agent)
+  </Card>
+  <Card title="Upkeep(保持代码库与工单健康)">
+    - `/improve-codebase-architecture` — 找 deepening 机会
+    - `/diagnosing-bugs` — 疑难 bug 诊断循环
+    - `/resolving-merge-conflicts` — 逐 hunk 解冲突
+    - `/triage` — 工单状态机分诊
+    - `/wizard` — 生成人类操作向导脚本
+  </Card>
+  <Card title="Productivity(人自己的工作流)">
+    - `/grill-me` — 被穷追不舍地访谈
+    - `/handoff` — 会话压缩成交接文档
+    - `/to-questionnaire` — 决策变成问卷
+    - `/teach` — 多次会话教学(本课程)
+    - `/wait-what` — 没看懂的消息重新讲一遍
+    - `/writing-for-agents` — 为 agent 写文档
+  </Card>
+</Cards>
+
+## 情境路由表
+
+| 情境                     | 用哪个                                        |
+| ------------------------ | --------------------------------------------- |
+| 想法模糊,边界没想清       | `/grill-me` 或 `/grill-with-docs`(想沉淀领域文档时) |
+| 共识已达成,要落成文字     | `/to-spec`(它不再访谈你)                      |
+| spec 要拆成可并行的工作   | `/to-tickets`                                 |
+| 工单就绪,开始写代码       | `/implement`(内部自动走 /tdd + /code-review)   |
+| 活太大,一个会话装不下     | `/wayfinder`                                  |
+| 设计问题悬而未决           | `/prototype`(要证据)或 `/research`(要文献)     |
+| 疑难 bug 复现不了          | `/diagnosing-bugs`                            |
+| merge/rebase 冲突堆着      | `/resolving-merge-conflicts`                  |
+| 工单堆积分不清先后         | `/triage`                                     |
+| 开发一阵子后质量下滑       | `/improve-codebase-architecture`(每周或冲刺后) |
+| 同事的消息/回复看不懂      | `/wait-what`                                  |
+| 不确定该用哪个技能         | `/ask-matt`                                   |
+
+<Cite>
+  来源:[aihero.dev/skills](https://www.aihero.dev/skills) ·
+  [github.com/mattpocock/skills](https://github.com/mattpocock/skills) ·
+  本地插件 v1.2.3 的 engineering/ 与 productivity/ README。技能行为以各 SKILL.md 为最权威定义。
+</Cite>
+
+配套课程:[0001 · 全局地图](/lessons/0001)。

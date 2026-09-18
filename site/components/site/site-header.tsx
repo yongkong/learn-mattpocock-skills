@@ -10,7 +10,7 @@ const NAV_ITEMS = [
 
 export function SiteHeader() {
   return (
-    <header className="border-b">
+    <header className="border-b print:hidden">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-6 py-3">
         <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
           {SITE_NAME}

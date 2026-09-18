@@ -1,0 +1,61 @@
+import { Cite } from "@/components/lesson/elements";
+
+## spec 的骨架(/to-spec 的模板)
+
+| 章节                    | 装什么                                                                                                         |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Problem Statement       | 用户视角的问题,不是技术视角                                                                                     |
+| Solution                | 用户视角的解法                                                                                                  |
+| User Stories            | **很长**的编号列表,格式:_As an \<actor\>, I want \<feature\>, so that \<benefit\>_,覆盖特性的所有方面           |
+| Implementation Decisions | 建/改哪些模块、接口、架构决策、schema、API 契约。⚠️ **禁止具体文件路径和代码片段**——很快过时(例外:原型得出的状态机/类型形状可以内联) |
+| Testing Decisions       | 好测试的标准(只测外部行为)、测哪些模块、仓库里的先例                                                             |
+| Out of Scope            | 明确不做什么                                                                                                    |
+| Further Notes           | 其他                                                                                                            |
+
+/to-spec 的流程:探索仓库 → 提出**测试 seams** 并与你确认(尽量用已有 seam、用最高的 seam,越少越好)→ 按模板写 → 发布到 issue tracker,贴 `ready-for-agent`。**全程不再访谈你。**
+
+## 工单的模样(/to-tickets 的模板)
+
+发布到你配置的 issue tracker(GitHub issues,或本地 markdown 工单目录);从 01 起按依赖顺序编号(blocker 在前);一个工单一个文件,永远不合成一个大文件:
+
+```md
+# 03: 用户能在主页看到全部课程列表
+
+**What to build:** 打开主页能看到所有已发布课程的卡片,点击可进入。
+(端到端行为,用户视角;不是逐层实现清单)
+
+**Blocked by:** 01
+
+**Status:** ready-for-agent
+
+- [ ] 验收标准 1
+- [ ] 验收标准 2
+```
+
+## 竖切(tracer bullet)四规则
+
+- 每片窄但**完整打通每一层**(数据、逻辑、UI、测试),不是单层的横切
+- 每片完成后**自己就能演示或验证**
+- 每片大小 = 一个全新 context window 能装下
+- prefactoring(把改变变容易)永远排在最前:"Make the change easy, then make the easy change."
+
+例外:**wide refactor**(波及全库的机械改动)不硬切竖片,走 **expand–contract**:先加新形式 → 分批迁移调用点(每批一张工单)→ 最后删旧形式。
+
+## 拆完工单,发布前必问你的三个问题
+
+1. 粒度对吗?(太粗 / 太细)
+2. blocking 边对吗?(每个工单是否只依赖真正卡它的工单)
+3. 要不要再合并/拆分?
+
+发布后干活的口令:**work the frontier**——blocker 全部完成的工单随时可领,纯线性链就从头到尾。
+
+## grill-with-docs 的全部秘密
+
+它的 SKILL.md 正文只有一句:_“Call the Skill tool twice, for 'grilling' and 'domain-modeling'.”_(中译:调用两次 Skill 工具,先 grilling,后 domain-modeling。)——参考层组合式的活例子:访谈方法 + 领域建模,一次调用两个都上。所以你会看到:编号问题带推荐答案(grilling),同时 CONTEXT.md/ADR 被顺手更新(domain-modeling)。
+
+<Cite>
+  来源:本地插件 to-spec/SKILL.md、to-tickets/SKILL.md、grill-with-docs/SKILL.md(v1.2.3,见
+  [github.com/mattpocock/skills](https://github.com/mattpocock/skills))。
+</Cite>
+
+配套课程:[0003 · 实战:跑通主流程](/lessons/0003)。

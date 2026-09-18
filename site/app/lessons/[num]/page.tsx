@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { adjacentLessons, getLesson, LESSONS } from "@/lib/structure";
 import { CourseTree } from "@/components/site/course-tree";
 import { ProgressToggle } from "@/components/lesson/progress-toggle";
+import { Prose } from "@/components/site/prose";
 import { LESSON_BODIES } from "@/content/lessons/bodies";
 
 export function generateStaticParams() {
@@ -53,9 +54,9 @@ export default async function LessonPage(props: PageProps<"/lessons/[num]">) {
           </div>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">{lesson.title}</h1>
           <p className="mt-3 text-lg text-muted-foreground">{lesson.lede}</p>
-          <div className="mt-8 [&_h2]:mt-12 [&_h2]:border-t [&_h2]:pt-6 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight">
+          <Prose>
             <Body />
-          </div>
+          </Prose>
 
           <nav
             aria-label="课件翻页"
