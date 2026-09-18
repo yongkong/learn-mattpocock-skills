@@ -1,0 +1,22 @@
+> The content of this course site (lesson text, dictionary Chinese explanations, site copy) is licensed under Creative Commons Attribution-ShareAlike 4.0 International.
+
+# Agent Skills 中文课 · 内容许可
+
+Copyright (c) 2026 kongyong(「Agent Skills 中文课」作者)
+
+本课程的原创内容——课件中文文本、词典中文释义、站点文案——以
+**Creative Commons Attribution-ShareAlike 4.0 International(CC BY-SA 4.0)** 提供。
+
+- 规范文本(英文):https://creativecommons.org/licenses/by-sa/4.0/legalcode
+- 规范文本(中文参考译本):https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh
+- 人性化摘要(非许可本身):https://creativecommons.org/licenses/by-sa/4.0/deed.zh
+
+## 上游边界
+
+- **mattpocock/skills**(本课程结构性复用的 skills 体系)依 **MIT** 授权,
+  Copyright (c) 2026 Matt Pocock,见 https://github.com/mattpocock/skills/blob/main/LICENSE 。
+  复用其文本时,须保留其 MIT 声明。
+- **mattpocock/dictionary-of-ai-coding** 未附开源许可:术语与英文原文(Usage)版权归原作者,
+  本课程仅保留「原文」链接供查阅;词典中文释义为本课程原创,随本站 CC BY-SA 4.0 提供。
+
+除上述特别说明外,本仓库不包含 Matt Pocock / AI Hero 的受版权保护文本。
