@@ -1,6 +1,6 @@
 # Context window · 上下文窗口
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context%20window.md) · [课件里的它:0001 · 全局地图(「流程就是 agent 的记忆」一节)](../lessons/0001-the-map.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context%20window.md)
 
 模型在每次请求时看到的全部内容。有限、因模型而异,而且是模型感知一切的唯一表面。它是单一 token 序列:system prompt + 迄今的对话 + harness 反馈回来的每个 tool result。在序列里,模型就能用;不在,模型就不知道它存在——你的代码库、昨天改的文件、三个会话前的指令,都一样。
 

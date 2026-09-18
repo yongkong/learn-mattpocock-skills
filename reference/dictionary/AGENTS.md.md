@@ -1,6 +1,6 @@
 # AGENTS.md · AGENTS.md 文件
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AGENTS.md.md) · [课件里的它:0002 · 参考层四技能(domain-modeling:术语当场写进 CONTEXT.md)](../lessons/0002-reference-layer.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AGENTS.md.md)
 
 <em>environment</em> 里的一份文件,<em>harness</em> 在每个 <em>session</em> 开始时把它装进 <em>context window</em>——项目写给 <em>agent</em> 的常设简报。跨 harness 的约定;某些 harness 另有自己的变体(Claude Code 的是 CLAUDE.md)。
 

@@ -1,6 +1,6 @@
 # Agent · 智能体
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Agent.md) · [课件里的它:0001 · 全局地图(「agent 没有记忆」的心法)](../lessons/0001-the-map.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Agent.md)
 
 模型 + harness——配上工具、system prompt 和 context window——与你轮流对话的东西。Claude Code 是 agent,Cursor 是 agent。Agent 是你真正对话的对象:动起来、为特定目的配置好的模型。
 

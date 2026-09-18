@@ -17,7 +17,7 @@ _Avoid_: 课程、页面、chapter
 _Avoid_: 文档、 cheatsheet 之外的说法、notes
 
 **Dictionary(AI 编码词典)**:
-收录 AI 编码核心术语的 Reference,本身构成一门相对独立的概念课程:释义以中文撰写、术语保留英文,与本课程的 Lesson 交叉链接。源出 mattpocock/dictionary-of-ai-coding。
+收录 AI 编码核心术语的 Reference,本身构成一门相对独立的概念课程:释义以中文撰写、术语保留英文,一词一个 MD 文件,卡片弹层阅读。源出 mattpocock/dictionary-of-ai-coding。
 _Avoid_: 字典、词汇表(「词汇表」特指本文件 CONTEXT.md)、单词表
 
 **Course Home(课程主页)**:

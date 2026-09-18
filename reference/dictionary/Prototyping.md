@@ -1,6 +1,6 @@
 # Prototyping · 原型实验
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Prototyping.md) · [课件里的它:0001 · 全局地图(「主流程周围:三个按需进入的模块」Shaping 卡的 /prototype)](../lessons/0001-the-map.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Prototyping.md)
 
 让 <em>agent</em> 快速搭一个粗糙版本——用在对话保真度不够、你需要一个真实产物才能谈下去的时候。
 

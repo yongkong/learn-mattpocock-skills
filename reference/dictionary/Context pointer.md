@@ -1,6 +1,6 @@
 # Context pointer · 上下文指针
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context%20pointer.md) · [课件里的它:0001 · 全局地图(「user-invoked vs model-invoked」一节)](../lessons/0001-the-map.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context%20pointer.md)
 
 一份文档里指向另一份文档的一句话,<em>agent</em> 只在任务需要时才顺着它把目标拉进 <em>context window</em>。<em>Progressive disclosure</em> 的砌块。
 

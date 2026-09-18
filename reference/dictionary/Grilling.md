@@ -1,6 +1,6 @@
 # Grilling · 追问式访谈
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Grilling.md) · [课件里的它:0002 · 参考层四技能(「一、grilling:把模糊逼成共识的访谈法」)](../lessons/0002-reference-layer.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Grilling.md)
 
 与 <em>agent</em> 一起孕育 <em>design concept</em> 的技法:agent 以苏格拉底式访谈盘问你,一次只问一个决定,并为每个决定附上推荐答案。它拖住「直奔成品计划」的冲动——概念未稳之前,不写任何 <em>handoff artifact</em>。
 

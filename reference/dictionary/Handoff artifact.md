@@ -1,6 +1,6 @@
 # Handoff artifact · 交接物
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Handoff%20artifact.md) · [课件里的它:0003 · 实战(三站的「交接物」一览)](../lessons/0003-practicum.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Handoff%20artifact.md)
 
 用作 <em>handoff</em> 携带机制的文件:由一个 <em>session</em> 写进 <em>environment</em>,供另一个会话读取。<em>Spec</em>、<em>ticket</em>、计划文档,都是 handoff artifact。
 

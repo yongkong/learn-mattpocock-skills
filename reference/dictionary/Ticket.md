@@ -1,6 +1,6 @@
 # Ticket · 工单
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Ticket.md) · [课件里的它:0003 · 实战(「第三站:/to-tickets:拆成工单」)](../lessons/0003-practicum.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Ticket.md)
 
 框定<em>一个 session</em> 工作量的 <em>handoff artifact</em>。可以独立存在,也可以作为 <em>spec</em> 的子项挂在上面。工单之间可以互相 blocking / 被 blocking,于是工作顺序从依赖图里自然长出来,而不是排一条直线。
 

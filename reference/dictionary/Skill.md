@@ -1,6 +1,6 @@
 # Skill · 技能
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Skill.md) · [课件里的它:0001 · 全局地图(「user-invoked vs model-invoked」一节)](../lessons/0001-the-map.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Skill.md)
 
 打包成单元的可授予能力——做好一件事所需的指令与资料,平时待在 <em>environment</em> 里,直到一枚 <em>context pointer</em> 因手头任务把它拉进 <em>context window</em>。<em>Harness</em> 里 <em>progressive disclosure</em> 的单元。
 

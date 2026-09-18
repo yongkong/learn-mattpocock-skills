@@ -1,6 +1,6 @@
 # Design concept · 设计概念
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Design%20concept.md) · [课件里的它:0002 · 参考层四技能(grilling 的设计树,概念同出 Brooks《The Design of Design》)](../lessons/0002-reference-layer.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Design%20concept.md)
 
 「正在造的是什么」的共享理解——由你和 <em>agent</em> 共同持有,但不附着于任何交付物。Brooks 的术语(《The Design of Design》):对话、<em>handoff artifact</em>、代码,都是试图捕捉或抵达设计概念的资产,但没有一个<em>是</em>它。设计概念的好坏,是从孕育它的那段对话的质量里被感受到的。
 

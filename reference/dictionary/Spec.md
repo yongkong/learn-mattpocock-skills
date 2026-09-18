@@ -1,6 +1,6 @@
 # Spec · 规格
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Spec.md) · [课件里的它:0003 · 实战(「第二站:/to-spec:综合成文」)](../lessons/0003-practicum.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Spec.md)
 
 描述一段跨 <em>session</em> 工作的 <em>handoff artifact</em>——写的是「在造什么」,不是「每个会话怎么干自己那份」。随工作推进而更新,由 <em>ticket</em> 组成。
 

@@ -1,6 +1,6 @@
 # Human-in-the-loop · 人在环中
 
-[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Human-in-the-loop.md) · [课件里的它:0003 · 实战(每站都有的「你的验收点」:你确认共识、你批准发布)](../lessons/0003-practicum.html)
+[原文 ↗](https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Human-in-the-loop.md)
 
 一种工作模式:一个或多个人在 <em>session</em> 期间与 <em>agent</em> 结伴——实时地评审、纠偏、协作。人在场、人在参与,不只是给单个动作放行。
 
