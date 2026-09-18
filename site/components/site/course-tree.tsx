@@ -18,7 +18,7 @@ export function CourseTree({ currentNum }: { currentNum?: string }) {
                 <ul className="mt-1 space-y-1 border-l pl-3">
                   {items.map((l) => (
                     <li key={l.num}>
-                      <Link
+                      <Link prefetch={false}
                         href={`/lessons/${l.num}`}
                         className={`block truncate hover:text-foreground ${
                           l.num === currentNum
@@ -43,7 +43,7 @@ export function CourseTree({ currentNum }: { currentNum?: string }) {
           <ul className="mt-1 space-y-1 border-l pl-3">
             {TOP_LEVELS.map((t) => (
               <li key={t.key}>
-                <Link
+                <Link prefetch={false}
                   href={`/${t.key}`}
                   className="block text-muted-foreground hover:text-foreground"
                 >

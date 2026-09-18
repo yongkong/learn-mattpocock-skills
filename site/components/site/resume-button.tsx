@@ -24,7 +24,11 @@ function computeResume(): Resume {
 
 /** 一行续学按钮:无进度→从第一课开始;有进度→下一门未学;全部已学→完成态。 */
 export function ResumeButton() {
-  const [resume, setResume] = useState<Resume>(() => computeResume());
+  // 首渲染用确定性默认值(SSR/客户端一致);localStorage 只在 effect 里读,避免 hydration 失配
+  const [resume, setResume] = useState<Resume>({
+    href: "/lessons/0001",
+    label: `从第一课开始:0001 · ${LESSONS[0].short}`,
+  });
 
   useEffect(() => {
     const sync = () => setResume(computeResume());
@@ -34,7 +38,7 @@ export function ResumeButton() {
   }, []);
 
   return (
-    <Link
+    <Link prefetch={false}
       href={resume.href}
       className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
     >

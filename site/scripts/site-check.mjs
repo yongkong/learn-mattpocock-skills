@@ -27,14 +27,14 @@ const FORBIDDEN = [
   "发车",
 ];
 
-/** 站点契约:必须存在的公开路由。 */
+/** 站点契约:必须存在的公开路由(静态导出为 <route>.html)。 */
 const EXPECTED_ROUTES = [
-  "/",
-  "/about/",
-  "/dictionary/",
-  "/reference/",
-  "/reference/skill-flow-map/",
-  "/reference/artifact-shapes/",
+  { route: "/", file: "index.html" },
+  { route: "/about", file: "about.html" },
+  { route: "/dictionary", file: "dictionary.html" },
+  { route: "/reference", file: "reference.html" },
+  { route: "/reference/skill-flow-map", file: "reference/skill-flow-map.html" },
+  { route: "/reference/artifact-shapes", file: "reference/artifact-shapes.html" },
 ];
 
 const problems = [];
@@ -49,8 +49,10 @@ function collectHtml(dir) {
   const acc = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, entry.name);
-    if (entry.isDirectory()) acc.push(...collectHtml(p));
-    else if (entry.name.endsWith(".html")) acc.push(p);
+    if (entry.isDirectory()) {
+      if (entry.name.startsWith("__next")) continue; // RSC payload 目录,非页面
+      acc.push(...collectHtml(p));
+    } else if (entry.name.endsWith(".html")) acc.push(p);
   }
   return acc;
 }
@@ -58,16 +60,19 @@ function collectHtml(dir) {
 function routeOf(htmlPath) {
   const rel = path.relative(outDir, htmlPath).replaceAll("\\", "/");
   if (rel === "index.html") return "/";
+  if (rel.endsWith("404.html") || rel.includes("_not-found")) return "/404";
   return "/" + rel.replace(/index\.html$/, "").replace(/\.html$/, "");
 }
 
 function resolveInternal(href) {
-  if (!href.startsWith("/")) return null; // 外链与锚点另行处理
+  if (!href.startsWith("/")) return null; // 外链与锚点不查文件系统
   const clean = href.split("#")[0].split("?")[0];
-  if (clean === "") return null;
-  const target = path.join(outDir, clean);
-  if (fs.existsSync(target) && fs.statSync(target).isFile()) return target;
-  return path.join(target, "index.html");
+  if (clean === "" || clean === "/") return path.join(outDir, "index.html");
+  const bare = path.join(outDir, clean);
+  for (const candidate of [`${bare}.html`, path.join(bare, "index.html"), bare]) {
+    if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) return candidate;
+  }
+  return null;
 }
 
 console.log(`站点检查:对 ${outDir} 执行`);
@@ -81,12 +86,12 @@ const htmlFiles = collectHtml(outDir);
 
 // 1. 路由契约
 {
-  const missing = EXPECTED_ROUTES.filter((r) => !fs.existsSync(path.join(outDir, r, "index.html")));
+  const missing = EXPECTED_ROUTES.filter((r) => !fs.existsSync(path.join(outDir, r.file)));
   if (missing.length === 0) ok(`路由契约:${EXPECTED_ROUTES.length} 条公开路由全部存在`);
-  else fail("路由契约", missing.map((r) => `缺少 ${r}`));
+  else fail("路由契约", missing.map((r) => `缺少 ${r.route}(${r.file})`));
 }
 
-// 2. 链接完整性(含 404 页自身)
+// 2. 链接完整性
 {
   const dead = [];
   for (const file of htmlFiles) {
@@ -94,10 +99,7 @@ const htmlFiles = collectHtml(outDir);
     for (const m of html.matchAll(/href="([^"]*)"/g)) {
       const href = m[1];
       if (href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("#")) continue;
-      const target = resolveInternal(href);
-      if (target && !fs.existsSync(target)) {
-        dead.push(`${routeOf(file)} → ${href}`);
-      }
+      if (!resolveInternal(href)) dead.push(`${routeOf(file)} → ${href}`);
     }
   }
   if (dead.length === 0) ok(`链接完整性:${htmlFiles.length} 页内部链接全部可达`);
@@ -113,7 +115,7 @@ const htmlFiles = collectHtml(outDir);
     if (!html.includes("非官方") || !html.includes('aria-label="站点导航"') || !html.includes("CC BY-SA 4.0")) {
       noShell.push(routeOf(file));
     }
-    const m = routeOf(file).match(/^\/lessons\/(\d{4})\/$/);
+    const m = routeOf(file).match(/^\/lessons\/(\d{4})$/);
     if (m && !html.includes("上一课") && !html.includes("下一课")) {
       deadEnd.push(routeOf(file));
     }
@@ -166,9 +168,10 @@ const htmlFiles = collectHtml(outDir);
     .filter(Boolean)
     .sort();
   const builtLessons = fs
-    .readdirSync(path.join(outDir, "lessons"), { withFileTypes: true })
-    .filter((e) => e.isDirectory() && /^\d{4}$/.test(e.name))
-    .map((e) => e.name)
+    .readdirSync(path.join(outDir, "lessons"))
+    .filter((f) => f.endsWith(".html"))
+    .map((f) => f.replace(/\.html$/, ""))
+    .filter((f) => /^\d{4}$/.test(f))
     .sort();
   const a = quizNums.join(",");
   const b = builtLessons.join(",");

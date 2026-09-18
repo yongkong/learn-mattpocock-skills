@@ -63,7 +63,7 @@ export default async function LessonPage(props: PageProps<"/lessons/[num]">) {
             className="mt-14 flex flex-col gap-3 border-t pt-6 text-sm sm:flex-row sm:justify-between"
           >
             {prev ? (
-              <Link href={`/lessons/${prev.num}`} className="group text-muted-foreground hover:text-foreground">
+              <Link prefetch={false} href={`/lessons/${prev.num}`} className="group text-muted-foreground hover:text-foreground">
                 <span className="block text-xs">← 上一课</span>
                 <span className="font-medium text-foreground group-hover:underline">
                   {prev.num} · {prev.title}

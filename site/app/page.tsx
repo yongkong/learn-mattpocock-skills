@@ -72,7 +72,7 @@ export default function Home() {
                     {items.map((l) => (
                       <li key={l.num} className="flex items-center gap-3 py-2.5">
                         <span className="font-mono text-sm text-muted-foreground">{l.num}</span>
-                        <Link
+                        <Link prefetch={false}
                           href={`/lessons/${l.num}`}
                           className="font-medium hover:underline"
                         >
@@ -98,7 +98,7 @@ export default function Home() {
         <p className="mt-2 text-sm text-muted-foreground">不知道从哪开始?看你现在遇到什么,从那里进。</p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SCENARIOS.map((s) => (
-            <Link
+            <Link prefetch={false}
               key={s.title}
               href={s.href}
               className="group rounded-xl border bg-card p-5 transition-colors hover:border-amber-600/60"

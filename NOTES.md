@@ -14,6 +14,6 @@
 - 进度:**地图 #7 已走清(2026-09-18),wayfinder 全循环完成**。#11 定案:人称「你」;总纲(自成一体/无会话/无时点/无沙盒);三类禁语替换策略(0003 例外明标「案例:本站诞生记」);口语词标尺+示例表;引用规范采纳 #8(词典上游无 LICENSE,注释已定措辞)。落地:`docs/register.md`(写作标准)+ CONTEXT.md 新增 Register 词条。四票全关,仅剩雾「上线检查单」随 spec 毕业。下一步 = 首次「地图→主流程」交接:/to-spec 写公开化改造 spec(输入:#9 清单 + #10/#11 决议 + 图 Notes);prototype(.scratch/prototype/)答完题,spec 定稿后删或抛一次性分支。间隔重测(0001-0004)已到期可安排。本地未提交文件:0004 课件、index.html、CONTEXT.md、NOTES.md、learning-records 0005/0006、docs/register.md、.scratch/(research+prototype)——交接前宜 commit 收口,等用户发话。
 - 进度:**spec #12 已定稿并拆票(2026-09-18)**。spec 两度修订:作者裁定技术载体升级——「纯静态 HTML + GitHub Pages + 零构建」→「Next.js + shadcn/ui + Tailwind + Vercel(静态生成、无后端、图标 lucide)」,地图 #7 载体决策就此作废(修订评论存档)。/to-tickets 拆出 12 张 tracer-bullet 工单 #13–#24(全部 ready-for-agent,原生 blocked-by 依赖边,挂为 #12 子票):#13 脚手架 → #14 内容管线/#15 壳 → #16 测验/#17 课件页+Progress/#20 词典/#21 速查/#22 关于页 → #18 首页/#19 语域重写 → #23 站点检查 → #24 退役切换。
 - 进度:**工单 #13 脚手架已落地**(2026-09-18,site/ 子目录,旧静态站原地不动):Next.js 16.3.5 + Tailwind v4 + shadcn/ui(Badge/Button 已验);首页占位含站名、非官方徽章、持续更新中,lang=zh-CN;字体栈本地化(去掉构建期 Google 字体下载);lint/build 全绿,产物 HTML 校验通过。**待办(用户操作)**:Vercel 导入仓库时 Root Directory 设为 site/,预览部署可见即满足 #13 验收线,验收后关票。
-- 维护提醒:未来新增课件 0004+ 时,把条目加进 index.html 的 ITEMS 数组(只改一处);课件文件名建议沿用「中文·英文」一致的标题风格。⚠️ 此约定将随 #14 内容管线上线而作废(改为内容文件元数据),待 #24 退役时一并清理本条。
+- 维护提醒:~~未来新增课件 0004+ 时,把条目加进 index.html 的 ITEMS 数组~~ **已作废(#24 旧站退役)**:新增课件 = 在 site/lib/structure.ts 加一条 + site/content/lessons/ 建 MDX + content/quiz/ 建测验数据 + bodies.ts 注册,然后跑 site-check;上线检查单见 docs/launch-checklist.md。
 
 

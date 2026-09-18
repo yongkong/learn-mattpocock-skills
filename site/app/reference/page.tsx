@@ -29,7 +29,7 @@ export default function ReferencePage() {
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">速查</h1>
       <p className="mt-3 text-lg text-muted-foreground">
         工具型文档,随查随用,不用顺序读。术语请去
-        <Link href={`/${TOP_LEVELS[1].key}`} className="underline underline-offset-4">
+        <Link prefetch={false} href={`/${TOP_LEVELS[1].key}`} className="underline underline-offset-4">
           词典
         </Link>
         。

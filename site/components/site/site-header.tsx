@@ -12,7 +12,7 @@ export function SiteHeader() {
   return (
     <header className="border-b print:hidden">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-6 py-3">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
+        <Link prefetch={false} href="/" className="flex items-center gap-2 font-semibold tracking-tight">
           {SITE_NAME}
           <Badge variant="outline" className="font-normal text-muted-foreground">
             非官方
@@ -20,7 +20,7 @@ export function SiteHeader() {
         </Link>
         <nav aria-label="站点导航" className="ml-auto flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
           {NAV_ITEMS.map((item) => (
-            <Link
+            <Link prefetch={false}
               key={item.href}
               href={item.href}
               className="text-muted-foreground transition-colors hover:text-foreground"
