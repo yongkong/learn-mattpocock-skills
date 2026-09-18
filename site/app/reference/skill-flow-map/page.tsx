@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Prose } from "@/components/site/prose";
 import SkillFlowMap from "@/content/reference/skill-flow-map.mdx";
