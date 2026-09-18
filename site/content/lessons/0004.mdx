@@ -1,0 +1,111 @@
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { quiz0004 } from "@/content/quiz/0004";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    主流程覆盖「路清晰」的情境;这课补上另一半——「路不清晰」的情境路由。学完的检验:给出任何一个雾蒙蒙的想法,你能立刻判断它该走哪条绕行道、绕完从哪里回到主流程。
+</Callout>
+
+## 先拆一个容易混的概念:prototype ≠ Axure 式原型
+
+如果你做过产品或设计,「原型」大概率意味着 Axure / Figma 那种东西:给利益相关者看的沟通交付物,会经历评审、迭代,甚至一路演化成最终产品。这套直觉会让你误解 `/prototype`。
+
+Matt 的定义只有一句话(SKILL.md 原文):<strong>A prototype is throwaway code that answers a question</strong>(中译:原型是一次性的、用来回答一个问题的代码)。三个关键词:
+
+- **答题**:它存在只为回答一个问题(「这个状态模型对不对?」「这个 UI 该长什么样?」)。答案比原型本身重要。
+- **用完即弃**:验收的是答案,不是原型。结论折叠进真实代码后,原型代码进一次性分支留档,永不进 main。
+- **是代码**:不是画给人看的图,是能跑、能点、能暴露状态的真实程序——因为有些问题(状态机绕几个圈会不会打架)纸面推不动,只有跑起来才知道。
+
+一句话对照:<strong>Axure 原型的产出物是原型自己;这里的原型,产出物是决策。</strong>
+
+## Shaping 模块全景:一入口,两助手
+
+| 技能            | 管什么                           | 触发方式                  | 一句话记法       |
+| --------------- | -------------------------------- | ------------------------- | ---------------- |
+| `/wayfinder`    | 把大雾工程铺成决策地图,逐票解决 | user-invoked(只能你敲)   | 铺路,不施工     |
+| `/prototype`    | 用一次性代码回答一个设计问题     | model-invoked             | 答题实验,答完即弃 |
+| `/research`     | 后台子代理查一手资料,产出带引用的 MD | model-invoked         | 查事实是 agent 的工作 |
+
+触发方式的含义见 [0001](/lessons/0001) 的二分表:wayfinder 是模块里唯一 user-invoked 的——「这个想法值不值得铺一张地图」永远由你发起;prototype 和 research 会被模型在对话中主动触发(你说「纸面推不动」「去查查文档」,它就来了),你也可以手动敲。
+
+## 一、/prototype:两条分支,问题决定形状
+
+原型的形状由要答的问题决定,SKILL.md 只认两种问题,走两条完全不同的分支——<strong>选错分支,整个原型前功尽弃</strong>:
+
+- **「这个逻辑 / 状态模型感觉对吗?」→ LOGIC 分支**:产出单个可分享的 HTML 文件,把状态机推过那些纸面上难推演的用例,配有引导式演练,非开发者也能点着玩。
+- **「这个该长什么样?」→ UI 分支**:在同一条路由上生成几个<strong>激进不同</strong>的界面变体,用 URL 参数切换、底部悬浮条导航。不是同一方案的微调,是真正分叉的几个方向。
+
+问题实在模糊且你不在场时,默认规则:看周围代码——后端模块走 LOGIC,页面组件走 UI,并在原型顶部声明这个假设。<Cite>(来源:本地插件 [engineering/prototype/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md))</Cite>
+
+两条分支共守的规则,浓缩成四条:
+
+1. **生来即弃,明写出来**:放在将来真正要用它的位置附近,但命名让人一眼看出是原型;零持久化(状态在内存里),无测试、无错误处理、无抽象——快,是唯一目的。
+2. **秒开**:一条命令或双击就能跑,不需要任何思考成本。
+3. **暴露状态**:每次操作后完整渲染相关状态,让你看见「什么变了」——这是答题的机制。
+4. **答完收档**:验证过的决策折叠进真实代码;原型本身提交到一个一次性分支(main 之外),在实现工单上留下指向该分支的 context pointer,问题和结论也记在工单里。
+
+## 二、/wayfinder:大工程的决策地图
+
+当一个想法<strong>大到一次 agent 会话(约 10 万 token)装不下</strong>,而且被雾包着——从这里到终点的路看不见——就轮到 `/wayfinder`。它的做法不是闷头开干,而是把「找路」本身变成一张<strong>共享地图</strong>,铺在仓库的 issue tracker 上:
+
+- **地图**:一张标着 `wayfinder:map` 的 issue,是唯一的正本。它只做索引:终点(Destination)、约定(Notes)、已定决策一览(Decisions so far)、雾区(Not yet specified)。
+- **决策工单**:地图的子 issue,每张只有一个<strong>问题</strong>,尺寸按一次会话能解决来切。注意是<strong>决定</strong>,不是活儿——每张票的类型只有四种:research(查资料,可后台)、prototype(做原型给人反应)、grilling(对话访谈,默认类型)、task(为解锁某个决策而必须先做的杂事)。
+- **frontier(边界)**:开放、无阻塞、无人认领的工单,就是「已知的边缘」。阻塞用 tracker 的原生依赖边表达,这样在 tracker 界面上就能直接看见哪些票可取。开工会话先<strong>认领</strong>(assign 即认领),一次只解决一张票。
+
+两条纪律让它在实践中不变形:
+
+<strong>Plan, don't do.</strong> 每张票的产出是决策,不是交付物;地图走完的标志是「通往终点的路上没有要决定的事了」——然后才把终点交给主流程(通常是 [to-spec → to-tickets → implement](/lessons/0003))。「想直接开工」的冲动,正是你走到了地图边缘的信号。SKILL.md 还规定:除 research 票外,<strong>一次会话只解决一张票</strong>。
+
+<strong>雾区 deliberately 不铺开。</strong>看得见要来、但还说精确的问题,写在地图的 Not yet specified 区,不硬切成票。判据只有一条:<strong>现在能不能把问题陈述精确</strong>,跟能不能回答无关。每解决一张票,雾就往前退一格,退清楚的部分「毕业」成新工单。另外,地图上的一切用<strong>名字</strong>指代(票的标题),不列出一排 `#42 #43`——名字才读得懂。<Cite>(来源:本地插件 [engineering/wayfinder/SKILL.md](https://github.com/mattpocock/skills))</Cite>
+
+<Callout>
+    <strong>呼应 [0002](/lessons/0002) 的一个关联机制:</strong>
+    grilling 每轮只问「前提已解决」的那批问题,也叫 frontier。同一个词不是巧合——wayfinder
+    就是<strong>项目尺度的 grilling</strong>:一棵没走完的设计树,摊到 tracker 上用若干个会话慢慢走。它铺图的第一步,同样是先调
+    grilling + domain-modeling 把终点问清楚。
+</Callout>
+
+## 三、/research:最简单的绕行道
+
+三个技能里最朴素的:决策卡在一个<strong>仓库之外的事实</strong>上(第三方 API 的真实行为、官方文档的细节、某个规格的原文),就派一个<strong>后台子代理</strong>去查——你继续干活,它读它的。三条要求(SKILL.md 原文):
+
+1. **只对一手来源**:官方文档、源码、规格、第一方 API——不是别人对它们的转述。每个论断追到拥有它的来源。
+2. **产出单个 MD 文件**:每条论断标注出处,存进仓库里放这类笔记的地方(有约定随约定,没约定就放在合理位置并说明)。
+3. **后台跑**:不阻塞你的会话。
+
+它很少单独存在:wayfinder 铺图时,刚建好的 research 票会立刻批量点火,多个子代理并行开查;主流程进行中遇到事实缺口,模型也会自己拉它进来。查「事实」永远不该消耗你的注意力——这和 grilling 的分工一脉相承([0002](/lessons/0002):查事实是 agent 的工作,做决策是你的工作)。<Cite>(来源:本地插件 [engineering/research/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md))</Cite>
+
+## 十秒路由:雾蒙蒙的想法进哪条道
+
+| 情境                                       | 进哪条道                    | 出口                       |
+| ------------------------------------------ | --------------------------- | -------------------------- |
+| 想法大到一次会话装不下,路被雾包着           | `/wayfinder` 铺决策地图      | 路清晰 → 主流程(to-spec 起) |
+| 一个设计问题纸面推不动(状态对不对 / 长什么样) | `/prototype` 做答题实验      | 决策落工单 → 主流程继续    |
+| 决策卡在一个仓库外的事实上                   | `/research` 后台查证         | 带引用的 MD 落仓库         |
+| 路已经清晰                                   | 不绕行,直接主流程           | —                          |
+
+三条道还经常<strong>串成一条</strong>:wayfinder 的地图上,有的票是 research(先查清事实)、有的票是 prototype(做个东西给人反应)、大部分票是 grilling(把决策问出来)——地图走完,雾散了,主流程才接手。可打印的全景路由表见[全局地图](/reference/skill-flow-map)。
+
+## 练一练:情境路由(混编主流程 + 参考层)
+
+<Quiz questions={quiz0004} />
+
+## 合上页面,回忆一遍
+
+1. Axure 式原型和这里的 prototype,「产出物」分别是什么?
+2. wayfinder 的一张票,产出的应该是决策还是交付物?地图走完的标志是什么?
+3. 「雾区还是工单」的判据是哪一句话?
+4. research 的产出文件,对「来源」有什么硬要求?
+
+隔天不看答案再自问一遍,第 3、7 天各再轮一次——检索本身才长记忆。
+
+## 首读材料
+
+本课最值得通读的原文:<strong>[engineering/wayfinder/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md)</strong>——它是模块的入口技能,也是三个 SKILL.md 里最厚的一份,通读一遍能看全地图、票、雾、frontier 的所有细节。想看这套技能的作者视角,读 [AI Hero: AI Skills for Real Engineers](https://www.aihero.dev/skills) 的模块总览。
+
+<Callout>
+    <strong>卡住了怎么办。</strong>
+    「wayfinder 的票和 to-tickets 的工单到底差在哪」这类困惑,先查[词典](/dictionary)与[全局地图](/reference/skill-flow-map),
+    然后带进你自己的实战里验证;是课件讲得不清楚的,到[仓库 issue 区](https://github.com/yongkong/learn-mattpocock-skills/issues)提出来。
+</Callout>

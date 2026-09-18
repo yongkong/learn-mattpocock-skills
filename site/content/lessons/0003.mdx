@@ -1,0 +1,71 @@
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { quiz0003 } from "@/content/quiz/0003";
+
+<Callout>
+    <strong>练习题:在你自己的仓库选一个小而真实的功能。</strong>
+    它要够小(一个会话能装下)、够真实(以后真的会用到)、又够完整(能打通每一层)——一个真实有用的小功能最合适。
+    这门课自己是怎么选的?见文末的「案例:本站诞生记」。
+</Callout>
+
+## 起飞前检查
+
+- ✅ skills 已安装(mattpocock-skills 插件)
+- ✅ 你的仓库已跑过 `/setup-matt-pocock-skills`:它会把 issue tracker 与 triage 标签配置好——这正是 to-spec 和 to-tickets 的前置条件
+- ✅ 想法已选定(你自己的仓库里的小功能)
+
+## 第一站:/grill-with-docs(访谈 + 沉淀)
+
+|                    |                                                                        |
+| ------------------ | ---------------------------------------------------------------------- |
+| **你敲什么**       | `/grill-with-docs`(或直接对你的 agent 说「开始实战课」)                |
+| **agent 会做什么** | 按 frontier 分轮提问:每轮一批编号问题,每题附推荐答案;能查代码自己查,只有决策问你 |
+| **交接物**         | 达成共识的设计 + 顺手更新的 `CONTEXT.md` 词条 / ADR(如有够格的)        |
+| **你的验收点**     | 结束标志是 frontier 清空<strong>且你确认共识</strong>;结束后看一眼 CONTEXT.md 是否多了词条 |
+
+## 第二站:/to-spec(综合成文)
+
+|                    |                                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| **你敲什么**       | `/to-spec`                                                                                             |
+| **agent 会做什么** | <strong>不再问你问题</strong>,只综合已有对话;探索仓库;提出测试 seams 请你确认(优先已有 seam、用最高 seam、越少越好);按模板写 spec |
+| **交接物**         | spec 发布到你配置的 issue tracker,贴 `ready-for-agent` 标签                                            |
+| **你的验收点**     | user stories 是否覆盖全面;spec 里是否偷跑了实现细节(<strong>不该出现具体文件路径和代码片段</strong>——过时太快) |
+
+## 第三站:/to-tickets(拆成工单)
+
+|                    |                                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| **你敲什么**       | `/to-tickets`(可带上 spec 链接)                                                                       |
+| **agent 会做什么** | 把 spec 拆成竖切(tracer bullet)工单,声明 blocking 边;发布前拿三个问题考你:粒度对吗?边对吗?要合并/拆分吗? |
+| **交接物**         | 工单发布到同一个 tracker:一票一 issue(或本地模式一票一文件),按依赖顺序编号,每张贴 `ready-for-agent`   |
+| **你的验收点**     | 每张工单是否独立可演示;编号顺序是否 = 依赖顺序(blocker 在前);frontier 是否清晰(blocker 全完成的随时可开工) |
+
+## 降落与复盘
+
+三站跑完后,与你的 agent 一起复盘:逐份查看产出的 spec 和工单,对照 [spec 与工单速查](/reference/artifact-shapes)审查——格式跑样、竖切不竖、blocking 边画错,都是这一课最有价值的收获。
+
+想继续飞?下一站是 `/implement`:挑一张无阻塞的工单(工作 frontier),它会内部驱动 `/tdd`(red → green,seam 上见)并在收尾自动跑 `/code-review`——那已经是另一课的内容了。
+
+## 练一练:飞行手册考核
+
+起飞前先过一遍这 7 题——全部关于「每一站你会遇到什么、该做什么」。
+
+<Quiz questions={quiz0003} />
+
+## 速查与提醒
+
+飞行中迷路就开这两份:[spec 与工单长什么样](/reference/artifact-shapes)(交接物格式)和[全局地图](/reference/skill-flow-map)(情境路由)。
+
+<Callout>
+    <strong>卡住了怎么办。</strong>
+    对问题答不上来、觉得某站的输出不对劲、想中途换想法——先查[词典](/dictionary)或两份速查;
+    是课件本身讲得不清楚,到[仓库 issue 区](https://github.com/yongkong/learn-mattpocock-skills/issues)提出来。
+</Callout>
+
+<Callout>
+    <strong>案例:本站诞生记。</strong>
+    本课的作者在写作这门课时,把练习题选为「给这个课程工作区做一个课程主页」,在自己仓库真实走了一遍
+    grill → to-spec → to-tickets:先是一个列出全部课程与速查的静态
+    index.html,后来按新的信息架构决策重建为你现在看到的完整课程站。你在自己的仓库跑的练习,完全可以是同等尺度的小功能——流程一字不差。
+</Callout>

@@ -1,0 +1,127 @@
+import { Callout, Cite, Flow, Step } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { quiz0002 } from "@/content/quiz/0002";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    只会敲命令是「会用」;知道主流程每一步里哪个可复用技能在转、它按什么规则工作,才是「系统化」。这四个技能你几乎不直接敲——所以这课的重点是
+    <strong>认出它们在什么时候被调用、按什么规则工作</strong>。
+</Callout>
+
+## 先上全景:四个词条一张表
+
+| 技能                 | 管什么                       | 被谁调用                                             | 一句话记法                 |
+| -------------------- | ---------------------------- | ---------------------------------------------------- | -------------------------- |
+| `/grilling`          | design tree + frontier 访谈法 | grill-me、grill-with-docs、improve-codebase-architecture | 问完树的每个分支才动手     |
+| `/domain-modeling`   | 统一语言、CONTEXT.md、ADR     | grill-with-docs                                       | 逼所有人(和 agent)说同一套话 |
+| `/codebase-design`   | deep module 设计词典          | 所有设计讨论(tdd 点名查它)                           | 词典是用来查的,不是跑的   |
+| `/tdd`               | red → green,seam 上的好测试  | implement                                             | 先红后绿,一次一片         |
+
+<Cite>别忘了:/prototype 不属于参考层——它是 Shaping 模块的技能(用完即弃的原型答题,见 [0004](/lessons/0004))。</Cite>
+
+## 一、grilling:把模糊逼成共识的访谈法
+
+它是 `/grill-me`、`/grill-with-docs`、`/improve-codebase-architecture` 内部共同运行的方法。三个机制(SKILL.md 原文);术语的查词条版见词典([Grilling · 追问式访谈](/dictionary)):
+
+### 1. Design tree(设计树)
+
+把计划画成一棵树:每个决策下面挂着依赖它的子决策。概念来自 Frederick Brooks《The Design of Design》。<Cite>(来源:[5 agent skills I use every day](https://www.aihero.dev/5-agent-skills-i-use-every-day))</Cite>例如「做搜索页」分叉成「高级搜索还是简单文本框」;选了高级搜索,又分叉出过滤器、排序……直到每个分支都走完。
+
+### 2. Frontier(边界),一轮一轮问
+
+不是想到什么问什么。每轮只问<strong>前提已解决</strong>的问题——答案不依赖本轮其他未决问题的那批。一次问完整个 frontier,每题编号、附推荐答案(❓Q1 …… ➡️ 推荐);你的回答会重塑这棵树:已定的决策把 frontier 向外推,解锁原本被卡住的下游问题,然后重算、开下一轮。
+
+### 3. 事实和决策严格分工
+
+**查事实是 agent 的工作**:frontier 上有需要查环境的问题(文件、代码、文档),它派 sub-agent 去查,绝不问你。**做决策是你的工作**:每个决策摆到你面前,等你拍板。一轮 16 个问题很常见,复杂特性 30~50 个也有。
+
+结束条件:frontier 为空——设计树每个分支都走过,没有<strong>被默默假设</strong>的东西;而且在你确认「共识达成」之前,它不许动手做任何事。<Cite>(来源:本地插件 [productivity/grilling/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md))</Cite>
+
+<Callout>
+    <strong>一个值得留意的关联机制:</strong>
+    wayfinder 的决策地图里也有一个 frontier(开放、无阻塞、未被认领的工单)。同一个词不是巧合——wayfinder
+    就是项目尺度的 grilling:把「一棵没走完的设计树」摊成工单慢慢走(见 [0004](/lessons/0004))。
+</Callout>
+
+## 二、domain-modeling:磨利项目的统一语言
+
+它管的是<strong>领域模型</strong>——不是数据库模型,而是:这个项目的业务概念词汇表 + 关键决策记录。落地为两个文件:`CONTEXT.md`(纯词汇表,<strong>零实现细节</strong>,不是 spec 也不是草稿本)和 `docs/adr/`(架构决策记录)。
+
+四个具体动作(SKILL.md 原文):
+
+1. **对照词汇表挑战**——你用了和 CONTEXT.md 冲突的词,立刻指出:"你的词汇表定义 cancellation 是 X,你现在说的像 Y,到底是哪个?"
+2. **逼模糊词变精确**——"你一直说 account,到底是指 Customer 还是 User?这是两个东西。"
+3. **用具体场景压测**——编造边界场景逼你说清概念边界:"VIP 用户在下单瞬间被降级,这单还享折扣吗?"
+4. **和代码交叉验证**——你说支持部分取消,代码却只能整单取消,它把矛盾摆上桌:"哪个是对的?"
+
+术语一旦敲定,<strong>当场写进 CONTEXT.md</strong>,不攒批。ADR 则很克制,要同时满足三个条件才提议:<strong>难以逆转</strong>(改主意代价大)+ <strong>没有上下文会让人困惑</strong>(未来读者会问为什么)+ <strong>真实权衡的结果</strong>(存在过真选项)。三者缺一,就不立 ADR。<Cite>(来源:本地插件 [engineering/domain-modeling/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md))</Cite>
+
+为什么值得单独一个技能?整套体系的心法是:agent 没有记忆。统一语言就是给 agent 的共享记忆——词汇表写清楚后,grilling 提问、写 spec、命名测试、/wait-what 重新解释消息,全都用同一套词。
+
+## 三、codebase-design:整套体系的设计词典
+
+参考层里最特殊的一个:它不执行任何流程,只提供<strong>统一的说话方式</strong>。SKILL.md 开头就禁止换词——不许说 component、service、API、boundary——因为一致的语言本身就是目的。
+
+### 核心主张:深模块(deep module)
+
+**小接口后面藏大量行为,放在干净的 seam 上,通过接口就能测试。**支付模块只暴露 `pay(order, method)`,内部自己处理渠道路由、重试、幂等、对账——深;暴露 8 个方法、每个原样转发 SDK 调用——浅,接口几乎和实现一样复杂,调用者什么都躲不掉。
+
+六个关键词:**Module**(有接口有实现的东西,尺度无关:函数、类、包、跨层切片都行)、**Interface**(调用者必须知道的<strong>一切</strong>:类型签名 + 不变量 + 顺序约束 + 错误模式 + 配置 + 性能特征)、**Seam**(接缝:不修改此处就能改变行为的位置)、**Adapter**(在 seam 上满足接口的具体实现,描述角色而非内部)、**Leverage**(深度给<strong>调用者</strong>的回报:一份实现被 N 个调用点和 M 个测试复用)、**Locality**(深度给<strong>维护者</strong>的回报:改动、bug、验证集中一处,修一次 = 修好所有)。
+
+### 三个马上能用的判断工具
+
+- **删除测试(deletion test)**:想象删掉这个模块——复杂度凭空消失 = 它只是透传(浅);复杂度在 N 个调用点重新冒出来 = 它在挣自己的饭钱。
+- **接口即测试面**:调用者和测试跨同一个 seam;想"钻到接口背后去测",多半是模块形状做错了。
+- **一个 adapter 是假想 seam,两个才是真 seam**:没有真实变化的东西,不要提前引入接缝。
+
+词源是 Ousterhout《A Philosophy of Software Design》,但 SKILL.md 末尾明确拒绝了"深度 = 实现行数÷接口行数"的量化定义(会鼓励灌水),改用<strong>深度即杠杆</strong>。消费方:`/improve-codebase-architecture` 用它扫描 deepening 机会;`/tdd` 在接口形状有争议时点名查它——原话:"it is a reference to consult, not a session to run"(词典是用来查的,不是用来跑的)。<Cite>(来源:本地插件 [engineering/codebase-design/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md))</Cite>
+
+## 四、tdd:让循环产出「值得留的测试」
+
+SKILL.md 的自我定位:循环本身(red → green)很简单,这个技能的价值是<strong>让循环产出的测试值得保留</strong>。文章里说得更直白:<em>「把 TDD 做好,是提升 agent 代码质量最一致的方法。」</em><Cite>([5 agent skills](https://www.aihero.dev/5-agent-skills-i-use-every-day))</Cite>
+
+<Flow>
+  <Step cmd="Red">先写一个失败的测试——只写一个,针对提前约定好的 seam</Step>
+  <Step cmd="Green">写恰好够让这个测试通过的实现,不预设未来的测试,不加投机功能</Step>
+  <Step cmd="重复">一个 seam、一个测试、一份最小实现 = 一轮;每轮是一个 tracer bullet(曳光弹),根据上一轮学到的调整下一轮</Step>
+</Flow>
+
+### 测试写在哪?——seam 上,而且是「预先约定」的 seam
+
+测试放在 seam(公共边界),永远不伸进内部。更严格的是:开写任何测试之前,agent 必须先列出「本次测哪些 seams」并<strong>跟你确认</strong>——不可能什么都测,提前约定才让测试力气花在关键路径上。开写前它还会读 CONTEXT.md,让测试命名用项目的领域词汇——domain-modeling 的产物在这里被消费。
+
+### 三个反模式
+
+- **implementation-coupled**:mock 内部合作者、测私有方法、从侧门验证(绕过接口直接查数据库)。识别标志:<strong>重构后测试挂了,但行为没变</strong>。
+- **tautological(同义反复)**:断言用和代码一样的方式重算期望值——`expect(add(a,b)).toBe(a+b)`。期望值必须来自独立事实源:已知正确的字面量、手算过的例子、spec。
+- **horizontal slicing(横切)**:先把所有测试写完再写实现。批量测试验证的是<strong>想象的行为</strong>。正确姿势是 vertical slice:一个测试 → 一份实现 → 循环。
+
+<Callout>
+    <strong>一个反直觉细节:</strong>
+    经典口诀是 red-green-<em>refactor</em>,但这个技能明说「重构不属于循环」——重构归 code-review
+    阶段管。实现循环只管红变绿,评审阶段再统一找坏味道。这防止了 agent 在循环里一边加功能一边大改结构。
+</Callout>
+
+## 四台发动机怎么咬合
+
+一条真实的链:`/grill-with-docs` 调用 grilling(frontier 访谈)<strong>+ domain-modeling</strong>(顺手沉淀 CONTEXT.md/ADR);访谈聊到接口形状,codebase-design 的词汇进场;共识交给 `/to-spec` 写成 spec;`/implement` 拿到工单后调用 tdd,在 spec 约定的 seam 上 red-green;`/code-review` 收尾,重构在这时才发生。参考层的四个技能,就这样各自被主流程的不同站点调用——<strong>你不直接敲它们,但每次主流程都在踩它们</strong>。
+
+## 练一练:四个技能混着辨
+
+下面 10 题覆盖全部四个技能,混着出(interleaving)——混着练比一串同类的题更接近真实使用场景,记忆也更牢。
+
+<Quiz questions={quiz0002} />
+
+## 合上页面,回忆一遍
+
+检索练习,2 分钟:白纸上给四个技能各写一张「卡片」——管什么 + 被谁调用 + 一句话记法。写不出卡片的技能就是盲区,回头重读对应章节。间隔复习:第一次学完后的第 1、3、7 天各回来,把本课和 [0001](/lessons/0001) 的测验重做一遍——每次几分钟,比重读课文有效得多。
+
+## 首读材料
+
+[My Grill Me skill has gone viral](https://www.aihero.dev/my-grill-me-skill-has-gone-viral) —— grill-me 走红背后,design tree 方法论的完整故事。想更深可以读 Ousterhout《A Philosophy of Software Design》(codebase-design 的词源,注意 Matt 改写了深度的定义)。
+
+<Callout>
+    <strong>卡住了怎么办。</strong>
+    frontier 的机制、ADR 三条件、删除测试、重构出循环的取舍——哪里含糊,先查[词典](/dictionary)或[spec 与工单速查](/reference/artifact-shapes);
+    还不清楚,到[仓库 issue 区](https://github.com/yongkong/learn-mattpocock-skills/issues)提出来。
+</Callout>

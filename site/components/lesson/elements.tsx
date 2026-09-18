@@ -22,7 +22,7 @@ export function Step({ cmd, children }: { cmd: string; children: ReactNode }) {
   return (
     <li className="relative pl-8 before:absolute before:-left-[7px] before:top-1.5 before:size-3 before:rounded-full before:border-2 before:border-amber-600 before:bg-background">
       <code className="font-mono font-bold text-amber-700 dark:text-amber-400">{cmd}</code>
-      <span className="mt-1 block text-sm text-muted-foreground">{children}</span>
+      <div className="mt-1 text-sm text-muted-foreground">{children}</div>
     </li>
   );
 }
