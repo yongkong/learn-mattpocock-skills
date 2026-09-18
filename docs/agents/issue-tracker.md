@@ -13,6 +13,8 @@ Issues and specs for this repo live as GitHub issues at **https://github.com/yon
 
 Infer the repo from `git remote -v`; `gh` does this automatically when run inside a clone. Canonical remote: `https://github.com/yongkong/learn-mattpocock-skills.git`.
 
+`gh` is installed at `C:\Program Files\GitHub CLI\gh.exe` but may be absent from a session's PATH — call it by full path. It is logged in as `yongkong` (token in gh keyring); if that login is ever missing, authenticate with `gh auth login`.
+
 ## Pull requests as a triage surface
 
 **PRs as a request surface: no.** _(Set to `yes` if this repo treats external PRs as feature requests; `/triage` reads this flag.)_

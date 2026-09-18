@@ -1,0 +1,6 @@
+# 本地工具与临时产物
+.tools/
+.playwright-mcp/
+
+# 本机个人配置
+.claude/settings.local.json
