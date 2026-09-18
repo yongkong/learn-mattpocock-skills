@@ -27,8 +27,8 @@
   .card {
     background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-    max-width: 46rem; width: 100%; height: 92vh;
-    padding: 1.4rem 2rem 1.1rem;
+    max-width: 56rem; width: 100%; height: 92vh;
+    padding: 1.4rem 1.8rem 1.1rem;
     display: flex; flex-direction: column;
   }
   .card-head { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
@@ -44,17 +44,39 @@
   .card-meta { font-size: 0.85rem; color: var(--ink-soft); margin: 0.4rem 0 0; }
   .card-meta p { margin: 0.2rem 0; }
   .card-meta a { color: inherit; }
+  .card-layout { display: flex; gap: 1.3rem; flex: 1; min-height: 0; margin-top: 0.8rem; }
   .card-body {
-    margin-top: 0.8rem; flex: 1; min-height: 0; overflow-y: auto;
+    flex: 1; min-width: 0; overflow-y: auto;
     scrollbar-width: thin; scrollbar-color: var(--line) transparent; /* Firefox */
   }
-  .card-body::-webkit-scrollbar { width: 10px; }
-  .card-body::-webkit-scrollbar-track { background: transparent; }
-  .card-body::-webkit-scrollbar-thumb {
+  .card-nav {
+    flex: none; width: 12.5rem; position: relative;
+    border-left: 1px solid var(--line); padding-left: 1rem;
+    overflow-y: auto; font-size: 0.8rem; line-height: 1.5;
+    scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+  }
+  .card-nav .nav-sec {
+    margin: 0.7rem 0 0.1rem; color: var(--ink-soft);
+    font-family: "Cascadia Code", Consolas, monospace;
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .card-nav .nav-sec:first-child { margin-top: 0.2rem; }
+  .card-nav button.nav-term {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    background: none; border: 0; padding: 0.1rem 0.35rem; margin: 0;
+    font: inherit; color: var(--ink); border-radius: 5px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .card-nav button.nav-term:hover { background: var(--code-bg); color: var(--accent); }
+  .card-nav button.nav-term.current { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  @media (max-width: 44rem) { .card-nav { display: none; } }
+  .card-body::-webkit-scrollbar, .card-nav::-webkit-scrollbar { width: 10px; }
+  .card-body::-webkit-scrollbar-track, .card-nav::-webkit-scrollbar-track { background: transparent; }
+  .card-body::-webkit-scrollbar-thumb, .card-nav::-webkit-scrollbar-thumb {
     background: var(--line); background-clip: padding-box;
     border: 2px solid var(--paper); border-radius: 999px;
   }
-  .card-body::-webkit-scrollbar-thumb:hover { background: #d6d3d1; background-clip: padding-box; }
+  .card-body::-webkit-scrollbar-thumb:hover, .card-nav::-webkit-scrollbar-thumb:hover { background: #d6d3d1; background-clip: padding-box; }
   .card-body p { margin: 0.85rem 0; }
   .card-body ul, .card-body ol { margin: 0.85rem 0; padding-left: 1.5rem; }
   .card-body li { margin: 0.3rem 0; }
@@ -76,7 +98,7 @@
 <main>
   <p class="kicker">Dictionary · 概念课程</p>
   <h1>AI 编码词典</h1>
-  <p class="lede">一门相对独立的概念课程:AI 编码的核心术语,以自写中文转述、术语与例句保留英文。与本课程的 Lesson 互相链接——概念在这里学,流程在课件里练。</p>
+  <p class="lede">一门相对独立的概念课程:AI 编码的核心术语,以自写中文转述、术语与例句保留英文。概念在这里查透,流程在课件里练。</p>
   <p class="cite">点开任意词条弹出卡片阅读;卡片内可用 <kbd class="hint">←</kbd> <kbd class="hint">→</kbd> 翻上一条 / 下一条,<kbd class="hint">Esc</kbd> 关闭。每条都有「原文 ↗」可对照源词条。</p>
 
   <nav class="toc" id="toc">
@@ -99,7 +121,10 @@
       <button type="button" class="card-close" id="card-close">关闭 Esc</button>
     </div>
     <div class="card-meta" id="card-meta"></div>
-    <div class="card-body" id="card-body"></div>
+    <div class="card-layout">
+      <div class="card-body" id="card-body"></div>
+      <nav class="card-nav" id="card-nav" aria-label="快速词条导航"></nav>
+    </div>
     <div class="card-foot">
       <button type="button" id="card-prev">← <span id="card-prev-name"></span></button>
       <button type="button" id="card-next"><span id="card-next-name"></span> →</button>
@@ -232,6 +257,7 @@
   function renderNav() {
     var toc = document.getElementById("toc-list");
     var host = document.getElementById("sections");
+    var cardNav = document.getElementById("card-nav");
 
     MANIFEST.forEach(function (s) {
       var li = el("li");
@@ -259,6 +285,16 @@
       });
       sec.appendChild(grid);
       host.appendChild(sec);
+
+      // 卡片右侧快速导航:节标题 + 词条两级
+      cardNav.appendChild(el("div", "nav-sec", s.zh + " (" + s.terms.length + ")"));
+      s.terms.forEach(function (t) {
+        var nbtn = el("button", "nav-term", t.term);
+        nbtn.type = "button";
+        nbtn.dataset.slug = slug(t.term);
+        nbtn.title = t.zh;
+        cardNav.appendChild(nbtn);
+      });
     });
   }
 
@@ -276,6 +312,7 @@
     title.appendChild(anchor);
     document.getElementById("card-zh").textContent = t.zh;
     document.getElementById("card-pos").textContent = "第 " + (currentIdx + 1) + " / " + FLAT.length + " 条";
+    highlightNav(t.term);
 
     var prev = FLAT[currentIdx - 1];
     var next = FLAT[currentIdx + 1];
@@ -326,6 +363,17 @@
     }
   }
 
+  function highlightNav(term) {
+    var nav = document.getElementById("card-nav");
+    var prev = nav.querySelector("button.nav-term.current");
+    if (prev) prev.classList.remove("current");
+    var btn = nav.querySelector('button.nav-term[data-slug="' + slug(term) + '"]');
+    if (!btn) return;
+    btn.classList.add("current");
+    // 把当前词条滚进导航可视区(垂直居中附近);nav 是 position:relative,offsetTop 即相对导航
+    nav.scrollTop = Math.max(0, btn.offsetTop - nav.clientHeight / 2);
+  }
+
   function openTerm(idx, opts) {
     opts = opts || {};
     currentIdx = idx;
@@ -371,6 +419,12 @@
     document.getElementById("card-close").addEventListener("click", function () { closeCard(); });
     document.getElementById("card-prev").addEventListener("click", function () { step(-1); });
     document.getElementById("card-next").addEventListener("click", function () { step(1); });
+    document.getElementById("card-nav").addEventListener("click", function (ev) {
+      var btn = ev.target.closest("button.nav-term");
+      if (!btn) return;
+      var idx = findBySlug(btn.dataset.slug);
+      if (idx >= 0) openTerm(idx);
+    });
     overlay.addEventListener("click", function (ev) {
       if (ev.target === overlay) closeCard();
     });
