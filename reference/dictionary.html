@@ -12,17 +12,52 @@
   .toc a { text-decoration: none; }
   .section { margin-top: 3rem; }
   .section > .back-top { float: right; font-size: 0.82rem; }
-  .term { margin: 2.2rem 0; }
-  .term h3 { margin: 0; }
-  .term h3 a { text-decoration: none; color: inherit; }
-  .term .zh-name { color: var(--ink-soft); font-weight: 400; margin-left: 0.5rem; font-size: 1rem; }
-  .term .src-link { font-size: 0.82rem; margin-left: 0.6rem; }
-  .term p { margin: 0.7rem 0; }
-  .usage { background: var(--code-bg); border-left: 3px solid var(--line); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; margin: 0.8rem 0; font-size: 0.9rem; }
-  .usage .u-en { font-family: "Cascadia Code", Consolas, monospace; font-size: 0.85rem; margin: 0.3rem 0; }
-  .usage .u-zh { color: var(--ink-soft); margin: 0.3rem 0; }
-  .course-link { font-size: 0.88rem; }
+  .term-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); gap: 0.55rem; margin-top: 1.2rem; }
+  .term-chip {
+    text-align: left; padding: 0.5rem 0.8rem; cursor: pointer;
+    border: 1px solid var(--line); border-radius: 8px; background: #fff;
+    font-family: inherit; font-size: 0.95rem; color: var(--ink); line-height: 1.4;
+  }
+  .term-chip:hover { border-color: var(--accent); }
+  .term-chip .zh { display: block; color: var(--ink-soft); font-size: 0.8rem; }
   .attrib { margin-top: 4rem; }
+
+  .overlay { position: fixed; inset: 0; z-index: 50; background: rgba(26, 26, 24, 0.45); display: flex; align-items: flex-start; justify-content: center; padding: 4vh 1rem; overflow-y: auto; }
+  .overlay[hidden] { display: none; }
+  .card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    max-width: 46rem; width: 100%; padding: 1.4rem 2rem 1.1rem;
+  }
+  .card-head { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+  .card-head h2 { margin: 0; border: 0; padding: 0; font-size: 1.3rem; }
+  .card-head h2 a { text-decoration: none; color: inherit; }
+  .card-head .zh-name { color: var(--ink-soft); font-weight: 400; font-size: 1rem; }
+  .card-close {
+    margin-left: auto; flex: none; align-self: flex-start;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--paper);
+    cursor: pointer; font-size: 0.85rem; padding: 0.15rem 0.7rem; color: var(--ink-soft);
+  }
+  .card-close:hover { border-color: var(--accent); color: var(--accent); }
+  .card-meta { font-size: 0.85rem; color: var(--ink-soft); margin: 0.4rem 0 0; }
+  .card-meta p { margin: 0.2rem 0; }
+  .card-meta a { color: inherit; }
+  .card-body { margin-top: 0.8rem; }
+  .card-body p { margin: 0.85rem 0; }
+  .card-body ul, .card-body ol { margin: 0.85rem 0; padding-left: 1.5rem; }
+  .card-body li { margin: 0.3rem 0; }
+  .card-body h1, .card-body h2, .card-body h3 { font-size: 1.05rem; margin: 1.4rem 0 0.4rem; border: 0; padding: 0; }
+  .card-foot { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid var(--line); }
+  .card-foot button {
+    font-family: inherit; font-size: 0.85rem; cursor: pointer;
+    border: 1px solid var(--line); border-radius: 8px; background: var(--paper);
+    padding: 0.35rem 0.8rem; color: var(--ink);
+  }
+  .card-foot button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .card-foot button:disabled { opacity: 0.4; cursor: default; }
+  .card-foot .pos { margin-left: auto; font-size: 0.8rem; color: var(--ink-soft); font-family: "Cascadia Code", Consolas, monospace; }
+  .card-error { border-left: 3px solid var(--bad); background: var(--bad-soft); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; font-size: 0.9rem; }
+  kbd.hint { font-size: 0.78rem; }
 </style>
 </head>
 <body>
@@ -30,6 +65,7 @@
   <p class="kicker">Dictionary · 概念课程</p>
   <h1>AI 编码词典</h1>
   <p class="lede">一门相对独立的概念课程:AI 编码的核心术语,以自写中文转述、术语与例句保留英文。与本课程的 Lesson 互相链接——概念在这里学,流程在课件里练。</p>
+  <p class="cite">点开任意词条弹出卡片阅读;卡片内可用 <kbd class="hint">←</kbd> <kbd class="hint">→</kbd> 翻上一条 / 下一条,<kbd class="hint">Esc</kbd> 关闭。每条都有「原文 ↗」可对照源词条。</p>
 
   <nav class="toc" id="toc">
     <strong>目录</strong>
@@ -43,119 +79,119 @@
   <p class="lesson-nav"><a href="../index.html">课程主页</a> · 配套课件:<a href="../lessons/0001-the-map.html">0001 · 全局地图</a></p>
 </main>
 
+<div class="overlay" id="overlay" hidden>
+  <article class="card" role="dialog" aria-modal="true" aria-labelledby="card-title">
+    <div class="card-head">
+      <h2 id="card-title"></h2>
+      <span class="zh-name" id="card-zh"></span>
+      <button type="button" class="card-close" id="card-close">关闭 Esc</button>
+    </div>
+    <div class="card-meta" id="card-meta"></div>
+    <div class="card-body" id="card-body"></div>
+    <div class="card-foot">
+      <button type="button" id="card-prev">← <span id="card-prev-name"></span></button>
+      <button type="button" id="card-next"><span id="card-next-name"></span> →</button>
+      <span class="pos" id="card-pos"></span>
+    </div>
+  </article>
+</div>
+
+<script src="../assets/marked.min.js"></script>
 <script>
 (function () {
   "use strict";
 
-  var SECTIONS = [
-    {
-      id: "sessions-context-windows-turns",
-      zh: "会话、上下文窗口与轮次",
-      en: "Sessions, Context Windows & Turns",
-      terms: [
-        {
-          term: "Stateless",
-          zh: "无状态",
-          def: "不向前携带任何信息。<em>模型</em>在每次请求之间是无状态的——每次请求都重发完整的 context window,因为模型看不到别的任何东西;<em>agent</em> 在 session 之间默认也无状态,新会话从零开始。",
-          why: "模型永远无状态:参数在 training 后冻结,推理不会改变它,它不会从你的纠正里学习、也不会渐渐认识你。会话内的连续感是 harness 制造的——它保存对话记录并随每个请求重发:模型不是在记住对话,而是在重读对话。实践推论:想让某件事被跨会话记住,就必须写到 agent 会读回来的地方——AGENTS.md、memory system、handoff artifact 都因此存在。当 agent 反复犯你纠正过的错,问题不是「它为什么没学会」(它不能),而是「这条纠正该写到哪里,让每个未来会话都读到」。",
-          usage: [
-            { en: "\"Why does it forget the convention every time I clear?\"", zh: "「为什么每次 clear 它都忘记这个约定?」" },
-            { en: "\"The model's stateless — the new session starts empty. If you want it carried, write it to AGENTS.md or a memory file the harness loads at session start.\"", zh: "「模型是无状态的——新会话从零开始。想让它被带走,就写进 AGENTS.md 或 harness 在会话启动时加载的记忆文件。」" }
-          ],
-          src: "https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Stateless.md",
-          course: []
-        },
-        {
-          term: "Context",
-          zh: "上下文",
-          def: "agent 当前能接触到的、与任务相关的信息。抽象名词——不是模型看到的原始输入(那是 context window),也不是滚动的历史(那是 session),而是「agent 此刻知道的、与任务相关的东西」。「把某物加载进 context」就是让它进入这个集合;「context engineering」就是策划它的学科。",
-          why: "三个词分得干净:Context 是任务相关信息的集合,context window 是模型每次请求看到的字面 token 序列,session 是 harness 保存的滚动对话。区分之所以要紧,是因为 context 衡量的是质量而非数量:窗口快满而 context 依旧贫瘠(几千 token 全是过期工具输出),几乎为空也可以极佳(恰好是任务依赖的那个类型定义)。日常失败大多可追溯到 context:agent 编造 API、违背决策、瞎猜 schema 时,第一反应是问「它做这件事时 context 里有什么」——通常相关事实从未加载,或被注意力衰退埋掉了。解法是策划:加载任务需要的,挡住不需要的。",
-          usage: [
-            { en: "\"It keeps inventing fields that aren't in the type.\"", zh: "「它一直在编造类型里不存在的字段。」" },
-            { en: "\"The type file isn't in context — it's reading the call sites and guessing. Read the definition in first.\"", zh: "「类型定义文件不在 context 里——它在读调用点瞎猜。先把定义读进来。」" }
-          ],
-          src: "https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context.md",
-          course: []
-        },
-        {
-          term: "Context window",
-          zh: "上下文窗口",
-          def: "模型在每次请求时看到的全部内容。有限、因模型而异,而且是模型感知一切的唯一表面。它是单一 token 序列:system prompt + 迄今的对话 + harness 反馈回来的每个 tool result。在序列里,模型就能用;不在,模型就不知道它存在——你的代码库、昨天改的文件、三个会话前的指令,都一样。",
-          why: "有限意味着会填满:每个 turn 都在追加内容,长 session 终会触顶,被迫 compaction 或 clearing。也意味着窗口内一切互相竞争:加载的每个 token 都占预算,不需要的内容照样占据模型注意力。实践姿态:把窗口当预算——加载任务需要的,其余挡在门外,要用再通过 tool call 拿。避免把它叫「记忆」:窗口是工作状态,不跨会话持久;memory 是叠在之上的另一个概念。",
-          usage: [
-            { en: "\"Can I just paste the whole monorepo into the prompt?\"", zh: "「我能把整个 monorepo 都贴进提示词吗?」" },
-            { en: "\"The context window's 200k tokens — that's maybe a fifth of the repo. Pick the files the task touches, leave the rest behind a tool call.\"", zh: "「context window 是 20 万 token——大概只有仓库的五分之一。挑任务会碰的文件,其余放在 tool call 后面。」" }
-          ],
-          src: "https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context%20window.md",
-          course: [
-            { label: "课件里的它:0001 · 全局地图(「流程就是 agent 的记忆」一节)", url: "../lessons/0001-the-map.html" }
-          ]
-        },
-        {
-          term: "Stateful",
-          zh: "有状态",
-          def: "向前携带信息。Session 在 turn 之间有状态——context 随会话累积,这也是长会话滑向 dumb zone 的原因。Agent 可以通过 memory system 跨会话变得有状态:把信息持久化到 environment、未来会话启动时重载。模型永远无状态;任何表面的连续性都是 harness 在重新喂 context。",
-          why: "每一层的「有状态」都靠重读下一层存的东西建立:session 感觉连续,是 harness 把消息历史重发给无状态的模型;agent 跨会话记得,是 harness 从 environment 重载文件。模型本身从不存状态。状态也不总是想要的:会话早期形成的错误假设会被一路携带下去——clearing 就是主动丢弃会话状态、回到「写下来的东西」的动作。",
-          usage: [
-            { en: "\"It remembered my preferences from yesterday — does that mean the model learned them?\"", zh: "「它记得我昨天的偏好——是不是说明模型学会了?」" },
-            { en: "\"No, the agent's stateful because the harness wrote them to a memory file and reloaded them at session start. The model itself saw nothing of yesterday.\"", zh: "「不,是 agent 有状态:harness 把偏好写进记忆文件、会话启动时重载。模型本身对昨天一无所知。」" }
-          ],
-          src: "https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Stateful.md",
-          course: []
-        },
-        {
-          term: "Agent",
-          zh: "智能体",
-          def: "模型 + harness——配上工具、system prompt 和 context window——与你轮流对话的东西。Claude Code 是 agent,Cursor 是 agent。Agent 是你真正对话的对象:动起来、为特定目的配置好的模型。",
-          why: "与词典里大多数术语不同,agent 不指某个机械部件:模型是一份参数文件,harness 是你可以指向的软件,agent 是两者合起来被你当作单一行为者称呼的东西——你向它委派任务,它读你的消息并回答,「它又把构建搞坏了」里的那个「它」。人们不断把 AI 拟人化,agent 就是被拟人化的单位。这个概念比这一波 AI 浪潮老得多:软件 agent——你委派目标、它代你行动的程序——与 AI 的历史一样长。避免说「the AI」「the bot」:太含糊,分不清你指参数还是指装配好的整体。",
-          usage: [
-            { en: "\"Which agent are you using for the migration?\"", zh: "「迁移你用哪个 agent?」" },
-            { en: "\"Claude Code locally, Cursor for the UI work — same model underneath, different harnesses.\"", zh: "「本地用 Claude Code,UI 的活用 Cursor——底层同一个模型,不同的 harness。」" }
-          ],
-          src: "https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Agent.md",
-          course: [
-            { label: "课件里的它:0001 · 全局地图(「agent 没有记忆」的心法)", url: "../lessons/0001-the-map.html" }
-          ]
-        },
-        {
-          term: "System prompt",
-          zh: "系统提示词",
-          def: "harness 在每次请求前附带注入的指令——agent 的常设简报:它是谁、如何行为、能调用哪些工具、遵循什么约定。通常整个 session 保持稳定。",
-          why: "System prompt 由 harness 厂商编写而不是你,编码类 harness 里它很大——常达数万 token 的行为规则、工具描述与边界处理,每个 turn 都按 input tokens 计费。你自己的常设指令搭着它走:AGENTS.md 之类文件在会话开始时与 system prompt 一同加载,模型先读完厂商简报和你的简报,才看到你的消息。因为它每次请求都相同,它构成 prefix cache 的起点——这也是 harness 情愿整会话保持它固定不变的原因之一。模型被训练为优先服从 system prompt:当 agent 固执于你从没要求的约定、或输出格式怎么掰都掰不动时,通常是它在执行 system prompt,而你的消息吵输了。有些 harness 允许你查看甚至改写它。",
-          usage: [
-            { en: "\"Two harnesses, same model, totally different behavior on the same prompt.\"", zh: "「两个 harness、同一个模型,同一提示词行为完全不同。」" },
-            { en: "\"Different system prompts. One's tuned for terse code edits, the other for explaining — that's where the divergence lives, before your message even arrives.\"", zh: "「system prompt 不同。一个调教成简洁改码,另一个偏向讲解——分歧在你消息到达之前就存在了。」" }
-          ],
-          src: "https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/System%20prompt.md",
-          course: []
-        },
-        {
-          term: "Session",
-          zh: "会话",
-          def: "与 agent 的一次有边界的交互运行:从空开始,累积消息、tool result 和读过的文件,直到被 clear、关闭、或 compact 成新会话。Session 是「装填」context window 的东西——窗口是盒子,session 是慢慢填进去的内容。超出单个窗口的活必须拆到多个会话。",
-          why: "Session 的消息历史就是 agent 的工作记忆:模型无状态,它「记得」的一切——你要过什么、测试说了什么、三个 turn 前决定了什么——全在历史里、随每次请求重发。不在 session 里的东西,对 agent 就不存在。这份记忆随会话结束而结束:昨天收工时对代码库烂熟的 agent,今天早上对它一无所知;幸存下来的是文件系统——这正是 handoff、memory system 和 AGENTS.md 依赖的机制。会话在哪结束由你选:会话里的一切都影响后续每个 turn,无关任务留下的残留会污染下一个回答。一个任务一个会话,收工即 clear,是保持 context 相关性的自然节拍。",
-          usage: [
-            { en: "\"How long can one session run before it falls apart?\"", zh: "「一个 session 能撑多久不散架?」" },
-            { en: "\"Depends on the work — a focused refactor stays sharp longer than open-ended research. Once the session bloats, hand off or compact, don't push through.\"", zh: "「看活——专注的重构比开放式研究撑得久。会话一臃肿就 handoff 或 compact,别硬撑。」" }
-          ],
-          src: "https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Session.md",
-          course: []
-        },
-        {
-          term: "Turn",
-          zh: "轮次",
-          def: "一条用户消息,加上 agent 为响应它所做的一切,直到交还控制权。包含一次或多次请求——agent 调用工具时是很多次。澄清性提问结束本轮,你的回复开启下一轮。层级:Session > Turn > 模型供应商请求。",
-          why: "Turn 值得被命名,是因为它的长度由 agent 而非你决定:你只交出一条消息,agent 决定链多少个 tool call 才交还。一轮可以是一句回答,也可以是二十分钟的读码、改码、跑测试。同一性质的两面:长 turn 让 AFK 工作成为可能,长 turn 也是无人监督时出事的地方——等你拿回控制权,它可能已经漂离你的本意很远。Turn 也是转向的自然单位:轮内一切都在没有你的情况下发生,轮与轮之间的间隙才是你纠偏的地方。若总对 turn 的落点不满意,解法通常是要求更小的 turn——先出计划、一次一步——用自治换更频繁的纠偏间隙。",
-          usage: [
-            { en: "\"One turn took two minutes?\"", zh: "「一轮花了两分钟?」" },
-            { en: "\"It made fourteen tool calls inside that turn — each one is a separate model provider request. Latency stacks up before the agent finally yields back to you.\"", zh: "「那一轮里它打了十四个 tool call——每个都是一次独立的请求。延迟层层叠加,agent 才把控制权交回来。」" }
-          ],
-          src: "https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Turn.md",
-          course: []
-        }
-      ]
-    }
+  var MANIFEST = [
+    { id: "the-model", zh: "模型本身", en: "The Model", terms: [
+      { term: "AI", zh: "人工智能", file: "AI.md" },
+      { term: "Model", zh: "模型", file: "Model.md" },
+      { term: "Parameters", zh: "参数", file: "Parameters.md" },
+      { term: "Training", zh: "训练", file: "Training.md" },
+      { term: "Inference", zh: "推理", file: "Inference.md" },
+      { term: "Effort", zh: "思考力度", file: "Effort.md" },
+      { term: "Token", zh: "词元", file: "Token.md" },
+      { term: "Next-token prediction", zh: "下一词元预测", file: "Next-token prediction.md" },
+      { term: "Non-determinism", zh: "非确定性", file: "Non-determinism.md" },
+      { term: "Model provider", zh: "模型供应商", file: "Model provider.md" },
+      { term: "Harness", zh: "挽具", file: "Harness.md" },
+      { term: "Model provider request", zh: "模型供应商请求", file: "Model provider request.md" },
+      { term: "Input tokens", zh: "输入词元", file: "Input tokens.md" },
+      { term: "Output tokens", zh: "输出词元", file: "Output tokens.md" },
+      { term: "Prefix cache", zh: "前缀缓存", file: "Prefix cache.md" },
+      { term: "Cache tokens", zh: "缓存词元", file: "Cache tokens.md" }
+    ] },
+    { id: "sessions-context-windows-turns", zh: "会话、上下文窗口与轮次", en: "Sessions, Context Windows & Turns", terms: [
+      { term: "Stateless", zh: "无状态", file: "Stateless.md" },
+      { term: "Context", zh: "上下文", file: "Context.md" },
+      { term: "Context window", zh: "上下文窗口", file: "Context window.md" },
+      { term: "Stateful", zh: "有状态", file: "Stateful.md" },
+      { term: "Agent", zh: "智能体", file: "Agent.md" },
+      { term: "System prompt", zh: "系统提示词", file: "System prompt.md" },
+      { term: "Session", zh: "会话", file: "Session.md" },
+      { term: "Turn", zh: "轮次", file: "Turn.md" }
+    ] },
+    { id: "tools-environment", zh: "工具与环境", en: "Tools & Environment", terms: [
+      { term: "Environment", zh: "环境", file: "Environment.md" },
+      { term: "Filesystem", zh: "文件系统", file: "Filesystem.md" },
+      { term: "Tool", zh: "工具", file: "Tool.md" },
+      { term: "Tool call", zh: "工具调用", file: "Tool call.md" },
+      { term: "Tool result", zh: "工具结果", file: "Tool result.md" },
+      { term: "MCP", zh: "模型上下文协议", file: "MCP.md" },
+      { term: "Permission request", zh: "权限请求", file: "Permission request.md" },
+      { term: "Permission mode", zh: "权限模式", file: "Permission mode.md" },
+      { term: "Agent mode", zh: "智能体模式", file: "Agent mode.md" },
+      { term: "Sandbox", zh: "沙箱", file: "Sandbox.md" }
+    ] },
+    { id: "failure-modes", zh: "失效模式", en: "Failure Modes", terms: [
+      { term: "Sycophancy", zh: "谄媚", file: "Sycophancy.md" },
+      { term: "Hallucination", zh: "幻觉", file: "Hallucination.md" },
+      { term: "Parametric knowledge", zh: "参数化知识", file: "Parametric knowledge.md" },
+      { term: "Knowledge cutoff", zh: "知识截止点", file: "Knowledge cutoff.md" },
+      { term: "Contextual knowledge", zh: "上下文知识", file: "Contextual knowledge.md" },
+      { term: "Attention relationship", zh: "注意力关系", file: "Attention relationship.md" },
+      { term: "Attention budget", zh: "注意力预算", file: "Attention budget.md" },
+      { term: "Attention degradation", zh: "注意力衰退", file: "Attention degradation.md" },
+      { term: "Smart zone", zh: "聪明区", file: "Smart zone.md" }
+    ] },
+    { id: "handoffs", zh: "交接", en: "Handoffs", terms: [
+      { term: "Clearing", zh: "清空", file: "Clearing.md" },
+      { term: "Handoff", zh: "交接", file: "Handoff.md" },
+      { term: "Primary source", zh: "一手来源", file: "Primary source.md" },
+      { term: "Secondary source", zh: "二手来源", file: "Secondary source.md" },
+      { term: "Handoff artifact", zh: "交接物", file: "Handoff artifact.md" },
+      { term: "Spec", zh: "规格", file: "Spec.md" },
+      { term: "Ticket", zh: "工单", file: "Ticket.md" },
+      { term: "Compaction", zh: "压缩", file: "Compaction.md" },
+      { term: "Autocompact", zh: "自动压缩", file: "Autocompact.md" }
+    ] },
+    { id: "memory-and-steering", zh: "记忆与转向", en: "Memory and Steering", terms: [
+      { term: "Memory system", zh: "记忆系统", file: "Memory system.md" },
+      { term: "AGENTS.md", zh: "AGENTS.md 文件", file: "AGENTS.md.md" },
+      { term: "Progressive disclosure", zh: "渐进式披露", file: "Progressive disclosure.md" },
+      { term: "Context pointer", zh: "上下文指针", file: "Context pointer.md" },
+      { term: "Skill", zh: "技能", file: "Skill.md" },
+      { term: "Subagent", zh: "子代理", file: "Subagent.md" }
+    ] },
+    { id: "patterns-of-work", zh: "工作模式", en: "Patterns of Work", terms: [
+      { term: "Human-in-the-loop", zh: "人在环中", file: "Human-in-the-loop.md" },
+      { term: "AFK", zh: "挂机", file: "AFK.md" },
+      { term: "Automated check", zh: "自动化检查", file: "Automated check.md" },
+      { term: "Automated review", zh: "自动化评审", file: "Automated review.md" },
+      { term: "Human review", zh: "人工评审", file: "Human review.md" },
+      { term: "Vibe coding", zh: "氛围编程", file: "Vibe coding.md" },
+      { term: "Design concept", zh: "设计概念", file: "Design concept.md" },
+      { term: "Grilling", zh: "追问式访谈", file: "Grilling.md" },
+      { term: "Prototyping", zh: "原型实验", file: "Prototyping.md" },
+      { term: "DX", zh: "开发者体验", file: "DX.md" },
+      { term: "AX", zh: "智能体体验", file: "AX.md" }
+    ] }
   ];
+
+  // 扁平化:全簿顺序 = 节顺序 × 节内顺序,卡片的上/下一条按此序推进
+  var FLAT = [];
+  MANIFEST.forEach(function (s) {
+    s.terms.forEach(function (t) { FLAT.push({ sec: s, term: t }); });
+  });
 
   function slug(term) {
     return term.toLowerCase().replace(/\s+/g, "-");
@@ -168,57 +204,16 @@
     return e;
   }
 
-  function buildTerm(t) {
-    var art = el("article", "term");
-    art.id = slug(t.term);
-
-    var h = el("h3");
-    var a = el("a", null, t.term);
-    a.href = "#" + slug(t.term);
-    h.appendChild(a);
-    h.appendChild(el("span", "zh-name", t.zh));
-    var src = el("a", "src-link", "原文 ↗");
-    src.href = t.src;
-    src.target = "_blank";
-    src.rel = "noopener";
-    h.appendChild(src);
-    art.appendChild(h);
-
-    art.appendChild(el("p", null, t.def));
-    art.appendChild(el("p", null, t.why));
-
-    var u = el("div", "usage");
-    u.appendChild(el("strong", null, "Usage"));
-    t.usage.forEach(function (pair) {
-      u.appendChild(el("p", "u-en", pair.en));
-      u.appendChild(el("p", "u-zh", pair.zh));
-    });
-    art.appendChild(u);
-
-    if (t.course && t.course.length) {
-      t.course.forEach(function (c) {
-        var p = el("p", "course-link");
-        var link = el("a", null, c.label);
-        link.href = c.url;
-        p.appendChild(link);
-        art.appendChild(p);
-      });
-    }
-    return art;
-  }
-
-  function build() {
+  function renderNav() {
     var toc = document.getElementById("toc-list");
     var host = document.getElementById("sections");
 
-    SECTIONS.forEach(function (s) {
-      if (!s.terms.length) return;
-
+    MANIFEST.forEach(function (s) {
       var li = el("li");
       var a = el("a", null, s.zh + " · " + s.en);
       a.href = "#" + s.id;
       li.appendChild(a);
-      li.appendChild(el("span", null,"（" + s.terms.length + " 条）"));
+      li.appendChild(el("span", null, "(" + s.terms.length + " 条)"));
       toc.appendChild(li);
 
       var sec = el("section", "section");
@@ -227,12 +222,166 @@
       back.href = "#toc";
       sec.appendChild(back);
       sec.appendChild(el("h2", null, s.zh + " · " + s.en));
-      s.terms.forEach(function (t) { sec.appendChild(buildTerm(t)); });
+
+      var grid = el("div", "term-grid");
+      s.terms.forEach(function (t) {
+        var btn = el("button", "term-chip");
+        btn.type = "button";
+        btn.dataset.slug = slug(t.term);
+        btn.appendChild(el("strong", null, t.term));
+        btn.appendChild(el("span", "zh", t.zh));
+        grid.appendChild(btn);
+      });
+      sec.appendChild(grid);
       host.appendChild(sec);
     });
   }
 
-  build();
+  var overlay = document.getElementById("overlay");
+  var currentIdx = -1;
+  var lastFocus = null;
+  var loadSeq = 0; // 快速翻词时只让最后一次加载落笔
+
+  function renderCard(entry) {
+    var t = entry.term;
+    var title = document.getElementById("card-title");
+    title.textContent = "";
+    var anchor = el("a", null, t.term);
+    anchor.href = "#" + slug(t.term);
+    title.appendChild(anchor);
+    document.getElementById("card-zh").textContent = t.zh;
+    document.getElementById("card-pos").textContent = "第 " + (currentIdx + 1) + " / " + FLAT.length + " 条";
+
+    var prev = FLAT[currentIdx - 1];
+    var next = FLAT[currentIdx + 1];
+    document.getElementById("card-prev").disabled = !prev;
+    document.getElementById("card-next").disabled = !next;
+    document.getElementById("card-prev-name").textContent = prev ? prev.term.term : "";
+    document.getElementById("card-next-name").textContent = next ? next.term.term : "";
+
+    document.getElementById("card-meta").textContent = "";
+    var body = document.getElementById("card-body");
+    body.textContent = "";
+
+    var seq = ++loadSeq;
+    fetch("dictionary/" + encodeURIComponent(t.file))
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function (text) {
+        if (seq !== loadSeq || currentIdx < 0) return;
+        paint(text);
+      })
+      .catch(function () {
+        if (seq !== loadSeq || currentIdx < 0) return;
+        var warn = el("div", "card-error");
+        warn.textContent = "词条加载失败。若你是直接双击打开本页(file://),浏览器会拦截本地文件读取——请改用本地 HTTP 服务打开,例如在仓库根目录运行:python -m http.server";
+        body.appendChild(warn);
+      });
+
+    function paint(text) {
+      var lines = text.split("\n");
+      var i = 0;
+      if (i < lines.length && lines[i].charAt(0) === "#") i++; // H1 已由卡片头部呈现
+      while (i < lines.length && lines[i].trim() === "") i++;
+      var metaMd = [];
+      while (i < lines.length && lines[i].trim() !== "" && lines[i].trim().charAt(0) === "[") {
+        metaMd.push(lines[i].trim());
+        i++;
+      }
+      while (i < lines.length && lines[i].trim() === "") i++;
+      var bodyMd = lines.slice(i).join("\n");
+
+      if (metaMd.length) {
+        var meta = document.getElementById("card-meta");
+        meta.innerHTML = marked.parse(metaMd.join(" · "));
+      }
+      body.innerHTML = marked.parse(bodyMd);
+    }
+  }
+
+  function openTerm(idx, opts) {
+    opts = opts || {};
+    currentIdx = idx;
+    if (!lastFocus) lastFocus = document.activeElement;
+    renderCard(FLAT[idx]);
+    overlay.hidden = false;
+    document.body.style.overflow = "hidden";
+    if (opts.updateHash !== false) {
+      history.replaceState(null, "", "#" + slug(FLAT[idx].term.term));
+    }
+    document.getElementById("card-close").focus();
+  }
+
+  function closeCard(opts) {
+    opts = opts || {};
+    currentIdx = -1;
+    loadSeq++;
+    overlay.hidden = true;
+    document.body.style.overflow = "";
+    if (opts.updateHash !== false) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
+  }
+
+  function step(delta) {
+    var idx = currentIdx + delta;
+    if (idx < 0 || idx >= FLAT.length) return;
+    openTerm(idx);
+  }
+
+  function init() {
+    renderNav();
+
+    document.getElementById("sections").addEventListener("click", function (ev) {
+      var btn = ev.target.closest(".term-chip");
+      if (!btn) return;
+      for (var i = 0; i < FLAT.length; i++) {
+        if (FLAT[i].term.term && slug(FLAT[i].term.term) === btn.dataset.slug) {
+          openTerm(i);
+          return;
+        }
+      }
+    });
+
+    document.getElementById("card-close").addEventListener("click", function () { closeCard(); });
+    document.getElementById("card-prev").addEventListener("click", function () { step(-1); });
+    document.getElementById("card-next").addEventListener("click", function () { step(1); });
+    overlay.addEventListener("click", function (ev) {
+      if (ev.target === overlay) closeCard();
+    });
+
+    document.addEventListener("keydown", function (ev) {
+      if (overlay.hidden) return;
+      if (ev.key === "Escape") closeCard();
+      else if (ev.key === "ArrowLeft") step(-1);
+      else if (ev.key === "ArrowRight") step(1);
+    });
+
+    window.addEventListener("hashchange", function () {
+      var idx = indexOfHash(location.hash);
+      if (idx >= 0) openTerm(idx, { updateHash: false });
+      else if (!overlay.hidden) closeCard({ updateHash: false });
+    });
+
+    // 深链:/reference/dictionary.html#context-window 直接弹出该词条
+    var idx = indexOfHash(location.hash);
+    if (idx >= 0) openTerm(idx, { updateHash: false });
+  }
+
+  function indexOfHash(hash) {
+    if (!hash || hash.length < 2) return -1;
+    var s = decodeURIComponent(hash.slice(1));
+    for (var i = 0; i < FLAT.length; i++) {
+      if (slug(FLAT[i].term.term) === s) return i;
+    }
+    return -1;
+  }
+
+  init();
 })();
 </script>
 </body>
