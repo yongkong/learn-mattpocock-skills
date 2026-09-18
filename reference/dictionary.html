@@ -22,12 +22,14 @@
   .term-chip .zh { display: block; color: var(--ink-soft); font-size: 0.8rem; }
   .attrib { margin-top: 4rem; }
 
-  .overlay { position: fixed; inset: 0; z-index: 50; background: rgba(26, 26, 24, 0.45); display: flex; align-items: flex-start; justify-content: center; padding: 4vh 1rem; overflow-y: auto; }
+  .overlay { position: fixed; inset: 0; z-index: 50; background: rgba(26, 26, 24, 0.45); display: flex; align-items: center; justify-content: center; padding: 0 1rem; }
   .overlay[hidden] { display: none; }
   .card {
     background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-    max-width: 46rem; width: 100%; padding: 1.4rem 2rem 1.1rem;
+    max-width: 46rem; width: 100%; height: 92vh;
+    padding: 1.4rem 2rem 1.1rem;
+    display: flex; flex-direction: column;
   }
   .card-head { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
   .card-head h2 { margin: 0; border: 0; padding: 0; font-size: 1.3rem; }
@@ -42,7 +44,17 @@
   .card-meta { font-size: 0.85rem; color: var(--ink-soft); margin: 0.4rem 0 0; }
   .card-meta p { margin: 0.2rem 0; }
   .card-meta a { color: inherit; }
-  .card-body { margin-top: 0.8rem; }
+  .card-body {
+    margin-top: 0.8rem; flex: 1; min-height: 0; overflow-y: auto;
+    scrollbar-width: thin; scrollbar-color: var(--line) transparent; /* Firefox */
+  }
+  .card-body::-webkit-scrollbar { width: 10px; }
+  .card-body::-webkit-scrollbar-track { background: transparent; }
+  .card-body::-webkit-scrollbar-thumb {
+    background: var(--line); background-clip: padding-box;
+    border: 2px solid var(--paper); border-radius: 999px;
+  }
+  .card-body::-webkit-scrollbar-thumb:hover { background: #d6d3d1; background-clip: padding-box; }
   .card-body p { margin: 0.85rem 0; }
   .card-body ul, .card-body ol { margin: 0.85rem 0; padding-left: 1.5rem; }
   .card-body li { margin: 0.3rem 0; }
