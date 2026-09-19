@@ -1,14 +1,15 @@
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { AppLink } from "@/components/site/app-link";
+import { PageShell } from "@/components/site/page-shell";
 import { ProgressToggle } from "@/components/lesson/progress-toggle";
 import { ResumeButton } from "@/components/site/resume-button";
-import { LESSONS, MODULES } from "@/lib/structure";
+import { LESSONS, lessonHref, MODULES } from "@/lib/structure";
 
 const SCENARIOS = [
-  { title: "想法模糊,边界没想清", hint: "先被访谈,把想法盘清楚", href: "/lessons/0001" },
-  { title: "共识已达成,要落成文字", hint: "把共识写成 spec", href: "/lessons/0001" },
-  { title: "工单就绪,开始写代码", hint: "实战:跑通主流程", href: "/lessons/0003" },
-  { title: "设计问题悬而未决", hint: "Shaping:把不确定变成决策", href: "/lessons/0004" },
+  { title: "想法模糊,边界没想清", hint: "先被访谈,把想法盘清楚", href: lessonHref("0001") },
+  { title: "共识已达成,要落成文字", hint: "把共识写成 spec", href: lessonHref("0001") },
+  { title: "工单就绪,开始写代码", hint: "实战:跑通主流程", href: lessonHref("0003") },
+  { title: "设计问题悬而未决", hint: "Shaping:把不确定变成决策", href: lessonHref("0004") },
   { title: "不确定该用哪个技能", hint: "十秒路由:查速查图", href: "/reference/skill-flow-map" },
   { title: "名词看不懂", hint: "AI 编码词典:随查随用", href: "/dictionary" },
 ];
@@ -22,7 +23,7 @@ const GLOSSARY = [
 
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-14">
+    <PageShell width="6xl" className="py-14">
       <section className="mx-auto max-w-3xl text-center">
         <Badge variant="outline" className="mb-4 font-normal text-muted-foreground">
           非官方社区课程 · 源出 Matt Pocock 的 skills 体系
@@ -72,12 +73,9 @@ export default function Home() {
                     {items.map((l) => (
                       <li key={l.num} className="flex items-center gap-3 py-2.5">
                         <span className="font-mono text-sm text-muted-foreground">{l.num}</span>
-                        <Link prefetch={false}
-                          href={`/lessons/${l.num}`}
-                          className="font-medium hover:underline"
-                        >
+                        <AppLink href={lessonHref(l.num)} className="font-medium hover:underline">
                           {l.title}
-                        </Link>
+                        </AppLink>
                         <span className="ml-auto">
                           <ProgressToggle num={l.num} />
                         </span>
@@ -98,7 +96,7 @@ export default function Home() {
         <p className="mt-2 text-sm text-muted-foreground">不知道从哪开始?看你现在遇到什么,从那里进。</p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SCENARIOS.map((s) => (
-            <Link prefetch={false}
+            <AppLink
               key={s.title}
               href={s.href}
               className="group rounded-xl border bg-card p-5 transition-colors hover:border-amber-600/60"
@@ -107,10 +105,10 @@ export default function Home() {
                 {s.title}
               </p>
               <p className="mt-1 text-sm text-muted-foreground">{s.hint}</p>
-            </Link>
+            </AppLink>
           ))}
         </div>
       </section>
-    </main>
+    </PageShell>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
+import { PageShell } from "@/components/site/page-shell";
 
 export const metadata: Metadata = {
   title: "关于",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-16">
+    <PageShell width="3xl" className="py-16">
       <h1 className="text-3xl font-semibold tracking-tight">关于本课程</h1>
 
       <section className="mt-8">
@@ -109,6 +110,6 @@ export default function AboutPage() {
           文中出现的第三方名称与商标归其权利人所有,此处使用仅作指代。
         </p>
       </section>
-    </main>
+    </PageShell>
   );
 }

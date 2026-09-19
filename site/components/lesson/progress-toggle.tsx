@@ -1,18 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { PROGRESS_EVENT, readProgress, writeProgress } from "@/lib/progress";
+import { useCallback, useState } from "react";
+import { readProgress, writeProgress } from "@/lib/progress";
+import { useProgressSync } from "@/components/site/use-progress-sync";
 
 /** 页内进度标记:两态切换,与首页等其他读写方经 PROGRESS_EVENT 保持同步。 */
 export function ProgressToggle({ num }: { num: string }) {
   const [done, setDone] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const sync = () => setDone(readProgress(num));
-    sync();
-    window.addEventListener(PROGRESS_EVENT, sync);
-    return () => window.removeEventListener(PROGRESS_EVENT, sync);
-  }, [num]);
+  const sync = useCallback(() => setDone(readProgress(num)), [num]);
+  useProgressSync(sync);
 
   const toggle = useCallback(() => {
     writeProgress(num, !(done ?? false));

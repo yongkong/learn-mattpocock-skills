@@ -1,21 +1,12 @@
 "use client";
 
 import { useState } from "react";
-
-export interface QuizQuestion {
-  scenario: string;
-  options: string[];
-  answer: number;
-  explain: string;
-}
+import { scoreQuiz, type QuizQuestion } from "@/lib/quiz";
 
 /** 课件测验:逐题作答、即时反馈、得分封闭在组件状态内(同页多套互不串扰)。 */
 export function Quiz({ questions, ariaLabel }: { questions: QuizQuestion[]; ariaLabel?: string }) {
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const score = questions.reduce(
-    (acc, q, qi) => acc + (answers[qi] !== undefined && answers[qi] === q.answer ? 1 : 0),
-    0,
-  );
+  const { correct: score } = scoreQuiz(answers, questions);
   const answeredCount = Object.keys(answers).length;
 
   return (

@@ -1,4 +1,4 @@
-import type { QuizQuestion } from "@/components/lesson/quiz";
+import type { QuizQuestion } from "@/lib/quiz";
 
 /** 0001 随堂测验(7 题,正确项已打散)。 */
 export const quiz0001: QuizQuestion[] = [

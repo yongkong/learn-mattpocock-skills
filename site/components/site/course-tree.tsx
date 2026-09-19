@@ -1,13 +1,12 @@
-import Link from "next/link";
-import { LESSONS, MODULES, TOP_LEVELS } from "@/lib/structure";
+import { AppLink } from "@/components/site/app-link";
+import { Kicker } from "@/components/site/kicker";
+import { LESSONS, lessonHref, MODULES, TOP_LEVELS } from "@/lib/structure";
 
 /** 课程目录树:五章 + 各章课件 + 顶级类目,全部由结构注册表派生。 */
 export function CourseTree({ currentNum }: { currentNum?: string }) {
   return (
     <nav aria-label="课程目录" className="text-sm">
-      <p className="mb-2 font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
-        课程目录
-      </p>
+      <Kicker className="mb-2 text-muted-foreground">课程目录</Kicker>
       <ul className="space-y-4">
         {MODULES.map((mod) => {
           const items = LESSONS.filter((l) => l.module === mod);
@@ -18,8 +17,8 @@ export function CourseTree({ currentNum }: { currentNum?: string }) {
                 <ul className="mt-1 space-y-1 border-l pl-3">
                   {items.map((l) => (
                     <li key={l.num}>
-                      <Link prefetch={false}
-                        href={`/lessons/${l.num}`}
+                      <AppLink
+                        href={lessonHref(l.num)}
                         className={`block truncate hover:text-foreground ${
                           l.num === currentNum
                             ? "font-semibold text-foreground"
@@ -28,7 +27,7 @@ export function CourseTree({ currentNum }: { currentNum?: string }) {
                         title={l.title}
                       >
                         <span className="font-mono">{l.num}</span> {l.short}
-                      </Link>
+                      </AppLink>
                     </li>
                   ))}
                 </ul>
@@ -43,12 +42,9 @@ export function CourseTree({ currentNum }: { currentNum?: string }) {
           <ul className="mt-1 space-y-1 border-l pl-3">
             {TOP_LEVELS.map((t) => (
               <li key={t.key}>
-                <Link prefetch={false}
-                  href={`/${t.key}`}
-                  className="block text-muted-foreground hover:text-foreground"
-                >
+                <AppLink href={`/${t.key}`} className="block text-muted-foreground hover:text-foreground">
                   {t.label}
-                </Link>
+                </AppLink>
               </li>
             ))}
           </ul>

@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { MarkedHtml } from "@/components/site/prose";
 import type { DictionarySection } from "@/lib/dictionary";
 
 /** 词典浏览器:过滤框 + 分类>词条两级结构 + 固定高弹层(内滚 + 卡内快速导航)。 */
@@ -111,13 +112,13 @@ export function DictionaryBrowser({ sections }: { sections: DictionarySection[] 
             <span className="ml-auto font-mono text-xs text-muted-foreground">{curCat}</span>
           </div>
           <div className="flex min-h-0 flex-1">
-            <article
-              className="prose-sm min-w-0 flex-1 overflow-y-auto px-6 py-4 [&_a]:underline [&_a]:underline-offset-4 [&_em]:not-italic [&_em]:text-amber-700 dark:[&_em]:text-amber-400 [&_h1]:text-lg [&_h1]:font-semibold [&_li]:mt-1 [&_p]:my-3 [&_strong]:font-semibold"
+            <MarkedHtml
+              html={cur?.html ?? ""}
+              className="prose-sm min-w-0 flex-1 overflow-y-auto px-6 py-4"
               onKeyDown={(ev) => {
                 if (ev.key === "ArrowLeft") move(-1);
                 if (ev.key === "ArrowRight") move(1);
               }}
-              dangerouslySetInnerHTML={{ __html: cur?.html ?? "" }}
             />
             <nav
               aria-label="快速词条导航"

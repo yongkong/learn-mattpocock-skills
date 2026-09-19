@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink } from "@/components/site/app-link";
 import { Badge } from "@/components/ui/badge";
 import { SITE_NAME, TOP_LEVELS } from "@/lib/structure";
 
@@ -12,21 +12,21 @@ export function SiteHeader() {
   return (
     <header className="border-b print:hidden">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-6 py-3">
-        <Link prefetch={false} href="/" className="flex items-center gap-2 font-semibold tracking-tight">
+        <AppLink href="/" className="flex items-center gap-2 font-semibold tracking-tight">
           {SITE_NAME}
           <Badge variant="outline" className="font-normal text-muted-foreground">
             非官方
           </Badge>
-        </Link>
+        </AppLink>
         <nav aria-label="站点导航" className="ml-auto flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
           {NAV_ITEMS.map((item) => (
-            <Link prefetch={false}
+            <AppLink
               key={item.href}
               href={item.href}
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.label}
-            </Link>
+            </AppLink>
           ))}
         </nav>
       </div>

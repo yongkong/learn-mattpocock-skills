@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * 站点检查:对构建产物 out/ 执行六类检查。
+ * 站点检查:对构建产物 out/ 执行五类检查。
  * 禁语清单是数据(取自 docs/register.md 三类禁语与口语词表),清单更新即检查范围更新。
- * 用法:先 `npm run build`,再 `npm run check:site`。
+ * 站名与内容路由(课件/速查)读 content/lessons/manifest.generated.json——与站点同一来源,
+ * 本脚本不再手抄任何事实。测验数据的有效性在构建期由 content/quiz/check.generated.ts 把关。
+ * 用法:先 `npm run build`(会先自动跑 gen 生成 manifest),再 `npm run check:site`。
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -10,7 +12,14 @@ import { fileURLToPath } from "node:url";
 
 const siteRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(siteRoot, "out");
-const SITE_NAME = "Agent Skills 中文课";
+
+const manifestPath = path.join(siteRoot, "content", "lessons", "manifest.generated.json");
+if (!fs.existsSync(manifestPath)) {
+  console.error("✗ 未找到 manifest.generated.json,请先 npm run build(或 npm run gen)");
+  process.exit(1);
+}
+const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+const SITE_NAME = manifest.siteName;
 
 /** 三类禁语(作者私指 / 会话耦合 / 时点与沙盒)+ 高频口语词。 */
 const FORBIDDEN = [
@@ -27,15 +36,19 @@ const FORBIDDEN = [
   "发车",
 ];
 
-/** 站点契约:必须存在的公开路由(静态导出为 <route>.html)。 */
-const EXPECTED_ROUTES = [
+/** 站点契约:必须存在的公开路由(静态导出为 <route>.html)。
+ *  顶级路由近乎不变,列在这里;课件与速查来自 manifest.generated.json(与内容文件同源)。 */
+const STATIC_ROUTES = [
   { route: "/", file: "index.html" },
   { route: "/about", file: "about.html" },
   { route: "/dictionary", file: "dictionary.html" },
   { route: "/reference", file: "reference.html" },
-  { route: "/reference/skill-flow-map", file: "reference/skill-flow-map.html" },
-  { route: "/reference/artifact-shapes", file: "reference/artifact-shapes.html" },
 ];
+const CONTENT_ROUTES = [
+  ...manifest.referenceSlugs.map((s) => ({ route: `/reference/${s}`, file: `reference/${s}.html` })),
+  ...manifest.lessonNums.map((n) => ({ route: `/lessons/${n}`, file: `lessons/${n}.html` })),
+];
+const EXPECTED_ROUTES = [...STATIC_ROUTES, ...CONTENT_ROUTES];
 
 const problems = [];
 const ok = (name) => console.log(`  ✓ ${name}`);
@@ -84,11 +97,14 @@ if (!fs.existsSync(outDir)) {
 
 const htmlFiles = collectHtml(outDir);
 
-// 1. 路由契约
+// 1. 路由契约(顶级手列 + 课件/速查来自 manifest,与内容文件同源)
 {
   const missing = EXPECTED_ROUTES.filter((r) => !fs.existsSync(path.join(outDir, r.file)));
-  if (missing.length === 0) ok(`路由契约:${EXPECTED_ROUTES.length} 条公开路由全部存在`);
-  else fail("路由契约", missing.map((r) => `缺少 ${r.route}(${r.file})`));
+  if (missing.length === 0) {
+    ok(`路由契约:${EXPECTED_ROUTES.length} 条公开路由全部存在(${CONTENT_ROUTES.length} 条内容路由来自 manifest)`);
+  } else {
+    fail("路由契约", missing.map((r) => `缺少 ${r.route}(${r.file})`));
+  }
 }
 
 // 2. 链接完整性
@@ -150,34 +166,8 @@ const htmlFiles = collectHtml(outDir);
   else fail("语域禁语", hits);
 }
 
-// 6. 测验答案分布 + 内容文件↔路由一致
-{
-  const constant = [];
-  for (const file of htmlFiles) {
-    const answers = [...fs.readFileSync(file, "utf-8").matchAll(/answer\\?":(\d+)/g)].map((m) => m[1]);
-    if (answers.length >= 3 && new Set(answers).size === 1) {
-      constant.push(`${routeOf(file)} 全部答案同在下标 ${answers[0]}(${answers.length} 题)`);
-    }
-  }
-  if (constant.length === 0) ok("测验答案:各套正确项下标非恒定");
-  else fail("测验答案分布", constant);
-
-  const quizNums = fs
-    .readdirSync(path.join(siteRoot, "content", "quiz"))
-    .map((f) => f.match(/^(\d{4})\.ts$/)?.[1])
-    .filter(Boolean)
-    .sort();
-  const builtLessons = fs
-    .readdirSync(path.join(outDir, "lessons"))
-    .filter((f) => f.endsWith(".html"))
-    .map((f) => f.replace(/\.html$/, ""))
-    .filter((f) => /^\d{4}$/.test(f))
-    .sort();
-  const a = quizNums.join(",");
-  const b = builtLessons.join(",");
-  if (a === b) ok(`结构一致:课件路由与内容文件一一对应(${builtLessons.join(" / ")})`);
-  else fail("结构一致", [`quiz 数据文件: [${a}]`, `构建产物课件: [${b}]`]);
-}
+// (原第 6 类已删除:测验答案分布改由构建期 validateQuiz 把关(content/quiz/check.generated.ts),
+//  内容文件↔路由一致由第 1 类的 manifest 路由契约覆盖——两者都不再依赖刮取 HTML。)
 
 console.log("");
 if (problems.length === 0) {

@@ -1,11 +1,14 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { adjacentLessons, getLesson, LESSONS } from "@/lib/structure";
+import { adjacentLessons, getLesson, LESSONS, lessonHref } from "@/lib/structure";
+import { AppLink } from "@/components/site/app-link";
 import { CourseTree } from "@/components/site/course-tree";
+import { Kicker } from "@/components/site/kicker";
+import { PageShell } from "@/components/site/page-shell";
 import { ProgressToggle } from "@/components/lesson/progress-toggle";
 import { Prose } from "@/components/site/prose";
-import { LESSON_BODIES } from "@/content/lessons/bodies";
+import { LESSON_BODIES } from "@/content/lessons/bodies.generated";
+import "@/content/quiz/check.generated";
 
 export function generateStaticParams() {
   return LESSONS.map((lesson) => ({ num: lesson.num }));
@@ -32,7 +35,7 @@ export default async function LessonPage(props: PageProps<"/lessons/[num]">) {
   );
 
   return (
-    <div className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
+    <PageShell width="6xl" className="py-10">
       <details className="mb-6 lg:hidden">
         <summary className="cursor-pointer select-none rounded-lg border px-4 py-2 text-sm font-medium text-muted-foreground">
           课程目录
@@ -47,9 +50,9 @@ export default async function LessonPage(props: PageProps<"/lessons/[num]">) {
 
         <main className="min-w-0">
           <div className="flex items-start justify-between gap-4">
-            <p className="font-mono text-xs uppercase tracking-[0.12em] text-amber-700 dark:text-amber-400">
+            <Kicker>
               Lesson {lesson.num} · {lesson.short}
-            </p>
+            </Kicker>
             <ProgressToggle num={lesson.num} />
           </div>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">{lesson.title}</h1>
@@ -63,31 +66,34 @@ export default async function LessonPage(props: PageProps<"/lessons/[num]">) {
             className="mt-14 flex flex-col gap-3 border-t pt-6 text-sm sm:flex-row sm:justify-between"
           >
             {prev ? (
-              <Link prefetch={false} href={`/lessons/${prev.num}`} className="group text-muted-foreground hover:text-foreground">
+              <AppLink
+                href={lessonHref(prev.num)}
+                className="group text-muted-foreground hover:text-foreground"
+              >
                 <span className="block text-xs">← 上一课</span>
                 <span className="font-medium text-foreground group-hover:underline">
                   {prev.num} · {prev.title}
                 </span>
-              </Link>
+              </AppLink>
             ) : (
               <span />
             )}
             {next ? (
-              <Link
-                href={`/lessons/${next.num}`}
+              <AppLink
+                href={lessonHref(next.num)}
                 className="group text-right text-muted-foreground hover:text-foreground sm:text-right"
               >
                 <span className="block text-xs">下一课 →</span>
                 <span className="font-medium text-foreground group-hover:underline">
                   {next.num} · {next.title}
                 </span>
-              </Link>
+              </AppLink>
             ) : (
               <span />
             )}
           </nav>
         </main>
       </div>
-    </div>
+    </PageShell>
   );
 }

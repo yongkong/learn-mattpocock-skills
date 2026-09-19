@@ -1,4 +1,4 @@
-import type { QuizQuestion } from "@/components/lesson/quiz";
+import type { QuizQuestion } from "@/lib/quiz";
 
 /** 0005 随堂测验(7 题混编,含与 tdd / codebase-design 判定词的交叉;答案位置打散:0×2,1×2,2×2,3×1)。 */
 export const quiz0005: QuizQuestion[] = [

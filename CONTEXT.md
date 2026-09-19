@@ -39,3 +39,7 @@ _Avoid_: 文风指南、语气规范、style guide
 **Progress(学习进度)**:
 学习者对某个 Lesson 的完成判定,只有「未学 / 已学」两态,由学习者手动标记。
 _Avoid_: 完成度、得分、percent
+
+**Quiz(随堂测)**:
+Lesson 正文里内嵌的检索练习:选择题、即时反馈、正确项打散。一套测验一个 TS 模块,存 `content/quiz/`;类型、校验与评分收在 `lib/quiz.ts`,坏数据在构建期被拦下。
+_Avoid_: 练习题、小测、exam
