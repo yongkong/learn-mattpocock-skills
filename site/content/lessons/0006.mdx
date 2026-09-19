@@ -1,0 +1,117 @@
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { quiz0006 } from "@/content/quiz/0006";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    这一章的六个技能不碰代码,服务的是流程两端的「人」:你、你的对话者、下一个接手的 agent。学完的检验:任何一个「人的环节」卡住——想法没型、会话要交、答案在别人手里、消息读不懂——10 秒内说出该用哪个技能,并说出它的核心动作。
+</Callout>
+
+## 为什么需要这一章:流程两端都是人
+
+[0001](/lessons/0001) 的心法说 agent 是没有记忆的工人,主流程用严格的流程补偿它。但还有两处缺口流程补不了:一是**会话有边界**——再顺的对话也会到头,下个 agent 从零开始;二是**你也有盲区**——有些决策的答案不在你脑子里,在唯一掌握它的那个人手里。协作模块的六个技能,保养的就是这两处:补会话边界的记忆,补你一个人的信息缺口。
+
+## 六个协作技能全景
+
+| 技能               | 管什么                     | 触发方式      | 一句话记法             |
+| ------------------ | -------------------------- | ------------- | ---------------------- |
+| `/grill-me`        | 你脑子里的想法,拷问成型   | user-invoked  | grilling 的方向盘      |
+| `/handoff`         | 会话到头,交接给下一个     | user-invoked  | 会话边界补记忆         |
+| `/to-questionnaire` | 答案在别人手里,拉出来    | user-invoked  | 异步的访谈             |
+| `/wait-what`       | 一条消息没读懂             | user-invoked  | 换个方式,重新讲       |
+| `/writing-for-agents` | 为 agent 写文档         | model-invoked | 读者没有记忆,措辞要准 |
+| `/teach`           | 多会话教你一项本事         | user-invoked  | 本课就是它写的         |
+
+触发方式记一条:这一章五个是 user-invoked——它们调的都是**你自己**的动作(敲命令、发问卷、认领消息),模型不会替你发起;唯一的例外是 writing-for-agents,当你正在建 skill 或改 AGENTS.md / CLAUDE.md 时,模型可以自己拉它进场。
+
+## 一、/grill-me:全家最薄的一个
+
+它的 SKILL.md 只有一行:调用 grilling。机制全部在[参考层](/lessons/0002)讲过——一轮轮只问「前提已解决」的问题,把设计树走到每个分支都有答案。grill-me 只是把方向盘交到你手里:user-invoked,拷问的对象是**你脑子里的计划**,不是仓库。和 [grill-with-docs](/lessons/0003) 的分工:想法还没碰代码 → `/grill-me`;对象是仓库和文档、要顺手沉淀 CONTEXT.md 和 ADR → `/grill-with-docs`。<Cite>(来源:本地插件 [productivity/grill-me/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md))</Cite>
+
+## 二、/handoff:会话边界的记忆
+
+一个会话装不下所有工作。走到头,`/handoff` 把当前会话压缩成一份**交接文档**,让一个全新 agent 能接着干。它对「写什么、写在哪」有四条硬规矩:
+
+1. **存进系统临时目录,不落工作区**——它是给下一个 agent 的一次性便签,不是仓库文档。
+2. **不重复正本**:spec、ADR、issue、commit、diff 里已有的内容,引用路径或 URL,不重抄——交接文档只补「本会话独有的状态」,重抄既膨胀又会和正本失同步。
+3. **必带一节 suggested skills**:点名下一个 agent 该调哪些技能——这是[主流程地图](/lessons/0001)在会话边界的延续。
+4. **脱敏**:API key、密码、个人信息,一律清掉再写。
+
+它还带一个参数:「下一个会话要干什么」——把重点告诉它,文档就朝那个方向写。<Cite>(来源:本地插件 [productivity/handoff/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md))</Cite>
+
+<Callout>
+    <strong>呼应 [0001](/lessons/0001) 的心法:</strong>
+    agent 没有记忆,流程是补偿;handoff 补的正是流程图上没有画的那一段——会话与
+    会话之间的断点。上一会话的全部现场,压缩成一份文档,交给一张白纸。
+</Callout>
+
+## 三、/to-questionnaire:把「我一个人答不了」变成问卷
+
+决策卡在唯一掌握答案的那个人手里,而对方没空开会——`/to-questionnaire` 把这个缺口变成一份 Markdown 问卷,发给那个人异步填,或会上一起过。它有一条核心判词:
+
+<strong>Grill the send, not the subject.</strong>(中译:拷问发送,不拷问主题。)主题本身访谈不了你——答案是对方手里的;你能答的只有**发送**:发给谁、要什么回来。所以它只问你两轮,然后动笔:
+
+1. **发给谁?** 对方的角色、专长、与你的关系——定下问卷的语气和要带的上下文量。
+2. **要回什么?** 你无法独自解决、需要对方给出的具体决策或事实清单。
+3. **写问卷。** 问题瞄准「对方知道的 − 你需要的」这个差集,最重要的排最前——异步意味着可能只有一轮机会。
+
+格式上的几条讲究:每题只问一个想法,答案空位直接放在问题下面;可能被误读的题,加一行「why this matters」;结尾放一节兜底的「Anything else?」。<Cite>(来源:本地插件 [productivity/to-questionnaire/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md))</Cite>
+
+<Callout>
+    <strong>grilling 家族谱系,到此凑齐:</strong>
+    同一台发动机([grilling](/lessons/0002)),四种驱动方式——`/grill-me` 拷问你自己的想法;`/grill-with-docs` 拷问仓库并沉淀文档;wayfinder 把它铺到项目尺度([0004](/lessons/0004));`/to-questionnaire` 把它变成发给别人的异步问卷。访谈的对象在换,「一轮只问前提已解决的问题」没变。
+</Callout>
+
+## 四、/wait-what:没读懂,就 re-pitch
+
+它的 SKILL.md 本身就是触发口号:「停,刚才那条消息没落地,重新讲」。收到一条读了三遍还不知道要你干什么的邮件、工单、Slack 消息——不猜,当场敲 `/wait-what`,agent 会补上你缺的上下文,把这条消息换个方式重新讲一遍。两条讲话约束:用 **ASD-STE100 简化技术英语**(一种用受限词汇表消歧义的工程英语规范);用 `CONTEXT.md` 里的**共同词汇**——[domain-modeling](/lessons/0002) 维护的那份语言,在这里接上了:你和对话者共享的词,才是消歧义的底座。<Cite>(来源:本地插件 [productivity/wait-what/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md))</Cite>
+
+## 五、/writing-for-agents:为没有记忆的读者写作
+
+给 agent 写的每一份文档——skill、AGENTS.md / CLAUDE.md、任何靠指针够到的文档——读者都是没有记忆的工人,每次都从零读起。这门手艺的全部杠杆都围绕这一点(这里只立路由级的概念,深入留给你日后要自己写 skill 时再开):
+
+- **Context pointer(上下文指针)**:skill 的 description、AGENTS.md 里指向文档的一行,都是指针。决定 agent 何时去取材料的是**措辞**,不是目标;措辞要写清「材料是什么」加「哪些分支该触发」。
+- **两种负载**:context load 是常驻上下文的花费(每个词每轮都在花);cognitive load 是人的索引成本——你得记得有哪些文档、何时取哪个。
+- **信息阶梯**:文件内步骤 → 文件内参考 → 指针后的披露参考。渐进披露是把材料推下阶梯,让顶层保持可读;只有部分分支需要的材料,才值得推下去。
+- **Leading word(引导词)**:用模型预训练里已有的一个词(如 _red_、_tight_)锚定一整片行为,比一句话定义更省更准。反过来,**否定句是失败模式**——「别想大象」,满脑子都是大象;正面说出目标行为,禁句根本不出口。<Cite>(来源:本地插件 [productivity/writing-for-agents/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md))</Cite>
+
+## 六、/teach:你正在用它
+
+多会话有状态教学:当前目录是教学工作区(学习目标、资源清单、学习记录、课件都存成文件),每次 `/teach` 都先读记录再定教什么。不必展开——你手里这门课,从[全局地图](/lessons/0001)到这一页,就是它的产物。
+
+## 十秒路由:人的环节卡住了进哪个技能
+
+| 情境                                     | 技能                 | 出口                         |
+| ---------------------------------------- | -------------------- | ---------------------------- |
+| 想法在脑子里,要被拷问成型                | `/grill-me`          | 每个分支都有答案             |
+| 会话到头,工作要交给下一个 agent          | `/handoff`           | 临时目录里的一份交接文档     |
+| 决策的答案在唯一一个人手里,对方没空开会  | `/to-questionnaire`  | 一份 Markdown 问卷           |
+| 一条消息读了三遍还没懂                    | `/wait-what`         | 缺的上下文补齐,消息重讲一遍 |
+| 要建 skill 或改 AGENTS.md / CLAUDE.md    | `/writing-for-agents`(或模型自动进场) | 一份对 agent 可预测的文档 |
+| 想系统学会一样东西                        | `/teach`             | 有状态的教学工作区           |
+
+可打印的全景路由表见[全局地图](/reference/skill-flow-map)。至此,25 个技能的五个模块全部走完——那张地图上已经没有你没见过的入口了。
+
+## 练一练:情境路由(混编 grilling 谱系 + 触发方式)
+
+<Quiz questions={quiz0006} />
+
+## 合上页面,回忆一遍
+
+1. handoff 的文档存在哪?里面必带的一节叫什么?
+2. 「Grill the send, not the subject」在说什么?
+3. 协作模块里唯一的 model-invoked 是谁?它什么时候会被模型主动触发?
+4. 一个 context pointer,靠什么决定 agent 何时取材料?
+5. wait-what 重新讲一条消息时,要用哪份文件里的词汇?
+
+隔天不看答案再自问一遍,第 3、7 天各再轮一次——检索本身才长记忆。
+
+## 首读材料
+
+本课最值得通读的原文:<strong>[Skills changelog v1.2](https://www.aihero.dev/skills/skills-changelog-v12-wait-what-writing-for-agents-claude-code-plugin-and-more)</strong>——作者亲述 /wait-what 与 /writing-for-agents 的设计动机,正是本课两个最新的技能。其余五个 SKILL.md 都很短,值得顺手全部过一遍;想深入写 skill 的手艺,再啃 [productivity/writing-for-agents/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md) 全文。
+
+<Callout>
+    <strong>卡住了怎么办。</strong>
+    「grill-me 和 grill-with-docs 到底差在哪」「handoff 和 spec 为什么不合并」这类困惑,先查[词典](/dictionary)与[全局地图](/reference/skill-flow-map),
+    然后带进你自己的实战里验证;是课件讲得不清楚的,到[仓库 issue 区](https://github.com/yongkong/learn-mattpocock-skills/issues)提出来。
+</Callout>

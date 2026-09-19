@@ -56,6 +56,13 @@ export const LESSONS: LessonEntry[] = [
     lede: "主流程默认进料是干净的:spec 有共识、工单说得清、代码改得动。Upkeep 模块的五个技能不服务于某个特性,它们保养的是这两样东西本身——工单池不堆烂票,代码库不积烂账:/triage、/diagnosing-bugs、/resolving-merge-conflicts、/improve-codebase-architecture、/wizard。",
     module: "Upkeep",
   },
+  {
+    num: "0006",
+    short: "协作模块",
+    title: "人的工作流:流程两端的六个协作技能",
+    lede: "代码之外,流程两端各有一个会缺信息的人:你,和下一个接手的 agent。协作模块的六个技能服务的都是「人」这一端:/grill-me、/handoff、/to-questionnaire、/wait-what、/writing-for-agents、/teach——补上会话边界的记忆,补上你一个人的信息盲区。",
+    module: "协作",
+  },
 ];
 
 /** 不入章的顶级类目(Reference 与 Dictionary)。 */
