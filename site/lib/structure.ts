@@ -49,6 +49,13 @@ export const LESSONS: LessonEntry[] = [
     lede: "主流程有一个隐含前提:路已经看清了。当路还没看清——想法大到一次会话装不下、一个设计问题在纸面上推不动、决策卡在仓库外的一个事实上——硬走主流程只会把模糊带进 spec。Shaping 模块的三个技能就是为这时准备的绕行道:/wayfinder、/prototype、/research。",
     module: "Shaping",
   },
+  {
+    num: "0005",
+    short: "Upkeep 模块",
+    title: "保持健康:不让仓库腐烂的五个保养技能",
+    lede: "主流程默认进料是干净的:spec 有共识、工单说得清、代码改得动。Upkeep 模块的五个技能不服务于某个特性,它们保养的是这两样东西本身——工单池不堆烂票,代码库不积烂账:/triage、/diagnosing-bugs、/resolving-merge-conflicts、/improve-codebase-architecture、/wizard。",
+    module: "Upkeep",
+  },
 ];
 
 /** 不入章的顶级类目(Reference 与 Dictionary)。 */
