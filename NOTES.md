@@ -20,6 +20,7 @@
 - 进度:**Vercel 排障 token 已撤销(2026-09-19,用户亲手删除)**——9/18-19 排障时发的个人 API token 生命周期闭环;站点部署走 GitHub 集成,不受影响。一次性 wizard 向导(`.scratch/wizards/revoke-vercel-token.sh`,4 阶段:定位→核对→y/N 门删除→验证)已完成使命并删除,即 wizard 首跑闭环。若曾把 token 粘进过别的本地文件,记得顺手清那一行。
 - 进度:**0006 · 协作模块已交付,五章全部开齐**(2026-09-19,site 0006 课页):grill-me(一行调 grilling;与 grill-with-docs 按对象分工)、handoff(临时目录/不重复正本只留链接/suggested skills/脱敏/传参定制)、to-questionnaire(grill the send, not the subject;差集提问,最重要优先)、wait-what(ASD-STE100 + CONTEXT.md 词汇 re-pitch)、writing-for-agents(路由级:指针措辞决定触发/两种负载/信息阶梯/leading word/否定反模式;深入自写 skill 留后,MISSION out-of-scope)、teach(一句点破)。**结构卖点:grilling 家族谱系凑齐**(grill-me/grill-with-docs/wayfinder/to-questionnaire 四种驱动同一发动机)。交付中站点检查逮到语域违禁词「使命」一处,已改。push 曾因 GitHub 断连积压,见下条。
 - 进度:**0009 学习记录已写(0006 测验 5/7,成绩由页面直采)**:Q4(to-questionnaire 判词:旧 grilling 模式压过「拷问发送不拷问主题」)+ Q7(指针靠措辞触发)。**模式归档扩展:0008 的「纪律性禁区型」升级为「旧直觉压过新规则」型**(禁令诱惑 + 迁移干扰两小类),此类变式要显式对照新旧两条规则。09-20 双课首测(0005 全套+变式、0006 全套+四道变式,约 18 题);09-21 / 09-25 不变,0006 加 09-22 轻量轮。25 技能五章已全部开课,后续进入「重测+实战」循环。
+- 进度:**09-20 双课首测完成(16/20,聊天施测 4 批,记录 0010)**:昨日两处逐字错点(0005 Q4 红回路、0006 Q13 拷问发送)当场全修,干扰项原样在场未吸走;变式仅 3/6——「套话层修复快、迁移层慢」入档。**新弱簇:context pointer 触发判据**(两日两错维度:位置→目标;V5 候选无「磨措辞」;Q20 两件事反而答对 = 碎片在手、连线未通),已当场重讲「地址 vs 触发器 + 修理阶梯」;差集算术(口号在、减法无)与偶发 bug「红降级为复现率」同步补讲。09-21 / 09-25 不变;09-22 轻量轮扩容:措辞簇三连变式 + 差集减法重测 + 复现率变式。
 - 维护提醒:~~未来新增课件 0004+ 时,把条目加进 index.html 的 ITEMS 数组~~ **已作废(#24 旧站退役)**:新增课件 = 在 site/lib/structure.ts 加一条 + site/content/lessons/ 建 MDX + content/quiz/ 建测验数据 + bodies.ts 注册,然后跑 site-check;上线检查单见 docs/launch-checklist.md。
 
 
