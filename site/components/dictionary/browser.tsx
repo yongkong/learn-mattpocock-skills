@@ -105,7 +105,8 @@ export function DictionaryBrowser({ sections }: { sections: DictionarySection[] 
       })()}
 
       <Dialog open={current !== null} onOpenChange={(open) => !open && setCurrent(null)}>
-        <DialogContent className="flex h-[92vh] max-h-[92vh] max-w-5xl flex-col gap-0 p-0">
+        {/* sm: 前缀必须与基类 sm:max-w-sm 同组才能被 tw-merge 去重,否则宽度被钳回 24rem */}
+        <DialogContent className="flex h-[92vh] max-h-[92vh] w-[calc(100%-2rem)] sm:max-w-5xl flex-col gap-0 p-0">
           <div className="flex items-baseline gap-2 border-b px-6 py-4">
             <DialogTitle className="text-lg font-semibold">{cur?.term}</DialogTitle>
             <span className="text-sm text-muted-foreground">{cur?.zh}</span>
