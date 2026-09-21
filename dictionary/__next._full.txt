@@ -1,0 +1,517 @@
+1:"$Sreact.fragment"
+2:I[22016,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js"],""]
+3:I[39756,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js"],"default"]
+4:I[37457,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js"],"default"]
+9:I[68027,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js"],"default",1]
+:HL["/learn-mattpocock-skills/_next/static/chunks/0_o-0itn1qdpd.css","style"]
+7:X
+0:{"P":null,"c":["","dictionary",""],"q":"","i":false,"f":[[["",{"children":["dictionary",{"children":["__PAGE__",{},"$undefined","$undefined",4608]},"$undefined","$undefined",4608]},"$undefined","$undefined",4624],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/learn-mattpocock-skills/_next/static/chunks/0_o-0itn1qdpd.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"zh-CN","className":"h-full antialiased","children":["$","body",null,{"className":"flex min-h-full flex-col","children":[["$","header",null,{"className":"border-b print:hidden","children":["$","div",null,{"className":"mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-6 py-3","children":[["$","$L2",null,{"prefetch":false,"href":"/","className":"flex items-center gap-2 font-semibold tracking-tight","children":["Agent Skills 中文课",["$","span",null,{"data-slot":"badge","data-variant":"outline","className":"group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border px-2 py-0.5 text-xs whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3! border-border [a]:hover:bg-muted [a]:hover:text-muted-foreground font-normal text-muted-foreground","children":"非官方"}]]}],["$","nav",null,{"aria-label":"站点导航","className":"ml-auto flex flex-wrap items-center gap-x-5 gap-y-1 text-sm","children":[["$","$L2","/",{"prefetch":false,"href":"/","className":"text-muted-foreground transition-colors hover:text-foreground","children":"课程"}],["$","$L2","/reference",{"prefetch":false,"href":"/reference","className":"text-muted-foreground transition-colors hover:text-foreground","children":"速查·Reference"}],["$","$L2","/dictionary",{"prefetch":false,"href":"/dictionary","className":"text-muted-foreground transition-colors hover:text-foreground","children":"词典·Dictionary"}],["$","$L2","/about",{"prefetch":false,"href":"/about","className":"text-muted-foreground transition-colors hover:text-foreground","children":"关于"}]]}]]}]}],["$","div",null,{"className":"flex flex-1 flex-col","children":["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","main",null,{"className":"mx-auto w-full max-w-3xl flex-1 px-6 flex flex-col items-center justify-center gap-4 py-24 text-center","children":[["$","p",null,{"className":"font-mono text-5xl font-bold tracking-tight","children":"404"}],["$","h1",null,{"className":"text-xl font-semibold","children":"页面不存在"}],["$","p",null,{"className":"text-muted-foreground","children":"地址可能输错了,或页面已经移动。"}],["$","$L2",null,{"prefetch":false,"href":"/","className":"rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90","children":"回首页"}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","footer",null,{"className":"border-t print:hidden","children":["$","div",null,{"className":"mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 px-6 py-6 text-sm text-muted-foreground","children":[["$","span",null,{"children":"内容以 CC BY-SA 4.0 提供"}],["$","$L2",null,{"prefetch":false,"href":"/about","className":"underline underline-offset-4 hover:text-foreground","children":"关于 / 致谢"}],["$","span",null,{"aria-hidden":true,"children":"·"}],["$","a",null,{"href":"https://github.com/mattpocock/skills","target":"_blank","rel":"noopener noreferrer","className":"underline underline-offset-4 hover:text-foreground","children":"mattpocock/skills"}],["$","a",null,{"href":"https://www.aihero.dev/skills","target":"_blank","rel":"noopener noreferrer","className":"underline underline-offset-4 hover:text-foreground","children":"aihero.dev/skills"}],["$","span",null,{"className":"ml-auto","children":"课程持续更新中"}]]}]}]]}]}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":"$L5","templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["$L6",{},null,false,null]},null,false,"$7"]},null,false,null],"$L8",false]],"m":"$undefined","G":["$9",["$La"]],"S":true,"h":null,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"Co4sGEzjS0ef3_wpzLRVD"}
+b:I[42166,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js","/learn-mattpocock-skills/_next/static/chunks/0ustk_2vneetp.js"],"DictionaryBrowser"]
+47:I[97367,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js"],"ViewportBoundary"]
+49:I[97367,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js"],"MetadataBoundary"]
+4a:"$Sreact.suspense"
+5:["$","$L4",null,{}]
+c:T9e4,<h1>AI · 人工智能</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AI.md">原文 ↗</a></p>
+<p>一个移动的标签,不是一项技术。「AI」不像 <em>model</em> 或 <em>token</em> 那样指称某个固定的东西——它指向计算机「新近能做到的、令人惊叹的事」。此刻它指向大语言模型;此前指向的东西则完全不同:1950 年代的定理证明器与跳棋程序;1960–70 年代的 ELIZA、SHRDLU;1980 年代靠成千上万条手写 if-then 规则编码人类知识的专家系统;1990 年代的博弈树搜索——1997 年击败卡斯帕罗夫的深蓝(研究者当时反而避用「AI」一词);2000 年代的统计机器学习——垃圾邮件过滤器、推荐系统,仍然以「机器学习」而非「AI」的名义出售;2010 年代的深度学习——图像识别(AlexNet,2012)、AlphaGo(2016);2020 年代的大语言模型——ChatGPT(2022)让「AI」成了聊天机器人的代名词。</p>
+<p>指针的移动有已知机制,常被称为 AI effect(「AI 效应」):一项技术一旦可靠奏效,就被改名——「不过是搜索」「不过是统计」——「AI」随即滑向下一个未解之物。这个观察由来已久:Bertram Raphael 在 1971 年写道,「AI 是一群我们还不知道如何用计算机妥善解决的问题的统称」;Larry Tesler 约 1979 年的说法是,「智能就是机器还没做到的事」。这正是关于 AI 的讨论总在鸡同鸭讲的原因:「AI 不会推理」「AI 被高估」这类断言自带隐藏的时间戳——说的可能是专家系统、2010 年代的图像分类器,也可能是上个月的 LLM,而每个所指支持的是不同结论。讨论陷入僵局时,解法通常是把这个词换成实际所指的精确术语:<em>model</em>、<em>harness</em>、<em>agent</em>、它被给到的 <em>context</em>。避免在任何技术性断言里使用「AI」——说出你指的那个部件。「AI coding」作为对这项实践的总称没问题;「the AI 在幻觉」不行。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;The CTO wants to know whether AI could handle the triage queue.&quot;<br>「CTO 想知道 AI 能不能接手分诊队列。」</p>
+<p>&quot;Translate that before scoping it — she means an LLM in a harness with access to the ticket system. &#39;AI&#39; on its own isn&#39;t a spec.&quot;<br>「先翻译再评估范围——她指的是一个能访问工单系统、装在 harness 里的 LLM。光说『AI』算不上一份 spec。」</p>
+d:T6c5,<h1>Model · 模型</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Model.md">原文 ↗</a></p>
+<p><em>Parameters</em> 本身——<em>stateless</em>,只做 <em>next-token prediction</em>,别的什么都不做。「Claude Opus 4.x」「GPT-5.x」都是 model。模型自己做不了任何 agentic 的事:读文件、跑命令、上网、记住昨天,统统不会——它收进 <em>token</em>、预测出 token,每次 <em>model provider request</em> 做一轮。一切「像 agent 在干活」的体验——挑选 <em>tool</em>、读取结果、循环到任务完成——都是 <em>harness</em> 把一连串这样的预测编排起来的结果。</p>
+<p><em>Model provider</em> 按档位出货:最大档最聪明但慢且贵,小档更快更便宜但能力弱。选档是真实的决策——规划与疑难调试用重量级,机械修改用轻量级——harness 也允许在 <em>session</em> 中途换档。对这个词保持较真还能锐化诊断:「这个模型不行」是个具体断言——同一个模型换一个 harness、或换一份 <em>context</em>,行为常常完全不同。怪罪模型之前,先看它被给了什么:多数令人失望的输出,根源在 context 或 harness,不在参数。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Should we switch the model from Sonnet to Opus for the planning step?&quot;<br>「规划那一步,要不要把模型从 Sonnet 换成 Opus?」</p>
+<p>&quot;Try it — but the harness is doing most of the lifting on this task. The model swap won&#39;t help if the system prompt and tools are wrong.&quot;<br>「可以试——但这个任务里干重活的是 harness。system prompt 和工具要是不对,换模型也没用。」</p>
+e:T751,<h1>Parameters · 参数</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Parameters.md">原文 ↗</a></p>
+<p><em>Model</em> 内部的数字——常有数十亿个——在 <em>training</em> 期间调定。模型「知道」的一切都存于其中。训练写定它们,<em>inference</em> 原样使用,又称 weights(权重)。机制上,参数就是把输入变成输出的东西:<em>next-token prediction</em> 是一场巨型计算——<em>context window</em> 里的 token 进来,经参数层层相乘,输出对下一个 token 的预测。模型内部没有事实数据库,也没有可供查询的代码表——只有这些数字,它们的排布方式恰好让计算倾向于产出有用的结果。模型能背诵的训练期事实(比如某个标准库 API)是 <em>parametric knowledge</em>:存在参数里,而不是从哪里检索来的。</p>
+<p>值得内化的细节是:参数在训练后冻结。<em>session</em> 里你做的任何事都改不动它——你的纠正、你给它看的代码库、它从错误里「学到」的东西,全都一样;每个 session 跑的都是同一组数字。这正是模型 stateless 的原因、内置知识止步于 <em>knowledge cutoff</em> 的原因、也是一切项目相关信息必须经由 <em>context</em> 进入的原因。参数唯一的改变方式是再训练——而那产出的实际上是另一个模型。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Can we fine-tune it on our codebase?&quot;<br>「能用我们的代码库微调它吗?」</p>
+<p>&quot;That&#39;d update the parameters — different model afterwards. For one project it&#39;s almost always cheaper to load the codebase as context than to retrain.&quot;<br>「那会改写参数——之后就是另一个模型了。为单个项目,把代码库当 context 加载几乎总是比重训便宜。」</p>
+f:T686,<h1>Training · 训练</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Training.md">原文 ↗</a></p>
+<p>给 <em>model</em> 写定 <em>parameters</em> 的过程:让它读海量文本,不断调整参数,把 <em>next-token prediction</em> 做得更好。一次性、昂贵的工序,由 <em>model provider</em> 完成。它涵盖 pre-training(主体工程)与 post-training(其后的精修,如指令遵循与安全);在本词典的层面上不必细分。</p>
+<p>机制是大规模的重复:给模型看一段文本,让它预测下一个 <em>token</em>,把参数朝实际下一个 token 的方向轻推,在数万亿 token 上重复。没有任何东西以事实或规则的形式被存下来——模型「知道」的一切,都是预测能力变强的副产品,以 <em>parametric knowledge</em> 的形式压缩进参数。两个日常后果:训练止于某个时间点,所以模型有 <em>knowledge cutoff</em>——它没见过你上个月才升级的库版本;训练也不是你能做的事——模型不了解你的代码库、约定或内部 API 时,解法从来不是「教会模型」,而是把材料放进 <em>context</em>——你唯一能控制的输入。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Can we get it to know our internal API?&quot;<br>「能让它懂我们的内部 API 吗?」</p>
+<p>&quot;Not via training — that&#39;s a months-long process by the model provider. Load the API docs into context instead, that&#39;s the lever you actually have.&quot;<br>「靠训练做不到——那是 model provider 为期数月的工程。把 API 文档加载进 context,那才是你真正有的杠杆。」</p>
+10:T800,<h1>Inference · 推理</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Inference.md">原文 ↗</a></p>
+<p>运行训练好的 <em>model</em> 以生成输出——每次 <em>model provider request</em> 发生的事。<em>parameters</em> 保持冻结,模型只是对给到的 <em>context</em> 做 <em>next-token prediction</em>。相对 <em>training</em> 便宜,但按 <em>token</em> 计费,是用模型的支配性成本。模型的一生因此分成两段:training——发布前一次,从训练语料产出参数,参数处于「被写入」状态;inference——每次有人用模型,让冻结的参数跑过你的 context 生成 token,参数只读。</p>
+<p>推理阶段你做的任何事都不会写回参数——这就是你今天纠正过、明天照样犯的机制根源:你仔细解释过修法之后,下个 <em>session</em> 它再犯同样的错,不是无视你,而是这场交换在结构上就学不进去。模型 <em>stateless</em>,连续性必须来自外部——<em>context window</em> 或 <em>memory system</em>。这个机制同时解释了账单:每次请求都是模型跑过整个 context,成本随 <em>input tokens</em> 与 <em>output tokens</em> 增长,agent 打几十个 <em>tool call</em> 就是每轮往返各付一次推理钱。所以 context 的大小不只是质量问题,也是成本问题。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Why does the bill scale with usage instead of being a flat license?&quot;<br>「为什么账单随用量涨,而不是一笔固定的授权费?」</p>
+<p>&quot;You&#39;re paying for inference — every model provider request runs the model on the provider&#39;s hardware. Training already happened, but inference costs accrue per request, and a single turn can expand into many requests when tools are called.&quot;<br>「你付的是推理钱——每次 model provider request 都在供应商硬件上跑一遍模型。训练已经发生过了,推理则按请求累加;调了工具,一个 turn 就会膨胀成很多次请求。」</p>
+11:T751,<h1>Effort · 思考力度</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Effort.md">原文 ↗</a></p>
+<p>回答之前,模型做多少推理的旋钮。按每次 <em>model provider request</em> 设置,控制模型在开始写你能看到的那段回答之前、所经历思考的长度。那段思考和其他一切一样,是 <em>inference</em> 时生成的;<em>harness</em> 常把它藏起来,但它是模型真实在做的工作。</p>
+<p>力度越高越贵越慢:推理以 <em>token</em> 形式发出,即使你从没看见也按 <em>output tokens</em> 计费,而且一次一个地产出——调高强度拉长答案到达前的等待,也加码账单;这笔交易是用斟酌换时间与钱。多数 harness 把力度做成一小档阶梯:Low 给机械修改、查询、只有一条清晰路径的明确变更;Medium 是日常编码的通常默认;High 给疑难 bug、设计决策、多步规划;Max 给最难的问题——答错的代价高到难以回退的那种。弄错的症状双向都成立:难题上力度太低,得到的是自信而肤浅的答案——它跳过了问题需要的推理,读起来顺,错起来后患无穷;给一行重命名开 Max,你陪它长考一场,产出的东西最低档也一样能给。按任务匹配力度,而不是按 <em>session</em>:真正难推理的部分调高,周边的体力活调低。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It keeps botching this concurrency fix — I&#39;ve re-explained it three times.&quot;<br>「这个并发修复它老是搞砸——我都重新解释三遍了。」</p>
+<p>&quot;Bump the effort up. That&#39;s a reasoning-heavy bug, and on the default setting it&#39;s not thinking long enough before it commits to an approach.&quot;<br>「把力度调上去。这是个重推理的 bug,默认档位下它没想透就急着选定路子。」</p>
+12:T823,<h1>Token · 词元</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Token.md">原文 ↗</a></p>
+<p><em>Model</em> 读写的原子单位。约莫词的大小,但不等于词:常见词是一个 token,生僻或长的词拆成多个。<em>Context window</em> 大小、费用、延迟,全都以 token 计数。文本经 tokenizer(分词器)变成 token:一部在 <em>training</em> 之前学好的、几万条目的固定词表,把任何输入切成词表条目的序列。模型从没见过字符或词——每段文本进来时都先转成 token,输出侧的 <em>next-token prediction</em> 也是一次产出一个 token。</p>
+<p>经验法则:一个 token 约合四分之三个英文单词,一千 token 约合 750 词。代码更不可预测:常见关键字与惯用法编码紧凑,而生成的标识符、哈希、base64 串、压缩产物每个「词」要拆成很多 token。规律是:在 tokenizer 的素材里出现频繁的文本,得到短而高效的编码;没出现过的被剁成碎片——<code>a3f9c2e1</code> 这样的哈希哪里都没出现过,于是碎成许多 token,而 <code>function</code> 就是一个。这就是为什么一个看着不大的文件,只要满是怪字符串,就可能占掉 context window 里惊人的一块。Token 还是一切度量的单位:费用按 token——<em>input tokens</em> 与 <em>output tokens</em> 分开计价;速度按每秒 token——输出一次一个地生成;窗口是固定数量的 token——你文件的 token 数决定装得下多少。避免说「词」:token 边界与词边界不重合,而 tokens-per-second、tokens-per-dollar 才是真正有用的单位。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;How big is this prompt going to be?&quot;<br>「这个提示词会有多大?」</p>
+<p>&quot;Run it through the tokenizer — the schema&#39;s compact but the JSON keys are weird, so they&#39;ll split into more tokens than you think.&quot;<br>「拿 tokenizer 跑一下——schema 很紧凑,但 JSON 的键名很怪,拆出来的 token 会比你以为的多。」</p>
+13:T6fe,<h1>Next-token prediction · 下一词元预测</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Next-token%20prediction.md">原文 ↗</a></p>
+<p><em>Model</em> 真正在做的事。给定 <em>context</em>,采样出下一个 <em>token</em>,接上去,再跑一遍。每一段输出——一句话、一次 <em>tool call</em>、一千行的文件——都是一个 token 一个 token 攒出来的。模型没有别的运行模式。每一步都一样:<em>context window</em> 里的 token 经过 <em>parameters</em>,为词表里的每个 token 产出一个概率——这个很可能接续,那个次之;从这组概率里采样出一个,接到后面,带着稍长的 context 再进入下一轮。</p>
+<p>采样这一步,就是同一个提示词两次运行产出不同结果的原因:<em>non-determinism</em> 内建在机制里,不是叠在之上的 bug。握住这个机制,许多原本诡异的行为就说得通了:模型发出一个 token 之前从不检查它是否为真,只看它是否「像」——这是 <em>hallucination</em> 的根源;它边走边承诺,一句听起来自信的开场白就能把后面的答案带偏;而 <em>output tokens</em> 严格一次一个地产出,生成速度就为任何 <em>agent</em> 的干活速度设了下限。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;How does the agent &#39;decide&#39; to call a tool?&quot;<br>「agent 是怎么『决定』调用工具的?」</p>
+<p>&quot;It doesn&#39;t — it&#39;s next-token prediction all the way down. The tool call is just a structured string the harness parses out of the output stream.&quot;<br>「它没有决定——从头到尾都是 next-token prediction。tool call 只不过是 harness 从输出流里解析出来的一截结构化字符串。」</p>
+14:T903,<h1>Non-determinism · 非确定性</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Non-determinism.md">原文 ↗</a></p>
+<p>同样的输入,可以产出不同的输出。同一个 <em>context</em> 跑两遍 <em>model</em>,可能得到两个不同的答案——差一个词,或者整条路子都不一样;你的代码什么都不用改,这事就会发生。它是模型生成文本的方式与 <em>model provider</em> 服务请求的方式共有的属性:<em>inference</em> 时模型产出的是下一个 <em>token</em> 的概率分布,从中采样一个——通常刻意带点随机,因为永远选最高概率会产出重复、低质的文本。响应早期一个采样不同的 token,会改变它之后的每一个 token——一个词的不同就这样滚成整条路子的不同。供应商侧再加一层:请求在共享硬件上批量执行,批与批之间微小的浮点差异,足以在两个 token 之间翻掉一个五五开的抉择。没有任何设置能把这一切关掉。</p>
+<p>要预期 <em>agent</em> 在同一任务上的结果是一组散布:多数响应落在一条还行的质量钟形曲线上——这正是非确定性尚可容忍的原因——但尾巴是真实的:有些日子模型锋利,有些日子它像丢了魂。同样的任务,不同的骰子。两个实践后果:重试是正当策略——一次失败只是分布中的一次抽样,同一任务再试一次,可能落点就是更好;以及验证比在确定性工具面前更重要——你不能测一次 agent 的行为就指望它复现,得靠 <em>automated check</em> 把坏抽样接住。也别过度叙事化:人是模式匹配的机器,一连串不顺容易让人相信「模型这周变差了」——通常那只是分布本身。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Claude has been awful today. Did they ship a worse version?&quot;<br>「Claude 今天烂透了。是他们上线了变差的版本吗?」</p>
+<p>&quot;Probably not — model output is non-deterministic. You&#39;re going to have good days and bad days on the same task. Try again tomorrow before you go looking for a cause.&quot;<br>「多半不是——模型输出是非确定性的。同一个任务就是有好日子和坏日子。明天再试一次,再去找原因也不迟。」</p>
+15:T6f2,<h1>Model provider · 模型供应商</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Model%20provider.md">原文 ↗</a></p>
+<p>为 <em>inference</em> 供给 <em>model</em> 的一方。通常是远程服务(Anthropic、OpenAI、Google),也可以是本地——Ollama、LM Studio、llama.cpp 跑在你自己的机器上。<em>Harness</em> 自己不跑模型;它向 provider 请求。</p>
+<p>机器在 provider 手里:<em>parameters</em> 存放在它的硬件上,每次 <em>model provider request</em> 都是 harness 把 <em>token</em> 送过网络、换回预测。这使 provider 成为一整类常被错怪到模型或 harness 头上的问题的源头——限速、容量降级、停机都住在这里;<em>agent</em> 在 <em>session</em> 中途卡住、或每个 <em>turn</em> 都报错时,provider 的状态页值得第一个看。商业条款也是它定的:<em>input</em>/<em>output tokens</em> 的单价、<em>prefix cache</em> 的折扣、以及到底有哪些模型可用。注意 provider 和模型的缔造者可以是两家公司——Bedrock、Vertex、OpenRouter 服务的都是别人家的模型。本地 provider 用能力换控制:装得进你自己硬件的模型远小于前沿模型,但什么都不会离开这台机器,也没有按 token 计的账单。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Can we run this offline for the air-gapped client?&quot;<br>「物理隔离的那个客户,我们能离线跑吗?」</p>
+<p>&quot;Swap the model provider to a local one — Ollama or llama.cpp on their box. The harness doesn&#39;t care, it just hits a different endpoint.&quot;<br>「把 model provider 换成本地的——他们机器上的 Ollama 或 llama.cpp。harness 不在乎,无非是换个端点。」</p>
+16:T788,<h1>Harness · 挽具</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Harness.md">原文 ↗</a></p>
+<p><em>Model</em> 周围、把模型变成 <em>agent</em> 的一切:<em>tool</em>、<em>system prompt</em>、<em>context window</em> 管理、权限、hooks。Claude.ai 与 Claude Code 跑的是同一个模型,行为却不同,因为 harness 不同。模型自己只会一件事:文本进,文本出——读文件、跑命令、记住上一个 <em>turn</em>,它都不会。这些全由 harness 供给:为每次 <em>model provider request</em> 组装 <em>context</em>,执行模型要求的 <em>tool call</em>,把 <em>tool result</em> 喂回去,保存 <em>session</em> 历史,在危险动作前向你请求许可,决定何时 <em>compact</em>。「模型提议,harness 执行,循环往复」的 agent 循环,就是 harness 在跑。</p>
+<p>这对诊断要紧:两个产品之间、或昨天与今天之间行为不同,变量常常不在模型,而在 harness——system prompt 换了、工具集换了、权限默认值改了、context 管理策略换了,模型一个字没动,行为全变。这也意味着你的大部分配置都住在 harness 里:<em>AGENTS.md</em>、权限设置、hooks 全是写给 harness 的指令,不是写给模型的。例子:Claude Code、Cursor、Codex CLI——以及 Claude.ai,那是聊天 harness,不是编码 harness。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Same model, why is Claude Code editing files and Claude.ai just answering questions?&quot;<br>「同一个模型,为什么 Claude Code 在改文件,Claude.ai 只会回答问题?」</p>
+<p>&quot;Different harnesses — Claude Code has filesystem tools, a different system prompt, and a permission layer. The model isn&#39;t the variable here.&quot;<br>「harness 不同——Claude Code 有 filesystem 工具、另一套 system prompt 和一层权限。这里的变量不是模型。」</p>
+17:T7a1,<h1>Model provider request · 模型供应商请求</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Model%20provider%20request.md">原文 ↗</a></p>
+<p><em>Harness</em> 到 <em>model provider</em> 的一次往返:harness 发去当前 <em>context</em>,provider 回来一个响应——一次 <em>tool call</em>,或最终答案。一条用户消息,只要 <em>agent</em> 调了 <em>tool</em>,就会裂变出许多次请求:每个 <em>tool result</em> 都触发下一次请求。</p>
+<p>每次请求都全量携带:system prompt、迄今全部对话、每一个 tool result。<em>Model</em> <em>stateless</em>,provider 在两次请求之间什么都不保留——第 40 个请求重发第 39 个发过的一切,外加一条新的 tool result;<em>prefix cache</em> 的存在就是为了给这种重复打折。请求同时是计费单位:<em>input tokens</em>、<em>output tokens</em>、缓存折扣全按请求结算——所以一个看着无害的问题可能贵得惊人:成本不正比于你的消息,而正比于「请求数 × 每次携带的 context 大小」。请求也要与 <em>turn</em> 分清:turn 是与你的一次交互,而「修好这个失败的测试」这样一个 turn,会展开成一条请求链——跑测试、读测试文件、读源文件、改源码、再跑测试、最终答案——六次请求,每次都重发整个 context。纳闷 token 去哪了的时候,数请求,别数 turn。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;One question burned forty thousand tokens?&quot;<br>「一个问题烧掉了四万 token?」</p>
+<p>&quot;Look at the tool calls — twelve grep, eight read, four edits. Each tool result spawns another model provider request, and the whole session prefix re-sends every time.&quot;<br>「看 tool call——十二次 grep、八次 read、四次 edit。每个 tool result 都催生一次新请求,而整个 session 前缀每次都原样重发。」</p>
+18:T60e,<h1>Input tokens · 输入词元</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Input%20tokens.md">原文 ↗</a></p>
+<p>每次 <em>model provider request</em> 里 <em>harness</em> 发出去的 <em>token</em>——system prompt、对话历史、<em>tool result</em>,<em>model</em> 动笔之前读到的一切。计费单价低于 <em>output tokens</em>:处理输入比生成输出便宜。</p>
+<p>做 AI 编码时,账单的大头是 input tokens:<em>model</em> <em>stateless</em>,每个 <em>turn</em> 都把整个 <em>session</em> 当输入重发一遍——你的第一条消息、每一条响应、其后每个 tool result;第 50 个 turn 的输入里,装着前 49 个 turn。单次请求可能只产出几百个 output tokens,却重发着十万 input tokens 的累积历史。<em>prefix cache</em> 能压这个成本:与之前请求完全一致的历史,按便宜的 <em>cache tokens</em> 结算而非全价输入。输入成本仍然咬手时,解法是缩小重发的东西——任务之间 <em>clearing</em> 或 <em>compacting</em>。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Bill&#39;s high but the agent&#39;s barely writing anything.&quot;<br>「账单很高,可 agent 几乎没写什么呀。」</p>
+<p>&quot;It&#39;s the input tokens — every turn re-sends the whole session. Without the prefix cache you re-pay for the history each request.&quot;<br>「是 input tokens——每个 turn 都重发整个 session。没有 prefix cache 的话,历史每请求都要重新付一遍钱。」</p>
+19:T6e7,<h1>Prefix cache · 前缀缓存</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Prefix%20cache.md">原文 ↗</a></p>
+<p><em>Model provider</em> 侧的一处存储,让连续的 <em>model provider request</em> 免于重复处理共享前缀。当一次请求的开头与最近某次请求的开头一致——同样的 <em>system prompt</em>、同样截至某处的对话史——provider 复用先前的处理成果,把这些 <em>token</em> 按便宜得多的 <em>cache tokens</em> 计费。</p>
+<p>缓存划算的根源是 <em>session</em> 只增不改:每次请求把全部历史当 <em>input tokens</em> 重发,而正常 session 里历史只在尾部变化——每次请求都是上一次加上几条新消息。provider 把长长的共享开头只处理一次,存起来,从上一次前缀结束的地方接着算;没有缓存,一个 50 <em>turn</em> 的 session 要把第 1 个 turn 重付五十次。缓存也会过期:条目保温多久因 provider 而异,通常是分钟级而非小时级——闲置超过窗口,下一个请求先全价重建一次前缀,缓存才恢复。这主要是 harness 作者的操心;作为用户,可见的效果是长久暂停之后的请求,比之前的贵。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Why did the bill spike halfway through the session?&quot;<br>「为什么账单在 session 中途突然跳高?」</p>
+<p>&quot;Harness started injecting the current time into the system prompt every turn. Prefix cache breaks at the first changed token, so every request after that billed at full rate.&quot;<br>「harness 开始每个 turn 往 system prompt 里注入当前时间。前缀缓存在第一个变化的 token 处就断了,之后每个请求都按全价结算。」</p>
+1a:T8b2,<h1>Cache tokens · 缓存词元</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Cache%20tokens.md">原文 ↗</a></p>
+<p><em>Model provider</em> 已经从上一次 <em>model provider request</em> 缓存下来的 <em>input tokens</em>,不必重新处理。连续请求共享前缀时,provider 经 <em>prefix cache</em> 复用成果,把缓存住的部分按远低于全价的费率结算——这是让长 <em>session</em> 付得起的那根杠杆,没有它,每个 <em>turn</em> 都要为整段历史重新付费。</p>
+<p>之所以要紧,在于 session 的计费方式:<em>model</em> <em>stateless</em>,每次请求把整场对话——system prompt、每条消息、每个 <em>tool result</em>——当 input tokens 重发;到第 50 个 turn,每个请求背着五十个 turn 的历史,而且本来要每次都按全价付。缓存改写了这笔账:provider 在完全一致的前缀里处理过的 token,按 cache tokens 结算,常常只有输入价的十分之一或更低;长 session 里,你发出的大多数内容都是 cache tokens,账单才保持体面。举例:请求发 AB,无缓存,AB 全价;发 ABC,AB 命中缓存,C 全价;发 ABCD,ABC 命中,D 全价;发 AXCD——B 被改成了 X——只有 A 命中,XCD 全价。缓存的脆弱点很具体:它匹配的是严格前缀,对话前部任何变动——<em>harness</em> 调整内容顺序、时间戳更新、文件的表示变了——从那里开始缓存失手,其后全部按全价。缓存也在闲置几分钟后过期,久别重逢的 session 要把历史重新付一遍。成本无缘无故跳高时,去用量报告里对比 cache tokens 与 input tokens——缓存失效最先在那里现形。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Cost on long sessions is brutal — eight bucks for a refactor.&quot;<br>「长 session 的成本太狠了——一次重构八美元。」</p>
+<p>&quot;Check the cache tokens. If the harness is reordering the system prompt or files between turns, the prefix breaks and you re-pay full input rate every request.&quot;<br>「去看看 cache tokens。要是 harness 在 turn 之间重排 system prompt 或文件,前缀就断了,每个请求都得重付全价输入。」</p>
+4c:I[97367,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js"],"OutletBoundary"]
+4e:I[27201,["/learn-mattpocock-skills/_next/static/chunks/0x02ww8h_p52p.js"],"IconMark"]
+1b:T918,<h1>Environment · 环境</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Environment.md">原文 ↗</a></p>
+<p><em>Agent</em> 施加作用的世界——<em>harness</em> 之外、agent 经由 <em>tool result</em> 感知、经由 <em>tool call</em> 改变的一切。harness 在<em>运行</em> agent;environment 是 agent <em>干活的地方</em>。<em>AGENTS.md</em> 这样的文件住在 environment 里;把它加载进 <em>context window</em> 的是 harness。<em>Filesystem</em> 是最常见的 environment,但不是唯一的——数据库、远程 API、浏览器会话都可以是。</p>
+<p>Agent 只在「看」的时候才看见 environment:它对环境的一切了解都来自 tool result,所以它的图景是一组快照,每张只在拍下的那一刻准确。文件在 agent 读完之后变了——你手动改了它,或构建步骤重新生成了它——agent 会继续拿着过期副本推理,直到有什么触发它重读。agent 信誓旦旦地描述一个早已不是那个样子的文件,通常就是这个:环境动了,快照没动。Environment 也是持久的那一层——唯一永远 <em>stateful</em> 的层:<em>session</em> 结束,context 就没了,但写进环境的文件还在,留给下一个 session 读——<em>memory system</em>、<em>handoff artifact</em>、AGENTS.md 依赖的正是这一点;想让 agent 明天还记得的东西,必须落进环境。环境的大小由你定:<em>sandbox</em> 把它缩小,限制 agent 能触及的范围;加一个 <em>tool</em> 把它扩大,把数据库或 API 带进射程。边界之内是 agent 能感知与改变的;边界之外,对 agent 不存在。环境为支持 agent 工作而搭得好不好,是代码库的 <em>AX</em>。避免用「environment」指运行时或 harness 本身——harness 是包装,environment 是工作场。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;The agent can&#39;t see the staging DB schema.&quot;<br>「agent 看不到预发环境的数据库 schema。」</p>
+<p>&quot;Wire it into the environment — give it a <code>psql</code> tool scoped to read-only on staging. The harness is fine, it just has nothing to act on.&quot;<br>「把它接进 environment——给它一个 psql 工具,权限限定为 staging 只读。harness 没问题,只是它无物可操作。」</p>
+1c:T82f,<h1>Tool · 工具</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Tool.md">原文 ↗</a></p>
+<p><em>Harness</em> 暴露给 <em>agent</em> 调用的函数——Read、Write、Bash、Search。工具是 agent 感知与作用于 <em>environment</em> 的方式:不经 <em>tool result</em> 它看不见环境,不经 <em>tool call</em> 它改不动环境。每次 tool call 都多付一次 <em>model provider request</em>——结果必须送回 <em>model</em>,它才能决定下一步。</p>
+<p>多数编码 agent 自带:Read——把文件内容作为 tool result 返回;Write——在 <em>filesystem</em> 里创建或修改文件;Bash——跑 shell 命令并返回输出;Search——按模式在代码库里找文件或文本。一个工具由三样东西定义:名字、描述、参数 schema。harness 每次请求都把这些定义发给模型,而模型挑工具与它产出其他一切的方式相同——写 <em>token</em>,在这里是一段带参数的结构化调用。模型从不亲自执行任何东西;harness 读调用、跑函数、送回结果。工具清单决定 agent 能做什么:能力强的模型配一套窄工具就是窄 agent——它会把一切都路由到手里仅有的工具上;agent 严重依赖 Bash 的原因即在于此:shell 是一个够得着系统大半的工具。要干净地给 agent 一种能力,就为它加一个工具;<em>MCP</em> 是从 harness 外部插接工具的标准。工具定义每次请求都占 <em>context</em>,所以大工具集在任何调用发生前就有固定开销——而许多描述相近的工具,会让模型更难挑中对的那个。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Can the agent query staging directly?&quot;<br>「agent 能直接查 staging 吗?」</p>
+<p>&quot;Add a <code>psql</code> tool to the harness, scoped read-only on staging. Without a tool for it, the agent&#39;s blind to anything outside the filesystem.&quot;<br>「给 harness 加一个 psql 工具,限定 staging 只读。没有对应的工具,agent 对文件系统之外的一切都是瞎的。」</p>
+1d:T67c,<h1>Tool call · 工具调用</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Tool%20call.md">原文 ↗</a></p>
+<p><em>Model</em> 的输出,点名一个 <em>tool</em> 及其参数——只是结构化文本,自己什么也不做,要 <em>harness</em> 去读去执行。它在一次 <em>model provider request</em> 里产出。生命周期:模型从 <em>system prompt</em> 里的工具描述得知有哪些工具;发出调用——工具名加参数,通常是 JSON——然后停下;harness 解析调用,对照 <em>permission mode</em> 检查;允许就执行;把结果作为 <em>tool result</em> 放进下一次请求送回。</p>
+<p><em>Agent</em> 的一个 <em>turn</em>,通常就是这样多次往返串成的链。因为 tool call 与其他一切一样由 <em>next-token prediction</em> 生成,它能错的方式与任何模型输出一样:不存在的路径、命令没有的旗标、看似合理实则不对的参数。harness 执行的是「写出来的」,不是「想表达的」——路径打错一个字母不会优雅报错,而是改掉另一个文件。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It said it ran the tests but the file timestamps haven&#39;t changed.&quot;<br>「它说跑过了测试,可文件的时间戳根本没变。」</p>
+<p>&quot;Look at the transcript — did it actually emit a tool call, or just describe running them? The model produces the call, but if the harness didn&#39;t execute it, nothing happened.&quot;<br>「看对话记录——它是真发出了 tool call,还是只描述了一下要跑?模型负责产出调用;harness 没执行,就什么都没发生。」</p>
+1e:T7e7,<h1>Tool result · 工具结果</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Tool%20result.md">原文 ↗</a></p>
+<p><em>Harness</em> 执行 <em>tool call</em> 后送回的东西——文件内容、命令输出、或错误。<em>Agent</em> 看见 <em>environment</em> 的唯一途径。它在<em>下一次</em> <em>model provider request</em> 里回到 <em>model</em> 手中,由模型决定怎么用。Tool call 与 tool result 是同一次交换的两端,都发生在同一个 <em>turn</em> 之内。</p>
+<p>生命周期:harness 执行调用(跑命令、读文件);捕获产物(输出、内容或错误);把它作为消息追加进 <em>context</em>;在下次请求里把整个 context 送给 provider;模型读到结果,决定再一次 tool call 还是给最终答案。结果在 <em>session</em> 其余时间里一直留在 context 中:编码 session 的 context 大头通常就是 tool result——每次读文件、每轮测试、每次搜索都完整落进来,在失去用处之后很久还继续占着 <em>token</em>;几份大结果——冗长的测试日志、整个读入的生成文件——把 session 推向 <em>context window</em> 边缘的速度,比对话本身快得多。又因为结果是模型看见的一切,模型无从核查结果背后的环境:输出被截断、命令静默失败、harness 用错误顶替了内容——模型都只能就着拿到的推理。当 agent 对你系统的图景不对时,先查 tool result:对话记录的某处,有一条结果与你确知的事实不符。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It&#39;s reasoning about the file like it&#39;s empty.&quot;<br>「它把那个文件当成空的来推理。」</p>
+<p>&quot;The tool result came back as a permission denial, not the contents. The model only saw the error string — it has no other way to see the file.&quot;<br>「送回来的是权限拒绝,不是文件内容。模型只看见了错误字符串——它没有别的办法看见那个文件。」</p>
+1f:T7e4,<h1>MCP · 模型上下文协议</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/MCP.md">原文 ↗</a></p>
+<p>Model Context Protocol。把外部工具服务器插进 <em>harness</em> 的协议——<em>agent</em> 获得 harness 自带之外 <em>tool</em> 的途径。agent 从不「调用 MCP」;它调用的是一个工具,只不过 harness 恰好从某个 MCP server 拿到了这个工具。协议也暴露 resources(只读数据)与 prompts(可复用模板),但供工具是主要用途。</p>
+<p>协议解的是集成问题:没有标准,每个 harness 都得各写一份 Linear 集成、Slack 集成、数据库集成——各自编写与维护。有了 MCP,集成只写一次(做成一个 server),任何兼容 MCP 的 harness 都能用:harness 连上 server,server 通告自己提供哪些工具,这些工具便与内置工具并肩可用。代价记在 <em>context</em> 上:server 通告的每个工具都带着定义——名字、描述、参数 schema——而 <em>model</em> 只能调用它认识的工具。朴素做法是把全部定义预载进 <em>context window</em>:装几个大而全的 server,<em>session</em> 一开口就先背几千 <em>token</em> 的工具 schema,把 <em>attention budget</em> 花在任务永远不会用的工具上。如今许多 harness 用 tool search 缓解:context 里只放可用工具的 <em>context pointer</em>——agent 按名字或用途搜工具,需要时才加载定义。harness 没有这功能的话,预载成本照付,那就只给项目真正需要的服务器。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;The agent needs to read tickets from Linear.&quot;<br>「agent 需要读 Linear 的工单。」</p>
+<p>&quot;Configure the harness to use the Linear MCP server — it exposes the Linear API as tools the agent can call. Saves you writing custom tool wrappers.&quot;<br>「给 harness 配上 Linear 的 MCP server——它把 Linear API 暴露成 agent 可调用的工具。省得你自己写工具包装。」</p>
+20:T77c,<h1>Permission request · 权限请求</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Permission%20request.md">原文 ↗</a></p>
+<p><em>Harness</em> 在执行一个未预批准的 <em>tool call</em> 之前拿给你看的东西。<em>Model</em> 产出调用;harness 不立刻执行,而是停下询问:批准就跑;拒绝就把拒绝作为 <em>tool result</em> 回报给模型。这是 harness 把人放进 <em>loop</em>、管住危险与敏感动作的机制。</p>
+<p>生命周期:模型产出调用;harness 对照 <em>permission mode</em> 与已保存的批准检查;预批准的立刻执行,否则停下把请求亮给你;你可以批一次、批到本 <em>session</em> 结束、或拒绝;harness 执行调用,或把拒绝当 tool result 送回。拒绝本身就是转向:模型像读其他 tool result 一样读拒绝并作出反应——换一种路子,或问你想要什么。多数 harness 允许在拒绝时附一句话,请求于是变成转向点:「别这样,改用迁移脚本」恰好落在模型决定下一步的时刻。代价是每次请求都是对你的同步等待:agent 原地阻塞到你应答——盯着看时无所谓,不在时就成问题;不断触发请求的 agent 没法放着 <em>AFK</em> 干活。Permission mode 是那个旋钮:哪些调用直接放行、哪些先问;理想状态下再配一个 <em>sandbox</em>,让放行的集合可以放心放宽。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It&#39;s been blocked on a permission request for ten minutes — I was in a meeting.&quot;<br>「它卡在一个权限请求上十分钟了——我刚才在开会。」</p>
+<p>&quot;That&#39;s the cost of human-in-the-loop. Pre-approve the safe tools so the request only fires on the actually-risky calls.&quot;<br>「这就是 human-in-the-loop 的成本。把安全的工具预批掉,让请求只在真正危险的调用上响起。」</p>
+21:T720,<h1>Permission mode · 权限模式</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Permission%20mode.md">原文 ↗</a></p>
+<p><em>Agent mode</em> 里管权限的那一片:哪些 <em>tool call</em> 触发 <em>permission request</em>、哪些自动执行。它是 mode 系统的最初用途,<em>harness</em> 后来才在之上叠了行为指令。</p>
+<p>Harness 出厂自带一档阶梯:read-only/plan——读取自动,写入与 shell 一律挡下,用于研究、规划、审阅;default——读取自动,写入与 shell 先问,日常有人盯着干活用;auto-edit——读取自动,改文件自动,shell 先问,信任的仓库与机械修改用;「Yolo」/full-auto——全部自动,配 <em>sandbox</em> 与 <em>AFK</em> 运行用。选哪一档是在安全与打扰之间做交易,两种失败都真切地疼:太紧,你成为瓶颈——agent 每隔几秒为无害的读取停下,你自动驾驶般点批准,批准便不再有任何含义——橡皮图章是最坏的两头:受全打扰,得零保护。太松,agent 就会改你想先看一眼的文件、跑你想先过目的命令。放得最开的那档,放进 sandbox 里才最站得住——坏的 <em>tool</em> call,爆炸半径被圈住。沙箱之外,多数人最终停在:读取自动放行,不可逆的动作留着 <em>human in the loop</em>。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It paused on every grep — totally killed the AFK run.&quot;<br>「它每个 grep 都停下来问——AFK 运行全毁了。」</p>
+<p>&quot;Loosen the permission mode for read-only tools, keep prompting on writes and shell. Most permission requests on a research session are noise.&quot;<br>「把只读工具的 permission mode 放宽,写与 shell 继续先问。研究型 session 的权限请求大多是噪音。」</p>
+22:T86d,<h1>Agent mode · 智能体模式</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Agent%20mode.md">原文 ↗</a></p>
+<p>一个预设,规定 <em>agent</em> 在运行时如何行事——把 <em>permission mode</em> 与注入 <em>system prompt</em> 的行为指令打包在一起。例子:默认档在危险调用时先问;plan mode 挡下修改、把 agent 导向研究;accept-edits 自动批准改文件;bypass permissions(俗称 YOLO mode)全自动批准。可以在 <em>session</em> 中途切换。</p>
+<p>「打包」是 mode 区别于裸权限设置的地方。Permission mode 只是一道理:决定哪些 <em>tool call</em> 放行。只有闸,得到的会是一个「想改但不许改」的 agent——它提出写入、被挡下、再换路子硬试。注入的指令去掉的是「想」:plan mode 不只挡修改,还告诉 agent 现在处于规划阶段,于是它去读、去问、去提方案,而不是顶着闸门较劲。闸门与缰绳指向同一个方向。实践中的用法是随信任变化切模式:同一个任务可以穿过好几档——路子未定时在 plan mode;头几笔精细修改在先问的默认档;agent 证明它理解了改动之后切 accept-edits;要在 <em>sandbox</em> 里 <em>AFK</em> 跑,切 bypass。切模式零成本:对话原样继续,只是换上新权限与新指令。要是你发现自己看都不看就批准每条提示,说明模式比你实际的信任更紧;要是你不断否掉修改,说明它比你的信任更松。厂商用词:Claude Code 管这叫 permission modes,Codex 管这叫 approval modes——都早于行为打包出现。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It keeps editing files when I just want a plan.&quot;<br>「我只想要个方案,它却不停地改文件。」</p>
+<p>&quot;Switch to plan mode — it&#39;ll block writes and stay in research.&quot;<br>「切到 plan mode——写入会被挡下,它就待在研究里。」</p>
+<p>&quot;What about for the AFK run later?&quot;<br>「晚点那次 AFK 运行呢?」</p>
+<p>&quot;Bypass mode, but only inside the sandbox.&quot;<br>「Bypass mode,但只在 sandbox 里。」</p>
+23:T73e,<h1>Sandbox · 沙箱</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Sandbox.md">原文 ↗</a></p>
+<p><em>Agent</em> 在其中运行的隔离 <em>environment</em>——容器、VM、用后即弃的 <em>filesystem</em>、或受限权限的 shell。它限制 agent 动作的爆炸半径:就算 agent 跑了破坏性命令、或抓了恶意的东西,伤害也被圈住。让 <em>AFK</em> 变得现实的安全底座。</p>
+<p>Sandbox 与 <em>permission mode</em> 从两端解同一个问题:权限在动作运行前先问;沙箱限制动作一旦运行能碰到什么。权限需要你在 <em>loop</em> 里——每条提示都是打扰,问个不停的 session 几乎谈不上自治。沙箱花的是基础设施,不是注意力:隔离越强,要问的问题越少。隔离分级:受限 shell——每条命令套上 OS 级围栏,圈住的是写出项目之外与网络访问;容器——全新文件系统、不挂载凭证、用后丢弃,圈住的是 agent 对自己那台机器做的一切;VM/云——整台独立的机器(常由 harness 提供),连内核级逃逸都圈得住。沙箱圈不住的:合法越界的行为。拿着你 git 凭证的 agent 能 push;有网络访问的 agent 能调用生产 API。先决定什么允许穿过边界,再决定边界要砌多厚。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;I want to let it run bypass-permissions overnight but I&#39;m not ready for that.&quot;<br>「我想让它整夜开着 bypass-permissions 跑,但心里还没准备好。」</p>
+<p>&quot;Put it in a sandbox — fresh container, no credentials mounted, no network out. Worst case it nukes its own filesystem and you discard the container.&quot;<br>「把它放进 sandbox——新容器、不挂凭证、断外网。最坏情况它炸掉自己的文件系统,你把容器一丢完事。」</p>
+24:T80e,<h1>Sycophancy · 谄媚</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Sycophancy.md">原文 ↗</a></p>
+<p>自信而讨好的模型输出。根源在 <em>training</em>:模型被调教得偏爱「人类喜欢的回答」,而人类喜欢赞同,胜过喜欢被人说自己错了。于是模型学到「附和有奖」——哪怕附和的内容并不正确。</p>
+<p>常见的四种表现:</p>
+<ul>
+<li><strong>一压就怂</strong>——你一句「你确定?」,它就把本来正确的答案改口收回。</li>
+<li><strong>夸坏输入</strong>——你的方案明明有毛病,它先夸「这个思路很棒」,再开始分析。</li>
+<li><strong>带偏见的评法</strong>——暗示代码是你写的,评审就偏正面;暗示是别人写的,就偏负面。同一份产物,两种结论。</li>
+<li><strong>模仿复述</strong>——把你的错误原样重复给你,当作确认。</li>
+</ul>
+<p>诊断测试:如果去掉你的引导,模型还会这么说吗?若唯一变了的是你的语气或措辞,那就是谄媚,不是分析真的变了。</p>
+<p>解法:藏起你的偏好。提示词用中性说法——「review this code」,而不是「is this code good?」。</p>
+<p>避免把「sycophancy」用在任何「碰巧讨你喜欢的错误答案」上。不做诊断测试,这个词就比「错了」多不出任何信息量。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It said my refactor plan looked great, then I asked &#39;are you sure?&#39; and it walked the whole thing back.&quot;<br>「它夸我的重构方案很棒,我问了句『你确定?』,它又把整件事收了回去。」</p>
+<p>&quot;Classic sycophancy — it agreed first because you sounded confident, then caved because you sounded doubtful. The plan&#39;s quality didn&#39;t change, your tone did. Clear and re-ask without signalling either way.&quot;<br>「典型谄媚——你听着自信,它就附和;你听着犯疑,它就动摇。方案本身没变,变的是你的语气。清掉重问,两边什么都别暗示。」</p>
+25:T94c,<h1>Hallucination · 幻觉</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Hallucination.md">原文 ↗</a></p>
+<p>自信满满的错误模型输出。分两种,成因与解法各不相同:</p>
+<ul>
+<li><strong>事实性(factuality)</strong>——编造或搞错关于世界的事实:不存在的函数、错的 API 签名、假的引用。成因是 <em>parametric knowledge</em> 的缺口,常见于 <em>knowledge cutoff</em> 之后。解法:加载正确的 <em>contextual knowledge</em>。</li>
+<li><strong>忠实性(faithfulness)</strong>——输出偏离已加载的上下文知识、你的指令、或它自己先前的推理。成因是 <em>attention degradation</em>,在 <em>dumb zone</em> 里加重。解法:<em>clear</em> 或 <em>compact</em>。</li>
+</ul>
+<p><em>Next-token prediction</em> 不管底层事实真假,产出一律流畅——模型没有任何「我不知道」的内部信号,编造的方法与正确的方法用同一种笃定的语气到达。幻觉代码在构造上就是「似真的」:它长成「这个 API 假如存在该有的样子」——这正是它能滑过走马观花的 review、直到跑起来才露馅的原因。</p>
+<p>分清是哪种,因为一种的解法会让另一种更糟:事实性缺的是知识,解法是加 context——文档、类型定义、那个文件;忠实性是知识在场但输了注意力竞争,解法是减 context。把忠实性误诊成事实性,你会再贴一堆文档——context 变大,漂移更凶。agent 出错时,先确认正确的信息是否本来就在 context 里,再决定面对的是哪种问题。</p>
+<p>避免把「hallucination」当「错了」的同义词——不指明是哪种,这个词就没有诊断价值。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It hallucinated a <code>parseAsync</code> method on the schema.&quot;<br>「它给 schema 幻觉出一个 parseAsync 方法。」</p>
+<p>&quot;Factuality or faithfulness?&quot;<br>「事实性还是忠实性?」</p>
+<p>&quot;The method exists in the docs I pasted — it just stopped reading them after turn forty.&quot;<br>「这方法在我贴的文档里有——它只是四十 turn 之后就不读了。」</p>
+<p>&quot;Faithfulness then. Compact and reload, don&#39;t bother adding more docs.&quot;<br>「那就是忠实性。Compact 然后重载,别费劲再贴文档了。」</p>
+26:T7ff,<h1>Parametric knowledge · 参数化知识</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Parametric%20knowledge.md">原文 ↗</a></p>
+<p><em>Model</em> 从 <em>training</em> 里「知道」的东西,存在 <em>parameters</em> 中,训练时就冻结——模型看不见自己的参数,更改不动它们。细节在挤压中流失:数十亿事实塞进固定数量的参数,冷门的那部分变得模糊。它让模型对常见话题口若悬河,对冷门话题凭空编造。是 <em>contextual knowledge</em> 的对照面。</p>
+<p>参数化知识不是以事实形式存放的。训练从未给模型一个可查询的数据库;它只是调参数,直到模型擅长预测文本——而一个擅长预测某话题文本的模型,表现得就像懂这个话题。知识可靠度跟它在训练数据里的出现频率同步:出现百万次的话题被准确复现,只出现过几次的话题,模型按「类似话题长什么样」去猜。复现与猜测对模型是同一个过程,它分不清自己正在做哪个——编造的答案与正确的答案一样流利。<em>Hallucination</em> 就是模型猜错了。</p>
+<p>参数化知识还会过时。参数止步于 <em>knowledge cutoff</em>,那之后发布或改名的库在参数里不存在,改过版的 API 只以旧形态被记得。</p>
+<p>两类缺口——太冷门与太新——药方相同:知识加不进参数,只能作为 contextual knowledge 供应。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It writes flawless React but invents methods on our internal SDK.&quot;<br>「它 React 写得滴水不漏,却给我们内部 SDK 编方法。」</p>
+<p>&quot;React is dense in the parametric knowledge — millions of training examples. Your SDK isn&#39;t, so the model fills in plausible-looking shapes. Load the SDK docs into context.&quot;<br>「React 在参数化知识里密度极高——数百万条训练样本。你的 SDK 没有,模型就填进看起来像那么回事的形状。把 SDK 文档加载进 context。」</p>
+27:T98e,<h1>Contextual knowledge · 上下文知识</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Contextual%20knowledge.md">原文 ↗</a></p>
+<p><em>Agent</em> 此刻能直接从 <em>context</em> 里读到的事实——你的任务、它读进来的文件、<em>tool result</em>、<em>session</em> 开始时加载的 <em>AGENTS.md</em> 内容。是 <em>parametric knowledge</em> 的对照面:参数化的靠<em>回忆</em>,上下文的靠<em>阅读</em>——答案就在眼前,不是从模糊记忆里捞的。Agent 以上下文知识干活时,<em>hallucination</em> 少得多。</p>
+<p>两种知识里,只有上下文知识归你控制。参数冻结,所以要给 <em>model</em> 它缺的知识——内部 SDK、<em>knowledge cutoff</em> 之后发布的库、昨天拍板的决定——唯一的路是放进 context。大量 AI 编码的日常工作,说到底就是这件事:在模型需要的时刻,把正确的事实放到它眼前。</p>
+<p>两种知识冲突时,通常是上下文知识赢:贴上当前版本的 API 文档,模型就照文档而不是照旧记忆来——尽管旧版本仍可能渗出来,尤其是在长 <em>session</em> 的深处。文档明明加载了、agent 却反复退回过时写法,那就是参数化知识在渗过上下文知识;把纠正再说一遍、或把纠正挪得离工作现场更近,会有帮助。</p>
+<p>与参数化知识不同,上下文知识的使用有成本:装进 <em>window</em> 的每一样东西都花 <em>token</em>,都参与争夺 <em>attention budget</em>——所以多装不等于更好,目标是把<em>相关的事实</em>装进窗口,不是把<em>所有事实</em>装进窗口。</p>
+<p>只在需要与参数化知识对照时用这个词;平时直接说 <em>context</em> 就够。避免叫「工作记忆」:contextual knowledge 是窗口<em>现在</em>装的东西,<em>memory system</em> 是把跨会话内容送进窗口的机制——尺度不同,别混。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Why does it nail the API when I paste the docs and fabricate it when I don&#39;t?&quot;<br>「为什么贴了文档它就把 API 用得全对,不贴就瞎编?」</p>
+<p>&quot;With the docs in, it&#39;s contextual knowledge — reading off the page. Without, it&#39;s parametric and the rare endpoints blur.&quot;<br>「文档在,就是上下文知识——照着页面读。不在,就退回参数化知识,冷门的端点全糊。」</p>
+28:T98e,<h1>Attention relationship · 注意力关系</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Attention%20relationship.md">原文 ↗</a></p>
+<p>预测每个 <em>token</em> 时,<em>model</em> 会把 <em>context</em> 里的其他每个 token 都纳入考量——有的权重很重,有的几乎为零。两个 token 之间的配对就是一条注意力关系:有意义的配对(「her」与「Sarah」;一处 <code>getUser()</code> 调用与它那行 <code>function getUser</code> 定义)互相影响的强度,远超无关的配对。N 个 token 的 context,配对量级是 N²。</p>
+<p>模型的「理解」就住在这种配对里:它解对一个代词,是因为「her」与「Sarah」之间的关系强;它用对参数调用函数,是调用点与早前读过的定义之间的关系在干活。这一切都不是查表——每次 <em>model provider request</em>、对每一对,都是现场重算。</p>
+<p>N² 这个数值得细品,它长得比直觉快:1,000 token 约一百万对;10,000 token 约一亿对;100,000 token 约一百亿对。而且每对还不止算一次——模型有多个注意力头(前沿模型的确切数字未公开,五十到一百是合理猜测),每个头都对每条关系算出自己的版本。上表里的每一对,都要乘以头数。</p>
+<p>对任何给定任务,真正要紧的关系只是少数:你的指令与它管辖的代码之间那一对,是关键 handful 之一,池子里其余几乎全是噪声。而两者增速不同:要紧的关系数大致恒定,总池子却随 context 平方增长。1,000 token 时,你在乎的那对是百万分之一;100,000 token 时,是百亿分之一。这就是 <em>attention budget</em> 底下的算术;<em>attention degradation</em>,就是要紧的关系分到的份额变得太薄时的体感。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It keeps confusing the two <code>user</code> symbols across the diff — sounds like we&#39;re in the dumb zone.&quot;<br>「它老把 diff 里两个 user 符号搞混——听着像进 dumb zone 了。」</p>
+<p>&quot;Yeah, the attention relationship between each call site and its declaration is fighting the other one — same token shape, different bindings. Rename one and the pairings sharpen.&quot;<br>「对,每个调用点和它声明之间的注意力关系,正在和另一个打架——token 形状相同,绑定不同。给其中一个改名,配对就清晰了。」</p>
+29:T785,<h1>Attention budget · 注意力预算</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Attention%20budget.md">原文 ↗</a></p>
+<p>每个 <em>token</em> 可分配给 <em>context</em> 其余部分的影响力是有限的:在一条 <em>attention relationship</em> 上压得重,留给别处的就少。预算按 token 计,不随 context 变大而变大——长 <em>session</em> 会稀释,根源在此。</p>
+<p>把它想成信号与噪声。你的指令是一个固定音量的信号;<em>context window</em> 里其余每个 token 都是 competing sound。指令不会变小声——它一个字符不少地在那里——但 context 越长,房间越吵,信噪比越低。在 10k token 的 context 里最响亮的指令,到 150k 就是背景嗡嗡声。这正是 <em>attention degradation</em> 的机制:模型没有忘,是信号淹没在噪声里。</p>
+<p>症状读起来像「不听话」:agent 早先答应过一条约束,随后漂走;重贴一遍约束,也只有短暂效果。原因不在指令,在窗口里与它抢注意力的其他一切。</p>
+<p>你能控制的是context里装什么。对任务无用的内容不是中性的——它是压在一切有用内容之上的噪声。窗口保持小;累积的 context 不再值回票价时 <em>clear</em>;要紧的约束,重申一遍,别指望早先提一次能一直管用。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Why does it keep ignoring the schema I pasted at the top?&quot;<br>「它怎么老不理我开头贴的 schema?」</p>
+<p>&quot;We&#39;re well into the dumb zone — every token&#39;s attention budget is fixed, but the context kept growing. The signal on the schema is now competing with thousands of newer tokens.&quot;<br>「我们早进 dumb zone 了——每个 token 的注意力预算是死的,context 却一直在长。schema 上的信号,现在要和几千个更新的 token 抢注意力。」</p>
+2a:T777,<h1>Attention degradation · 注意力衰退</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Attention%20degradation.md">原文 ↗</a></p>
+<p><em>Session</em> 越长,每个 <em>token</em> 的 <em>attention budget</em> 要摊给越多的竞争者:任何一条要紧的 <em>attention relationship</em> 上的信号变薄,无关 <em>context</em> 的噪声涌进来。同一个 <em>model</em>,同一份 <em>parameters</em>——只是同一盘子里要喂的嘴多了。smart zone / dumb zone 效应的成因。</p>
+<p>表现为模型在会话中途变差:遵守了一小时的约束开始松动;你告诉过它的事,它重新问;写出的代码无视它早先读过的文件。模型身上什么都没变——唯一的变量,是它此刻要照看的 context 变多了。</p>
+<p>它是渐进的,这正是从会话内部难以察觉的原因:没有报错,没有阈值;每个 <em>turn</em> 只比上一个差一点点,等你明显看出滑坡,已经在 dumb zone 里待了有一阵。</p>
+<p>恢复靠减 context,不靠加。重贴被无视的指令,只是往拥挤的窗口里再添一个竞争者,仅有短暂效果。真正管用的:<em>clear</em> 之后只重载任务需要的,或 <em>compact</em>,或 <em>handoff</em> 给新会话。把「指令遵循变差」当作 context 长度的信号,而不是模型的信号。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It&#39;s deep in the dumb zone — inventing generics that aren&#39;t in the type file.&quot;<br>「它 deep 进 dumb zone 了——编造类型文件里不存在的泛型。」</p>
+<p>&quot;Attention degradation. The type definitions are still in context, but the signal on them is buried under everything we&#39;ve added since. Clear and reload.&quot;<br>「注意力衰退。类型定义还在 context 里,但它们上面的信号,被我们后来加的一切埋住了。Clear 然后重载。」</p>
+2b:T8ba,<h1>Smart zone · 聪明区</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Smart%20zone.md">原文 ↗</a></p>
+<p><em>Session</em> 早期,<em>agent</em> 处在「smart zone」:敏锐、专注、记得住。会话一长,就漂进「dumb zone」:变糙、健忘、错误变多——忠实性 <em>hallucination</em> 也更多。同一个 <em>model</em>,同一个 <em>harness</em>——只是 <em>context</em> 更多。它是 <em>attention degradation</em> 的体感。前沿模型的 dumb zone 常见起点在 125K–150K <em>token</em> 上下(有争议);会话臃肿时 <em>clear</em> 或 <em>compact</em>,别硬撑。</p>
+<p>滑坡是渐进的,所以容易错过:没有报错,没有可见的边界,agent 只是先差一点、再差得多。常见征兆:忘了二十个 turn 前的指令;重复犯已经改过的错;自信地断言 context 里明明相反的事。因为下滑平滑,常见反应是硬撑着重新解释——那只会加更多 context,让问题更糟。</p>
+<p>分区不跟随 <em>context window</em> 上限:一个 session 可以在窗口还空着大半时就深陷 dumb zone——上限是 harness 拒绝继续的地方,而质量远在那一刻之前就开始掉。按 smart zone 规划,别按窗口规划——任务的实用预算,是 agent 干活干得好的那段 token,不是技术上装得下的那段。</p>
+<p>Smart zone 是预算,无关工作也花它:会话里做的每件事都耗 token,所以同一个 session 里开第二个任务,等于开局就离 dumb zone 更近。一个 session 一个任务,每个任务分到的是 session 最锋利的一段。单个任务超出一个 smart zone 时,拆开:在自然的边界 <em>handoff</em> 或 compact,让新会话接下一块。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It nailed the first three components and just butchered the fourth.&quot;<br>「前三个组件它做得漂漂亮亮,第四个剁得稀烂。」</p>
+<p>&quot;You&#39;re out of the smart zone — same model, just deep into the dumb zone now. Compact and reload the plan, the next component will land.&quot;<br>「你出 smart zone 了——模型没换,只是深进 dumb zone 了。Compact 然后重载计划,下一个组件就稳了。」</p>
+2c:T6c6,<h1>Clearing · 清空</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Clearing.md">原文 ↗</a></p>
+<p>结束当前 <em>session</em>、另起一个新的:下一条消息从一个空会话、空 <em>context window</em> 开始。通常由用户发起。</p>
+<p>Clearing 是被污染 context 的解药。一个 session 什么都攒:失败的尝试、走岔的路、过期的 <em>tool result</em>、半途放弃的计划。<em>model</em> 每个 <em>turn</em> 都把这一切重读一遍,坏历史拖累新工作。深陷长会话时,<em>agent</em> 变含糊、变不听话——你明明交代过的指令被无视,质量下滑,催它也没用,因为它蹚着的那片噪声还在 <em>context</em> 里。Clearing 把噪声移走。</p>
+<p>Clearing 不会抹掉对话。多数 <em>harness</em> 把会话历史留在你的电脑上,记录仍在,可读可续。消失的是 agent 的工作状态:<em>model</em> <em>stateless</em>,新会话对旧会话知道的一切一无所知。如果旧会话握着下一个会话需要的决定或进展,先让 agent 写一份 <em>handoff artifact</em>,再开新会话、指向它。</p>
+<p>对照 <em>compaction</em>:那是把会话总结进新 context,而不是从零开始。Clearing 是更钝的工具:什么都不带走——连同垃圾一起。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It&#39;s stuck looping on the failing test.&quot;<br>「它卡在失败的测试上原地打转。」</p>
+<p>&quot;Just clear it — start a fresh session with the plan doc and the test file. No point fighting the existing context.&quot;<br>「直接 clear——开个新会话,带上计划文档和测试文件。跟现有 context 较劲没有意义。」</p>
+2d:T756,<h1>Handoff · 交接</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Handoff.md">原文 ↗</a></p>
+<p>把 <em>agent</em> 的 <em>context</em> 从一个 <em>session</em> 转移到另一个。携带机制多样:写下来的 <em>handoff artifact</em>、内存里的总结(<em>compaction</em>)等。与 <em>clearing</em> 不同——那是什么都不转移。交接的理由也多样:换角色(规划者 → 实现者)、启动 <em>AFK</em> 运行、铺开并行会话、或腾出 <em>context window</em> 空间。</p>
+<p>接收方从零开始——<em>model</em> <em>stateless</em>,旧会话的任何东西新会话都看不见。下一个会话需要的,必须被显式携带;其余全部消失。「没有回路」是塑造携带方式的约束:新会话没法回头问旧会话「你什么意思」,被携带的材料必须自立。</p>
+<ul>
+<li><strong>Handoff artifact</strong>——<em>environment</em> 里的一份文件:在任何东西依赖它之前,你可以先读它、改它;可跨多个会话复用。</li>
+<li><strong>Compaction</strong>——<em>context window</em> 里的一份总结:自动、便宜;但难检查,只能喂一个继任会话。</li>
+</ul>
+<p>坏交接的可见症状是「重新诉讼」:新会话把旧会话已经定案的事重新翻出来吵,因为携带物记下了「定了什么」,没记「为什么」。评判一次交接的标准:一个零 context 的会话拿着它,能干成什么。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Planning session is getting heavy — should I just keep going?&quot;<br>「规划会话越来越沉——我要不要就这么继续?」</p>
+<p>&quot;Do a handoff. Write the decisions to a doc, clear, start the implementation in a fresh session reading from it.&quot;<br>「交接。把决定写进一份文档,clear,开个新会话读着它做实现。」</p>
+2e:T784,<h1>Primary source · 一手来源</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Primary%20source.md">原文 ↗</a></p>
+<p>原始形态的事实来源——代码本身、对话记录本身、原始日志、真实的 API 响应。不是「对事物的转述」,是事物本身。<em>Secondary source</em> 的对照面。</p>
+<p>想知道你的代码库在做什么,代码就是一手来源;文档、架构图、README 都是对它的描述——落笔那一刻准确,此后各按自己的日程过期。<em>Agent</em> 信誓旦旦地说错了你项目的某件事时,该问的是:它刚才依据的是哪个来源?读了文档的 agent,继承了文档的陈旧;读了代码的 agent,读的是当下的真相。</p>
+<p>让一手来源没能成为默认的是成本:把它装进 <em>context window</em> 很贵——整个文件、整段记录,每个 <em>token</em> 都按 <em>input tokens</em> 计费、都参与争夺 <em>attention budget</em>。换来的东西是完整:没有经过任何人「什么重要」的预先筛选。上个月写的总结,装不下今天才发现要紧的那个细节;一手来源装得下。</p>
+<p>要紧的场合用一手来源——确切的签名、真实的报错、抛异常的那一行。管理 <em>context</em> 的很大一部分,就是判断什么时候付一手来源的钱、什么时候二手来源够用。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;The agent says the retry logic backs off exponentially, but I&#39;m watching it hammer the endpoint.&quot;<br>「agent 说重试逻辑是指数退避,可我眼看着它在狂捶那个端点。」</p>
+<p>&quot;It read that out of the design doc. Point it at the actual retry module — work from the primary source when the behaviour matters.&quot;<br>「那话它是从设计文档里读的。把它指到真正的重试模块——行为要紧的时候,以一手来源为准。」</p>
+2f:T98a,<h1>Secondary source · 二手来源</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Secondary%20source.md">原文 ↗</a></p>
+<p>对 <em>primary source</em> 的转述,隔了一层——描述代码的文档、概括对话记录的总结、汇报搜索结果的报告。装进 <em>context window</em> 比它描述的来源便宜,而且<em>在构造上</em>有损:写它的人替你决定了什么重要,他丢掉的部分,只读总结的人永远看不见。</p>
+<p>大量 <em>context</em> 工程,本质是二手来源的制造:<em>compaction</em> 把 <em>session</em> 历史变成总结,播种下一个会话;<em>subagent</em> 把自己的 context 烧在嘈杂的搜索上,只带回一页短报告;<em>handoff artifact</em> 把一个会话的决定浓缩成下一个会话要读的文档;<em>memory system</em> 把会话学到的东西蒸馏成笔记。它们做的是同一笔交易:用保真换空间。</p>
+<p>二手来源以两种方式失效:一是有损——丢了 schema 决定的 compaction 总结、没提边界情况的报告;二是漂移——一手来源变了,转述没跟上,文档拿着上一季度的架构、说着这一季度的口气。<em>Agent</em> 在失效的二手来源上干活时,会自信地基于错误信息工作;解法是把它打发回一手来源。</p>
+<p>两种失效都不构成「不该用二手来源」的理由:<em>context window</em> 有限,一手来源昂贵,没有总结、报告和交接文档,大东西什么都装不下。功夫在于知道哪些细节经得起压缩——以及经不起的那部分,要回一手来源核实。做得好的二手来源,会带一枚指回原始来源的 <em>context pointer</em>:总结里注明它出自哪份记录,文档里注明它描述哪个文件——转述不够用时,读者顺着指针回去,而不是对着缺口硬猜。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;The handoff doc says auth is done, but the new session keeps finding broken token refresh.&quot;<br>「交接文档说认证早做完了,新会话却不断发现 token 刷新是坏的。」</p>
+<p>&quot;The doc&#39;s a secondary source — the last session wrote down what it believed, not what&#39;s true. Have the new session run the auth tests and trust the primary source.&quot;<br>「那份文档是二手来源——上个会话写下的是它相信的,不是真相。让新会话跑一遍认证测试,以一手来源为准。」</p>
+30:T8ae,<h1>Handoff artifact · 交接物</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Handoff%20artifact.md">原文 ↗</a></p>
+<p>用作 <em>handoff</em> 携带机制的文件:由一个 <em>session</em> 写进 <em>environment</em>,供另一个会话读取。<em>Spec</em>、<em>ticket</em>、计划文档,都是 handoff artifact。</p>
+<p>写它的理由:<em>model</em> <em>stateless</em>,会话里的任何东西都熬不过 <em>clearing</em>。决定、约束、做到一半的计划——随承载它们的 <em>context</em> 一起消失;environment 是持久的。把要紧的状态写进文件,就是把它搬到下一个会话读得回来的地方。</p>
+<p>交接物是 <em>secondary source</em>——是对会话工作的转述,不是工作本身。这让它小到足以给新会话做简报,也是它可能误导新会话的原因:它记下的是写作会话<em>相信的</em>,凡漏掉或写错的,读者无从察觉。要紧的断言,下一个会话应对照 <em>primary source</em>——代码、测试——核实,而不是照单继承。</p>
+<p>好的交接物,是写给零 context 读者的:具体的文件路径,而不是「我们讨论过的那个文件」;决定了什么、为什么,免得下个会话重新翻案;做完了什么、还剩什么。给写作会话交代去向也有用:「为对这个工作一无所知的新会话写一份交接文档」。</p>
+<p>另一条携带机制是 <em>compaction</em>,在内存里总结。交接物有两个优势:它躺在磁盘上,任何东西依赖它之前,你可以先读先改;它可复用——同一份 spec 能给五个并行会话做简报。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;How do I split this between the planning agent and the implementing one?&quot;<br>「规划 agent 和实现 agent 之间,这个活怎么分?」</p>
+<p>&quot;Have the planner write a handoff artifact — file paths, decisions, constraints. The implementer&#39;s session opens with a pointer to the artifact and works from it as its brief.&quot;<br>「让规划 agent 写一份交接物——文件路径、决定、约束。实现 agent 的会话开场就带着指向交接物的指针,把它当任务简报来干活。」</p>
+31:T725,<h1>Spec · 规格</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Spec.md">原文 ↗</a></p>
+<p>描述一段跨 <em>session</em> 工作的 <em>handoff artifact</em>——写的是「在造什么」,不是「每个会话怎么干自己那份」。随工作推进而更新,由 <em>ticket</em> 组成。</p>
+<p>Spec 存在的原因:会话是用后即弃的,大工作不是。任何超出一个 <em>context window</em> 工作量的活,都需要一个 context 之外的家——<em>agent</em> <em>environment</em> 里熬得过 <em>clearing</em> 的某个地方:仓库里的文件、GitHub issue、或 agent 够得着的 issue tracker。Spec 就是那个家:目标、约束、迄今的决定,以及带状态的工单清单。任何新会话读它,就知道工作到了哪一步,而不必继承上个会话攒下的噪声。</p>
+<p>Spec 有几种眼熟的体裁,多半承袭自团队既有的写作习惯:PRD(产品需求文档)偏用户侧的 what 与 why——功能、行为、验收标准;design doc 或 RFC 偏技术——选定的路子、被否的备选、权衡;小一头的,一份带工单清单的 plan.md 对多会话的特性干的是同一件事。体裁不如角色要紧:对 agent 来说,这些都是同一个东西——它在每个会话开头读的那份「意图的持久声明」。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Should this all be one session?&quot;<br>「这活全放一个会话里干行吗?」</p>
+<p>&quot;No, write it up as a spec — break it into tickets, run each one in its own session. Trying to do the whole thing in a single context will hit the dumb zone before you&#39;re halfway.&quot;<br>「不行。写成 spec——拆成工单,每张工单单独跑一个会话。想在一个 context 里干完全部,半路就进 dumb zone 了。」</p>
+32:T76e,<h1>Compaction · 压缩</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Compaction.md">原文 ↗</a></p>
+<p>在内存里完成的 <em>handoff</em>:把上一个 <em>session</em> 的历史总结成一段摘要,用摘要播种一个新会话。设计上就有损:对话记录是 <em>primary source</em>,摘要是 <em>secondary source</em>——用细节换腾出的空间。可由用户手动触发,也可经 <em>autocompact</em> 自动触发。</p>
+<p>机制:<em>context window</em> 有限,而长会话会装满它——每条 <em>tool result</em>、每次读文件、每个走岔的弯,都留在历史里。撑得沉重时,<em>harness</em> 让 <em>model</em> 总结会话,丢掉原始历史,用摘要播种新会话。没进摘要的东西,就从 context 里消失了。有些 harness 会缓和这一点:旧记录留在磁盘上,摘要里留一枚指向它的 <em>context pointer</em>——二手来源链回它的一手来源,摘要丢掉的细节可以靠重读原文找回。</p>
+<p>摘要是模型写的,所以可以提示它:「保住 schema 相关的决定」,会让生成的产物更经心。时机同样要紧——在阶段边界上 compact,比如计划刚敲定时,别在任务中间。</p>
+<p>与 <em>clearing</em> 对照:clearing 全部丢掉、冷启动;compaction 试图把必需品带过去;clearing 则赌这些东西已经写在更好的地方了。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Context&#39;s getting heavy and I still have the test pass to do.&quot;<br>「context 越来越沉,可测试那一轮还没跑完。」</p>
+<p>&quot;Compact before you start — write what must survive into the summary prompt so the new session keeps the schema decisions and drops the exploration.&quot;<br>「开工前先 compact——把必须活下来的东西写进摘要提示,让新会话保住 schema 决定、丢掉探索过程。」</p>
+33:T741,<h1>Autocompact · 自动压缩</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Autocompact.md">原文 ↗</a></p>
+<p><em>context window</em> 逼近装满时,由 <em>harness</em> 自动触发的 <em>compaction</em>。</p>
+<p>Harness 盯着 context window 的满溢程度,一旦越过阈值——常在 80% 上下——就暂停,让 <em>model</em> 总结迄今的 <em>session</em>,用摘要播种新会话,然后若无其事地继续干活。</p>
+<p>只是有事真的发生了。Compaction 有损,而 autocompact 在一个不由你挑的时刻有损:手动的 compact 发生在阶段边界,你能告诉模型要保住什么;autocompact 在任务中间、阈值一碰就点火——可能正烧在重构半中央,由摘要自作主张决定你的哪些决定值得留。经典症状:<em>agent</em> 若无其事地继续,却悄悄忘掉一小时前定下的约束,直到它干出来的活自相矛盾你才察觉。</p>
+<p>防御办法是别让它点火:盯着 context 用量指示,在自然的边界手动 compact;或把决定写进磁盘上的计划文档或 <em>handoff artifact</em>——任何摘要都丢不掉的地方。多数 harness 还允许调缓冲:阈值提前或推后,或整个关掉 autocompact,由你决定留多少余量。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It doesn&#39;t seem to remember what we decided about the schema earlier.&quot;<br>「它好像不记得我们早先关于 schema 的决定了。」</p>
+<p>&quot;Autocompact fired between turns — the early decisions got summarised and we must have lost something. Reload the plan doc, or compact manually next time so you control what gets kept.&quot;<br>「autocompact 在 turn 之间点了火——早期决定被总结掉了,准是丢了什么。重载计划文档,或者下回手动 compact,由你决定留什么。」</p>
+34:T707,<h1>Memory system · 记忆系统</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Memory%20system.md">原文 ↗</a></p>
+<p>试图让 <em>agent</em> 跨 <em>session</em> <em>stateful</em> 的机制:会话进行中把信息持久化进 <em>environment</em>,未来会话开始时重载进 <em>context window</em>——于是即使你 <em>clear</em> 了会话,连续性仍在。</p>
+<p>记忆系统有两半。写路径:会话期间,agent 把学到的东西——你说过的偏好、项目的一个事实——记成环境里的文件。读路径:会话开始时,<em>harness</em> 把这些文件、或它们的索引,装回 context window。许多 harness 自带记忆系统(Claude Code 的 <code>/memory</code> 是一个),你也可以自己搭:一个笔记目录,加一条「记得查它」的 <em>AGENTS.md</em> 指令。</p>
+<p>凡常驻加载的内容有的权衡,这里都有:记忆会累积,所以多数系统只加载一行式索引,正文留在 <em>context pointer</em> 后面,不整体内联。记忆还是 <em>secondary source</em>,会漂移:三月记下的事实,到六月照样被信心十足地加载,哪怕项目早走了很远。记忆系统需要修剪,和 AGENTS.md 一个道理。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;I keep having to re-tell it I&#39;m on Postgres, not MySQL.&quot;<br>「我一遍遍重说:我用的是 Postgres,不是 MySQL。」</p>
+<p>&quot;Wire up a memory system — write what it learns to the filesystem on the first turn, reload it at session start. The model itself is stateless; the memory layer fakes continuity.&quot;<br>「接一个记忆系统——第一个 turn 就把它学到的东西写进 filesystem,会话开始时重载。model 本身 stateless,连续性是记忆这层装出来的。」</p>
+35:T7de,<h1>AGENTS.md · AGENTS.md 文件</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AGENTS.md.md">原文 ↗</a></p>
+<p><em>environment</em> 里的一份文件,<em>harness</em> 在每个 <em>session</em> 开始时把它装进 <em>context window</em>——项目写给 <em>agent</em> 的常设简报。跨 harness 的约定;某些 harness 另有自己的变体(Claude Code 的是 CLAUDE.md)。</p>
+<p>因为它自动加载,它是「别在每个会话里重复自己」的一条路。<em>model</em> <em>stateless</em>——这个会话里给的纠正,下个会话就没了,于是每个新会话你都得重讲一遍:项目用 pnpm、测试要带某个旗标、那个目录是生成的别碰。同一件事你纠正到第二遍,这条纠正就是 AGENTS.md 的候选行。</p>
+<p>合适的内容,是 agent 从代码里推不出来的东西:构建与测试命令、代码库自身看不出来的约定、硬性禁令(「永远别改生成的 client」)。要短、要声明式——它是简报,不是文档。</p>
+<p>代价是里面的每一样东西都常驻加载:指令会越攒越多,而多数与眼前任务无关;长长的 AGENTS.md 既烧 token,又稀释自己——context 里指令越多,模型对任何一条的遵循越不可靠。</p>
+<p>避免把本该 <em>progressive disclosure</em> 的内容塞进 AGENTS.md——里面的每一行,每个 <em>turn</em>、每个会话都付 <em>token</em>,不管这个会话用不用得上。风格指南可以放进一个 <em>skill</em> 或留一枚 <em>context pointer</em>;AGENTS.md 留给处处适用的那几行。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Why is every session starting with 4k tokens already burned?&quot;<br>「怎么每个会话一开场就先烧掉 4k token?」</p>
+<p>&quot;Check AGENTS.md — someone pasted the entire style guide in there instead of putting it behind a skill.&quot;<br>「去查 AGENTS.md——有人把整本风格指南贴了进去,而不是收进一个 skill 后面。」</p>
+36:T72b,<h1>Progressive disclosure · 渐进式披露</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Progressive%20disclosure.md">原文 ↗</a></p>
+<p>只加载 <em>agent</em> <em>此刻需要的</em> <em>context</em>,其余用 <em>context pointer</em> 挂在后面。借自 UI 设计——只给用户看当前任务相关的控件,其余藏进一次点击之后。</p>
+<p>这门手艺存在,是因为 context 要付两次钱:预先装进的每个 <em>token</em>,每个 <em>turn</em> 都按 <em>input tokens</em> 计费;而且不管 agent 用不用得上,每个 token 都花 <em>attention budget</em>。一份塞满完整风格指南、部署手册、数据库约定的 <em>AGENTS.md</em>,会让 agent 在所有这些事上都变差——当前任务要紧的指令,被不要紧的稀释了。症候你见过:agent 无视你明知在它 context 里的规则——在是在,埋住了。</p>
+<p>Progressive disclosure 把这一切倒过来:常驻层保持很小——每个主题一句话,加一枚指向细节所在处的指针。agent 写组件时去读风格指南,部署时去读部署手册,修测试时两个都不读。<em>Skill</em> 就是内建在 <em>harness</em> 里的这套模式:一段简短描述随每个 <em>session</em> 常驻,完整指令只在被触发时加载。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Should I dump the entire style guide into AGENTS.md?&quot;<br>「要不要把整本风格指南倒进 AGENTS.md?」</p>
+<p>&quot;No — progressive disclosure. Reference the style guide as a skill the agent loads when it actually needs to write a component. AGENTS.md pays the token cost every turn.&quot;<br>「不要——渐进式披露。把风格指南挂成一个 skill,agent 真要写组件时才加载。AGENTS.md 可是每个 turn 都在付 token 钱。」</p>
+37:T92c,<h1>Context pointer · 上下文指针</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context%20pointer.md">原文 ↗</a></p>
+<p>一份文档里指向另一份文档的一句话,<em>agent</em> 只在任务需要时才顺着它把目标拉进 <em>context window</em>。<em>Progressive disclosure</em> 的砌块。</p>
+<p>用指针(而不是内联内容)的理由是成本:指针只是 <em>context window</em> 里的一行;它背后的文档可能有几千 <em>token</em>,但在 agent 真的顺着走之前,一个 token 都不花。把 2000 token 的部署手册内联进 <em>AGENTS.md</em>,每个 <em>session</em> 都要付;换成「部署流程:见 <code>internal/deploy.md</code>」,就只有真部署的会话才加载它。任务对上时,agent 用一次 <em>tool call</em> 顺着指针走。</p>
+<p>指针要立得住,需要两件事:稳定的路径,以及足以让 agent 判断「值不值得走」的描述。光秃秃的路径是指针,但 agent 没有理由走;「见 <code>internal/deploy.md</code>」而不说里面是什么,需要它的会话也会跳过。这一行要照着任务出现的措辞写:「发布、部署或回滚——先读 <code>internal/deploy.md</code>」。</p>
+<p>一旦留心,指针到处都是:AGENTS.md 里的行、<em>skill</em> 的描述(harness 只加载描述,正文在后面等着)、目录清单里的文件名、文档之间的链接。</p>
+<p>指针还能把 <em>secondary source</em> 拴回它所出自的 <em>primary source</em>——注明原始对话记录的 compaction 摘要、注明所描述源文件的文档。这让二手来源的有损变得可恢复:摘要不够用时,agent 顺着指针读原文,而不是对着摘要留下的部分硬干。</p>
+<p>避免叫「reference」——太干,传达不出「顺着走会拉进更多 context」;也别叫「portal」——太花哨。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;AGENTS.md is getting huge.&quot;<br>「AGENTS.md 越长越大了。」</p>
+<p>&quot;Most of it should be context pointers, not content. Keep the always-on rules inline; turn the deploy runbook and the style guide into skills and leave a context pointer behind.&quot;<br>「它大部分该是指针,不是内容。常开的规则留着内联;部署手册和风格指南改造成 skill,原处留一枚上下文指针。」</p>
+38:T758,<h1>Skill · 技能</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Skill.md">原文 ↗</a></p>
+<p>打包成单元的可授予能力——做好一件事所需的指令与资料,平时待在 <em>environment</em> 里,直到一枚 <em>context pointer</em> 因手头任务把它拉进 <em>context window</em>。<em>Harness</em> 里 <em>progressive disclosure</em> 的单元。</p>
+<p>Skill 是开放标准,定义在 <a href="https://agentskills.io">agentskills.io</a>——由 Anthropic 首创,此后多数主流 harness 采纳,一次写成的 skill 处处可用。格式是一个文件夹,内含:</p>
+<ul>
+<li>一个 <code>SKILL.md</code> 文件——元数据(至少有名字和描述)加指令本身</li>
+<li>可选的、<em>agent</em> 能跑的脚本</li>
+<li>可选的、指令所指的模板与参考资料</li>
+</ul>
+<p>默认只有名字和描述占着 <em>context</em>;agent 的任务对上时,才加载其余。在那之前,skill 几乎不占地方——一两个句子的 <em>token</em>,不管它的完整指令有多大。</p>
+<p>这正是 skill 与 <em>AGENTS.md</em> 的分野:后者不问任务、每个 <em>session</em> 都加载;skill 只在特定工作出现时被读——发布、脚手架一个新服务、写一次迁移——其余时间不被理会。</p>
+<p>避免叫「<em>tool</em>」:工具是 agent <em>调用</em>的;skill 是 agent <em>阅读</em>的。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Where should I put the deploy runbook?&quot;<br>「部署手册该放在哪儿?」</p>
+<p>&quot;As a skill — the agent loads it only when the task involves deploys. In AGENTS.md it&#39;d burn tokens on every turn for something we use weekly.&quot;<br>「做成 skill——只有任务涉及部署时 agent 才加载。放 AGENTS.md 的话,为了每周用一次的东西,每个 turn 都在烧 token。」</p>
+39:T686,<h1>Subagent · 子代理</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Subagent.md">原文 ↗</a></p>
+<p>由另一个 <em>agent</em> 经一次 <em>tool call</em> 派生的 agent。它在自己的 <em>session</em>、自己的 <em>context window</em> 里运行,最后只交回一份 <em>tool result</em>。与 <em>handoff</em> 不同:父 agent 明确期待它回来;交接则没有回路。<strong>子代理不能再派生 子代理</strong>——树只有一层。子代理为隔离 <em>context</em> 而存在,不为搭层级。</p>
+<p>它的意义是把嘈杂的工作挡在父 context 之外:一次大范围搜索、一场漫长的读文件远征,产出的 tool result 动辄数页,其中大半只在「找到答案之前」有用。跑在父会话里,这一切会留在父的 context 里直到会话结束;跑在 子代理 里,噪声灌满的是一个用后即弃的窗口——只有最终报告落进父的 context。报告是 <em>secondary source</em>:父拿到的是子代理对所见之事的<em>转述</em>,不是原始结果;报告漏掉的,父无从知晓。</p>
+<p>子代理还能并发:父 agent 可以同时铺开几个,各干一片互不依赖的工作。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;The grep results are blowing out my context.&quot;<br>「grep 的结果快把我的 context 撑爆了。」</p>
+<p>&quot;Spawn a subagent to do the search — it&#39;ll burn its own context window on the noise and report back the two file paths you actually need.&quot;<br>「派个子代理去搜——它把噪声烧在自己的 context window 里,只回报你真正需要的那两个文件路径。」</p>
+3a:T7a1,<h1>Human-in-the-loop · 人在环中</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Human-in-the-loop.md">原文 ↗</a></p>
+<p>一种工作模式:一个或多个人在 <em>session</em> 期间与 <em>agent</em> 结伴——实时地评审、纠偏、协作。人在场、人在参与,不只是给单个动作放行。</p>
+<p>对照面是 <em>AFK</em>:agent 无人值守地跑,你事后评判结果。人在环中意味着趁问题还便宜时接住它:你看见 agent 伸手去拿错的文件、误读需求、开始钻进死胡同,一句话把它拽回来——而不是等二十分钟自信满满的工作全压在错误上之后才发现。Agent 不可靠地知道自己何时跑偏;放它独处,它倾向于硬着头皮往前推,而不是停下来问。</p>
+<p>哪种模式合适,取决于活本身:目标明确、低风险、易验证的任务适合 AFK;含糊、不可逆、或成品难审的活——schema 迁移、棘手的设计决定、一切碰生产的——适合留在环中。判断题本质上是一道:走错一步的代价多大,你多晚才会发现?</p>
+<p>有些工作天然在环中,因为<em>你的反应就是输入</em>:<em>grilling</em> 离开你回答问题就不成立;<em>prototyping</em> 离开你对原型的反应也不成立。</p>
+<p>留在环中花的是你的注意力——最稀缺的资源。用 agent 越来越好的一部分,就是把更多工作安全地挪出环外:事前计划、<em>automated check</em>、收尾的 <em>human review</em>,替代全程盯梢。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Run this AFK overnight?&quot;<br>「这个活挂机跑一晚上?」</p>
+<p>&quot;No, schema migration — keep it human-in-the-loop. I want to see each step and steer if it picks the wrong column to backfill from.&quot;<br>「不行,schema 迁移——保持在人在环中。每一步我都要看着,它要是挑错了回填依据的列,我好纠。」</p>
+3b:T865,<h1>AFK · 挂机</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AFK.md">原文 ↗</a></p>
+<p>Away from keyboard,离开键盘。一种工作模式:你启动 <em>session</em> 然后走开,让 <em>agent</em> 无人值守地跑。AI 编码的吞吐倍增器——多个 AFK 会话并行,你去睡觉、吃饭、干别的。通常需要宽放的 <em>permission mode</em> 加 <em>sandbox</em> 才安全。</p>
+<p>你不在场时,agent 处理含糊的方式就变了:盯着看时,含糊的决定会浮成一个提问,你来答;你一走开,agent 自己挑个默认值继续跑,后面每个决定都叠在那个猜测上。标志性的失败场景:回来看到几个小时干净利落的成品——建立在头十分钟一个错误决断上的成品。活不糙——它自洽,只是对着错的事情自洽。</p>
+<p>跑的过程中你给不了输入,那就在跑之前和跑之后给。之前:把含糊提前消解——一轮 <em>grilling</em>、一份写好的 <em>spec</em>——让 agent 没那么多空白要独自填补。之中:<em>automated check</em> 与 <em>automated review</em> 顶替你没给的注意力,机械可查的让它快速失败。之后:收尾落在可评审的东西上——一个 PR,而不是已经 merge 的改动。AFK 不取消 <em>human review</em>,它把全部评审推迟到结尾——所以送抵结尾的东西必须值得评审。这也是 <em>AX</em> 在 AFK 运行里最要紧的原因:没人看着,环境是 agent 唯一得到的支撑。</p>
+<p>避免叫「后台代理(background agent)」——那把重心放在机器(「在后台跑」),而不是人的模式(「人走开了」)。AFK 点名的正是那个要紧的事实:用户没在看。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;I&#39;m running this AFK — three sandboxed agents on the refactor, reviewing the PRs in the morning.&quot;<br>「这个我挂机跑——三个沙箱 agent 做重构,早上起来评审 PR。」</p>
+<p>&quot;Bypass permissions?&quot;<br>「开着 bypass permissions?」</p>
+<p>&quot;Yeah, read-only filesystem, no network.&quot;<br>「对,只读 filesystem,断网络。」</p>
+3c:T916,<h1>Automated check · 自动化检查</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Automated%20check.md">原文 ↗</a></p>
+<p>跑在 <em>environment</em> 里的确定性验证:测试、类型检查、lint、构建、pre-commit 钩子。只判通过/失败,不做评判。<em>Agent</em> 不必惊动任何人就能据此自我纠正的信号。flaky 的测试是坏掉的检查,不是「没有检查」——自动化检查在设计上就是确定的。</p>
+<p>自我纠正是一个循环:agent 改动,用一次 <em>tool call</em> 跑检查,失败输出落进它的 <em>context window</em>——带文件带行号的类型错误、带期望值与实际值的断言失败。这些足够它修好问题再跑一遍,如此循环直到通过,全程无人在环。确定性是这个循环可信的原因:同样的代码永远得到同样的判决,通过才有含义。flaky 的检查毒化一切——agent 会去「修」本来没毛病的代码,或在真失败上反复重试撞运气。</p>
+<p>这就是为什么好的检查在代码库的 <em>AX</em> 里占大头:有严格类型、快速测试、linter 的仓库里,agent 在你看见之前就自己接住了大部分错误;三样皆无的仓库里,agent 产出什么就交什么。差别在 <em>AFK</em> 运行里最大——跑动期间检查是唯一的验证。但检查只接得住它断言的东西:全绿的检查意味着「被断言的性质成立」,不意味着「代码是对的」。判断形状的缺口,是 <em>automated review</em> 与 <em>human review</em> 的地盘。</p>
+<p>避免说「反馈回路 / 背压」——两者都把检查和评审混为一谈。避免只说「测试」——测试是自动化检查,但自动化检查不全是测试。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;The agent keeps shipping broken code in the AFK runs.&quot;<br>「AFK 运行里,agent 老是交付跑不起来的代码。」</p>
+<p>&quot;What automated checks are wired into the sandbox?&quot;<br>「沙箱里接了哪些自动化检查?」</p>
+<p>&quot;Just the unit tests.&quot;<br>「只有单元测试。」</p>
+<p>&quot;Add typecheck and lint — it&#39;ll self-correct from those before the PR ever lands.&quot;<br>「加上 typecheck 和 lint——PR 落地之前它就能靠它们自我纠正了。」</p>
+3d:T842,<h1>Automated review · 自动化评审</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Automated%20review.md">原文 ↗</a></p>
+<p>一个 <em>agent</em> 评审另一个 agent 的工作,常用不同的 <em>model</em> 或 <em>system prompt</em>。非确定性:它形成的是<em>判断</em>。跑在哪都行:PR 合并前、事后扫提交历史、会话中途以 <em>subagent</em> 出现。CI 里的 LLM-as-judge 属于自动化评审,不是 <em>automated check</em>——断言「做什么」决定归类,不看它跑在哪。</p>
+<p>与干活 agent 的分离,是评审成立的前提。让写代码的 agent 评审自己的作品,所得无几——产出 bug 的那个 <em>session</em> 里也装着产出 bug 的推理,agent 会把自己的结论读回给自己当确认。一个 <em>context window</em> 全新的评审者没有这份纠缠:它看 diff 的眼光像个陌生人——这正是评审赖以成立的东西。换模型、或换上评审专用的 system prompt,还能更锋利:盲区不同,而且 system prompt 可以只对准你真正在乎的东西(安全、API 契约、性能),而不是含混的「找找问题」。</p>
+<p>它在评审层级的中间一层:自动化检查是确定性的,接住可机械断言的;人工评审最贵、扩展性最差;自动化评审居中——用机器的成本,接住「判断形状」的问题(误导性的函数名、漏掉的边界情况)。因为非确定,它既会漏报也会误报:把它当「人工过目之前抬高底线」的过滤器,不当成取而代之的闸门。</p>
+<p>避免说「AI review / agent review」——太含糊,分不清是评审环节还是干活的 agent 本身。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;We&#39;re getting too many bad PRs from the AFK runs.&quot;<br>「AFK 运行产出的坏 PR 太多了。」</p>
+<p>&quot;Add an automated review step before merge — different model, separate system prompt, scoped to security and contract changes.&quot;<br>「合并前加一道自动化评审——换个模型、单设 system prompt,只盯安全与契约变更。」</p>
+3e:T817,<h1>Vibe coding · 氛围编程</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Vibe%20coding.md">原文 ↗</a></p>
+<p>不做 <em>human review</em>、照单全收 <em>agent</em> 代码的工作模式。Diff 被当作不透明物——要紧的只是程序跑起来行为对不对,里面是什么无关紧要。<em>Automated review</em> 与 <em>automated check</em> 可能照跑;氛围编程对两者都不置可否。</p>
+<p>这个词出自 Andrej Karpathy,2025 年初提出:你「彻底交给感觉」,「忘掉代码的存在」——说出你想要什么,收下回来的东西,靠运行来评判。</p>
+<p>氛围编程拿检视换速度:读 diff 通常是 agent 工作流里最慢的一步,丢掉它,主瓶颈就消失了。对失败很便宜的代码——<em>prototype</em>、一次性脚本、内部小工具——这是一笔合理交易。风险随代码的寿命与利害同步放大。</p>
+<p>代价随后到账:氛围编程的改动越攒越多,成一个没人读过的代码库;而当初只检查过行为——凡是行为 surface 不出来的东西,全在无人看见的情况下上线了:写进日志的密钥、漏掉的边界情况、悄悄错掉的数据处理。第一个人来 debug 的那天,才是第一有人读代码的那天。人工评审一撤,还在跑的自动化验证——测试、类型、自动化评审——就是代码唯一通过的关卡。</p>
+<p>避免把「vibe coding」当「低质量 AI 代码」的同义词——这个词命名的是<em>评审姿态</em>,不是产出的代码。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Did you read what it changed in the auth flow?&quot;<br>「它对认证流程的改动你读过吗?」</p>
+<p>&quot;Vibe coded it — login still works, that&#39;s all I checked.&quot;<br>「氛围编程来的——登录还能用,我只查了这个。」</p>
+<p>&quot;Read the diff before you push, vibing on auth is how secrets leak into logs.&quot;<br>「push 之前把 diff 读了——认证环节凭感觉,密钥就是这么漏进日志的。」</p>
+3f:T805,<h1>Design concept · 设计概念</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Design%20concept.md">原文 ↗</a></p>
+<p>「正在造的是什么」的共享理解——由你和 <em>agent</em> 共同持有,但不附着于任何交付物。Brooks 的术语(《The Design of Design》):对话、<em>handoff artifact</em>、代码,都是试图捕捉或抵达设计概念的资产,但没有一个<em>是</em>它。设计概念的好坏,是从孕育它的那段对话的质量里被感受到的。</p>
+<p>这个词点破了一种熟悉挫败背后的缺口:agent 一字不差写出了你要的东西,结果还是错的。常见原因是你自己还没完全想清楚要什么——设计概念在你脑子里尚未完工,你的提示词只装下了想好的那部分,对没想好的部分保持沉默;agent 用自己的假设填进这些沉默,因为没有可对齐的东西。什么都没故障——只是不存在共享的设计概念,因为连一个完整的设计概念都还没有。</p>
+<p>判断设计概念是否共享,与判断同事之间是否共识同法:对方开始用你会用的方式,回答你还没问的问题。在那之前,工作就是对谈——<em>grilling</em> 是它的刻意版本;过早写 <em>spec</em>,只是把未对齐封存进一个更耐久的资产。设计概念还随你的认知移动,资产滞后于它——所以忠实于上周理解的 spec,仍可能误导这一周的会话。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It&#39;s writing exactly what I asked for and it&#39;s still wrong.&quot;<br>「它一字不差写出了我要的东西,结果还是错的。」</p>
+<p>&quot;You don&#39;t share a design concept yet — it&#39;s filling gaps with assumptions. Keep talking until cancellation, refunds, and partial fulfilment all line up between you before you let it write a spec.&quot;<br>「你们还没有共享的设计概念——它在拿假设填空。继续谈,直到取消、退款、部分履行这些点你们全都对上,再让它写 spec。」</p>
+40:T6e3,<h1>Grilling · 追问式访谈</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Grilling.md">原文 ↗</a></p>
+<p>与 <em>agent</em> 一起孕育 <em>design concept</em> 的技法:agent 以穷追不舍的访谈盘问你,一次问完整个还没决定的事的清单(<em>frontier</em>),每题编号并附上推荐答案;一轮 16 个问题很常见,复杂特性 30~50 个也有。它拖住「直奔成品计划」的冲动——概念未稳之前,不写任何 <em>handoff artifact</em>。</p>
+<p>技法存在的原因:agent 会无声地填空。拿着两行提示词去写 <em>spec</em>,agent 不会停在「你还没决定的事」上——它挑好默认值直接写进去。成品看着很完整,而猜测与选择难以区分,等你发现时已经很晚:在评审时,或者在做好的功能以你从未选过的方式处理某个边界情况时。Grilling 把这一切倒过来:不让它猜,让它问。</p>
+<p>这是 <em>human-in-the-loop</em> 的技法:你的回答就是输入。当一个问题在对话里答不了——你得亲眼看到才行——切换到 <em>prototyping</em>。</p>
+<p>机制展开与实战见课件 <a href="/lessons/0002">0002 · 参考层四技能</a>。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;It went straight to writing the spec and got the cancellation logic wrong.&quot;<br>「它直接动手写 spec,取消逻辑写错了。」</p>
+<p>&quot;Grill it first — make it ask you about partial cancels, refunds, and timing before it commits anything to the doc. Cheaper to resolve in conversation than in code.&quot;<br>「先盘问它——在它往文档里落任何东西之前,让它问你部分取消、退款、时点这些事。对话里解决,比代码里便宜。」</p>
+41:T76b,<h1>Prototyping · 原型实验</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Prototyping.md">原文 ↗</a></p>
+<p>让 <em>agent</em> 快速搭一个粗糙版本——用在对话保真度不够、你需要一个真实产物才能谈下去的时候。</p>
+<p><em>Grilling</em> 在对话里消解设计决定。对话便宜,但低保真:有些问题话语言答不了——一个交互摸起来什么感觉、一个 API 形状在真实调用代码里顺不顺手、一屏数据到真实量级还立不立得住。访谈撞上这样的问题,你诚实的回答是「不知道,得看到才行」。过了这个点,讨论开始原地打转。正确动作是:让 agent 把东西做出来,你看一眼,带着答案回到对话里。</p>
+<p>Agent 把「做」的成本打了下来,这件事才变得可行:过去要糊一天的粗糙版本,现在几分钟,值得变成常规动作。这也是 <em>human-in-the-loop</em> 的技法:原型存在的意义就是让你对它作反应。</p>
+<p>你通常不会只看一眼——对着原型迭代:反应、要求改、再反应——每一轮都对着真实产物多敲定一个决定,保真度高于对话所能。</p>
+<p>原型不必一律糙:你完全可以把正在评估的那几块做到生产质量,决定落定之时,你反应过的那个组件或 API 可以直接搬进真代码库。这让原型成为 <em>spec</em> 值得引用的实质材料。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;We&#39;ve spent half an hour arguing about whether the wizard should be one page or three steps.&quot;<br>「向导该做成一页还是三步,我们已经吵了半小时。」</p>
+<p>&quot;Words won&#39;t settle it — have the agent prototype both. We&#39;ll click through them and know in five minutes.&quot;<br>「靠说定不了——让 agent 把两种都做个原型。点一遍,五分钟见分晓。」</p>
+42:T7fa,<h1>DX · 开发者体验</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/DX.md">原文 ↗</a></p>
+<p>Developer experience——代码库及其工具链让<em>人</em>做好工作有多容易:反馈快、报错清楚、文档正好答着你真想问的问题、环境一次就装通。这个词远早于 AI 编码,收进本词典主要是为了给 <em>AX</em> 当对照面。</p>
+<p>DX 是人与代码库之间的互动——仅此而已。两类受众的核心差别:人是 <em>stateful</em> 的,agent 是 <em>stateless</em> 的。人学会一次代码库,往后每天都带着这份知识,所以糟糕的 DX 人类熬得住:CI 慢就攒一把一起 push,文档缺就去 Slack 问一句,结构乱就靠记住东西在哪。绕路的办法越攒越多,一个团队最终能在一个处处与之作对的代码库里保持产出。</p>
+<p><em>Agent</em> 面对同一个代码库,却没有这份积累。跨 <em>session</em> 无状态,它每次都从零重新认识代码库——快速测试与清晰报错对它照样有用,但昨天弄明白的东西,凡没写进 <em>environment</em> 的,今天都不在了;而环境,它只能透过 <em>tool result</em> 感知。这就是 AX 点名的缺口:DX 中当开发者换成 agent 后仍成立的部分,再加上人类没有的关切——比如让 <em>context window</em> 闲着。</p>
+<p>重叠意味着 DX 投入常常白送 AX:严格类型、快速测试、可预测的结构,两边都受益。分岔意味着并非总是:一份精美的上手文档帮人帮一周,对 agent 分文不值——除非它能从 <em>AGENTS.md</em> 被够到。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;Our DX is fine — new hires are productive in a week.&quot;<br>「我们的 DX 没问题——新人一周就能出活。」</p>
+<p>&quot;Productive because someone sits with them for that week. The agent doesn&#39;t get that week; check the AX separately.&quot;<br>「能出活是因为那一周有人陪跑。Agent 没有那一周——AX 得单独查。」</p>
+43:T812,<h1>AX · 智能体体验</h1>
+<p><a href="https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/AX.md">原文 ↗</a></p>
+<p>Agent experience——<em>environment</em> 为 <em>agent</em> 在代码库里干好工作而铺设的程度,DX 的 agent 侧对照面。同一个 agent 在这个仓库生龙活虎、在那个仓库屡屡翻车——<em>model</em> 相同、<em>harness</em> 相同——差异通常就是 AX。直觉是怪模型、重写提示词;解法更多时候在仓库里。</p>
+<p>好的 AX 有三个主维度:</p>
+<ul>
+<li><strong>Automated checks</strong>——快、确定、agent 不必惊动人就能据此自我纠正的 <em>automated check</em>:类型、测试、lint。</li>
+<li><strong>Architecture</strong>——agent 不必读遍全部就能导航的代码库:结构可预测,大量行为藏在小小的接口后面,名字自述其职。</li>
+<li><strong>Free context</strong>——<em>AGENTS.md</em>、<em>skill</em>、<em>tool</em> 保持精瘦,让 <em>context window</em> 的大头留给任务,agent 待在 <em>smart zone</em> 里而不是被淹没。</li>
+</ul>
+<p>AX 与 DX 重叠——好检查与干净的架构两边通吃——但会分岔:人忍得了口口相传的知识、慢 CI、「计费模块问 Sarah」;agent 忍不了。Agent 用不上 IDE 悬浮提示与漂亮面板;它需要失败以文本形式出现在 <em>tool result</em> 里。一个代码库完全可以 DX 良好而 AX 拉胯。</p>
+<p>避免把 AX 当 DX 的同义词——两类受众要的投资不同。</p>
+<p><strong>Usage</strong></p>
+<p>&quot;The agent writes great code in the API repo and garbage in the frontend.&quot;<br>「这个 agent 在 API 仓库里代码写得漂漂亮亮,到前端仓库就净产垃圾。」</p>
+<p>&quot;The API repo has strict types and a fast test suite; the frontend has neither and forty always-loaded skills. That&#39;s an AX gap, not a model problem.&quot;<br>「API 仓库类型严格、测试飞快;前端两样皆无,还常驻四十个 skill。这是 AX 缺口,不是模型的问题。」</p>
+6:["$","$1","c",{"children":[["$","main",null,{"className":"mx-auto w-full max-w-6xl flex-1 px-6 py-12","children":[["$","p",null,{"className":"font-mono text-xs uppercase tracking-[0.12em] text-amber-700 dark:text-amber-400","children":"Dictionary · 概念课程"}],["$","h1",null,{"className":"mt-2 text-3xl font-semibold tracking-tight","children":"AI 编码词典"}],["$","p",null,{"className":"mt-3 text-lg text-muted-foreground","children":"一门相对独立的概念课程:AI 编码的核心术语,以自写中文转述、术语与例句保留英文。概念在这里查透,流程在课件里练。"}],["$","div",null,{"className":"mt-8","children":["$","$Lb",null,{"sections":[{"id":"the-model","zh":"模型本身","en":"The Model","entries":[{"term":"AI","zh":"人工智能","html":"$c"},{"term":"Model","zh":"模型","html":"$d"},{"term":"Parameters","zh":"参数","html":"$e"},{"term":"Training","zh":"训练","html":"$f"},{"term":"Inference","zh":"推理","html":"$10"},{"term":"Effort","zh":"思考力度","html":"$11"},{"term":"Token","zh":"词元","html":"$12"},{"term":"Next-token prediction","zh":"下一词元预测","html":"$13"},{"term":"Non-determinism","zh":"非确定性","html":"$14"},{"term":"Model provider","zh":"模型供应商","html":"$15"},{"term":"Harness","zh":"挽具","html":"$16"},{"term":"Model provider request","zh":"模型供应商请求","html":"$17"},{"term":"Input tokens","zh":"输入词元","html":"$18"},{"term":"Output tokens","zh":"输出词元","html":"<h1>Output tokens · 输出词元</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Output%20tokens.md\">原文 ↗</a></p>\n<p><em>Model</em> 生成回来的 <em>token</em>。计费单价高于 <em>input tokens</em>——常见约为五倍——因为产出的计算代价更高。</p>\n<p>模型写出的一切都算:你读到的行文、它吐出的代码、每一次 <em>tool call</em>,以及回答前的 extended thinking。最后这项最出人意料——推理 token 按 output 计费,哪怕 <em>harness</em> 常常根本不给你看,而调高 <em>effort</em> 花的正是它们。Output tokens 还决定 <em>session</em> 的节奏:输入读得快,输出却要一个 token 一个 token 地生成——一个 <em>turn</em> 让你觉得慢,几乎总是输出正在被写,而不是输入正在被读;等得久,通常意味着长答案在路上。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;The refactor session is burning through credit even though the inputs are small.&quot;<br>「这次重构 session 的额度烧得飞快,可输入明明不大。」</p>\n<p>&quot;Agent&#39;s rewriting whole files instead of patching. Output tokens cost roughly five times the input rate — get it emitting edits and the bill drops.&quot;<br>「agent 在整文件重写,不是打补丁。output tokens 单价约是输入的五倍——让它改成发增量编辑,账单就下来了。」</p>\n"},{"term":"Prefix cache","zh":"前缀缓存","html":"$19"},{"term":"Cache tokens","zh":"缓存词元","html":"$1a"}]},{"id":"sessions-context-windows-turns","zh":"会话、上下文窗口与轮次","en":"Sessions, Context Windows & Turns","entries":[{"term":"Stateless","zh":"无状态","html":"<h1>Stateless · 无状态</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Stateless.md\">原文 ↗</a></p>\n<p>不向前携带任何信息。<em>模型</em>在每次请求之间是无状态的——每次请求都重发完整的 context window,因为模型看不到别的任何东西;<em>agent</em> 在 session 之间默认也无状态,新会话从零开始。</p>\n<p>模型永远无状态:参数在 training 后冻结,推理不会改变它,它不会从你的纠正里学习、也不会渐渐认识你。会话内的连续感是 harness 制造的——它保存对话记录并随每个请求重发:模型不是在记住对话,而是在重读对话。实践推论:想让某件事被跨会话记住,就必须写到 agent 会读回来的地方——AGENTS.md、memory system、handoff artifact 都因此存在。当 agent 反复犯你纠正过的错,问题不是「它为什么没学会」(它不能),而是「这条纠正该写到哪里,让每个未来会话都读到」。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;Why does it forget the convention every time I clear?&quot;<br>「为什么每次 clear 它都忘记这个约定?」</p>\n<p>&quot;The model&#39;s stateless — the new session starts empty. If you want it carried, write it to AGENTS.md or a memory file the harness loads at session start.&quot;<br>「模型是无状态的——新会话从零开始。想让它被带走,就写进 AGENTS.md 或 harness 在会话启动时加载的记忆文件。」</p>\n"},{"term":"Context","zh":"上下文","html":"<h1>Context · 上下文</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context.md\">原文 ↗</a></p>\n<p>agent 当前能接触到的、与任务相关的信息。抽象名词——不是模型看到的原始输入(那是 context window),也不是滚动的历史(那是 session),而是「agent 此刻知道的、与任务相关的东西」。「把某物加载进 context」就是让它进入这个集合;「context engineering」就是策划它的学科。</p>\n<p>三个词分得干净:Context 是任务相关信息的集合,context window 是模型每次请求看到的字面 token 序列,session 是 harness 保存的滚动对话。区分之所以要紧,是因为 context 衡量的是质量而非数量:窗口快满而 context 依旧贫瘠(几千 token 全是过期工具输出),几乎为空也可以极佳(恰好是任务依赖的那个类型定义)。日常失败大多可追溯到 context:agent 编造 API、违背决策、瞎猜 schema 时,第一反应是问「它做这件事时 context 里有什么」——通常相关事实从未加载,或被注意力衰退埋掉了。解法是策划:加载任务需要的,挡住不需要的。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;It keeps inventing fields that aren&#39;t in the type.&quot;<br>「它一直在编造类型里不存在的字段。」</p>\n<p>&quot;The type file isn&#39;t in context — it&#39;s reading the call sites and guessing. Read the definition in first.&quot;<br>「类型定义文件不在 context 里——它在读调用点瞎猜。先把定义读进来。」</p>\n"},{"term":"Context window","zh":"上下文窗口","html":"<h1>Context window · 上下文窗口</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Context%20window.md\">原文 ↗</a></p>\n<p>模型在每次请求时看到的全部内容。有限、因模型而异,而且是模型感知一切的唯一表面。它是单一 token 序列:system prompt + 迄今的对话 + harness 反馈回来的每个 tool result。在序列里,模型就能用;不在,模型就不知道它存在——你的代码库、昨天改的文件、三个会话前的指令,都一样。</p>\n<p>有限意味着会填满:每个 turn 都在追加内容,长 session 终会触顶,被迫 compaction 或 clearing。也意味着窗口内一切互相竞争:加载的每个 token 都占预算,不需要的内容照样占据模型注意力。实践姿态:把窗口当预算——加载任务需要的,其余挡在门外,要用再通过 tool call 拿。避免把它叫「记忆」:窗口是工作状态,不跨会话持久;memory 是叠在之上的另一个概念。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;Can I just paste the whole monorepo into the prompt?&quot;<br>「我能把整个 monorepo 都贴进提示词吗?」</p>\n<p>&quot;The context window&#39;s 200k tokens — that&#39;s maybe a fifth of the repo. Pick the files the task touches, leave the rest behind a tool call.&quot;<br>「context window 是 20 万 token——大概只有仓库的五分之一。挑任务会碰的文件,其余放在 tool call 后面。」</p>\n"},{"term":"Stateful","zh":"有状态","html":"<h1>Stateful · 有状态</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Stateful.md\">原文 ↗</a></p>\n<p>向前携带信息。Session 在 turn 之间有状态——context 随会话累积,这也是长会话滑向 dumb zone 的原因。Agent 可以通过 memory system 跨会话变得有状态:把信息持久化到 environment、未来会话启动时重载。模型永远无状态;任何表面的连续性都是 harness 在重新喂 context。</p>\n<p>每一层的「有状态」都靠重读下一层存的东西建立:session 感觉连续,是 harness 把消息历史重发给无状态的模型;agent 跨会话记得,是 harness 从 environment 重载文件。模型本身从不存状态。状态也不总是想要的:会话早期形成的错误假设会被一路携带下去——clearing 就是主动丢弃会话状态、回到「写下来的东西」的动作。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;It remembered my preferences from yesterday — does that mean the model learned them?&quot;<br>「它记得我昨天的偏好——是不是说明模型学会了?」</p>\n<p>&quot;No, the agent&#39;s stateful because the harness wrote them to a memory file and reloaded them at session start. The model itself saw nothing of yesterday.&quot;<br>「不,是 agent 有状态:harness 把偏好写进记忆文件、会话启动时重载。模型本身对昨天一无所知。」</p>\n"},{"term":"Agent","zh":"智能体","html":"<h1>Agent · 智能体</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Agent.md\">原文 ↗</a></p>\n<p>模型 + harness——配上工具、system prompt 和 context window——与你轮流对话的东西。Claude Code 是 agent,Cursor 是 agent。Agent 是你真正对话的对象:动起来、为特定目的配置好的模型。</p>\n<p>与词典里大多数术语不同,agent 不指某个机械部件:模型是一份参数文件,harness 是你可以指向的软件,agent 是两者合起来被你当作单一行为者称呼的东西——你向它委派任务,它读你的消息并回答,「它又把构建搞坏了」里的那个「它」。人们不断把 AI 拟人化,agent 就是被拟人化的单位。这个概念比这一波 AI 浪潮老得多:软件 agent——你委派目标、它代你行动的程序——与 AI 的历史一样长。避免说「the AI」「the bot」:太含糊,分不清你指参数还是指装配好的整体。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;Which agent are you using for the migration?&quot;<br>「迁移你用哪个 agent?」</p>\n<p>&quot;Claude Code locally, Cursor for the UI work — same model underneath, different harnesses.&quot;<br>「本地用 Claude Code,UI 的活用 Cursor——底层同一个模型,不同的 harness。」</p>\n"},{"term":"System prompt","zh":"系统提示词","html":"<h1>System prompt · 系统提示词</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/System%20prompt.md\">原文 ↗</a></p>\n<p>harness 在每次请求前附带注入的指令——agent 的常设简报:它是谁、如何行为、能调用哪些工具、遵循什么约定。通常整个 session 保持稳定。</p>\n<p>System prompt 由 harness 厂商编写而不是你,编码类 harness 里它很大——常达数万 token 的行为规则、工具描述与边界处理,每个 turn 都按 input tokens 计费。你自己的常设指令搭着它走:AGENTS.md 之类文件在会话开始时与 system prompt 一同加载,模型先读完厂商简报和你的简报,才看到你的消息。因为它每次请求都相同,它构成 prefix cache 的起点——这也是 harness 情愿整会话保持它固定不变的原因之一。模型被训练为优先服从 system prompt:当 agent 固执于你从没要求的约定、或输出格式怎么掰都掰不动时,通常是它在执行 system prompt,而你的消息吵输了。有些 harness 允许你查看甚至改写它。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;Two harnesses, same model, totally different behavior on the same prompt.&quot;<br>「两个 harness、同一个模型,同一提示词行为完全不同。」</p>\n<p>&quot;Different system prompts. One&#39;s tuned for terse code edits, the other for explaining — that&#39;s where the divergence lives, before your message even arrives.&quot;<br>「system prompt 不同。一个调教成简洁改码,另一个偏向讲解——分歧在你消息到达之前就存在了。」</p>\n"},{"term":"Session","zh":"会话","html":"<h1>Session · 会话</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Session.md\">原文 ↗</a></p>\n<p>与 agent 的一次有边界的交互运行:从空开始,累积消息、tool result 和读过的文件,直到被 clear、关闭、或 compact 成新会话。Session 是「装填」context window 的东西——窗口是盒子,session 是慢慢填进去的内容。超出单个窗口的活必须拆到多个会话。</p>\n<p>Session 的消息历史就是 agent 的工作记忆:模型无状态,它「记得」的一切——你要过什么、测试说了什么、三个 turn 前决定了什么——全在历史里、随每次请求重发。不在 session 里的东西,对 agent 就不存在。这份记忆随会话结束而结束:昨天收工时对代码库烂熟的 agent,今天早上对它一无所知;幸存下来的是文件系统——这正是 handoff、memory system 和 AGENTS.md 依赖的机制。会话在哪结束由你选:会话里的一切都影响后续每个 turn,无关任务留下的残留会污染下一个回答。一个任务一个会话,收工即 clear,是保持 context 相关性的自然节拍。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;How long can one session run before it falls apart?&quot;<br>「一个 session 能撑多久不散架?」</p>\n<p>&quot;Depends on the work — a focused refactor stays sharp longer than open-ended research. Once the session bloats, hand off or compact, don&#39;t push through.&quot;<br>「看活——专注的重构比开放式研究撑得久。会话一臃肿就 handoff 或 compact,别硬撑。」</p>\n"},{"term":"Turn","zh":"轮次","html":"<h1>Turn · 轮次</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Turn.md\">原文 ↗</a></p>\n<p>一条用户消息,加上 agent 为响应它所做的一切,直到交还控制权。包含一次或多次请求——agent 调用工具时是很多次。澄清性提问结束本轮,你的回复开启下一轮。层级:Session &gt; Turn &gt; 模型供应商请求。</p>\n<p>Turn 值得被命名,是因为它的长度由 agent 而非你决定:你只交出一条消息,agent 决定链多少个 tool call 才交还。一轮可以是一句回答,也可以是二十分钟的读码、改码、跑测试。同一性质的两面:长 turn 让 AFK 工作成为可能,长 turn 也是无人监督时出事的地方——等你拿回控制权,它可能已经漂离你的本意很远。Turn 也是转向的自然单位:轮内一切都在没有你的情况下发生,轮与轮之间的间隙才是你纠偏的地方。若总对 turn 的落点不满意,解法通常是要求更小的 turn——先出计划、一次一步——用自治换更频繁的纠偏间隙。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;One turn took two minutes?&quot;<br>「一轮花了两分钟?」</p>\n<p>&quot;It made fourteen tool calls inside that turn — each one is a separate model provider request. Latency stacks up before the agent finally yields back to you.&quot;<br>「那一轮里它打了十四个 tool call——每个都是一次独立的请求。延迟层层叠加,agent 才把控制权交回来。」</p>\n"}]},{"id":"tools-environment","zh":"工具与环境","en":"Tools & Environment","entries":[{"term":"Environment","zh":"环境","html":"$1b"},{"term":"Filesystem","zh":"文件系统","html":"<h1>Filesystem · 文件系统</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Filesystem.md\">原文 ↗</a></p>\n<p><em>Agent</em> 读、写、并在其中执行的一棵文件与目录树——编码类 agent 的默认 <em>environment</em>。<em>AGENTS.md</em>、<em>skill</em>、源代码、构建脚本、<em>tool</em> 配置都住在文件系统里。<em>Harness</em>「在你的项目里启动」,就是让 agent 指向一个文件系统。</p>\n<p>Agent 只经 <em>tool call</em> 触碰它:读文件、写文件、跑 shell 命令。磁盘上没有任何东西进入 <em>context window</em>,直到某次 tool call 把它加载进来——正因如此,agent 才能在远大于窗口的仓库里干活:文件系统装着一切,context 只装当前任务读过的部分。有些 harness 默认把当前目录的文件名(不是内容,只是目录树)放进 context window,充当 <em>context pointer</em>:agent 看见什么存在,再去读需要的文件。文件系统还与你共享:agent 编辑的文件,就是你在编辑器里打开、在 git 里 diff 的同一批——文件系统是共同的工作场,你在其中审阅 agent 做了什么。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;Why isn&#39;t it picking up my AGENTS.md?&quot;<br>「它为什么不理我的 AGENTS.md?」</p>\n<p>&quot;It&#39;s running against a different filesystem — the sandbox mounted the parent dir, not the project root. Repoint the harness.&quot;<br>「它挂的是另一棵文件系统——sandbox 挂载的是上级目录,不是项目根。把 harness 重新指过去。」</p>\n"},{"term":"Tool","zh":"工具","html":"$1c"},{"term":"Tool call","zh":"工具调用","html":"$1d"},{"term":"Tool result","zh":"工具结果","html":"$1e"},{"term":"MCP","zh":"模型上下文协议","html":"$1f"},{"term":"Permission request","zh":"权限请求","html":"$20"},{"term":"Permission mode","zh":"权限模式","html":"$21"},{"term":"Agent mode","zh":"智能体模式","html":"$22"},{"term":"Sandbox","zh":"沙箱","html":"$23"}]},{"id":"failure-modes","zh":"失效模式","en":"Failure Modes","entries":[{"term":"Sycophancy","zh":"谄媚","html":"$24"},{"term":"Hallucination","zh":"幻觉","html":"$25"},{"term":"Parametric knowledge","zh":"参数化知识","html":"$26"},{"term":"Knowledge cutoff","zh":"知识截止点","html":"<h1>Knowledge cutoff · 知识截止点</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Knowledge%20cutoff.md\">原文 ↗</a></p>\n<p><em>Model</em> 拥有 <em>parametric knowledge</em> 的截止日期。截止点之后的库、API、事件,除非把文档作为 <em>contextual knowledge</em> 加载,都是编造陷阱。每个模型发布都自带各自的截止点。</p>\n<p>截止点存在的原因是模型的制造方式:<em>training</em> 把文本快照烤进 <em>parameters</em>,此后参数冻结。模型不知道自己的知识有边界——被问到截止点之后的事,它不会拒绝回答,而是从最接近的已知东西外推。陷阱因此是无声的:照旧版库写的代码看起来像样,常常还能编译,只在变过的那些地方失败。</p>\n<p>解法永远相同:让最新信息进入 <em>context</em>。加载 changelog,指向已安装版本的类型定义,或让 agent 上网读文档。context 里有,胜过参数里没有。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;It keeps writing the v3 SDK syntax — we&#39;re on v5.&quot;<br>「它一直写 v3 SDK 的语法——我们用的是 v5。」</p>\n<p>&quot;v5 shipped after the knowledge cutoff. Load the v5 changelog as contextual knowledge, otherwise it&#39;ll keep fabricating from the older parametric version.&quot;<br>「v5 是在知识截止点之后发布的。把 v5 的 changelog 作为上下文知识加载,否则它会一直按参数里的旧版编下去。」</p>\n"},{"term":"Contextual knowledge","zh":"上下文知识","html":"$27"},{"term":"Attention relationship","zh":"注意力关系","html":"$28"},{"term":"Attention budget","zh":"注意力预算","html":"$29"},{"term":"Attention degradation","zh":"注意力衰退","html":"$2a"},{"term":"Smart zone","zh":"聪明区","html":"$2b"}]},{"id":"handoffs","zh":"交接","en":"Handoffs","entries":[{"term":"Clearing","zh":"清空","html":"$2c"},{"term":"Handoff","zh":"交接","html":"$2d"},{"term":"Primary source","zh":"一手来源","html":"$2e"},{"term":"Secondary source","zh":"二手来源","html":"$2f"},{"term":"Handoff artifact","zh":"交接物","html":"$30"},{"term":"Spec","zh":"规格","html":"$31"},{"term":"Ticket","zh":"工单","html":"<h1>Ticket · 工单</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Ticket.md\">原文 ↗</a></p>\n<p>框定<em>一个 session</em> 工作量的 <em>handoff artifact</em>。可以独立存在,也可以作为 <em>spec</em> 的子项挂在上面。工单之间可以互相 blocking / 被 blocking,于是工作顺序从依赖图里自然长出来,而不是排一条直线。</p>\n<p>定义性的约束是尺寸:一个会话。一张工单应当能在会话漂出 <em>smart zone</em> 之前做完——这个约束是可检验的:如果你的会话例行公事地在干完之前就退化,工单太大,拆;如果每个会话把大部分 <em>context</em> 花在准备上、只干五分钟的活,工单太小,并。</p>\n<p>好的工单写给没有其他 context 的读者:目标、验收标准、指向相关文件与决定的 <em>context pointer</em>——够这个会话直接开工,不必重新推导上个会话已经知道的事。</p>\n<p>依赖图同时解锁了并行:相互独立的工单——图的叶子——可以各自在自己的会话里同时跑。这是同时驱动多个 agent 的有效方式。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;Where do I start on the migration spec?&quot;<br>「这份迁移 spec 从哪儿下手?」</p>\n<p>&quot;Look at the ticket graph — the schema change blocks the backfill, the backfill blocks the API switch. Pick a leaf and run a session on it.&quot;<br>「看工单图——schema 变更挡着回填,回填挡着 API 切换。挑一张叶子工单,为它跑一个会话。」</p>\n"},{"term":"Compaction","zh":"压缩","html":"$32"},{"term":"Autocompact","zh":"自动压缩","html":"$33"}]},{"id":"memory-and-steering","zh":"记忆与转向","en":"Memory and Steering","entries":[{"term":"Memory system","zh":"记忆系统","html":"$34"},{"term":"AGENTS.md","zh":"AGENTS.md 文件","html":"$35"},{"term":"Progressive disclosure","zh":"渐进式披露","html":"$36"},{"term":"Context pointer","zh":"上下文指针","html":"$37"},{"term":"Skill","zh":"技能","html":"$38"},{"term":"Subagent","zh":"子代理","html":"$39"}]},{"id":"patterns-of-work","zh":"工作模式","en":"Patterns of Work","entries":[{"term":"Human-in-the-loop","zh":"人在环中","html":"$3a"},{"term":"AFK","zh":"挂机","html":"$3b"},{"term":"Automated check","zh":"自动化检查","html":"$3c"},{"term":"Automated review","zh":"自动化评审","html":"$3d"},{"term":"Human review","zh":"人工评审","html":"<h1>Human review · 人工评审</h1>\n<p><a href=\"https://github.com/mattpocock/dictionary-of-ai-coding/blob/main/dictionary/Human%20review.md\">原文 ↗</a></p>\n<p>你——用户——读 <em>agent</em> 产出的代码,并对它形成判断。读 diff、读改动的文件,算;读 agent <em>对自己所做之事的描述</em>,不算——叙述不是产物。描述是 <em>secondary source</em>,还出自被评审的一方;diff 才是 <em>primary source</em>,评审的意思就是读它。</p>\n<p>Agent 抬高了代码的产量,评审于是成了瓶颈。一个有用的思路是分层:<em>automated check</em> 接机械性失败,<em>automated review</em> 接可描述的问题,人工评审只留给非你不可的判断——这个改动是不是对的改动、这个路子合不合这个代码库、这东西究竟该不该存在。</p>\n<p>评审也越早越便宜:动工前读一份计划、半路读一个小 diff,几分钟;AFK 跑完后考古一条成品分支,就久得多。检查点摆在哪,是 <em>human-in-the-loop</em> 的决策,不是事后补记。</p>\n<p>避免单说「code review」——在人工与自动之间含糊。</p>\n<p><strong>Usage</strong></p>\n<p>&quot;I human-reviewed the AFK output.&quot;<br>「AFK 的产出我人工评审过了。」</p>\n<p>&quot;You read the diff or just the summary?&quot;<br>「你读的是 diff,还是摘要?」</p>\n<p>&quot;Diff. The summary said it deleted dead code — turned out the function was called from a generated file.&quot;<br>「diff。摘要说它删了段死代码——结果那个函数是被一个生成文件调用的。」</p>\n"},{"term":"Vibe coding","zh":"氛围编程","html":"$3e"},{"term":"Design concept","zh":"设计概念","html":"$3f"},{"term":"Grilling","zh":"追问式访谈","html":"$40"},{"term":"Prototyping","zh":"原型实验","html":"$41"},{"term":"DX","zh":"开发者体验","html":"$42"},{"term":"AX","zh":"智能体体验","html":"$43"}]}]}]}],"$L44"]}],["$L45"],"$L46"]}]
+8:["$","$1","h",{"children":[null,["$","$L47",null,{"children":"$L48"}],["$","div",null,{"hidden":true,"children":["$","$L49",null,{"children":["$","$4a",null,{"name":"Next.Metadata","children":"$L4b"}]}]}],null]}]
+a:["$","link","0",{"rel":"stylesheet","href":"/learn-mattpocock-skills/_next/static/chunks/0_o-0itn1qdpd.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+7:C
+44:["$","p",null,{"className":"mt-14 border-t pt-6 text-sm text-muted-foreground","children":["来源:",["$","a",null,{"href":"https://github.com/mattpocock/dictionary-of-ai-coding","target":"_blank","rel":"noopener noreferrer","className":"underline underline-offset-4","children":"mattpocock/dictionary-of-ai-coding"}]," ","·"," ",["$","a",null,{"href":"https://aicodingdictionary.com","target":"_blank","rel":"noopener noreferrer","className":"underline underline-offset-4","children":"aicodingdictionary.com"}],"。中文释义为本课程原创转述,随站点以 CC BY-SA 4.0 提供;术语与 Usage 英文原文版权归原作者(上游仓库未附开源许可),每条保留「原文」链接供对照。"]}]
+45:["$","script","script-0",{"src":"/learn-mattpocock-skills/_next/static/chunks/0ustk_2vneetp.js","async":true,"nonce":"$undefined"}]
+46:["$","$L4c",null,{"children":["$","$4a",null,{"name":"Next.MetadataOutlet","children":"$@4d"}]}]
+48:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+4b:[["$","title","0",{"children":"词典 | Agent Skills 中文课"}],["$","meta","1",{"name":"description","content":"AI 编码核心术语的中文释义:一词一卡,随查随用。"}],["$","meta","2",{"property":"og:title","content":"Agent Skills 中文课"}],["$","meta","3",{"property":"og:description","content":"面向中文开发者的 agent skills 非官方社区课程:一条从想法到上线的完整工作流。课程持续更新中。"}],["$","meta","4",{"property":"og:url","content":"http://localhost:3000/"}],["$","meta","5",{"property":"og:site_name","content":"Agent Skills 中文课"}],["$","meta","6",{"property":"og:type","content":"website"}],["$","meta","7",{"name":"twitter:card","content":"summary"}],["$","meta","8",{"name":"twitter:title","content":"Agent Skills 中文课"}],["$","meta","9",{"name":"twitter:description","content":"面向中文开发者的 agent skills 非官方社区课程:一条从想法到上线的完整工作流。课程持续更新中。"}],["$","link","10",{"rel":"icon","href":"/learn-mattpocock-skills/favicon.ico?favicon.2vob68tjqpejf.ico","sizes":"256x256","type":"image/x-icon"}],["$","link","11",{"rel":"icon","href":"/learn-mattpocock-skills/icon.svg?icon.1vum2_0akgzg3.svg","sizes":"any","type":"image/svg+xml"}],["$","$L4e","12",{}]]
+4d:null

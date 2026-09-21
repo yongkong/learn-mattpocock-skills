@@ -1,0 +1,2 @@
+:HL["/learn-mattpocock-skills/_next/static/chunks/0_o-0itn1qdpd.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"lessons","param":null,"prefetchHints":4192,"slots":{"children":{"name":"num","param":{"type":"d","key":"0006","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"Co4sGEzjS0ef3_wpzLRVD"}
