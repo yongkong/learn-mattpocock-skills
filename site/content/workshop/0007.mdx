@@ -1,0 +1,296 @@
+---
+num: "0007"
+short: "大型交付"
+title: "大型任务交付:spec、tickets 与 review"
+lede: "把五步法开到大项目上:issue tracker、/to-spec 写规格、/to-tickets 拆工票、跨 context window 逐票执行、rerouting 与 /goal、coding standards 的强制化。对应视频 P57–P70。"
+module: 实战
+---
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { workshopQuiz0007 } from "@/content/quiz/workshop/0007";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    把一个多头大想法走完 grilling → spec → tickets → implementation → review 全流程:用 issue tracker 承载 spec 与 ticket,跨多个 context window 逐票施工,中途改需求时不翻车。这是「实战」章的收官课,对应视频 B站 P57–P70,共 11 节。<Cite>(来源:《AI Coding Crash Course》,aihero.dev,Matt Pocock)</Cite>
+</Callout>
+
+## P57 ｜ 057 How to Tackle Massive Tasks
+
+小功能或 bug 修复可以一个会话从头做到尾:全程待在 context window(上下文窗口)前段的 smart zone(聪明区),agent 始终敏锐。可任务一大——比如触及应用每一层的 refactor,或一开始就看出连一个 context window 都装不下——就会滑进 dumb zone(迟钝区),甚至整个溢出。
+
+解法是开发者用了几十年的老办法:**拆**。把大任务拆成若干小块,每块都装得进一个 smart zone。拆分需要两份文档:
+
+- **spec 描述目的地(destination)**。它是一份交接物(handoff artifact),会传给每一个会话,让每个会话明白自己的工作如何贡献于总目标;收尾时还要拿它做 review,确认真的到了声称要去的地方。不知道终点在哪,既没法完成任务,也没法验收。
+- **ticket 描述旅程(journey)**。如果 spec 只写了目的地,agent 无从知晓怎么拆,所以每个想放进一个 smart zone 的工作块写一张 ticket,内容是该会话要做什么——相当于 spec 的实现计划。
+
+有了这套结构,30 张 ticket 撑起一份巨型 spec 的项目也能顺利落地。本章讲的就是如何用 spec + ticket 交付比以往更大、更有野心的项目。
+
+<Callout>
+    <strong>先和 [0004](/lessons/0004) 的 wayfinder 划清分工:</strong>
+    两种「大」要分开。路被雾包着、连要决定什么都没定——那是大雾工程,先铺决策地图;路已经清晰、只是量大到一个会话做不完——才是本章的 spec + tickets。先问「路清不清」,再问「量大不大」。
+</Callout>
+
+## P58 ｜ 058 Set Up Your Issue Tracker
+
+spec 和 ticket 存在哪?推荐放在**仓库之外的 issue tracker(问题追踪器)**里——开发者的老朋友,原本用于跨团队协作;用 agent 的妙处在于:它能与你读写同一个 tracker。课程选 GitHub Issues 只因为它免费、好配、你大概率已有账号;方法论对 Jira、Linear、Todoist 同样适用。配置三步走:
+
+1. **安装并认证 GitHub CLI(gh)**。它是 agent 从本地通往 GitHub 取 issues 的通道:
+
+```
+gh auth login
+```
+
+```
+gh auth status
+```
+
+2. **把 issues 放在你拥有的仓库里**。原则只有一条:别把 issue 提到你不维护的公共仓库上——所有参与者互相看得见彼此的 issues,一片混乱。跟练原课程时,课程自带 fork 命令生成私有副本:git 历史替换为全新的初始 commit、新建私有仓库,`pull` / `reset` / `cherry-pick` 照常可用,关键是从此有了自己的一套 issues;用你自己的仓库,这一步天然成立。
+
+3. **运行 /setup-matt-pocock-skills,确认使用 GitHub**。它会写两个文件:AGENTS.md 新增 `## Agent skills` 一节,指向 issue tracker 文档;docs/agents/issue-tracker.md 写全 agent 操作 issues 的约定(创建、读取、列表、评论、打标签、关闭的命令):
+
+```
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs live as GitHub issues on <your-username>/<your-repo>, managed with the `gh` CLI. See `docs/agents/issue-tracker.md`.
+```
+
+最后验证链路:先 `/clear` 清空上下文,再对 agent 说:
+
+```
+Add an issue to the issue tracker just as a test, just for a dummy.
+```
+
+它应自己读到 docs/agents/issue-tracker.md,发现 issues 在 GitHub,然后执行:
+
+```
+gh issue create --title "Test issue (dummy)" --body "Dummy issue created as a test of the issue tracker. Safe to close."
+```
+
+走通这一步,GitHub 就正式成为存放 spec 和 ticket 的 issue tracker。<Cite>(来源:本地插件 [engineering/setup-matt-pocock-skills/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md))</Cite>
+
+## P59–P60 ｜ 059/060 Write Great Specs With This Skill
+
+/to-spec 不负责拷问需求:它假定对话里已经跑过一轮 grilling([0002](/lessons/0002)),然后只做一件事——把当前对话与代码库理解合成为结构化 spec,发布到 issue tracker 并打上 `ready-for-agent` 标签。skill 位于 `.agents/skills/to-spec/SKILL.md`,配置了 `disable-model-invocation: true`,即纯 slash command,agent 不会自动调用。主流程的顺序由此固定:grilling session → /to-spec 生成 spec → /to-tickets 拆 ticket → 逐个实现 → 对照最初的 spec 做 review(前三站的实操清单见 [0003](/lessons/0003))。
+
+**grilling 的价值,先看一个真实探索。**示例功能是 instructor dashboard(讲师后台):登录后除了未答问题的 UI 几乎什么都没有,看不到收入、完课率、测验成绩。analytics 页面天然容易 scope creep,且明显超出一个 smart zone——grilling + spec 的标准候选。开场白用口述给出粗略需求(收入、完课率、lesson drop-off,并欢迎建议),skill 随即深度探索,点破了一个关键现状:
+
+```
+// Current reality: earnings = SUM of purchase amounts
+SUM(purchases.amount_paid)
+JOIN courses ON purchases.course_id = courses.id
+WHERE courses.instructor_id = ?
+```
+
+数据库里根本没有 earnings 概念(没有 fee、payout、refund、currency、price history)——「收入」目前只能通过 courses.instructor_id 关联 purchase 求和,即平台总销售额;drop-off 更是几乎没有数据。这相当于工程师对产品经理说:「现有数据模型做不到,比你以为的工作量大。」这正是 grilling 在动手前就该告诉你的事。
+
+之后分轮作答:同意新增 Instructor Analytics 路由;既看跨课程汇总也看单课程下钻;admin 可看所有讲师并配讲师选择器;平台抽成 20% 用硬编码常量;完课率取每学生平均进度(lesson progress 比 video watch events 干净、少失真);时间筛选 30 / 90 / all time。遇到听不懂的行话(duration-weight、monotonic funnel)就说 "zoom out",让它退一步、用大白话重述再答。其余取向:性能问题先尽力做再测量;图表用 recharts 和 shadcn 的 `chart.tsx`;课程选择器放进 URL search params 而非 client state;附加功能先全上、V2 再收敛——第一版先铺开再回撤是合理的。支持 grilling 的 harness 还能把探索型 agent 放到后台跑,你继续聊天。这一大轮规划只花了约 40K context,因为全程用短回答跟进。第三轮里 agent 派 subagent 核查 seed 数据与测试是否耦合;第四轮它主动揪出「全新讲师无数据需要显式空状态」这一经典边界情况,并基于已有的 testing-services skill 询问测试覆盖率——先前的 steering 开始反哺 grilling。问题问完(frontier 清空),双方达成共享理解。
+
+发布前有一个 **test seam checkpoint**:概念出自 Michael Feathers 的《Working Effectively with Legacy Code》,即你在哪个公共边界写测试。本例只有一个 seam(直接测 services 本身),且前提是 root loader 是真正的 thin pass-through。确认后进入写作。成品按模板组织:
+
+```
+## Problem Statement
+
+The problem that the user is facing, from the user's perspective.
+
+## Solution
+
+The solution to the problem, from the user's perspective.
+
+## User Stories
+
+A LONG, numbered list of user stories. Each user story should be in the format of:
+
+1. As an <actor>, I want a <feature>, so that <benefit>
+
+## Implementation Decisions
+
+A list of implementation decisions that were made. This can include:
+
+- The modules that will be built/modified
+- The interfaces of those modules that will be modified
+- Technical clarifications from the developer
+- Architectural decisions
+- Schema changes
+- API contracts
+- Specific interactions
+
+Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+
+## Testing Decisions
+
+A list of testing decisions that were made.
+
+## Out of Scope
+
+A description of the things that are out of scope for this spec.
+
+## Further Notes
+
+Any further notes about the feature.
+```
+
+几处设计意图值得点名:
+
+- **Problem Statement 和 Solution 交代 why**——有了 why,agent 在 spec 未覆盖的场合能做出符合目的的 tie-breaking 决策。
+- **User Stories 是一长串编号清单**(本例 49 条),格式 as an `<actor>`, I want..., so that...;角色含 instructor / admin / student / developer。编号很重要:ticket 可以引用「本 ticket 解决 user story 35」。
+- **Implementation Decisions** 记录模块、接口、架构、schema 与 API contract 等决策(含 `analytics_range` 这类类型),刻意不引用具体文件——把 spec 想象成会在批准前搁置一阵、要递给团队看的东西,易腐的实现细节会很快过时。
+- **Testing Decisions** 明确好测试的标准,与唯一被测模块(analytics service)。
+- **Further Notes** 甚至写明两处「预期要被批评的设计」(tabs 拆分与最终视觉):先做到最好、预期迭代、别当定案。
+
+两个收尾提醒:对生成的 spec 不满意,就去改 `.agents/skills/to-spec/SKILL.md`(结构、章节、详略、user story 格式均可调);到此为止、不要实现——下一步要先拆 ticket。还有一点反直觉:作者几乎不读自己生成的 spec——对话没漂移的话,读它只能检验 agent 的总结能力,这件事可以直接信任。<Cite>(来源:本地插件 [engineering/to-spec/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md))</Cite>
+
+## P61–P62 ｜ 061/062 Split Features Across Context Windows With Tickets
+
+spec 解决了目的地,旅程仍缺:用 /to-tickets 把它切成 ticket,每张对应一个会话、一个 smart zone。但切分有好坏之分。
+
+**横切(horizontal slices)是陷阱。**应用天然分层——数据库、API、前端(前端里还有 services 和组件),agent 面对跨层工作时的默认做法是横切:Phase 1 做数据库,Phase 2 接服务,Phase 3 接前端。看起来井井有条,实为陷阱,开发者几十年前就懂:Phase 1 的代码设计得好不好,要等 Phase 3 跨层贯通时才知道——横切让你对整个系统的反馈严重滞后。解法是**纵切(vertical slices)**:从第一张 ticket 就同时触碰数据库、API 和前端,先搭最小实现再逐步加厚,之后每个阶段都建立在自己已知集成良好的工作之上。"vertical slices" 这个词本身就好用——agent 对它有既有认知;这个概念与 tracer bullets 源远流长,可追溯到《The Pragmatic Programmer》。
+
+**什么时候调用 /to-tickets?看决策树。**阶段结束先问还能不能继续:smart zone 有剩余、且当前上下文与下一块工作相关,就留在同一会话;上下文与新任务无关,则重新开局。是否需要 handoff?不换 agent、不换目录就不需要。能否 AFK(离开键盘)?需要人审查就不行。这个场景若超出 smart zone,是 compact 的好候选;没超就继续。
+
+**尺寸用预算算。**实测很说明问题:/to-tickets 先给了 10 张 ticket。按一个 smart zone 约 150K tokens 估算,等于给这个功能 1.5M tokens 预算,而作者的直觉上限是 450K(甚至两个会话就够),于是要求「最多三张」。三张的纵切质量不错,但 agent 明确警告第 2、3 张超过单个 fresh context window,且把 indexes、seed 重写、死参数 prefactor(动手前的重构)都塞进了第一张——seed 输出量大、烧输出 token,放在最前尚可理解,但整体过大。改成五张后恰到好处:groundwork、page shell(教科书式纵切)、overview 面板扩充、course detail 选择器、进度与 drop-off funnel 及附加项;agent 自己总结 "Every ticket lands as something you can look at"。
+
+**票与票之间标阻塞关系(blocking relationship)。**本例 3、4 都被 2 阻塞——意味着做完 1、2 后,可以分头在独立 context window 里并行 3 和 4;可选,但更快,也说明这套流程能扩展到 fan-out(多路开工再合并)。
+
+**发布形态。**spec 是父 issue,五张 sub-issue 挂在下面,每张含父链接、what to build 和 acceptance criteria。细节都在父 spec 里,所以 ticket 本身很轻,只声明「这次做 spec 的哪一块」;而明确的验收标准给了 agent 一个干净的停止点。
+
+**审查拆分方案是人的关键职责——agent 会顽强地倾向横切。**盯三点:是否纵切(警惕单独的 "implement the database schema" / "build the API endpoints" 阶段);单张是否装得进一个 fresh context window(太大就让 agent 再拆);与 agent 迭代直至批准再发布。粗读即可——它们只是已做决策的摘要。<Cite>(来源:本地插件 [engineering/to-tickets/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md))</Cite>
+
+## P63–P64 ｜ 063/064 Executing Your Tickets
+
+执行靠三个 skill 协作:**/implement 是编排者,/tdd 提供质量,/code-review 收尾审查并提交**。装好后逐个读一遍 `.agents/skills/` 下的三份 SKILL.md,重点看 /tdd 的 "What a good test is"、"Seams - where tests go"、反模式与循环规则,以及 /code-review 的双轴 subagent。
+
+**/implement 只做编排**:实现 spec/ticket 描述的工作、在预定 seam 上尽量用 /tdd、常态化跑 typecheck 和单个测试文件(完整测试套件最后跑一次)、完成后调用 /code-review、提交到当前分支。真正的质量来自 **/tdd**:agent 在反馈最多时表现最好——先写单元测试再实现,测试给 agent 即时的对错反馈。它规定测试通过公共接口验证行为而非实现细节,并给出循环规则:red before green、一次一片、重构留给 review。关键约束:写任何测试前先列出受测 seam(测试所在的公共边界)并与你确认,绝不在未确认的 seam 上写测试——把测试精力留给关键路径和复杂逻辑。**tautological test(同义反复测试)值得单独记住**:`expect(add(a, b)).toBe(a + b)` 这类断言用被测代码自己的算法重算期望值,按构造必然通过,永远无法与实现相左;期望值必须来自独立事实来源——已知正确的字面量、手工算例或 spec。
+
+**/code-review 对 HEAD 与指定基点之间的 diff 做双轴审查**,两个 subagent 并行,分开报告:
+
+- **Standards 轴**:拿 diff 命令、commit 列表、仓库内的 standards 来源文件清单,以及《Refactoring》的坏味道基线(Mysterious Name、Duplicated Code、Feature Envy、Data Clumps 等),报告每处违反成文规范的地方(硬违规)与基线坏味道(判断题)。
+- **Spec 轴**:拿 diff 与 spec,报告缺失或不完整的需求、未被要求的行为(scope creep)、看似实现实则不对的需求。
+
+分两轴的原因:一个改动可能通过一轴而挂掉另一轴——完全符合规范却做错了事,或精确实现了需求却违反项目约定;分开报告防止一轴的问题被另一轴的通过所掩盖。Spec 轴大幅提升产出质量,还常常自己顺手修掉最糟的问题。审查时机可以每张 ticket 审一次(本课做法),也可以最后统一审。
+
+**上下文管理是执行期的日常决策。**规划结束后(本例约 90K tokens),问自己 clear 还是 compact:spec 和 ticket 都在文档里,对话史只是它们的冗长版本,随时可弃。compact 的好处是下个会话可能少做些探索;但 clear 更便宜更快,让新会话从满格 smart zone 起步——五五开时永远选 clear。
+
+**单票循环长这样**:复制 issue 链接 → `/implement <issue-url>` → agent 读 issue、探索代码库、声明 seam、进入 red-green 循环(单个测试文件一秒内跑完,反馈极快)→ 跑 /code-review(它是 model-invoked,会自动串联;两个 subagent 各自拥有干净的 smart zone,不受主窗口已 113K 的影响)→ 自动修复发现的问题 → 提交。审查输出确认四点:无成文规范违规、无基线坏味道、spec 需求全部实现、无 scope creep;然后在 tracker 关闭该 ticket(解锁下一张),再决定 clear / compact / continue。
+
+五张票的实测节奏,每张都有可带走的经验:
+
+- **Run 1**(groundwork:indexes、seed 重写、prefactor)在 Auto Mode 下基本无人值守——权限请求由分类器把关(这是 Claude Code 特性,其他 harness 也会跟进),seed 脚本报错也自愈了。验证循环很烧 token,这正是任务要切得大小合适的原因。
+- **Run 2** 体现仓库可探索性的回报:导航指针让 agent 花更少 token 找信息,clear 因此成为可行选项、节奏更快;review 连测试一起审,抓出经典的 tautological test——断言 `PLATFORM_FEE_RATE` 常量等于 0.2,那是配置不是逻辑;agent 还尝试启动真实页面在 UI 里找元素,由此点出反馈回路:typecheck 验证正确性、测试验证运行时行为,但「验证运行中的应用」还缺工具,可以上 Chrome DevTools MCP server 或 agent-browser。
+- **Run 3** 特意试了 compact:更慢——要花输出 token 生成摘要,且摘要与后续工作的相关性存疑;这次 review 的两条轴独立标记了同一个硬违规(question count 在 route 里过滤行,把数据全拉到客户端再过滤),spec 轴还抓到真实缺口(team buyers 的 never enrolled 被错误抑制)。结论:compact 没带来什么,回到 clear。
+- **Run 4** 的 ticket 估算再次精准(102.5K)。但并非每次都这么顺:有时一张 ticket 冲到 300K,只能当学费,回头改进 skill 让它提前识别(常见元凶是波及面超预期的大范围 rename)。大 context window 的好处此刻显现:搞砸了也不会在奇怪的时刻被 compact——虽然贵但能继续;在怪时点 compact 会以奇怪的方式丢上下文。
+- **Run 5** 收官(132K)后做 QA:`npm run dev` 起服务,逐一核对 tab、时间筛选、drop-off、quiz、按国家收入、admin 视角与全新讲师的空状态。总体「好得离谱」,但有视觉瑕疵——规律很清楚:agent 拥有反馈回路的部分(功能、数据)做得好,没有反馈回路的部分(UI 观感)就粗糙。
+
+把自动 review 视为流程的固有部分:**实现工作在被另一个 agent review 之前不算完成。**这套方法可扩展性极强:作者跑过 30 张 ticket 的 spec,且每个 commit 落地前都有 reviewer 把关。<Cite>(来源:本地插件 [engineering/implement/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md)、[engineering/tdd/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md)、[engineering/code-review/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md))</Cite>
+
+## P65 ｜ 065 Should You Keep Your Specs?
+
+每完成一个多会话工程,spec 怎么办?它看起来是一份很好的代码说明文档,留着当文档似乎都有价值。答案反转:**代码一旦落地,立刻关掉(close/archive)spec——不要当文档提交进仓库,更不要当 source of truth 持续维护。**
+
+理解框架是 primary source 与 secondary source:spec 是 codebase(或其中一部分)运作方式的浓缩版本,是投影和摘要——secondary source 的问题在于它只是投影;codebase 是不会说谎的 primary source,可执行部分(函数本身)基本不会骗你关于代码实际做什么。更糟的是漂移:不持续把 spec 与 codebase 同步,两者必然越走越远。这正是流行的 spec-driven development(把 spec 存进仓库当 source of truth)让作者恐惧的地方——agent 在仓库里探索时翻到一份陈旧 spec,很可能相信这个 secondary source 而不去读 primary source,因为 spec 更小、更密、更易探索,而 codebase 冗长难查。当然 primary source 说谎也有前提:仓库里存在陈旧部分——不再被调用的函数、纯为遗留目的保留的系统部分、丢在仓库里的一次性原型。
+
+GitHub Issues 的妙处在于 **close 即归档**:移出主视图、明确标记已完成,但 agent 或队友想回溯「当时为什么这么做」时它还在那里可查。而且 tracker 里的 spec 是团队的:可 review、可评论、可被不在场的人搜到;本地 markdown 则只属于你一台笔记本。把 ticket 也放在本地之外,切换 worktree、更换电脑时状态照样持久。
+
+一句话:spec 是定义一段工作的**临时 artifact**,不是代码如何运作的 source of truth——spec 进入代码之日,就是它的废弃之时。
+
+## P66 ｜ 066 Rerouting: When The Destination Changes
+
+想象执行到一半——比如做完两张 ticket、审着审着发现整个 approach 不对——不用推倒重来。核心认知:**ticket 是一次性的(disposable),spec 是可编辑的(editable)。**
+
+具体做法:已实现的部分通常保留而非回滚(除非真的烂到家);把尚未实现的 ticket 直接删掉;然后回到 spec——就当前进度再开一轮 grilling session([0002](/lessons/0002) 的 /grill-me),把想改的地方描述清楚,编辑 spec。spec 是目的地,rerouting 改的就是目的地。对修改后的 spec 满意后,用 /to-tickets 基于当前位置重新生成一组 ticket——新方案可能让范围略增或略减,重要的是它给出了「从现在的位置通往新目的地的旅程」。最后用 /implement 继续实现新 ticket。完整五步:
+
+1. 意识到 this needs to change;
+2. 关闭未实现的 ticket、保留 spec;
+3. 在新会话里用 /grill-me 调整 spec;
+4. 用 /to-tickets 重新生成;
+5. 用 /implement 继续。
+
+特意有这一课,是因为总有人问,而且它正好解释了双文档设计:spec 与 ticket 生命周期不同——一个承载目的地、可编辑,一个承载旅程、可整批丢弃;如果全塞进同一份文档,「删一半留一半」会非常混乱。
+
+## P67 ｜ 067 The Goal Command
+
+高频问题:spec 已经写得很充分了,为什么不用 /goal 一把梭?/goal 是许多 harness 都有的功能:让 agent 在单个 context window 里朝一个目标推进直到完成。spec 恰恰是定义得非常充分的目的地,看似天作之合。但作者见过的所有 /goal 实现都没利用 smart zone——全部在单一窗口里跑,依赖 auto-compaction(自动压缩)兜底,于是每次都得到同样的形态:**开头一小截 smart zone,后面一长段 dumb zone。**
+
+| 方案 | 上下文管理 | 成本 | 区域质量 |
+| ---- | ---------- | ---- | -------- |
+| Spec-and-Tickets | 多个 smart zone | 通常更便宜 | 绝大部分 smart |
+| Spec-and-/goal | 单个 context window | 可能更贵 | 小段 smart + 大片 dumb |
+
+有一条保留意见:如果 auto-compaction 进化到 dumb zone 不再构成问题,/goal 会成为很漂亮的方案——你依然要做全部的 spec 思考,只是把上下文管理、ticket 管理、任务理解交给 agent,最后照旧做一次大 review 核对 spec 符合度。更大的窗口帮不上忙(问题在窗口后段的质量,不是装不下)。在那之前,ticket 给你的控制力大得多:大部分工作发生在多个 smart zone 里,通常更便宜;而且从 spec 生成 ticket 只花几分钟(作者某些未展开的 workflow 甚至 AFK 生成 ticket、完全不人工审查)。当然,如果你对 auto-compaction 的信任超过作者、实测效果更好,/goal 依然值得尝试。
+
+## P68 ｜ 068 Enforcing Your Coding Standards
+
+/implement 里最容易被略过的一行是 "Once done, use /code-review to review the work."——值得停下来讲清楚,因为 **code review 正是你把自己的 coding standards(编码规范)强加给 agent 的地方**。发布前的理想状态是三层检查:
+
+- **automated checks**:linting、typecheck、unit tests。价值在确定性(每次跑结果一致)与零 token 成本;但测试套件只能证明你断言过的性质,机械检查抓不住所有 bug。
+- **automated review**:agent 替你完成 diff 的第一遍走读并给出定性意见——以 token 计价的判断层。
+- **human review**:有人看 PR 并给出定性反馈(「这个测试好像不是你以为的那个意思」)。automated review 不取代它,而是让人审更轻松,因为第一遍已经看过;多数工作仍值得人在上面做最后的 sanity check。
+
+落地方式:在一个 context window 里实现,在一个全新窗口里审查。
+
+**Standards 这条轴为什么存在?**你不希望 agent 把同一个错误反复犯,这些 steering 指令必须有地方安放。塞进常驻 steering 文件(CLAUDE.md / AGENTS.md)很痛且有实际副作用:每个窗口都要为这条规则付费,无论是否相关;每次任务重述进 prompt 则依赖你的记性;能用 linter 管的约定,本来就不需要写下来。而 code review skill 允许定制:**你创建自己的 CODING_STANDARDS.md**,文件静静躺在那里记录你仓库的规范——发现 agent 干了蠢事,写进去,下次 review 就会抓住。全新文件一行就够:
+
+```
+Don't do stupid stuff.
+```
+
+skill 在第三步定位它:"Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`."——这一步就是你写入的接缝(seam)。真实的条目长这样:
+
+```
+Context menu items should always include a leading icon (from `lucide-react`), matching the style of the surrounding items. When adding a new menu item, pick an icon that conveys the action.
+```
+
+```
+All files in `./app/routes` will be exposed publicly as routes. Do not include test files or utility files there.
+```
+
+为什么 standards 放 review 而不是让实现者一次做对?因为 **review 所受约束远少于实现**:实现要在同一个窗口里完成探索代码库、写出全部文件、调试验证三件事;review 三件都不需要——探索已完成、只需读不需写、测试已写好跑过。上下文空间充裕、负担极轻,加载 standards 顺理成章。真实的 standards 文件松散没关系,每一条的来历都一样:你注意到 agent 干了蠢事,记了下来。可以按域拆分、用 context pointer 指过去(只关前端的规则放前端);standards 文件只在 review 时加载,体积远不如常驻 steering 文件敏感,大一点无妨。
+
+即使一行都没写,Standards 轴也有**免费基线**:来自 Martin Fowler《Refactoring》的 code smells——Feature Envy、Shotgun Surgery、Divergent Change、Mysterious Name 等经典术语,agent 本来就懂,零文档也能审出东西;你的文件叠加在基线之上并覆盖它(仓库明确认可的做法会压掉基线告警),不是替换。基线自带条目长这样:
+
+```
+- **Feature Envy** — a method that reaches into another object's data more than its own. → move the method onto the data it envies.
+```
+
+最后是习惯:下次实现完发现不满意的地方,别冲 agent 喊话,写进 CODING_STANDARDS.md,让 reviewer 下次替你抓。<Cite>(来源:本地插件 [engineering/code-review/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md))</Cite>
+
+## P69 ｜ 069 Ask Matt
+
+学完这一章带着问题很正常,问题在于提问与回答之间的空档。/ask-matt 是课程作者的一个路由技能——「作者不在房间时」问他的入口。它接收**场景(situation)描述**而非关键词,返回该走哪条 flow(穿过多个技能的路径,而非单个技能)、下一步敲什么命令。
+
+一个真实困境:spec 建完、ticket 全关,结果发现东西坏了——手头流程已经走完,没有显而易见的下一条命令。提问:
+
+```
+/ask-matt What's the best flow for fixing a bug once I've finished doing an implementation on a spec and all the tickets are closed?
+```
+
+回答开门见山:
+
+```
+**Short answer: `/clear`, then `/diagnosing-bugs`.**
+```
+
+两个动作:清空上下文——spec 这条线已经耗尽,bug 是新的起点而非 build 的延续;然后伸手拿处理 bug 的 skill。它还多给几层:先试试能不能用一条命令让 bug 变红(red)——能且原因显然,就直接写失败测试修掉;不能才是 diagnosing-bugs 登场的时刻。外加两条禁令:不要对 bug 做 triage(triage 只用于不是你创建的 issue);不要重开已关闭的 spec(被证伪的 spec 是新想法,不是补丁)。它推荐的 skill 甚至包括课程没讲的——但确实存在于作者的真实技能集里。课程覆盖主流程和一批关键 skill,但不是全部,/ask-matt 就是学其余部分的入口:大多数工作沿一条主 flow 走,几个 on-ramp 汇入,其余是独立 skill 或垫在底层的 vocabulary layer;你描述处境后,路由器把你放到 flow 上正确的那一步——答案常常不是那个名字听起来最像的 skill。
+
+skill 内还有一个特别好用的 **phase boundary checklist**。phase 是会话内的一段工作(grilling、实现、QA),边界是两段之间的缝隙——正是你决定 context window 命运的时刻。五个选项自上而下逐项过,第一个 yes 胜出,把模糊的感觉变成有序的提问:
+
+- **Continue**:原地不动,继续当前会话。
+- **Clear**:清空重来。
+- **Handoff**:写一份可携带的 markdown,在任何地方播种新会话。
+- **Subagent**:丢进独立窗口,拿回报告。
+- **Compact**:压缩本上下文,以摘要播种新会话。
+
+但答案要打折扣:作者复盘那次回答,认为更好的选择是 compact 而不是 clear(部分实现上下文值得带进排错),而且简单 bug 可能根本用不上 diagnosing-bugs(那是留给非常棘手的 bug 的)。把它当普通 agent 对待:**router,不是 oracle**——盲目照做和直接无视都不可取,反复问它只是把一个猜测变成两个;发现奇怪答案就去 skills 仓库提 issue,路由器就是这样变好的。<Cite>(来源:本地插件 [engineering/ask-matt/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md))</Cite>
+
+## P70 ｜ 070 Where You Go From Here
+
+全课程浓缩为五步:**Grill the idea**(开工前先与 AI 对齐想法)→ **Create a spec**(决定要去哪里)→ **Create tickets**(把工作拆开以便并行,或确保待在 smart zone 里)→ **Implement**(逐张消化 ticket)→ **Review**(检查实现阶段没法完成的方面)。工具与模型会随时间变化,但这个流程依然成立——这五步骨架会留存下去。
+
+毕业后从哪里继续加深?**AFK loops**——与其守着实现跑,不如把盯梢工作交给 away from keyboard 的 agent 循环;**prototyping 与 research**——spec 之前的初始构想阶段,两条绕行道还能帮上更多([0004](/lessons/0004));**The AI Coding Dictionary**——夯实底层心智模型:model provider request、turn 与 context window、tools 等,本站[词典](/dictionary)的释义走的也是这条路子;**Sandcastle**——一个在隔离沙箱里跑 AFK agent 的开源尝试。保持学习:关注 Wayfinder、Prototype 等在研 skill,AI coding 的流程形态还会被迭代、变得更复杂、继续进化;AI Hero 的 cohorts 是深入这一切的机会。最后是社区:在现实世界遇到困惑、课程留下未解的问题,就去课程社区把它弄明白——这套流程本来就是在真实工程里长出来的。
+
+## 练一练:大型交付考核
+
+卡壳的概念先查[词典](/dictionary),再做题——这 6 题覆盖本章最容易混的五组辨析。
+
+<Quiz questions={workshopQuiz0007} />

@@ -1,0 +1,187 @@
+---
+num: "0005"
+short: "循环与决策"
+title: "基础工作流(下):Grill-Execute-Clear 循环"
+lede: "基础工作流下半场:plan mode 为什么不够用、Grill-Execute-Clear 循环怎么跑,以及该 continue、clear、compact、handoff 还是 subagent 的阶段决策,auto-compaction 的取舍。对应视频 P38–P44。"
+module: 实战
+---
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { workshopQuiz0005 } from "@/content/quiz/workshop/0005";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    这是全课程的心脏:你能亲手跑通 Grill-Execute-Clear 循环——grilling 问到共识、execute 带着热 context 实现、clear 干净收尾;并在每个阶段边界上,对 continue、clear、compact、handoff、subagent 做出五选一决策。对应视频:B站 P38–P44,共 6 节。<Cite>(来源:《AI Coding Crash Course》,aihero.dev,Matt Pocock)</Cite>
+</Callout>
+
+## P38 ｜ Why Plan Mode Sucks
+
+先看清要解决的问题。视频里有一个实战:给课程平台加一个星级评分系统。成品大体能用,但真正令人不安的不是那个 bug,而是整个过程暴露的模式:agent 收到 prompt、探索 codebase、然后立即开始实现——没有停下来核实它要建的东西对不对,没有任何人机对齐的尝试。这种急于创造资产(asset)的冲劲在 AI 编码里非常危险,必须刻意让它慢下来。
+
+大多数 agent 自带 plan mode,意图正是补上这一环:在探索和实现之间加一层缓冲——先产出一份计划文档,你阅读、审阅、修改,认可了才放行。操作:把练习仓库重置回起点,在 agent 里用 `shift+tab` 循环切换 permission modes,直到输入框底部显示 `plan mode on`,再贴入原始需求。agent 探索完 codebase 交回计划,用 `/plan` 查看:细节相当全面,还附上关键决策——一人一课一票(合理)、平均分在读取时计算(没问题)、零评分课程显示 `No ratings yet` 而非零星(合理)、仅注册学员可评分(合理)。
+
+致命问题在于:它只是换了个资产赶工。这份计划精确到数据库表结构、service 命名与函数、组件名、路由修改、测试策略——所有决策在你参与之前就已经做出并写下来了。它不再急于产出实现,而是急于产出一份读起来和实现一模一样的计划:计划本身成了被赶工的资产。
+
+根因是 agent 的 sycophancy(讨好性):你告诉它要产出什么,它就直奔那个东西,不会停下来确认前期功课做没做够、双方是否就「该长什么样」达成一致。这导致一个高频失败模式:agent 造出了错误的东西。评分系统这种简单 feature 无伤大雅,复杂 feature 上就是大问题。
+
+设想一个人类开发者也这么干——「好,我知道怎么做了」,扭头就写,毫无对齐、毫无共识建立。《The Design of Design》的作者 Frederick P. Brooks Jr. 有个概念叫 design concept:它不是资产,而是团队设计时漂浮在房间里的那个共同构想——每个人脑中的版本略有不同,随着对话推进、朝着理解「我们在造什么」努力,它逐渐变得锐利清晰。无论 plan mode 还是直接实现,都没有 design concept 的容身之处,没有那个互相确认「我们造的是同一个东西」的时刻。
+
+动手环节:重置仓库,贴入原始需求,分别在普通模式与 plan mode 下各跑一遍,对比交回的东西。
+
+```bash
+npm run reset
+```
+
+```
+I would like to create a course review system where students can review courses by leaving a star rating. We don't want to add written reviews, just star rating. These reviews will then be visible everywhere that courses are visible. We want to show the average rating on the courses in the list page and on the course page itself.
+```
+
+下一节的方案,正是绕开这种讨好性的资产冲刺,让你获得与 agent 真正同频的对齐感。<Cite>(来源:《AI Coding Crash Course》P38,aihero.dev,Matt Pocock)</Cite>
+
+## P39–P40 ｜ The Grill-Execute-Clear Loop
+
+核心立场一句话:动手之前,先弄清要造什么。多数开发者跳过这一步直接写代码,结果浪费时间、解法跑偏。`/grill-me` 强迫你暂停:它像面试官一样无情追问,直到双方对要造的东西达成共享理解(shared understanding)才实现。grilling 就是 [0002](/lessons/0002) 讲过的那个需求访谈技能——skill 是这套体系的基本单元,概念见[词典](/dictionary)。
+
+机制是一棵 design tree:每个决策下面挂着派生决策。每轮提问覆盖当前 frontier——所有前置条件已确定的决策,一次全问,等你回答;你的回答让 frontier 扩张,解锁新问题、解禁先前被阻塞的决策;当 frontier 清空——每个分支都走到了、没有任何被静默假设(silently assumed)的东西——才进入实现。
+
+实战任务刻意保持开放:给课程平台的 lesson 页面加评论功能,学生和讲师可以在课程页提问、分享心得、讨论。操作:重置到含 grill-me skill 的起点(skill 位于 `.agents/skills/`),输入 `/` 打开 skill picker 选 `grill-me`,写一个宽松、不求全面的 prompt 开场,逐轮回答,直到 agent 宣布达成共识再实现,并在浏览器里验证。它会问的问题诸如:谁能评论(仅注册学员?讲师呢)?能否编辑、删除自己的评论?评论扁平还是串成 threads?要不要审核?有人回复要不要通知?你可能没想过其中一些——这正是 grilling 的意义:写代码之前,把该做的决策浮出水面。
+
+```bash
+npm run reset
+```
+
+```
+/grill-me
+I want to add comments to lessons so students can ask questions and discuss.
+```
+
+过程值得完整走一遍,因为它展示了 grilling 的四个典型动作。
+
+第一轮,战略层。agent 一边起一个后台任务摸底 codebase(non-blocking 设计,不等探索完成就开始提问),一边问目的而不只是机制——「这个功能到底为了什么」;探边界情况——「没人评论时呢」;挑战假设——「为什么限制成有权限的学员才能评论」。每个问题都附建议,你可以不采纳;你的任务是思考后拍板。回答不必逐条,口述一大段覆盖全部即可。这一轮的回答里就藏着一批决策:功能定位是问答加支持加社区;不介意空评论框,但要设计鼓励发言的 empty state;这是给其他老师用的平台;用户会期待有回复;评论区只对能看到课程的人开放,属于付费权益;数据上用一个表、一个功能、讲师加 badge;建议大多采纳。
+
+第二轮,深入实现层:threading 模型、编辑权限、排序、通知策略(结论:先做扁平列表;v1 不要显式的 resolved 状态;讲师 dashboard 要一个未回答问题的队列页;队列按「有未读、未回复新评论的 thread」定义)。
+
+第三轮,抓矛盾。你选了扁平列表、又不要 resolved 状态、却要一个「未回答队列」——扁平列表里每条评论都是顶层、谁也不指向谁,「已回答」拿什么标记?agent 给三个选项逼你决策:恢复一层回复(parent-child)、保持扁平但把「未回答」定义在 lesson 层级、保持扁平但加显式 seen 状态;选一,一层回复符合讲师与学生互动的形态。与此同时,后台探索完成,爆出一个真 bug:`renderMarkdown` 没有任何 sanitization,原始 HTML 直接穿透——学生可以在评论里注入 `script` 标签,在讲师的 session 里执行(XSS)。对策:单写受限渲染器 `renderComment()`,只有学生评论需要过滤,讲师评论仍可用全量 markdown;你同意,它进了 spec。
+
+第四轮,信息已够,agent 产出书面 spec——你其实不用细读:一路的回答已把所有决策编码进去,spec 只是「双方理解一致」的证明(若 grilling 过程绕得离谱才值得扫一眼)。最后它还做了一次 push(质疑队列排序:你想要的 newest-first 会让标错的内容沉底,而队列里全是没人回复过的条目,只会往下漂、不会漂走),你只需回一句 "Okay, let's start building.",它自行解决并进入执行。
+
+Execute 阶段:不清空、不重启,带着 grilling 的全部上下文直接开干。agent 干了 14 分 28 秒:362 个测试全过、typecheck 干净,全程约 155k token 未超限。浏览器验收:以学生 Olivia Martinez 的身份发评论;切到讲师 Marcus Johnson 回复;可编辑自己的评论(显示 `(edited)`);删除留下 tombstone(其下回复仍可见);讲师有专门的 Questions 队列页(`/instructor/questions`),未回答问题尽数在列、可就地回复。最终交付:comments 表、`access.server.ts` 里的共享守卫 `getAccess`、带 19 个测试的 `renderComment()`、带 48 个测试的 `commentService`、带 empty state 的评论 UI、讲师队列页,以及 9 个 thread 共 15 条评论(4 条未回答)的 seed 数据——全部有测试、有类型,working tree 留给你 review。
+
+为什么比直接实现好?不 grilling,你很可能漏掉 empty state、讲师队列、XSS 过滤这三样;也很可能做出更差的选择——扁平列表加 seen 状态比一层回复更复杂,给学生开放完整 HTML 渲染则很危险。grilling 让你在写码之前想清这一切,实现因此变得机械:难的决定已经做完。agent 不是在耍聪明,它用压力(矛盾、边界情况、安全问题)把你的真实意图逼到光下,然后照你们同意的方案精确实现。
+
+于是有了这个循环的完整一圈:Grill——问到共享心智模型;Execute——带着还热的 context 自信实现;Clear——feature 完成并 commit 之后清空,下一个任务从零开始,重新走[主流程五步法](/lessons/0003)。session 历史没了,但 grilling 留下的东西(spec 与全部决策)正是你需要的。<Cite>(来源:《AI Coding Crash Course》P39–P40,aihero.dev,Matt Pocock)</Cite>
+
+## P41 ｜ Compaction
+
+用 agent 建 feature,迟早撞到 smart zone 的尽头——context window 中模型表现最好的那段。继续赖在同一个 session 里,每次请求都拖着之前全部 token:这些 token 因为被缓存而便宜,但整体处于高延迟、低能力状态;更要紧的是,其中多少真的有用?大量只是工作本身的噪音——读过的文件、写过的文件、项目推进中的各种中间状态。
+
+天真的解法是彻底 clear 重开,但有隐藏成本:agent 失去初始对话里的关键理解,必须重新探索、重新建立已知。你可以对它说「we are going to do QA on the stuff that's literally just been worked on. Can you go and explore it so you understand the reasons behind its existence?」——它能重读代码,但重探索是有损的:当初构建背后的那个 why 丢了大半。
+
+compaction 登场:不整段清空,而是把当前 session 的 context 挤压、摘要,用来播种一个可以继续工作的新 session。可以把它类比为一次由你亲手控制的 session 间交接——类似 subagent 交接的反向操作。三条路摆在一起看:
+
+| 方案 | Tokens | 质量 | 代价 |
+|---|---|---|---|
+| 继续当前 session | 156k 以上 | 全量上下文,噪音多 | 高延迟,dumb zone 效果 |
+| 清空重来 | 约 5k | 白纸一张 | 必须重新探索一切,理解有损 |
+| Compaction | 约 28k | 摘要上下文 | 有损压缩,二手来源 |
+
+compaction 省下的是重新探索的开销——没有它,你得烧大量 token 重新发现自己早已确立的上下文。
+
+实操只有一条命令:`/compact` 后面附一句摘要指引,说明下一步意图。这句指引很重要——写摘要的是一个语言模型,它需要知道什么信息与下一步相关,才能突出重点;不用写长,一句话往往就够。裸跑 `/compact`,它只能瞎猜重点,等你想起来再解释,已经压完了;贴整份 spec 又属浪费。启动后 agent 会展示压缩进行中的 UI;实用技巧:可以在 compaction UI 里排队消息,压缩一结束,排队的消息自动执行,不用干等。
+
+```
+/compact Yeah, we're going to do some QA in this area.
+```
+
+压缩完成后输出的摘要包含:primary request and intent(你最初要什么)、full agreed spec(确认过的全部决策)、key technical concepts(关键领域知识)、file references(关键文件指针,部分文件原文保留)、errors and fixes(哪里出错怎么解决)、problem solving(思路与推理)、all user messages(你说过的一切)、pending tasks(待办)。压缩比非常可观:约 156,000 token 压到约 28,300——`/context` 显示 28.3k / 1m(3%),剩余空间 971.7k,smart zone 大量回归。摘要把文件变更压得极密,例如一行概括一个新文件:`app/lib/comments.ts (new): MIN_COMMENT_LENGTH = 1, MAX_COMMENT_LENGTH = 5000 (client-safe, mirrors ratings.ts)`。
+
+代价是信息损失,借史学的术语最好理解:initial session 是 primary source(当事人在场的记录),摘要是 secondary source(史学家写的二手综述)——对一手来源的有损压缩。这是你遇到的第一个能跨 session 保留 context 的交接机制,而所有交接机制共享同一条定律:制造二手来源必然损失信息。换来的是效率:一手来源信息全但噪音多、腾挪空间小;二手来源有损但噪音少、空间富余。compaction 什么时候大放异彩?恰好是「对刚完工的东西做 QA」这类场景:不重新实现、不做架构决策,只是验证一个已完成的东西——此时它是铁打的好选择。下一节会把它与 clear 等机制放进同一棵决策树做完整对比。<Cite>(来源:《AI Coding Crash Course》P41,aihero.dev,Matt Pocock)</Cite>
+
+## P42 ｜ Handing Off
+
+compaction 有两个硬约束:只能在同一个目录、同一个 agent 内进行。用 Claude 做完实现、想交给 Codex 这类 agent 去 review,compaction 就无能为力了。
+
+办法是把交接物从 agent 内存里拿出来,变成文件:`/handoff` 这个 skill 做的事,就是把对话总结写成一个 handoff markdown 文档——完全可移植:喂给别的 agent、传给另一个目录、发给同事,或者交接你在 feature 中途发现的支线任务。特别好用的场景:做 feature 时撞见一个与当前无关的 bug,想以后另开 session 修——生成一份 handoff artifact 存着,回头再取。
+
+skill 定义极短(原文):<strong>Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save to the temporary directory of the user's OS - not the current workspace.</strong> 亮点在保存位置:写进 OS 临时目录,意味着这些 handoff 文档天生是临时性的——不落项目、不进 memory,机器重置或系统清理临时目录时自动消失。
+
+实操:resume 之前约 89k token 的星级评分 session(正是交接的好时机),运行 `/handoff pass to Codex to review`——和 compact 一样要给个理由,告诉它下一个 session 的目的。agent 会请求写临时目录的权限,随后产出的 handoff 文档是一份相当详尽的二手来源,与 compact 摘要相似但更全面:feature 是什么;待 review 的文件(附 git status、git diff 指引);关键决策与中途修掉的 bug;已知的既有问题(不属本次改动);已做过的验证;diff 应遵循的项目惯例;值得探查的 review 角度;下个 session 建议用的 skills。
+
+播种新 session:另开窗口,`/clear` 清出全新 session,用 @ 引用文件——文件立即被读进 context,随时可以开始 review。
+
+```bash
+npm run reset
+```
+
+```
+/handoff pass to Codex to review
+```
+
+```
+@/tmp/handoff-course-star-ratings-review.md
+```
+
+/handoff 与 compaction 的选型:
+
+| 场景 | 用哪个 |
+|---|---|
+| 留在同一目录 | Compaction |
+| 要保留上一段对话的上下文 | Compaction |
+| 不在乎保留(还能在压缩后排队消息) | Compaction |
+| 交给不同的 agent | /handoff |
+| 交接给另一个仓库 | /handoff |
+| 发给同事 | /handoff |
+
+两者不是替代关系:compaction 依然很好;/handoff 更灵活,但把文档接进下一个对话稍繁琐——只有当你确实从中获益时才值得用。<Cite>(来源:《AI Coding Crash Course》P42,aihero.dev,Matt Pocock)</Cite>
+
+## P43 ｜ Clear, Compact, Handoff, Or Subagent
+
+到现在,一个编码 session 已经能看出自然形状:它裂解成离散的阶段——grilling、implementation、收尾的 QA。每个阶段由两部分组成:阶段本身,和阶段之间的边界。边界极其重要,那是你决定「这个 session 接下来怎么办」的决策点。课程实例:grilling 结束时才约 30k token,直接继续实现最合理——实现可以依赖 grilling 的一手来源,没有任何二手折损;实现结束要 QA 时则选了 compact——smart zone 基本用完,滤掉杂渣、只留好料给 QA。
+
+五个选项:**Continue**(留在当前 session,无需切换)、**Clear**(彻底清空 context window,从零开始)、**Compact**(压缩 context 并播种新 session)、**Handoff**(生成一份可带到任何地方的 markdown 总结)、**Subagent**(派 subagent 处理任务并汇报)。驾驭五者不易,一棵决策树从顶往下走,一共四问:
+
+第一问,**能继续吗?** 这本身就是个内容丰富的判断。grilling 到 implementation 显然该继续——那份 rich primary source 正是实现需要的,不想丢;或者 smart zone 预算还足,比如才 80k token、且知道任务很小装得下,那就直接继续。判断必须做点什么,才进入下一问。
+
+第二问,**本 session 的信息对下个任务是否完全无关?** 这段探索、这些决策,对接下来要做的事是不是完全可弃?若是,clear——最高效的路径:零耗时,只是删信息,还你最多的 smart zone、回到白纸。但若清掉的是相关信息,就会丢掉将来有用的东西:设想 QA 前不 compact 而 clear——QA 对实现一无所知(也许能从 git commits 里悟出来),连 grilling 的决策推理也一并丢失,而这两样都对 QA 至关重要,所以 clear 不可行。context 相关,进入下一问。
+
+第三问,**需要 handoff 吗?** handoff 的适用面相对窄:把工作交给另一个 agent、另一个目录或同事;或把阶段中途发现的支线任务分叉出去而不打断当前 session——比如 grilling 时发现一件也得处理的事,顺手 handoff 给另一个 session。需要就 `/handoff`,不需要进入下一问。
+
+第四问,**任务能 AFK 完成吗?** AFK 即 away from keyboard:你不碰键盘、只旁观且无法介入——意味着任务 scope 足够好,agent 全程不需要你。典型例子:人类 review 之前先跑一轮 automated review,让 agent 检查改动有没有弄坏东西、有没有奇怪操作。此时(实现后约 150k token)本可以 compact 后在主 session 跑,但 automated review 不需要人,不如丢给 subagent 在它自己的 context window 里跑,完全不碰主 session——这是 automated review 的常见模式。能 AFK 就派 subagent,不能就到最后一站。
+
+**默认答案:Compact。** context 相关、你要用它、不能继续、不需要 handoff、任务又需要你在场——那就压缩窗口,把好东西播种进新 session,留下要紧的,丢掉不要的。
+
+五选一速查表:
+
+| 选项 | 判据 |
+|---|---|
+| Continue | grilling 的产出正要喂给实现;或 smart zone 预算还足、任务装得下 |
+| Clear | 本段信息对下个任务完全可弃——零耗时,还回最多 smart zone |
+| Handoff | 跨 agent、跨目录、跨仓库、发同事,或分叉支线任务 |
+| Subagent | 任务能 AFK 完成,你全程不必介入 |
+| Compact | 以上都不满足时的默认:context 相关、要保留、任务需要你在场 |
+
+最后要说清:这些都不是客观题,带一点主观、一点品味,你会在与 agent 的持续合作里形成自己的答案。阶段边界的选择是 AI 编码中最模糊也最有意思的决策之一,值得大量实战积累。<Cite>(来源:《AI Coding Crash Course》P43,aihero.dev,Matt Pocock)</Cite>
+
+## P44 ｜ Auto-Compaction
+
+如果硬把 context 推过窗口上限会怎样?以课程录制时的 Opus 4.8 为例,窗口是 100 万 token,发一个含 1,000,001 token 的请求会直接报错——模型处理不了。为此每个 agent harness 都内置了保护:到某个点自动压缩 session。在 agent 里运行 `/config` 搜索 auto-compact 就能看到:`Auto-compact: true`,说明文字为 "Automatically compact conversation when context fills"。以前还能在 `/context` 里看到 autocompact buffer,如今被各家做得越来越隐蔽。
+
+触发时机可以自定义:在 `~/.claude/settings.json` 里设置 `autoCompactWindow`,比如 250000(用满 250,000 token 后自动压缩),合法范围 100,000 到 1,000,000。
+
+```
+{
+"autoCompactWindow": 250000
+}
+```
+
+auto-compaction 的承诺确实诱人:想象一个完全不用考虑阶段边界、不用考虑 smart zone、不用考虑 context 的世界——上一节那棵决策树根本不需要,时机一到自动压缩。网上也确实有不少人宣称 auto-compaction 替他们搞定了一切。
+
+但它是个极难解的问题,做错了代价惨痛。原因一:**在阶段中途压缩很危险。** 回顾典型的 grilling 加 implementation 的 session,最安全的压缩点显然是两者之间的阶段边界;可如果压缩落在 grilling 中途,你就只能基于摘要工作——体感是 agent 经常明显迷路,忘掉你们刚刚还在聊的东西。实现阶段中途被压缩往往更糟:agent 完全失去方向,后半段代码风格与前半段判若两人,丢失思路、忘掉本该实现的功能。原因二:**你失去了对交接的控制。** 手动 `/compact` 或 `/handoff` 时那句摘要指引(告诉它压缩重点、下个 session 的意图)是压对内容的关键,auto-compaction 没有任何等价的钩子给你。
+
+那阶段中途压缩永远都坏吗?未必,但无论模型多强,这看起来都会是难题。总态度一句话:**提升人的技能,而不是加重对 harness 和模型的要求。** 宁可自己掌握那棵决策树——它是一次性的学习曲线,而且越熟练结果越好:更多 session 停在 smart zone 里,控制力更强。
+
+于是有了这一课真正的规则:如果你的 session 触发了 auto-compact、被自动压缩了,多半是什么地方出了问题——该自己做主的边界决策被拖过了。continue、clear、handoff、subagent 还是 compact,这个决策由你来下,你会得到更好的代码。<Cite>(来源:《AI Coding Crash Course》P44,aihero.dev,Matt Pocock)</Cite>
+
+循环跑通了,边界决策也有章法了——下面几道题,把这一课的关键辨析过一遍。
+
+<Quiz questions={workshopQuiz0005} />

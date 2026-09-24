@@ -1,0 +1,280 @@
+---
+num: "0006"
+short: "转向控制"
+title: "转向控制:skills、steering map 与 pruning"
+lede: "让 agent 一直朝着目的地走:steering map 与 context pointer、Agent Skills(SKILL.md)的写法与 user / project 之分、navigation pointers、pruning 与 automatic memory。对应视频 P45–P56。"
+module: 实战
+---
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { workshopQuiz0006 } from "@/content/quiz/workshop/0006";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    agent 每次新会话都从零开始,不自带你的项目约定——这一课给你一整套把它持续拉回正轨的手段:用 steering map 算清 push 与 point 的成本账,把指令写成会被 agent 主动调用的 skill,用 navigation pointer 给它修直达高速,再用 pruning 把 steering 文件剪回精瘦,并且知道为什么该关掉 automatic memory。对应视频 B站 P45–P56,共 9 节。<Cite>(来源:《AI Coding Crash Course》,aihero.dev,Matt Pocock)</Cite>
+</Callout>
+
+## P45 ｜ 045 The Steering Map
+
+agent 天生 stateless(无状态):会话之间什么都不带走——这不是 bug,是 stateless 的本义。你的约定、边界情况、想固化进项目的模式,在清空 context 的瞬间就消失了。steering(转向控制)回答的就是这个问题:哪些指令应该每次都到达 agent,以及如何不必每次亲口重复。跨会话引导 agent 行为的全部手段,画成一张图,就是本课的 steering map(转向地图)。
+
+先算成本账。任何提前塞进上下文的内容,每次 model provider request(模型提供方请求)都要付费,这笔账叫 context load,它有两层含义:一是 token 账单;二是 attention——每多一条指令,其他指令就「安静」一分,agent 离 dumb zone(变笨区)更近一步。量级要先建立:一个 session 由多个 turn 组成,一个 turn 可能持续 15 分钟、包含数百次 model provider request,而每次 request 都携带全部历史。所以早早写进 context window 的指令,会在之后每一次请求里原样重发——虽有缓存折扣,对并非每次都需要的指令来说仍是纯负担。
+
+做法只有两种,这也是整张地图的两大分区:
+
+| 策略  | 做法                                     | 成本               | 可用性       |
+| ----- | ---------------------------------------- | ------------------ | ------------ |
+| push  | 指令常驻 context window                  | 每次 request 都要付 | 始终在场     |
+| point | 完整指令放进环境里的文件,上下文只留一行 | 大多数 turn 几乎为零 | 需要时才加载 |
+
+push 的典型载体是项目根目录的 `AGENTS.md`(跨 harness 通用;Claude Code 特立独行叫 `CLAUDE.md`),agent 不可能错过,但无论本轮是否需要都在烧 context load。point 留在上下文里的那一行,就是 context pointer(上下文指针,词条见[词典](/dictionary)):它只说「做某类工作时去读某文件」,大多数 turn 里几乎零成本。
+
+push 还有个更隐蔽的坑:agent 判断不了规则何时适用,会在错误场合套用。课程里举过一个真实例子:有人在全局 instructions 写了「我在 PCI DSS 卡支付合规环境下工作,任何安全相关的事都要标记」,然后问 agent 怎么烤巧克力蛋糕——agent 给完配方,还认真提醒他考虑巧克力蛋糕的 PCI DSS 合规影响。常驻规则会让 agent 做出怪事,你必须确保规则的使用方式与措辞匹配。
+
+常见的反面做法,是把海量指令一股脑塞进 `CLAUDE.md`/`AGENTS.md`——这是一场 over-pushing(过度常驻)的瘟疫:浪费大量 token、白白加重 context load,结果反而更差。本课的原则就此立下:<strong>默认 point</strong>,让 agent 自己决定何时拉入指令;确实值得常驻的场景,后面几节会给出租得起它的载体——skill。
+
+## P46–P47 ｜ 046/047 Steering With A Pointer
+
+问题从一个真实约束开始。这个项目的数据库 schema 有一条隐藏的二次义务:每当改表加列,还必须更新 `scripts/seed.ts`(填充初始数据的脚本),否则下次 reseed 出来的数据与 schema 形状不匹配。Drizzle 的类型安全只护到 schema 为止,seed 里的裸 SQL 没有任何护栏,错配静默溜走、祸害下游。另外这个项目的数据库是一次性的:数据全在 gitignore 掉的 `data.db` 里,可以随便迁移、扔掉、从头 reseed。这些是你第一天就会向新同事交代的真实约束——代码里看不出来,agent 不说就不知道。
+
+最直觉的做法是把全部步骤 push 进 `AGENTS.md`。但代价是每次 request 都携带完整迁移步骤——哪怕 agent 正在做一个与数据库毫不相干的 UI 功能;一个项目若有十组这样的指令全部常驻,成本复利叠加,还都在争抢 attention 预算。
+
+你需要的不是「每次请求都在场」,而是「每次请求都够得着」——这是两回事。把步骤移出 `AGENTS.md`、独立成文档,原文只留一行指针。这就是 doc-plus-pointer 模式(文档加指针):
+
+```
+When making a database schema change, consult `docs/database-migrations.md` for the exact steps.
+```
+
+可靠的 context pointer 必须有两个要素:**stable path**(agent 得知道去哪找)和 **clear description**(agent 得知道何时跟随才划算)。光秃秃的路径是没人有理由用的指针,措辞要贴着任务实际出现的样子写。
+
+动手。第一步,用 [/writing-for-agents](/lessons/0006) 把脑子里的迁移步骤重写成能独立成篇的 agent 文档——它以 context load 和 cognitive load 两套词汇,把步骤整理得清晰、有序、无废话(脱离 `AGENTS.md` 后标题升一级),存为 `docs/database-migrations.md`,`AGENTS.md` 只留上面那行指针。操作序列:`npm run reset` 获取该 skill → 新建 `docs/` 并重写文档 → 留指针行 → 用一条真实 schema 变更做端到端测试:
+
+```
+Make the salesCopy attribute of courses non-nullable. Make it a required field when creating new courses, and make sure that it's non-empty.
+```
+
+验收标准:agent 应认出这是 schema 变更、自己拉入 `docs/database-migrations.md`,然后照单执行——改 schema、生成 migration、更新 seed 脚本、reseed、typecheck。最后验证 `npm run db:seed` 无报错、`npm run typecheck` 通过、数据匹配新 schema,提交后 `npm run reset` 复原。
+
+如果嫌手把手麻烦,也可以一条指令让 agent 整体迁移:
+
+```
+I would like you to take the AGENTS.md file, especially the stuff about the database migrations and all of those steps, and put that behind a context pointer. It's just a little bit too large right now, and I don't want to have this in every model provider request.
+```
+
+演示里的两个细节值得记。其一,agent 自主调用了 /writing-for-agents,生成的初版指针描述偏窄(「编辑此文件前读」「某命令启动失败时读」),主动放宽成「凡数据库变更即遵循这些步骤」——rationale 更清晰,还更短:
+
+```
+Update the description of the pointer in AGENTS.md to be a bit broader to say: whenever we make a database change, follow these steps.
+```
+
+其二,测试时按 Ctrl+O 展开工具调用列表,确认 agent 确实 Read 了 `docs/database-migrations.md`;它改完字段后主动跑了 `npm run db:generate`、从头 reseed 并跑了测试——即使 seed 数据本就兼容。
+
+结论:全局 steering 时 point 优先于 push,仓库内文档藏于指针之后非常有效。但它有个天花板,下一节揭晓。
+
+## P48 ｜ 048 What Are Agent Skills?
+
+doc-plus-pointer 好用,但有个天花板:一切都活在一个仓库内部。想交给队友只能手动复制粘贴,换项目又得重来。skill 正为此而生:把「文档 + 指针」打包、标准化成一个可移植、可分享的自包含文件夹,磁盘上待命,相关时才拉入。
+
+skill 文件夹的核心是 SKILL.md(主文档),旁边可带任意支持文件。它的结构天生分级加载:始终在 context window 里的,只有 skill 名称和 description 那一行;正文与链接文件,只在 agent 伸手时才加载;所有文件捆在一个文件夹里,随时可分享。description 就是 agent 的顶级 context pointer——agent 读它判断「这个 skill 现在相关吗」,再决定是否加载。例如 writing-for-agents 的描述写明「为 agent 撰写文档时使用:创建或编辑 skill、修改 AGENTS.md 或 CLAUDE.md」,何时触发一目了然。
+
+skill 也不限于单文件:SKILL.md 可再用 context pointer 指向 SKILL-MECHANICS.md 等支持文件——「当你要写的东西本身是个 skill 时,读它了解 frontmatter、调用方式与 router skills」。由此形成一条加载分层:context window → 名称与描述 → SKILL.md → 支持文件。这是 progressive disclosure(渐进披露,词条见[词典](/dictionary))再往下一层——agent 没决定用这个 skill 之前,不为支持文件付一分钱。
+
+skills 是开放标准,定义在 agentskills.io。这意味着为一个 agent 写的 skill,几乎能在任何支持 skills 的 agent 上使用:写一次,分享给团队,跨项目复用,把海量信息装进一个可移植单元。<Cite>(来源:[Agent Skills 官方站点 agentskills.io](https://agentskills.io))</Cite>
+
+两种调用方式的差异只在 frontmatter 的一行(二分表见 [0001](/lessons/0001))。保留 description,agent 即可自主发现并调用(model-invoked;你仍可手动输名字——model-invocation 天然包含 user 途径);加一行 `disable-model-invocation: true`,description 对 agent 隐藏,只有你能按名调用(user-invoked)——零 context load,但你必须记得它存在、记得去用。user-invoked 吸引人在于「免费」:可以堆很多而不撑爆上下文,所以个人 skill 库往往偏向它。user-invoked skill 的 frontmatter 长这样:
+
+```
+---
+name: handoff
+description: Compact the current conversation into a handoff document for another agent to pick up.
+disable-model-invocation: true
+---
+```
+
+此时 description 从「给 agent 解析」变成「给你看的单行摘要」。想盘点已装的 skill,运行 `/skills`:列表里每条 model-invoked skill,就是你正在付的那一行(比如 grill-me 是 user-invoked,writing-for-agents 是 model-invoked)。
+
+## P49–P50 ｜ 049/050 Write A Skill
+
+上一节的 doc 加指针仍有残留成本:每个 agent 都得在「可能需要」时自己去取文档。把迁移文档变成 skill,名称与描述负责相关性判断,正文按需加载——本节完成这个转换,并用 request logger 在 the wire(线上)确认它在恰当时刻被调用。
+
+先搭基线。运行 `npm run request-logger`:它启动一个代理服务器,记录 agent 发出的每个 request,监听 http://localhost:8787,并打印经由代理启动对应编码 agent 的命令;另开一个终端执行该命令,随便发一句 Hello,再到 `request-logger/logs` 翻生成的 markdown 日志。基线要看三样东西:
+
+1. `CLAUDE.md` 的内容——此时只剩指向 `docs/database-migrations.md` 的指针;
+2. skills 列表——只看到 grilling 和 writing-for-agents,因为仓库里另外两个 skill 设了 `disable-model-invocation: true`,agent 无法自主调用;
+3. Skill 工具的定义——agent 决定用某个 skill 时按名字调用该工具,由 harness 解析出实际的 SKILL.md 位置。
+
+然后转换。直接给 agent 下指令:
+
+```
+I'd like you to take the documentation on database migrations and move it
+into its own skill project based in this repo.
+```
+
+故意不手动调用 /writing-for-agents,看它会不会自己发现。结果它确实自主调用并加载了该 skill,然后在 `.agents/skills/database-migrations/` 下创建 SKILL.md(正文与原 AGENTS.md 一致),删掉了 `AGENTS.md` 里的旧指针(文件清空)和原 docs 文件。
+
+验证:清空上下文再发一次 dummy 请求,新日志的 skills 列表出现 database-migrations 及其描述——「Database schema changes - generate the migration, update the seed, reseed. Use when editing the schema, when adding or altering a table column or enum, or when npm run db:seed fails to start.」。指针就这么从 `CLAUDE.md` 搬进了 skills 列表;要与同事共享,把 database-migrations 文件夹打包发过去即可。
+
+跑 `npm run reset` 清库后,提出一次真实变更——把 purchases 表的 pricePaid 改名 amountPaid:
+
+```
+In the purchases table, change pricePaid to amountPaid.
+```
+
+涉及的原始表结构:
+
+```
+export const purchases = sqliteTable("purchases", {
+id: integer("id").primaryKey({ autoIncrement: true }),
+userId: integer("user_id")
+.notNull()
+.references(() => users.id),
+courseId: integer("course_id")
+.notNull()
+.references(() => courses.id),
+pricePaid: integer("price_paid").notNull(),
+country: text("country"),
+createdAt: text("created_at")
+.notNull()
+.$defaultFn(() => new Date().toISOString()),
+});
+```
+
+agent 立刻调用了 skill;`db:generate` 需要交互式 TTY 确认列重命名,就自己手动跑一遍(`npm run db:generate`,选择 rename column)再回去告诉它已完成;随后 agent 用的全是与 skill 相同的术语——reseed、verify、typecheck。
+
+收尾:线上变化只是指针换了位置(`CLAUDE.md` → skills 列表),agent 行为分毫未动——包装变了,指导没变;两次都能在正确时机命中,靠的是写得好的 description。想省掉这行常驻成本,可以改成 user-invoked;但作者认为迁移规范属于应用与环境的一部分,model-invoked 更合理。
+
+## P51 ｜ 051 User Vs Project Skills
+
+skill 有两个安放层级。用户级 `~/.agents/skills/`:这里的 skill 属于你个人,跟着你走,这台机器上打开的每个项目都能用;它也常被写作 `~/.claude/skills/`——两条路径在你机器上指向同一组 skill。项目级 `.agents/skills/`:skill 被提交进仓库,作用域限于这个项目,但任何 clone 仓库的人都拿得到。一句话概括这个选择:personal and portable(个人且随身)versus shared and checked in(共享且入库)。
+
+怎么选?规则很简单:纯粹的个人生活质量改进——你偏好的工作方式、属于你自己的捷径——放用户目录;一旦这个 skill 是团队依赖的东西、编码了「这个项目该怎么干活」,它就属于项目。项目级是更强的默认,理由有四:受版本控制、随代码库一起演进、每个 clone 仓库的人自动获得、你永远不用叮嘱队友「先装一下」。拿不准时问一句:这是关于工作本身,还是关于你个人?关于工作,放项目。
+
+两种层级的性格差异:用户级是 personal(只有你在用,没人被迫使用)加 global(装一次处处可用,零配置零拷贝);项目级是 checked-in(进 git 历史,随项目旅行)、single-project(不会跟你去下一个项目,但正因如此 scoped 得有道理)、communal(每个改项目的人都能给 skill 做贡献,它与项目共同成长)。基本单干,用户级更方便;只要有团队或多人贡献同一项目,项目级立刻体现价值。
+
+课程仓库 ai-coding-crash-course 在项目级放了五个 skill:
+
+```
+.agents/skills/database-migrations/
+.agents/skills/grill-me/
+.agents/skills/grilling/
+.agents/skills/handoff/
+.agents/skills/writing-for-agents/
+```
+
+其中四个你并不陌生:grilling 是 [0002](/lessons/0002) 参考层的主角,grill-me、handoff、writing-for-agents 属于 [0006](/lessons/0006) 的协作模块;它们在整套体系里的位置,见[全局地图](/reference/skill-flow-map)。
+
+## P52 ｜ 052 Navigation Pointers
+
+把代码库想象成卫星地图:agent 找东西没有鸟瞰视角,只能走 local roads——扫描目录、逐个打开文件、沿引用链摸索。最终能到,但昂贵:沿途每个文件都在吃 context window 的 token。navigation pointer(导航指针)就是给 agent 修的 highway:AGENTS.md 里的一行短句,让 agent 零扫描直达重要位置。它是 context pointer 的特化工种:不说「做什么」,只说「去哪看」。但不能处处修高速——那等于把整个文件树推进上下文,context load 严重超标;只为 agent 常去的地方修,最后一程让它自己走 local roads。
+
+课程实例:迁移总出问题,因为 agent 搜索时翻不到 `scripts/seed.ts`——一个关键、agent 本该常落在上面、搜索时却总是漏掉的文件。解法是在 AGENTS.md 加一个三行的 Navigation 小节(一条 bullet),写明「每次 schema 变更最终都会落到 seed 脚本」。这一行本身就是触发器,无需 skill 也能让 agent 主动去找:
+
+```
+# Navigation
+
+- `scripts/seed.ts` - the definition of the database's starting data, rebuilt from scratch on every `npm run db:seed`. Every schema change lands here too.
+```
+
+navigation pointer 显价值的更复杂样本,是这套 skills 体系自己的仓库:skills/ 下的桶目录里,engineering/ 与 productivity/ 的每个 skill 必须同步登记到三处——`.claude-plugin/plugin.json` 的 skills 数组、`docs/<bucket>/<skill-name>.md` 文档页、顶层 README.md;而 misc/、personal/、in-progress/、deprecated/ 的 skill 绝不能出现在这些地方。这些依赖在文件系统上完全不可见,agent 扫目录根本推不出来,只能靠白纸黑字的 AGENTS.md 显式化:
+
+```
+Every skill in `engineering/` or `productivity/` (the promoted buckets) must
+have a reference in the top-level `README.md` and an entry in
+`.claude-plugin/plugin.json`'s `skills` array. Skills in `misc/`, `personal/`,
+`in-progress/`, and `deprecated/` must not appear in either.
+```
+
+代价是腐化:你移动了文件却忘了改指针,它不报错、不警告,继续指着旧位置——一条通往 nowhere 的 highway。agent 相信 steering 文件并据此行动,坏指针让它白烧 token 弄明白「文件为何不在这」。规则很简单:项目结构一变,立刻检查 navigation pointer。stale highway 比 no highway 更糟,因为 agent 信它。<Cite>(来源:[mattpocock/skills](https://github.com/mattpocock/skills) 仓库的 AGENTS.md 约定)</Cite>
+
+同一机制还能缩放到单条消息:在 prompt 里 @-mention 一个文件,就是一条作用域仅本轮的 navigation pointer。AGENTS.md 版永久、作用于每个任务;@ 版临时、作用于一次提问。机制相同,作用域不同。适用场景:难以靠扫描发现、解决问题时必须改到、属于非显而易见工作流的文件。也不要滥用——指针越少,代码库变动时维护越轻;但对结构重要、依赖不可见的仓库,一份带 navigation pointer 的 AGENTS.md,就是「agent 高效探索」与「agent 反复漏掉关键文件」之间的差别。
+
+## P53 ｜ 053 Pruning
+
+项目仓库里人人可贡献的文件有个通病:只会变大。每条规则进去都有理由,却几乎没人出来,五行变五百行再变一千行。原因在心理:往集体文档里加一条规则既便宜又安全,删掉一条则像宣告「这条规则不重要了」、像踩过某人的成果。但 pruning(修剪)——定期回到文件里把东西剪掉——对压低 context load 至关重要。现实世界里几乎每份 AGENTS.md 都严重超重;好消息是,修剪可以学。三把刀:
+
+**第一刀:single source of truth(事实只住一个权威位置)。** agent 需要的每个事实都应住在唯一权威位置。典型病灶:AGENTS.md 写一条,文档里又贴一个略有出入的版本——两处被不同 PR 分别编辑,同一信息出现互相竞争的真相源,agent 分不清哪份是活的,就会信错的那份;特别长的文件内部也会自我重复。重复有三重代价:维护(改行为要多处同改)、context load(同一句话反复付 token)、prominence(被复制的信息比没被复制的显得更重要,权重超出真实重要性)。有三个藏身处的事实,就是你已失控的事实。原则:每个事实只放一处,其余地方用指针指向它。
+
+**第二刀:sediment(沉积层)。** 每条规则写下那天都合理,但项目会走:库被换掉、约定更替、当年防的 bug 已修复,规则却留下来,没人删,沉在文件底部,把 agent 拽向一个已不存在的世界。文件越长,无关内容占比越高,context load 白烧、表现变差。sediment 危险正因为它曾经正确——所以对每一行都要问:这还是真的吗?要么狠心删,要么挪到指针后面。
+
+**第三刀:no-op(空操作指令),最易滋生、最难根除。** no-op 是不改变任何输出的指令,两种成因:模型默认就会这么做;或在该上下文中它什么都不做。例子:/implement skill 里写「写一条详细的 commit message」——删掉它 agent 多半照样写好,你是在为它本来就会做的事付 context load。检测法很朴素:删掉它,观察行为有没有变化;没变就是 no-op,可以删。要警惕:一条指令可以完全切题、完全正确,仍然不值一个 token;no-op 也不免费——它照样占上下文,照样稀释周围真正要紧的行。
+
+对 steering 文件逐行过三遍筛子:
+
+```
+1. 这条指令是否被重复书写,破坏了 single source of truth?
+2. 这条指令是否是 sediment——写下时为真、现在已假?
+3. 这一行是否是 no-op——相对默认行为,它真的改变什么吗?
+```
+
+未通过任何一关的行,不配留在 context window 里。
+
+## P54–P55 ｜ 054/055 Trying Out Pruning
+
+实战对象是 `/init` 的产物:它能扫描代码库自动生成 AGENTS.md,但产物通常是庞然大物——通用建议、样板、目录清单、命令表,大多不改变行为,却每次烧 token。任务是拿着三把刀无情修剪,只留每个会话都挣得席位的内容。判别标准落到实例上,超重内容分三类:
+
+- **no-op 型的最佳实践空话**:「为新 utility 写单测」「给用户有用的错误信息」——描述的是 agent 本来就会做的事。
+- **sediment 型的通用填充**:放之四海皆准的项目概述、没有上下文的 npm 命令表、目录列表——不是谎言,只是不配这份 token。
+- **重复型内容**:README.md、package.json、代码注释、类型定义里已有的事实——agent 能读源码,就不必转写。
+
+流程:通读标记;新会话跑 `/context`,记下 Memory Files 段的 token 数作基线;借 /writing-for-agents 逐段删除或指针化;再跑 `/context` 对比验收。这就是 pruning 的量化闭环。
+
+几条有代表性的判例。开发命令段重复了 package.json 的 scripts——那才是可执行的真相源,`npm run dev` 的用途属于模型参数化知识,两个权威竞争时留可执行的;概述与技术栈段重复根目录 README.md;开场白「本文件为 agent 提供指导」是人尽皆知的 no-op;Prettier 一行是默认知识(ls 能看到 `.prettierrc`,package.json 有依赖,训练数据里有惯例);整节目录结构在复述文件系统——指针只留给真正难找的目标,比如 app 目录之外的 `scripts/seed.ts`;架构段的详细说明早已内联在代码注释里(app/db/index.ts 解释懒连接与 Rollup tree-shaking 的注释、comment-markdown.server.ts 解释评论渲染为何独立于 renderMarkdown 以防存储型 XSS 的注释——agent 会读到它们)。
+
+真正挣席位的是两类行:路由是 config-based 而非 file-based——新建路由文件不注册进路由表就 404,没有这行 agent 必定反复踩坑;测试的 vi.mock getter 模式——用普通对象会让 mock 在创建时捕获一次值,第二条测试起全部静默跑在过期关闭的数据库上。这些才是改变行为的信息。
+
+完整测试块是一整套流程教学,最适合抽成 skill:写测试时被邀请读 testing-services,加路由时看到 adding-a-route——AGENTS.md 由操作手册退化成带指针的索引。实操节奏:通读后约 2.4k token(起步的一半);让 /writing-for-agents 做整轮 pruning pass,剩 51 行(保住 config-based 路由、vi.mock getter、typegen 问题、dev UI 错误映射);第二轮专找「还能指针化」的机会,抽出两个 skill、建 triage 表,剩 31 行,最终 11 行。驱动两轮的口述提示:
+
+```
+I want you to find me candidates in AGENTS.md that have single-source-of-truth issues between AGENTS.md and the rest of the stuff on the filesystem. I want you to give me candidates for removal or for putting behind pointers. Basically, I want you to do a whole pruning pass on AGENTS.md, and the ideal state for it should be just a few navigation pointers to different documentation.
+```
+
+```
+I would like you to do another pass for me and look for opportunities where we can take even more stuff out of AGENTS.md and put them behind pointers. I agree with the deletions that you've made, but I think there are more opportunities for putting existing docs behind pointers and writing careful descriptions so that they are grabbed at the right time.
+```
+
+两个抽出 skill 的 description:
+
+```
+Use when adding or changing a test under app/services or app/lib, or when a test writes to data.db instead of an in-memory database.
+```
+
+```
+Use when adding or removing a page, URL, or route, or when a new route renders a 404.
+```
+
+背后原则:任务流程有可预测触发点(你知道自己在加路由、在写测试),适合藏在带清晰 description 的指针后;错误排查触发点不可预测,所以 triage 表留正文——出事时你只需要知道拉哪根杆。最终 11 行的 AGENTS.md 长这样:
+
+```
+Requests flow route → service → Drizzle. Routes own HTTP concerns and
+rendering; services own data access and use the shared db instance
+directly rather than receiving a handle.
+
+## When something breaks
+
+| Symptom | Cause |
+| 401 "Select a user from the DevUI panel" | No user in session - use the DevUI panel |
+| tsc reports ./+types/* missing | Typegen hasn't run - use npm run typecheck |
+| Test run leaves rows in data.db | The ~/db mock is wrong - see testing-services skill |
+```
+
+最后清掉残留 no-ops:注释头约定行、复述文件系统的目录清单、指向早已自动加载的 database-migrations skill 的指针(同一信息的第三份拷贝)。真正的纪律不是写更多 steering 文档,而是让已有的保持诚实,四个问题常问:agent 已知道吗?别处有文档吗?真坑还是 no-op?一个月后还成立吗?
+
+## P56 ｜ 056 Claude Code's Automatic Memory
+
+还剩一个 steering 来源没讲:agent 为自己写的那份。多数 harness 都带记忆系统:工作中 agent 注意到值得记住的事——你的一次行为纠正、表达的偏好、某个工作方式事实——就存进本地文件,之后的会话再读入 context window(取决于 harness,有的像 AGENTS.md 那样 push 进来,有的以指针形式)。理论上,agent 无需你操舵就积累出你的工作画像:它在给自己 steering,自己抓方向盘。
+
+在 Claude Code 里运行 `/memory` 可看到 automatic memory(自动记忆)处于开启状态;它同样用 CLAUDE.md 这个名字做记忆(颇为微妙),另有专门的 auto-memory 区。点开 auto-memory 文件夹,里面有个 MEMORY.md:一份指向各记忆文件的指针索引,例如:
+
+```
+- Editing course repos skill - this is a course repo; the governing skill lives in personal-wiki, not here
+```
+
+被链接的记忆文件与 skill 同构:YAML frontmatter 带 name 和 description,后接正文。agent 在你背后给自己写 skill。
+
+关键问题:automatic memory 就是 auto-sediment——会自己生长的沉积层。agent 只写不删,文件只涨不缩,每一行都在每个会话付 context load;你三个月前持有、后来改掉的偏好,会变成它持续信任的错误假设;适配某一个任务的提示,会变成尾随你此后每个任务的规则。这些行不是你写的,你更不会想起来去剪——查看记忆元数据,出身会话往往已是几周前,那条记忆一直在 context window 里无声搭车至今。还有一个结构性盲区:auto-memory 文件存在仓库之外的 per-project state 目录(按工作目录索引),永不进 git status,也就永远不会被 code review。
+
+建议因此非常直接:进设置把 auto-memory 关掉,顺带把创建记忆的工具从上下文里拿掉,窗口更干净。要不要给自己的工作流加一套记忆系统?本课的答案是不要:记忆如何创建、steering 如何进行,控制权必须在你手里,否则就是在无人查看的角落积累无用的 sediment。本课全部主旨是 steering on purpose——主动选择什么配进入 context 并保持新鲜;automatic memory 恰好反其道而行:你没选的 steering,在你看不见的地方堆积。
+
+## 练一练:转向控制自测
+
+<Quiz questions={workshopQuiz0006} />

@@ -1,0 +1,263 @@
+---
+num: "0002"
+short: "核心概念"
+title: "核心概念:model、harness 与 context window"
+lede: "动手之前先立语言:model / harness / agent / environment 四要素,non-determinism、turn、context window、smart zone / dumb zone、成本构成、hallucination、effort、subagent——后面所有工作流都用这套词汇思考。对应视频 P10–P20。"
+module: 实战
+---
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { workshopQuiz0002 } from "@/content/quiz/workshop/0002";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    学完你能用 model / harness / agent / environment 这套词汇准确描述任何一个 AI 编码工具,并理解 context window 与 smart zone 为什么直接决定输出质量与成本——后面所有工作流课件都用这套词汇思考。对应视频:B站 P10–P20,共 11 节。<Cite>(来源:《AI Coding Crash Course》,aihero.dev,Matt Pocock)</Cite>
+</Callout>
+
+本章是整门课的地基:先把 agent 拆成 model、harness、environment 三个部件,再逐一讲清 model 的底层特性——non-determinism、stateless、attention degradation、hallucination——最后收拢 turn、model provider request、session、context、effort、subagent 这些贯穿全程的工作词汇。掌握它们,后面关于 prompt、权限、成本和 workflow 的技巧才有落脚点。
+
+## P10 ｜ 010 Models, Harnesses, Agents, Environments
+
+理解 agent 需要四个部件,一个公式先立住:<strong>agent = model harnessed in an environment</strong>(被 harness 置于 environment 中的 model)。agent 不是一个独立实体,只是 harness 与 model 合在一起的名字。
+
+| 部件        | 是什么                              | 例子                                              |
+| ----------- | ----------------------------------- | ------------------------------------------------- |
+| environment | agent 交互的外部世界                | IDE 里的 file system;ChatGPT 里的文档与网页搜索   |
+| model       | 思考引擎,整套系统的「汽车引擎」    | Claude Opus、Claude Sonnet、GPT 5.5、Grok         |
+| harness     | 把 model 连接到 environment 的那一层 | IDE / 编码 agent、ChatGPT、Pi                     |
+| agent       | harness 与 model 的合称             | Opus 跑在 IDE 里操作 file system,就是一个 agent  |
+
+model 是引擎和大脑,跑在远端服务器上,按请求收费。单独的 model 只做一件事:给它文本,它还你文本,几乎做不了别的;要真正有用,必须包一层 harness。harness 与所处的 environment 绑定、为其设计:代码编辑器 / IDE 的 environment 是 file system,通过 tool call 读写文件、搜索网页;ChatGPT、Claude.ai 这类聊天界面则是另一套虚拟 environment——存文档、搜网页。
+
+用公式检验三个真实组合,全都是 agent:Opus(model)跑在 IDE(harness)里操作 file system(environment);Grok(model)跑在 Pi(harness)上,同样操作 file system;GPT 5.5 在 ChatGPT 里能建文档、搜网页、连 MCP server,同样是 agent。
+
+类比总有模糊地带:一个 NPM script 算 harness 的一部分还是 environment 的一部分?课程作者的倾向是归入 environment,但两者的边界确实互相渗透。
+
+本课的实用结论值得单独记住:所有人都痴迷换最新的 model,但 model 只是生态中的一环。训练新 model 贵得离谱,普通人和公司都够不着;<strong>你的发力点在改进 harness,和改进 agent 所处的 environment</strong>。
+
+## P11 ｜ 011 Non-Determinism
+
+model 在做 next token prediction:输入一串 token(比如 `my favorite color is`),它从训练权重里已有的候选中挑下一个,并给每个候选分配概率——red 32%、blue 28%、orange 14%——随后交给 sampler 采样。有意思的是,sampler 并不总挑概率最高的:有时选最可能的,有时选次优的,甚至偶尔选相当冷门的。大多数采样算法被调成随机或「加权随机」,天然 non-deterministic(非确定性);确定性的采样器存在,但多数 agent 选择了非确定性。
+
+多数 sampler 还接受 temperature 参数:调高,选择更随机;调低,则总是挑最可能的候选。那为什么不干脆设为 0?这正是语言建模领域著名的坑——<strong>likelihood trap</strong>(出自论文 Trading Off diversity and Quality in Natural Language Generation):随着 temperature 降低、多样性被移除、模型永远选同一个答案,质量反而下降。论文数据显示,质量在中等 temperature 处达到峰值,继续压低又开始变差——而且这套评价来自人类判断:人就是觉得高度确定性的回答更差。
+
+更奇怪的是,由于 model 采用大规模并行计算、计算顺序会影响结果,即使同一块 GPU、同一个 model、temperature 0,每次返回的内容也不相同。所以 non-determinism 是「烤进蛋糕里的」,无法根除。
+
+对 AI coding 的意义有两层。其一,同一段任务,agent 每次的做法都可能不同,这种方差需要习惯并学会应对。其二,它会向下传导到 permissions:再聪明的 agent,也始终存在非零概率做出非常离谱的坏事。你可以让系统更可靠,但底座永远是一台非确定性引擎。
+
+## P12 ｜ 012 Turns And Model Provider Requests
+
+四个定义先立住,本课和后面所有课件都靠它们:
+
+- **model provider request**:一次请求加一次响应的完整往返。model provider 指处理请求的服务,如 Anthropic、Ollama。
+- **tool call**:只是 model 给出的「使用工具的指令」;真正执行的是 harness,执行结果作为 tool result 随下一次请求发回。
+- **turn**:从用户消息到 agent 最终回复的整个循环,一个 turn 可包含数百个 model provider request。
+- **conversation history**:每次请求都携带完整的对话历史。
+
+这些不是抽象概念——用课程配套的 request logger 亲手看一遍:
+
+1. 运行 `npm run request-logger`,回答它询问的 coding agent 和 model provider(答案可记住,只问一次),它会打印一条启动命令。
+2. 把打印的命令粘贴到新终端运行。此后 agent 指向的是本地 request logger,而不是 model provider 的服务器。
+3. 打开 side panel,进入 `./request-logger/logs` 目录(初始只有一个 `.gitkeep`)。
+4. 对 agent 说一句 hello,刷新目录:多出一个新文件,记录了发往 Anthropic API `v1/messages` 的请求。
+
+先发一句不需要工具的话:
+
+```
+tell me my hair looks nice
+```
+
+再让它做一件要动工具的事:
+
+```
+I would like you to write a file containing a list of compliments to me in a markdown file in the repository root.
+```
+
+打开日志,里面用 XML 标签记录了发往和收自 model 的一切:顶部是 meta 信息和 headers,约第 50 行处是 system prompt,再往下是你的消息和 agent 的响应。这份「巨大请求 + 小小响应」就是一个 model provider request。
+
+两个发现值得一说。其一,你说一句话往往产生不止一个请求:agent 在幕后做了额外工作,比如以 `SuggestionMode` 运行的请求,用来生成「你接下来可能输入什么」的建议——界面上所有看起来像 AI 生成的元素,背后都是一次 model provider request。其二,每次请求都携带全部 conversation history:你的历史消息、agent 的历史响应、累积的所有 context,这个文件随对话不断变长。
+
+写文件那次,请求里出现了 tool use 部分:model 没有直接回文本,而是给出 `file_path` 和 `content` 两个参数。**tool** 是 harness 提供给 model、用于操作 environment 的能力——这里是 `write` tool,在请求更靠前的位置以 JSON schema 声明调用方式。分工要分清:同一个请求里,harness 发送了「如何调用工具的说明」和「你的写文件请求」两样东西;model 回答「好,用这个工具」;这个 tool call 随后由 harness 解释并执行——它是指令,不是执行;执行结果作为 tool result 出现在下一个请求里发回 model,model 才回复:
+
+```
+Done, I created compliments.md in the repo root.
+```
+
+这整个流程叫一个 **turn**:写文件包含两个 model provider request(消息 → tool call 指令;tool result → 最终回复),都在同一个 turn 内。一个 turn 可以持续数小时、容纳数百个请求。request、turn、tool call、tool result 这套语言,就是驱动一切的引擎。
+
+## P13 ｜ 013 Sessions And The Context
+
+上一课日志里的所有文本——Git 使用说明、参数、scope、各种 tool call 声明——统称为 agent 的 **context**:agent 可用信息的总和。这些文本被切成 token 供 model 做 next token prediction;model 面对一大坨 context,产出的只是短短一段文本。
+
+每个 model 能接收的 context 有上限,即 **context window**(上下文窗口)。榜单上可见的规格:
+
+| model               | context window     |
+| ------------------- | ------------------ |
+| GPT 5.6 Sol         | 1.1 million tokens |
+| Gemini 3 Pro        | 1 million tokens   |
+| GPT 5.2 Chat Latest | 128k tokens        |
+
+这个数字有相当大的任意性,由开发者根据 model 和基础设施能承受的量来定。单次请求超过上限,请求会直接失败,产不出任何输出 token。
+
+管理 context 至关重要,原因有二:每次请求都要按文本计费,发出去的内容必须值得发、与手头任务相关;而且喂进太多文本,model 会像人一样困惑、分心。
+
+使用 harness(任何 agentic framework 或 wrapper)时,context 从来不从零开始:harness 一上来就注入自定义指令——有哪些 tool 可用、高层任务是什么、agent 该扮演什么角色——这就是 **system prompt**。例如 Claude Code 的开场:
+
+```
+You are Claude Code, Anthropic's official CLI for Claude.
+
+<!-- cache_control breakpoint -->
+
+You are an interactive agent that helps users with software engineering tasks.
+
+IMPORTANT: Assist with authorized security testing, defensive security, CTF challenges, and educational contexts. Refuse requests for destructive techniques, DoS attacks, mass targeting, supply chain compromise, or detection evasion for malicious purposes. Dual-use security tools (C2 frameworks, credential testing, exploit development) require clear authorization context: pentesting engagements, CTF competitions, security research, or defensive use cases.
+```
+
+自己动手验证:继续翻看 request logger 的日志,专门去看 system prompt 里到底写了什么。注意不同 harness 的内容差别很大;即便是 Claude Code,这些文本也经常改版,你看到的会和视频里的不同。
+
+跨多个 turn 累积 context 的过程需要一个名字:**session**。比如 turn 1 产生五个请求、turn 2 三个、turn 3 四个,最后一个请求带着全部历史拿到新响应——这一整个就是 session。有了这个词,你才能清楚地思考和操作:清空 context 开新 session、compact 当前 session、切到另一个 session 稍后回来。
+
+## P14 ｜ 014 Smart Zone / Dumb Zone
+
+典型的一次 agent 交互约 18k tokens,而现代 model 的 context window 高达百万级——发 950,000、回 50,000 也装得下。但有个自然的怀疑:model 真能同时推理这么多文本吗?
+
+看 attention 机制的工作量。单个 token(比如 `the`)无关系可追踪;加一个 `frog`,就要记住两个 token 外加它们之间的关系,共 3 件事;三个 token 则是 3 个 token 加 3 段两两关系。规律按二次方增长:2 个 token 1 段关系、3 个 3 段、4 个 6 段、5 个 10 段——就像联赛里新增一支球队,赛程瞬间爆炸。放大到规模:
+
+| context 大小    | attention relationships |
+| --------------- | ----------------------- |
+| 1,000 tokens    | 约 100 万段             |
+| 10,000 tokens   | 约 1 亿段               |
+| 100,000 tokens  | 约 100 亿段             |
+
+这些 attention relationships 是 model 在文本中建立连接、来回跳转、达成理解的方式;要追踪的关系越多,表现越差——像满屋子人抢着喊「注意我」。这就是 **attention degradation**(注意力退化):发给 model 的文本越多,它越难关注真正重要的东西,实际表现是 agent 逐步做出越来越蠢的事。
+
+于是 context window 分成两段:<strong>Smart Zone</strong>(前段),胜任 planning、构建复杂软件、战略决策;<strong>Dumb Zone</strong>(后段),只剩简单文件写入、关闭 issue、写基础 spec 这类活。dumb zone 里仍能出结果,但拿不到 agent 的最佳水平,而且每次请求都要重发海量 token,成本也高。
+
+dumb zone 从哪开始,众说纷纭且随 model 移动:课程录制时一线 model 的共识约 150,000 tokens(上一版课程还是 100k–120k,随模型进步还会继续后移)。厂商宣传百万 token 窗口,一是因为标题好看,二是并非所有场景都需要 smart zone——在长文本上做检索不需要峰值智能。但写软件必须待在 smart zone:在 dumb zone 干活只会产出低质量代码,之后再花 token 返工。
+
+注意这是缓坡,不是悬崖:把 150k 当作「准备撤离」的信号,到了就开始筹划如何交接工作、如何换一种打法回到 smart zone。这种「偏执」能让你以最低的 token 价格拿到高质量产出。等你读到这篇课件时数字可能已变、不同 model 的阈值也不同,但底层的 attention degradation 不会消失——它是当下所有 LLM 共同的约束。
+
+## P15 ｜ 015 Statelessness
+
+session 由多个 turn 组成,turn 里是一次次 model provider request,context 由此逐步累积,每个请求都携带着此前对话的状态。但关键在于:这些状态全部保存在 harness 里,model 本身完全 stateless(无状态)。三者的分工:
+
+- **model**:完全 stateless。只根据给定的 context 处理单个请求,什么都不保留。
+- **harness**:在一个 session 内 stateful。记住该 session 里到目前为止的所有消息,并整块打包发给 model;一旦清空,就全部忘掉。
+- **environment**:永远 stateful。把文件、改动、数据持久化在磁盘上。
+
+很多人把 agent 的 stateless 视为缺陷,希望它记住自己、随时间进化,于是各种 memory system 层出不穷——本质都是想给无状态系统注入状态。真正的解法是把东西存进 environment:存一个文件,清空 session,文件还在原地。memory system 可以理解为对 environment 的增强,帮它记住更多东西,从而让 agent 跨 session 记忆;有些 harness 自己也会尝试跨 session 保留少量状态。
+
+Pi 的作者 Mario Zechner 被问惯了「你用什么 memory system」,他的回答从来是同一句:<strong>my codebase is my memory system</strong>(中译:我的 codebase 就是我的记忆系统)。
+
+默认拥抱 statelessness,把需要记忆的重要内容写进 codebase——理由很纯粹:简单,而且被证明更有效。想给 agent 本体外挂 memory system 时,先保持怀疑:改改 codebase,往往就足够了。
+
+## P16 ｜ 016 How Much Did It Cost?
+
+agent 干活的账单分散在 session、turn、model provider request 三层,体感通常是账单一路上涨却不知该优化什么。其实数字每次都由 provider 返回:每次请求你发出 **input tokens**(repo 的当前状态、agent 已知的环境信息),收回 **output tokens**(agent 的产出),后者单价高得多——以 Claude Haiku 4 的 API 价为例:
+
+| 计费项       | 每百万 token 单价        | 说明                              |
+| ------------ | ------------------------ | --------------------------------- |
+| input        | $10                      | 你发出去的,随 session 累积       |
+| output       | $50                      | agent 产出的;thinking tokens 同价 |
+| cached input | 普通 input 的十分之一    | prefix cache 命中的前缀           |
+
+output 比 input 贵整整五倍,但 input 通常是更大的数:输出往往只有几百 token(一次 tool call 或一句回复),输入却是迄今整个 session。亲手看一次数字:启动 request logger,发一条简单消息,进入日志找到第一个请求,翻到底部的 response 标签,查看 usage 里的 input / output / cache token 数字。hello 那次请求只有 2 个 input tokens、14 个 output——为什么这么少?因为还有 `cache_creation_input_tokens` 和 `cache_read_input_tokens` 两项。provider 维护 **prefix cache**(前缀缓存):当请求的开头与近期请求相同,就复用之前那段计算,按 cached input tokens 计费,价格为普通 input 的十分之一(cache hits 和 refreshes 同价)。所以第一条请求其实是一次缓存写入——`cache_creation_input_tokens: 22214`,先把前缀建进缓存。
+
+再发一条消息,第二条日志显示:504 个 input tokens、新建缓存 59、读取约 22,000——缓存已热,实际只按约 500–600 个 input token 计费,外加 46 个 output。另外 thinking tokens 与 output tokens 同价计费,本质上是一回事。
+
+session 恰好按追加方式增长——每个请求都是上一个请求加一点尾巴——所以请求的结构也刻意如此设计:少变的内容放前面,多变的内容放后面,后者常常装在 user message 里送达。这也是 prefix cache 能命中的前提。
+
+账单难算也在这里:第一条请求写缓存、第二条读缓存、第三条也许产出大量昂贵的 output;若在 turn 2 和 turn 3 之间休息一小时,缓存超时彻底耗尽,前缀就要全价重算。组织 context、让缓存收益最大化,主要是 harness 的职责;但有一点要自己记住:<strong>你注入的每个 input token,都会在之后每次请求里重复计入</strong>——第一个请求里沉积的「泥沙」会被反复计费。保持 context 小而相关,既对 agent 好,也对钱包好。
+
+## P17 ｜ 017 Hallucination
+
+dumb zone 里那些「蠢事」中最大的名字是 **hallucination**(幻觉):自信满满的错误输出。在编码场景,它可能产出坏代码、把产品带向错误方向、推荐已不再安全的 API,危害极大。我们力所能及的,是搭建一个让幻觉概率降低的 environment。
+
+幻觉有两种口味,病因和解法完全不同。
+
+**factuality hallucination**(事实性幻觉):编造或搞错世界事实——不存在的函数、错误的 API 签名、指向不存在文章的引用。根源是 **parametric knowledge**(参数化知识)的局限:训练时信息被压进参数(parameters / weights,动辄数十亿个数字),训练结束参数冻结——这正是 model stateless 的原因。把 TB 级训练数据压缩成几十亿个数字,细节必然丢失,像高清图压成小尺寸后看不清细节;而且存在 **knowledge cutoff**(知识截止):训练之后的新事件、新库、新 API,模型一概不知,也不能打补丁更新,只能从头 retrain。所以 parametric knowledge 不是事实数据库,只是一团「fuzzy vibes」。一个真实案例:直接问 Claude Opus「X API 多贵?别搜索,凭你所知说说」,它答出 Free 很有限、Basic $100/month、Pro $5,000/month、Enterprise 定制——实际定价近期已大幅下调,而那次改动发生在这版模型的 cutoff 之前,属于典型的 factuality hallucination。<Cite>(来源:《AI Coding Crash Course》P17,aihero.dev)</Cite> 解法是装填 **contextual knowledge**(上下文知识,即 context window 里的信息):研究表明,基于 context 工作时幻觉少得多——答案就在眼前,而不是从模糊记忆里硬捞。一句话纪律:<strong>never trust an unsourced LLM</strong>(绝不信任没有来源的模型输出)。
+
+**faithfulness hallucination**(忠实性幻觉):信息明明就在 context 里,model 却忽略它、偏离它、把它用得走样。dumb zone 把这类错误放大到极点——attention relationships 太多,model 分不清哪些信息重要。你可以把所有相关信息都摆好,但 context 一旦过载,它就无法好好遵循指令,幻觉更多,代码更差,安全风险更大。
+
+诊断决策树只有一问:<strong>该信息是否在 model 的 context window 里?</strong>不在,是 factuality 问题,把有来源的信息装进 context;在,是 faithfulness 问题,清空 context window、降低 attention degradation——多数时候退出 dumb zone 即可(这类问题偶尔也会因 non-determinism 出现在 smart zone)。课程后半段请持续留意这两类错误——现在你知道怎么处理了。
+
+## P18 ｜ 018 Effort
+
+effort(出力档位)是几乎所有 provider 都提供的旋钮——Claude Code 里运行 `/effort`,从 faster(左)到 smarter(右)的档位中选一档——本质是让 model 产出更多 reasoning tokens。
+
+同一句「探索这个 codebase 并讲给我听」,课程实测对比:low effort 用时 1 分 11 秒、11,000 tokens,只摸清基本事实——request logger 子项目和技术栈;max effort 用时 2 分 15 秒、41,000 tokens,挖到了实际功能、认证实现细节、文件结构,甚至发现了 low 版本漏掉的 documentation drift。效果确实好一点,但 token 花了四倍——<strong>更多的思考,换更多的成本</strong>,这就是核心取舍。
+
+机制上,model 的输出有三类:text、tool calls、reasoning。reasoning tokens 是 model 自己的思路、一种意识流;有些界面会展示它们,Claude Code 只显示 text 和 tool calls,reasoning 在幕后进行。理论源头是老技术 **Chain of Thought Prompting**(思维链提示):让 model 展示解题步骤,答案更准。经典例子——标准提问直接作答:
+
+```
+The cafeteria had 23 apples. If they used 20 to make lunch
+and bought 6 more, how many apples do they have?
+
+Answer: 27
+```
+
+这个答案是错的;让它分步推理:
+
+```
+They had 23 apples originally
+They used 20 to make lunch: 23 - 20 = 3
+They bought 6 more apples: 3 + 6 = 9
+
+Answer: 9
+```
+
+调高 effort,本质上就是告诉 model:多产 reasoning tokens,多展示思考。收益真实存在:DeepSWE benchmark 上,Claude 从 low 60%、medium 65%、high 69% 到 extra high / max 70%;GPT 5.6 从 45%、61% 到 69%。但每个任务的成本也随之上升——例如 Claude Sonnet 5 在 low effort 只有 31% 的质量、每任务 $26,而 GPT 5.6 花 $1.86 就能超过这条基线。
+
+关键洞察:effort 不只是质量旋钮,还是延迟(latency)旋钮——token 用得越多,越早撞进 dumb zone,留给真正干活的空间越少。使用建议浓缩成三条:
+
+- <strong>避开 max</strong>(extra high 同样极其浪费)。那是厂商为 benchmark 榜单多挤两个百分点准备的档位;你关心的是日常成本、延迟和质量的平衡。
+- <strong>选一档固定下来</strong>,不要按任务反复调。GPT 5.6 的 low / medium / high 差异确实大到像换了模型,但逐任务 min-maxing 得不偿失;课程作者自己的选择是 Claude Opus 4.8 加 medium,从不逐任务更换。改 model 和 effort 只动了系统的一角,改 harness 和 environment 才是整体提升;保持 model agnostic、effort 一致,灵活性才在你手里。
+- <strong>速查:medium 是甜点位</strong>——成本、速度、质量间最均衡,适合大多数工作;max 仅适合 benchmark。
+
+动笔之前再看三条:查 benchmark(如 DeepSWE 的性能-成本图);记住 benchmark 有缺陷——你的日常工作大概率不同于它测的任务,唯一可靠的验证是在自己的工作流里试;避免持续 min-maxing,调参的时间就是没在 ship 的时间。目标是做出知情的选择然后前进,而不是找到完美档位。
+
+## P19 ｜ 019 Choosing A Model
+
+被问最多的问题就是「该用哪个 model」——课程作者对「快试这个新 model,碾压一切」的轰炸,已经叹气叹到被合伙人 Joel 记录在案。他的心智模型:model 只是生态的一角,外面套着 harness,harness 和 model 又运行在 environment 里;<strong>model 与 harness + environment 的影响力大约 50-50</strong>。换一个烂 model 当然寸步难行,但只要用的是第一梯队 model,大概率就没问题。把 model 想成公司员工:员工来来去去,投资公司基础设施、让任何一位新员工都能成功,才是稳妥的位置——harness 和 environment 那里遍地是低垂的果实,而且环境一旦过硬,将来换任何 model 都能平滑衔接。
+
+真要比较 model,看 **cost per task**(每个任务的真实花费;DeepSWE benchmark 底部就有这一栏),而不是 token 单价。切到 output tokens 视角会发现另一番景象:Gemini 3.5 Flash 烧掉大量 token 却没干成多少事,但它单 token 价格便宜,换回成本视角又不吃亏——不同 provider 的单价不同。此外 benchmark 数字按 API 价计,订阅制便宜得多,所以选 model 的同时也在选计费结构。效率才是关键:不是 token 的原始花费,而是这些 token 换回了什么。当然,benchmark 再好也是抽象的,未必对应你的实际工作。
+
+其次,不同任务需要不同质量档位:像 GPT 5.6 SOL,探索、research、summarization 用 low effort 就够;详细 planning 或 code review 才值得跳上 high effort——为任务挑合适的工具,甚至可以 planning 用一个 model、implementation 用另一个。
+
+最重要的评估方式是拿自己的数据:盯紧自己的用量和账单(watch the bill like a hawk),像了解员工一样了解 model,逐步形成自己的 model + effort 偏好排序。实证方法:相同输入,两个 setup(不同 model、同 model 不同 effort、甚至不同 harness)做同一任务,评判哪个更好、记录下来、重复几次——这就是相当好的数据,比 benchmark 图靠谱,因为图上的任务不是你的 agent 每天在做的事。
+
+总结三句:model 只占约一半;选择时看 cost per task;选定一个 model 和一个 effort,深耕到能把它 prompt 得越来越好。
+
+## P20 ｜ 020 Subagents
+
+理解了 smart zone / dumb zone 和 context 填满后逐步退化的约束,就能看懂 harness 普遍采用的缓解技术。
+
+把主 agent 一个 session 的 context 画成色块:灰色是始终存在于 system prompt 里的内容(request logger),黄色是 exploration,绿色是 implementation。任何 harness 的梦想都是把每块变小:花更少的 token,一则省钱,二则腾出更多 context 空间——更少的 attention degradation、更大的 smart zone。但这里有取舍:exploration 阶段少干粗活,探索质量就差,implementation 又会被错误信息拖累——看起来,探索的 token 开销像是锁死的。
+
+打破僵局的方法是委派。主 agent spawn 出一个 **subagent**(子代理),让它在自己的 context 里深挖 codebase、烧掉大量 token,最后只把总结交回主 agent——就像资深开发者对初级开发者说的:<strong>Just research something for me and then report your findings.</strong>(中译:替我研究一下,然后汇报你的发现。)主 agent 拿到的是结论,而不是过程中的 token 消耗。
+
+更进一步:主 agent(orchestrator,编排者)可以同时 spawn 多个 subagent 并行干活,比如两路调研同时进行,两个「初级开发」各自汇报。每个 subagent 可以带不同配置:不同的 system prompt、不同的 model、不同的 effort level。有些 harness 还允许 subagent 再 spawn 自己的 subagent——有的只允许一层深——这意味着 subagent 可以和上层的 agent 一样强大。本课先停在理论层面,后面的 fundamentals 部分会大量用到 subagents。
+
+## 合上页面,回忆一遍
+
+1. agent 公式是什么?四个部件各自扮演什么角色?
+2. likelihood trap 说的是什么?temperature 0 为什么既掉质量、又不可复现?
+3. context window 超限会发生什么?session、turn、model provider request 三者是什么关系?
+4. factuality 与 faithfulness 两类幻觉,诊断的第一问是什么?各自的解法?
+5. prefix cache 命中怎么计费?为什么第一个请求里注入的 token 最贵?
+
+隔天不看答案再自问一遍,第 3、7 天各再轮一次——检索本身才长记忆。
+
+## 首读材料
+
+本课的「原文」是视频本身:《AI Coding Crash Course》P10–P20(aihero.dev,B站同步);model、harness、context window 这些术语的中文详解与英文原文对照,查[词典](/dictionary)。
+
+<Callout>
+    <strong>卡住了怎么办。</strong>
+    「harness 和 environment 到底怎么分」「compact 和清空 session 差在哪」这类困惑,先查[词典](/dictionary),
+    然后带进你自己的实战里验证;是课件讲得不清楚的,到[仓库 issue 区](https://github.com/yongkong/learn-mattpocock-skills/issues)提出来。
+</Callout>
+
+## 练一练:核心概念自测
+
+<Quiz questions={workshopQuiz0002} />

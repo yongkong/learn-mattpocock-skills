@@ -43,10 +43,12 @@ const STATIC_ROUTES = [
   { route: "/about", file: "about.html" },
   { route: "/dictionary", file: "dictionary.html" },
   { route: "/reference", file: "reference.html" },
+  { route: "/workshop", file: "workshop.html" },
 ];
 const CONTENT_ROUTES = [
   ...manifest.referenceSlugs.map((s) => ({ route: `/reference/${s}`, file: `reference/${s}.html` })),
   ...manifest.lessonNums.map((n) => ({ route: `/lessons/${n}`, file: `lessons/${n}.html` })),
+  ...(manifest.workshopNums ?? []).map((n) => ({ route: `/workshop/${n}`, file: `workshop/${n}.html` })),
 ];
 const EXPECTED_ROUTES = [...STATIC_ROUTES, ...CONTENT_ROUTES];
 

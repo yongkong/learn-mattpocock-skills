@@ -1,0 +1,185 @@
+---
+num: "0003"
+short: "认识 Claude Code"
+title: "认识 Claude Code:够用就好的工具入门"
+lede: "课程不绑定任何 agent,演示用 Claude Code。这一章只求够用:session 管理、终端 prompt 技巧、IDE 集成、时间旅行、bash mode 与 permissions。对应视频 P21–P27。"
+module: 实战
+---
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { workshopQuiz0003 } from "@/content/quiz/workshop/0003";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    没碰过 Claude Code 也没关系:学完这 7 节(对应 B站视频 P21–P27),你就能把它用到「足够跟完后续所有课程演示」的程度。先说清楚一件事:课程核心不绑定任何 agent,本章是工具入门而非课程正题——会话、上下文、权限这些概念在别的 harness 里都有对应物。
+    <Cite>(来源:《AI Coding Crash Course》,aihero.dev,Matt Pocock)</Cite>
+</Callout>
+
+## P21 ｜ 021 Intro
+
+整门课程用一个 agent harness 来驱动演示,选的是 Claude Code——当下最流行的 harness 之一。但开课先把话说清楚:**这门课是 harness agnostic 的**,不强制任何特定工具。任何能在 CLI 里运行的 harness 都可以用,挑你最顺手的就行;本章教的是 Claude Code 的具体操作,而背后的概念在别的工具里都能找到对应。
+
+如果你从没用过 coding harness,或者想把 Claude Code 用得更透,视频里另有一个可选的入门章节(optional primer):除了 agent 基础,还带几个进阶技巧——已经用得很熟的人也值得扫一眼。
+
+进入正题前只有两件事:确认你选的 harness 已安装、能在终端里运行(课程以 Claude Code 为例);可选,先过一遍 primer 再开始。
+
+## P22 ｜ 022 Managing Your Claude Code Session
+
+先确保 Claude Code 已按课程开头的安装说明装好。整门课程都在 VS Code 里运行 Claude——本节先在集成终端里跑,Claude 与 VS Code 的关系到 P24 再讲。终端里运行 `claude` 启动,界面底部的大输入框就是写提示词的地方,跟任何聊天应用一样直接对话即可;建议把终端缩放调大一点,看得更清楚。
+
+开始前先执行一次 `/terminal-setup`:输入斜杠,从自动补全列表里选中 terminal setup,回车运行。它负责配置按键绑定,最关键的是让 **Shift+Enter 能在提示词里换行**——写复杂的多行指令离不开它。多数系统直接运行即可;WSL 之类的环境可能需要手动处理。不装的话,后面可能遇到莫名其妙的按键问题。
+
+三个常用斜杠命令:
+
+- `/usage` 查看用量:当前会话的剩余额度、每周上限、已用多少(具体数字和标签随套餐与 agent 版本而变)。额度用尽就得等窗口重置才能继续。按 Escape 退出用量视图,回到对话。
+- `/context` 可视化当前[上下文窗口](/dictionary)里装了什么:system prompt(给 agent 的指令)、skills(你添加的自定义技能)、消息历史各占多少 token,以及窗口总容量(视频举例:Claude 3.5 Opus 有 100 万 token)。排查配置问题时非常好用;本课程后面还会专门深入上下文管理。
+- `/clear` 清空当前会话的所有消息,重新开始。清空前后各跑一次 `/context`,对比 token 数即可验证效果(视频示例:带历史约 9,000,清空后约 6,600)。这背后是一个关键事实:**模型是无状态的**——清空之后,agent 对之前的对话一无所知。想让 agent「忽略」之前的消息是没用的,那些内容并没有离开窗口。另一种等效做法:连按两次 Ctrl+C 退出,再开新会话,同样得到干净、无记忆的上下文。
+
+agent 运行中想让它停下来,按 **Escape** 中断:它会取消正在做的一切,上下文里出现 interrupted 标记,并询问接下来做什么——你可以改派任务,也可以让它继续。如果是手滑误按,输入 `carry on`,它就从断点接着干。
+
+```bash
+claude                # 启动
+/terminal-setup       # 配置按键绑定(Shift+Enter 换行)
+/usage                # 查看剩余额度与每周上限
+/context              # 查看上下文 token 构成
+/clear                # 清空会话上下文
+```
+
+| 按键        | 作用                       |
+| ----------- | -------------------------- |
+| Shift+Enter | 提示词内换行               |
+| Escape      | 中断运行;退出用量视图      |
+| Ctrl+C 两次 | 退出并开启全新会话         |
+
+## P23 ｜ 023 Prompting in the Terminal
+
+**引用文件:按 `@` 打开文件选择器。** 方向键浏览,直接打字模糊搜索(比如敲 `routes.ts`),回车把文件拉进输入框,按 Tab 也可以确认。可以重复操作添加多个文件——例如先选 `drizzle.config.ts`,再加 `components.json`。发送之后,这些文件在**第一次请求时就被直接读入上下文窗口**,不需要额外的工具调用。要把 spec 或某份配置文件交给 agent 直接参考时,这个功能尤其好用。
+
+**暂存提示词:按 `Ctrl+S`。** 提示词写到一半,不想发又不舍得丢,按 Ctrl+S 暂存,界面出现 stashed 标记。这时你可以继续输入别的内容并发送;发送完成后,被暂存的草稿会**自动回填**到输入框。比如先暂存一句长提示词,接着输入一条短消息发出去,回来时长草稿已经等在输入框里了。给 agent 反馈时特别实用:先插一条补充说明,再回来继续润色原本的长提示词。
+
+**粘贴图片:直接粘。** 把剪贴板里的图片(包括截图)粘进输入框即可:复制后粘贴,左下角出现 pasting 指示,图片进入提示词,然后就能直接向 agent 询问图片内容——视频示例里问的是一张斯洛文尼亚布莱德湖的照片,agent 认得出湖中的教堂和它的钟楼。图片是提示词的一部分,截图、设计稿这类视觉素材都能这样引用,不需要单独上传。
+
+| 操作     | 方式                                                       |
+| -------- | ---------------------------------------------------------- |
+| 引用文件 | 输入 `@` 打开文件选择器,模糊搜索,回车或 Tab 确认,可加多个 |
+| 暂存草稿 | `Ctrl+S`,出现 stashed 标记;发送其他消息后自动回填          |
+| 粘贴图片 | 复制后在输入框直接粘贴                                     |
+
+## P24 ｜ 024 Claude and Your IDE
+
+运行 `/ide` 命令,让 Claude Code 与你的编辑器集成。不必非用 VS Code:Cursor、Windsurf、Antigravity,手头有什么就用什么。`/ide` 会显示当前连接的编辑器——课程里显示已连接 Visual Studio Code,因为装了 Claude Code for VS Code 扩展;如果你的 IDE 还没连上,`/ide` 会给出对应扩展的安装方法。确认并退出命令后即可开始使用。
+
+连接编辑器的核心理由是 **diff 审阅**,这是与 agent 协作中出现频率极高的场景。比如让 agent「把 test watch 命令从 package.json 里移除」,它会读取并修改文件。没有编辑器连接时,diff 只能在终端里以纯文本展示,又别扭又难审;连接后,diff 直接显示在 IDE 里:可以滚动文件看上下文、逐处检查 agent 的每一处改动、点 **Accept Proposed Changes** 一键全部接受;也可以点进 diff 手动微调,再保存文件确认。能直接在编辑器里修改 agent 的输出,比在终端里审顺畅得多。
+
+编辑器集成还有更多功能和接入方式,但 diff 是你绝大多数时间用到的那一个,也是在编辑器里跑 agent、而不是只开一个纯终端的首要理由。跟练跟不上时,回看对应视频即可。
+
+## P25 ｜ 025 Going Forwards and Backwards in Time
+
+agent 的一项重要能力是在会话里前后移动,这对「试了一下又想反悔」的场景至关重要。
+
+最直接的撤销是开口要:刚让 agent 做了一处改动(比如删掉某个 script),直接输入 `revert that, please`,agent 会把改动重写回去,再按 Ctrl+S 保存、接受这份 diff。更强大的是 **rewind mode**:快速连按两次 Escape 进入,可以把代码和会话恢复到**本会话中任意更早的检查点**。列表最底部是当前状态,上面一格就是你说那句话之前的点,用 Enter 选中即可;想退得更早,就再次进入 rewind mode 挑更早的检查点,可以一路回退整段会话历史。列表里还有一个 `summarize from here` 命令(后续课程再讲);选 nevermind 则取消回退、保持现状。
+
+选中检查点后,恢复粒度有三个选项:
+
+| 选项                                          | 效果                             |
+| --------------------------------------------- | -------------------------------- |
+| Restore the code and the conversation         | 整场回退到这次改动之前(最常用) |
+| Restore the conversation but keep the code    | 保留当前代码,只回退对话        |
+| Restore the code but keep the conversation    | 保留对话历史,只回退代码        |
+
+会话还会**本地持久化**:连按两次 Ctrl+C 退出后,有多种方式回去。退出时输出里会给出一行可直接运行的 `claude --resume [UUID]`,执行后回到离开时的确切状态;或者运行 `claude` 开新会话,输入 `/resume`,它会列出这个仓库里的所有历史会话(支持搜索),选中后按 Return 回去;最省事的是 `claude --continue`,直接跳进最近一次会话,不用过菜单。无论会话因何种原因中断,都能随时恢复。
+
+| 操作             | 方式                                            |
+| ---------------- | ----------------------------------------------- |
+| 让 agent 撤销    | 提示词 `revert that, please`,Ctrl+S 保存接受   |
+| 进入 rewind mode | 快速连按两次 Escape,Enter 选中检查点           |
+| 取消回退         | 选 `nevermind`                                  |
+| 恢复指定会话     | `claude --resume [UUID]`                        |
+| 从菜单选会话     | 新会话中运行 `/resume`,可搜索,Return 确认     |
+| 直接回最近会话   | `claude --continue`                             |
+| 退出             | Ctrl+C 两次                                     |
+
+## P26 ｜ 026 Running Bash Commands
+
+bash 命令是用好 Claude Code 的关键一环:它让 agent 从被动的代码书写者,变成能主动建立反馈回路、真正操作项目的助手——bash 的全部能力都为它所用。当然可以让 agent 自己琢磨怎么跑 dev server(聪明的它会读 package.json、找到命令、执行),但很多时候你明确知道要跑什么,只想立刻执行并把结果放进 agent 的上下文。共有三种做法。
+
+**第一,bash mode。** 输入 `!` 进入 bash mode,之后输入的内容会作为 bash 命令真实执行,输出直接进入 agent 上下文,例如 `! npm run typecheck`。视频示例里因为还没跑过 npm install,报出一堆 Zod 缺失的错误——而这些错误现在就在 agent 上下文里,它看得到,也就着手处理:发现 Zod 在 package.json 里声明了却没安装,于是建议运行 npm install。
+
+**第二,后台运行长任务。** dev server 这类不会退出的命令,在 bash mode 里输入 `! npm run dev`,趁它运行时按 **Ctrl-B** 转入后台,界面提示 command was manually backgrounded(附 userID)。此后该任务的输出写入本地文件,状态栏下方出现后台任务条目:按向下箭头再按回车,可查看 shell 输出(示例中 dev server 跑在 localhost 5175);按 X 停止;按左箭头回到 agent。调试 dev server 时特别有用:agent 知道日志写在哪,可以在页面上做操作或发 curl 请求,然后直接读到 server 的输出。
+
+**第三,挂起 agent。** 想跑一条不让 agent 看到输出(或不值得给它看)的命令,又要保住 agent 当前状态:按 **Ctrl-Z** 挂起 agent,然后在 shell 里随意执行(比如 `echo foo`),这些对 agent 完全不可见;完事运行 `fg`,agent 原样回来。
+
+判断不难:要 agent 看到输出,用 bash mode;命令不会自己结束(dev server 一类),Ctrl-B 后台化——不是每次都用,但用到时多半是在调试 dev server;命令要对 agent 隐藏,Ctrl-Z 挂起。
+
+| 目标                   | 方式           | 按键                        |
+| ---------------------- | -------------- | --------------------------- |
+| agent 需要看到输出     | bash mode      | `!` 前缀                    |
+| 长驻进程(dev server) | 转入后台并管理 | 命令运行中按 `Ctrl-B`       |
+| 命令对 agent 隐藏      | 挂起 agent     | `Ctrl-Z`,完后 `fg` 返回   |
+
+```bash
+! npm run typecheck   # 输出进入 agent 上下文
+! npm run dev         # 运行中按 Ctrl-B 转入后台
+echo foo              # Ctrl-Z 挂起 agent 后执行,agent 不可见
+fg                    # 恢复 agent 及其状态
+```
+
+注意:这些快捷键在多数系统可用,Mac 上可能需要换一种按法。
+
+## P27 ｜ 027 Permissions
+
+与 agent 协作,始终是在权衡风险与收益,核心问题只有一个:**你交给它多大权力**。权力无限时,它可能无意间干出危险的事,比如删掉整个文件系统。为此,Claude Code 有一套非常细致的 permissions 模型,默认对自己极其严格。
+
+**审批流程长这样。** 让它运行 `echo hello`:echo 极其安全,agent 不请示、直接执行。但让它对项目跑类型检查,它会先请求权限——请求界面列出要执行的完整命令、执行原因,以及三个选项:**Allow once**(本次允许)、**Allow always**(今后该项目内允许所有同类命令)、**Reject and suggest**(拒绝,并建议替代命令)。示例中它想用 react-router-typegen 加 tsc 跑 `pnpm typecheck`;如果你更想用 `npx tsc`,按 Tab 写下替代命令,agent 会改为请求运行 `npx tsc`,用 allow always 批准后,权限里就多出 `Bash(npx tsc *)` 这样的条目。
+
+**权限落在 `.claude/settings.local.json` 里。** 这套语法值得掌握,而且可以提前手动编辑,免去逐次审批:allow 数组放允许的命令,支持通配符;deny 数组直接禁止。
+
+允许单条命令:
+
+```json
+{
+"permissions": {
+"allow": [
+"Bash(pnpm typecheck)"
+]
+}
+}
+```
+
+用通配符放行所有 `pnpm` 命令:
+
+```json
+{
+"permissions": {
+"allow": [
+"Bash(pnpm *)"
+]
+}
+}
+```
+
+禁止所有 `git push`:
+
+```json
+{
+"permissions": {
+"deny": [
+"Bash(git push *)"
+]
+}
+}
+```
+
+需要权限的不止 bash。agent 还会联网搜索、抓取网页来佐证本地结论:让它查 react-router-typegen 的资料,它会请求批准一次 web search;同意并选择不再询问后,settings.local.json 里加入 `WebFetch(domain:reactrouter.com)`,随后它从官网抓取文档,给出基于真实文档的总结。
+
+**团队共享。** settings.local.json 默认被版本控制忽略,权限只对你生效。把它重命名为 settings.json 并提交进仓库,团队任何人在该仓库运行 agent 都会自动继承这些权限——新人第一次运行就知道哪些操作被允许,远快于人手配置。
+
+**auto mode。** 模式选择器在 Claude Code 左下角,**Shift+Tab** 在 manual、edits、plan、auto 四种模式间循环。auto mode 用一个 LLM 分类器(大概率是 Claude Haiku)审视对话,判断即将执行的命令是否安全,安全就不再询问、直接运行(比如 `npm run typecheck`)。代价是每次判断消耗少量 token 和时间,所以稍慢。分类器并不完美:偶尔放行你不想让它做的事(比如数据库迁移),也偶尔拦下你想做的事(比如创建 GitHub issue);但多数情况下判断正确,总能挡住 `rm -rf` 这类绝对危险的操作,对用量影响也不大——是笔划算的折中。auto mode 下 settings.json 依然重要:agent 先查 settings.json,再走分类器,把高频操作写进去就能绕过分类器提速。想把 auto 设为默认,进 config 选 default permission mode,按 Enter 或 Space 确认。
+
+本章从 `/terminal-setup` 到权限配置的全部操作细节,均出自视频 P21–P27 的演示。<Cite>(来源:《AI Coding Crash Course》,aihero.dev,Matt Pocock)</Cite>
+
+## 练一练:操作辨析
+
+这一章的考点不是背命令,而是辨析:同一个时刻往往有好几个「能按的键」,难的是知道此刻哪个才是对的。
+
+<Quiz questions={workshopQuiz0003} />

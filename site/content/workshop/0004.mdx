@@ -1,0 +1,285 @@
+---
+num: "0004"
+short: "Context 实战"
+title: "基础工作流(上):清 context,建直觉"
+lede: "基础工作流上半场:把 session 起点的 bloat 清干净、在 status line 盯住 context 占用,再用 codebase exploration、/teach、Build a Feature 三个实战建立手感。对应视频 P28–P37。"
+module: 实战
+---
+import { Callout, Cite } from "@/components/lesson/elements";
+import { Quiz } from "@/components/lesson/quiz";
+import { workshopQuiz0004 } from "@/content/quiz/workshop/0004";
+
+<Callout>
+    <strong>本课目标:学完你能做什么。</strong>
+    这是基础工作流的上半场。学完你能把一次 session 的起点 context 清到干净、通过 status line 随时读出 context 占用,并在 codebase exploration、/teach、Build a Feature 三个实战里建立起「agent 到底在做什么」的手感。对应视频:B 站 P28–P37,共 6 节。<Cite>(来源:《AI Coding Crash Course》,aihero.dev,Matt Pocock)</Cite>
+</Callout>
+
+## P28 ｜ Your Starting Context
+
+课程作者对 context window(上下文窗口)里装了什么持有近乎偏执的洁癖,他把这种 context paranoia 带进了 agent 编码:写 AI 应用时每个 token 都要精打细算,用 coding agent 也该如此。开工前的第一步不是写代码,而是把 harness 清干净——context window 里塞着不该有的 token(bloat,无关的 token 负担),后面用 coding agent 时就得不到预期结果。
+
+操作只有两步:打开 `.claude` 目录,把 `settings.json` 重命名为 `settings-backup.json`(这是原有设置的备份),再把 `skills` 目录重命名为 `skills-backup`。这样你的 skills 和设置全部重置为默认。然后启动 agent,运行 `/context`——这条命令会在你还没发出任何正经消息之前,把 context window 里现有的一切可视化。
+
+默认配置下,一次全新 session 的账面大致如下:
+
+| 类别 | Tokens |
+| --- | --- |
+| System prompt | 3k |
+| System tools | 17.9k |
+| MCP tools (deferred) | 24.5k |
+| System tools (deferred) | 16.9k |
+| Skills | 2k |
+| Messages | 8 |
+| **合计** | **~23k** |
+
+你真正输入的只有 `/context` 这 8 个 token,账面上却已经有约 23k——其中大量 MCP tools 是从 claude.ai 自动加载的:Figma、Gmail、Google Calendar、Google Drive、Slack、Todoist、Zapier 等,不管你用不用,每轮请求都全量附带。
+
+把自己的 `settings.json` 和 `skills` 目录恢复回去,重启 agent 再跑一次 `/context`:只剩 **6.6k**——光靠设置就砍掉了 16k。这笔节省的用途只有一个:扩大 smart zone,即 context window 中 agent 真正思考和推理的区域,那里越宽敞,每次交互的推理质量越高。注意,这不是在 min-max token 开销,也不是为了省钱(成本下降只是副作用),而是在最大化质量。这一课交付两种能力:看清自己的 context window 里到底有什么;看到别人的配置时,能识别出哪些东西根本不该在那儿。
+
+动手:完成两处重命名,启动 agent,查看基线:
+
+```
+/context
+```
+
+<Cite>(来源:《AI Coding Crash Course》 P28,aihero.dev,Matt Pocock)</Cite>
+
+## P29–P30 ｜ Killing Bloat
+
+**问题:一份看不见的 payload。** 你发给 agent 的每个请求都背着一份隐形 payload——tool schema、system prompt(系统提示词)、skills 目录和功能指令打包发货,每一轮都按 token 计费。你一个字还没打,账单已经不小。症结在可见性:`/context` 把窗口切成几类,却把所有 tools 归成一个数字——看得见总量,看不见哪个单一工具吃掉最多 token。要精确下刀,就得看真实的请求内容。
+
+先搭观察工具:在一个终端运行 `npm run request-logger`,它会问你用哪个 coding agent(以及 model provider,如果你的 agent 可选多家),然后打印一条让你在另一个终端启动 agent 的命令,照抄即可。删掉 `request-logger/logs/` 里的旧文件,在 agent 里发一句 `Hello!`,等回复到达后,logs 目录里就会出现新日志(一个 `.md` 渲染文件,外加 `.request.txt` 和 `.response.txt`)。
+
+打开日志,逐段检查 payload 结构:
+
+- 搜 `<system-prompt>` 读 system prompt:重点看 Environment 段(OS、shell、工作目录)、Context management 段(如何处理长对话),以及最近的 git commits。
+- 搜 `<tools>` 看工具定义:通常有 70+ 个,很多你闻所未闻——`CronCreate`、`DesignSync`、`EnterPlanMode`、`Workflow`——而且定义里塞满冗余文本(commit message 格式、PR 模板、feature flag 说明)。
+- 搜 `mcp__` 看 MCP tools:`mcp__claude_ai_Figma__authenticate`、`mcp__claude_ai_Gmail__create_draft`、`mcp__claude_ai_Slack__authenticate`、`mcp__claude_ai_Google_Drive__search_files` 等,不管你用不用,每轮都全量附带。
+- 搜 "following skills are available" 看 skills 目录:15–20+ 个,留意哪些是项目特定的、哪些是 agent 默认内置的。
+
+一句 `Hello!` 的完整 markdown 渲染通常 4000+ 行、150–200 KB,每一轮都全量发送、全量计费。
+
+**解决:逐项关掉。** 在 `~/.claude` 下新建 `settings.json`,初始化为空对象;每次改动的流程固定:改文件 → 退出 agent → 重启 → 发 `Hello!` → 跑 `/context` → 对比日志。全新起点的基线是 **68.3k**,确实不少。然后一路砍:
+
+1. `disableClaudeAiConnectors: true` 关掉 claude.ai 自动启用的 connectors → 降到 **47k**,一条设置省 21k,收益最大的一刀。
+2. `disableWorkflows: true`(dynamic workflows 用于确定性地编排多个 sub-agent,不用就关)→ **39k**。
+3. `disableBundledSkills: true`(deep research、data visualization、artifact design 等内置 skills)→ **37.1k**,skills 体系整体停用。
+4. `disableArtifact: true`(Artifacts 这个较新的功能你可能完全不用)→ **33.1k**,又省 4k。
+
+接下来是大头:tool 定义本身。关键原则——凡是通过 `permissions.deny` 拒绝的工具,其定义从 system prompt 中彻底移除;这不只是运行时拦截,而是每一轮请求的实质节省。逐个自问再下手:`NotebookEdit`(要改 Jupyter notebook 单元格吗?大概率不要)、`DesignSync`、`CronCreate`/`CronDelete`/`CronList`(要管 cron job 吗?不要)、`EnterPlanMode`/`ExitPlanMode`、`PushNotification`/`RemoteTrigger`、`ReportFindings`、`ScheduleWakeup`——全部 deny 后降到约 **21.6k**。最后一个值得权衡:`AskUserQuestion`,定义约 130 行,有人喜欢它的交互 UI,有人嫌它打断;deny 之后降到 **19.9k**,是个不错的收尾点。被移除的一切都是你本来就不会用的东西,它们却一直在影响行为、吞噬宝贵的 token。
+
+最终的 `~/.claude/settings.json`:
+
+```
+{
+"permissions": {
+"deny": [
+"NotebookEdit",
+"DesignSync",
+"CronCreate",
+"CronDelete",
+"CronList",
+"EnterPlanMode",
+"ExitPlanMode",
+"PushNotification",
+"RemoteTrigger",
+"ReportFindings",
+"ScheduleWakeup",
+"AskUserQuestion"
+]
+},
+"disableClaudeAiConnectors": true,
+"disableWorkflows": true,
+"disableBundledSkills": true,
+"disableArtifact": true
+}
+```
+
+演示是 agent 特定的,但态度是通用的:你必须知道自己每次往 system prompt 里发了什么。不需要逐字读,但要能察觉「不该在的东西在」——它影响之后的每一次请求。现在去看你自己的 harness,在不损失好行为的前提下,找出属于你的优化点。
+
+<Cite>(来源:《AI Coding Crash Course》 P29–P30,aihero.dev,Matt Pocock)</Cite>
+
+## P31 ｜ Showing Context in the Status Line
+
+status line(状态栏)上的数字一眼可见,你才能在编码过程中对 session 做出正确决策。Claude Code 默认不显示 context window 占用,需要自己动手。方案是社区工具 ccstatusline:它把 Claude Code 的 session 数据格式化成一条干净的状态栏——加粗黄色的 token 数,后跟括号包住的暗色百分比。
+
+配置分三步。第一步,创建配置目录,写入 `~/.config/ccstatusline/settings.json`:一行排四个 widget——`context-length`(加粗黄色的 token 计数)、左括号、`context-percentage`(暗色百分比)、右括号。括号与百分比上的 `"merge": "no-padding"` 让它们无空格紧贴,`"defaultSeparator": " "` 在 token 数与左括号之间留一个空格,`"rawValue": true` 去掉标签只留干净的数字。
+
+```
+mkdir -p ~/.config/ccstatusline
+```
+
+`~/.config/ccstatusline/settings.json`:
+
+```
+{
+"version": 3,
+"lines": [
+[
+{
+"id": "1",
+"type": "context-length",
+"color": "yellow",
+"bold": true,
+"rawValue": true
+},
+{
+"id": "2",
+"type": "custom-text",
+"customText": "(",
+"color": "brightBlack",
+"merge": "no-padding"
+},
+{
+"id": "3",
+"type": "context-percentage",
+"color": "brightBlack",
+"rawValue": true,
+"merge": "no-padding"
+},
+{
+"id": "4",
+"type": "custom-text",
+"customText": ")",
+"color": "brightBlack",
+"merge": "no-padding"
+}
+],
+[],
+[]
+],
+"flexMode": "full-minus-40",
+"compactThreshold": 60,
+"colorLevel": 2,
+"defaultSeparator": " ",
+"inheritSeparatorColors": false,
+"globalBold": false,
+"powerline": {
+"enabled": false,
+"separators": [" "],
+"separatorInvertBackground": [false],
+"startCaps": [],
+"endCaps": [],
+"autoAlign": false
+}
+}
+```
+
+第二步,在 `~/.claude/settings.json` 里追加 statusLine 配置(保留文件里已有的其他设置)。Claude Code 会自动把 session 数据管道传给这条命令,ccstatusline 读取后输出格式化的状态栏:
+
+```
+{
+"statusLine": {
+"type": "command",
+"command": "npx ccstatusline@latest"
+}
+}
+```
+
+第三步,完全重启 Claude Code(彻底关闭再打开)验证。状态栏应显示类似 `186.2k (17.3%)` 的字样——加粗黄色的 token 总数加暗色百分比,并随 session 的 context 增长实时更新。
+
+<Cite>(来源:《AI Coding Crash Course》 P31,aihero.dev,Matt Pocock)</Cite>
+
+## P32–P33 ｜ Codebase Exploration
+
+**问题:agent 到底知道什么。** agent 每开一个新 session,都得探索你的 codebase 找到所需信息——statelessness(无状态)是它最难绕过的约束:新 session 对上一次一无所知。它自动拿到的环境信息包括:平台(Linux/macOS/Windows)、工作目录(能从仓库名猜点什么)、git 仓库状态(分支、git 用户、近期 commits)、shell 类型、助手的知识截止日期。这些其实挺有用,但有个致命缺口:它拿不到**任何文件系统信息**——没有当前目录的 `ls`,没有文件树,对目录里实际存在哪些文件零了解,只知道目录名、大致环境、几条 commit 名。探索质量直接决定后续工作质量:找不到需要的信息,多半做不成你要的事。此刻初来乍到的你,处境和它十分相似。
+
+练习:跑 `npm run request-logger` 起 proxy(它监听 `http://localhost:8787` 并打印启动命令),问 agent 项目的 tech stack 和用途,观察它如何探索——派 subagent 了吗?自己通读文件了吗?怎么导航?再追问各文件夹的用途、核心业务逻辑、技术选型原因,直到你获得足够细的理解。(可选)打开 `request-logger/logs/` 里最新的 `.md`,跳到 `# Environment` 段,看传给 agent 的到底有什么、缺什么。
+
+```
+npm run request-logger
+```
+
+```
+Tell me what the tech stack of this project is and what its intended purpose is.
+```
+
+**解决:两种探索路径。** 按 Ctrl+O 切到详细输出,看 agent 的工具序列:先读 README;再用一条 `find` 命令定位 `package.json`(搜索时排除 node_modules);读完它,又并行读了 request-logger 的 package.json 和 README,随后产出 tech stack 表。日志里搜 "tool_result":8 个标签即 4 次工具结果——只读了这三份文件,纯粹表面扫读,仅花约 **26.1k** token。
+
+agent 找 `package.json` 用的命令:
+
+```
+find . -name package.json -not -path '*/node_modules/*'
+```
+
+追问深度分析(让它读大量源码)时,agent 开始并行读 schema、database、routing、services 等源码。有趣的是这次它没开 subagent,把所有原始文件直接读进了主 context——模型是非确定性的,有时直接读,有时用 subagent;在同一个 prompt 末尾加上 "Use subagents." 三个词,就会明确触发 subagent(子代理)探索。
+
+分而治之的效果:agent 先快速摸清结构,再分四路并行派 subagent 深读——data layer、service layer、routes/UI layer、request-logger proxy。这些 subagent 合计烧掉约 200k token 还在上涨(仅 routes/UI 一路就用了 159k),换来的是极详尽的信息,甚至发现了一个刻意设计的架构异常点;而四路深读完成后,父 agent 的 context 只用了约 **65.1k**——分析完整座仓库并压缩成小摘要,效率惊人。
+
+subagent 的回报形式:以 system notification(自动后台任务事件)送达父 agent,是高密度摘要而非原始文件。以 UI 层报告为例:完整 route map(Public、Auth、Admin、API endpoints 等)、UI 组件清单、开发者体验特性,以及最关键的 key file paths——父 agent 需要细节时按图索骥即可。大仓库上的典型模式:subagent 读一堆文件 → 综合理解 → 带着关键文件路径的详尽摘要汇报;orchestrator 保持精瘦。
+
+策略取舍:很多人偏好让 subagent 去探索,orchestrator 的 context 保持紧凑。这正是前面「起点 context 要小」的回报:起点越大,每开一个 subagent 都要付一次那笔底价;起点小,更经济,smart zone 时间更长。
+
+<Cite>(来源:《AI Coding Crash Course》 P32–P33,aihero.dev,Matt Pocock)</Cite>
+
+## P34–P35 ｜ The /teach Skill
+
+换工作、进新项目、读陌生代码,是每个开发者都要面对的挑战。/teach 让 agent 深入探索 codebase,按你的水平定制讲解;它本身是一个 skill(概念见[词典](/dictionary)),同时也是「好 skill 该怎么写」的优秀范例。
+
+上手步骤:在课程仓库旁新建目录,在其中运行 `npx skills add mattpocock/skills`;交互菜单里用空格只勾选 `teach` 后回车,选择为你的 agent(Claude Code 等)安装、只装当前目录(不要全局)、安装方式选 symlink,确认后文件树里出现 `.claude/skills/teach`。清空终端、启动 agent,按「教我这个仓库 + 我的水平自述」的结构运行 /teach。关键输入是你对自身的诚实评估:会什么、不会什么,别客气也别吹——课程范例自述是「写过一点 vibe coding、懂 TypeScript 基础、没用过 React、分不清 client 和 server、更不了解数据库」,把它换成你对自己真实水平的描述。
+
+```bash
+mkdir ../ai-coding-learning
+```
+
+```bash
+npx skills add mattpocock/skills
+```
+
+```
+/teach Teach me about this repo: ../ai-coding-crash-course I've done a little bit of vibe coding before. I know the basics of TypeScript. I've never worked in React before, and I'm not very clear about client and server, and certainly not about the database.
+```
+
+**教学工作区长什么样。** agent 先翻目录、读 README 和 package.json,比表面扫描更深一层;全程不派 subagent,探索都发生在主 context。摸清后,它搭出一个带状态的教学工作区:
+
+| 文件 / 目录 | 放什么 |
+| --- | --- |
+| MISSION.md | 学习目标与成功标准 |
+| NOTES.md | 学习者画像:你会什么、不会什么 |
+| RESOURCES.md | 官方文档等一手资料(例如 React Router v7 关于 data loading 和 actions 的文档) |
+| assets/lesson.css、assets/quiz.js | 后续每课复用的样式和测验组件 |
+| lessons/ | 为你的水平定制的 HTML 课程 |
+| reference/glossary.html | 会反复查阅的术语表 |
+| learning-records/ | 学习进度的有状态记录 |
+
+第一课是 The Round Trip:从输入 URL 到看见页面之间到底发生了什么,用仓库里的真实文件来追踪,共五步:Router 把 URL 匹配到一组字面模式(服务端)→ loader 函数运行(服务端)→ 组件渲染(服务端)→ 浏览器绘制 HTML(客户端)→ hydration(客户端)。`app/routes.ts` 里的 `route("courses", "routes/courses.tsx")` 告诉你 `/courses` 路径由哪个文件处理。课程点出真正的难点:步骤 3 和 5 里同一个组件函数跑了两遍——先服务端后浏览器,而 loader 只在服务端、每次请求都跑;这个不对称性是必须吃透的核心概念。展示真实文件时它只留重点:`loader`、`default`、`ErrorBoundary`、`meta` 这些导出名是一份契约,React Router 按确切名字查找,把 `loader` 改名成 `fetchData` 会全盘崩坏。
+
+课后的交互式测验每题只考一个概念,且各选项等长——排版不泄露答案。更有价值的是「证明给自己看」环节:阅读不等于学会,课程让你在 loader 里加 `console.log("LOADER RAN")`、组件里加 `console.log("COMPONENT RAN")`,先预测输出会出现在终端、浏览器 devtools 还是两者都有,再运行验证。
+
+这个 skill 是有状态的:学习记录存进 learning-records/,MISSION.md 锚定目标——两者加起来,你几乎可以在任何时刻 clear context,agent 都能从断点精准接续。在工作区里可以随便追问:组件为什么跑两遍?组件里调数据库会怎样?LoaderArgs 是什么?——学 codebase 的一半功夫就是早问,而不是自己猜一个星期。
+
+课程作者的建议是暂停主线,把 teach 流程走透,成为这座仓库的导航专家——马上要实现 feature 时你会占尽先机。学任意新仓库的通用五步:为该仓库新建教学工作区;告诉 agent 你在哪;告诉它你懂什么;告诉它你不懂什么;让它教你。/teach 也能用来学任何东西——解魔方、给孩子做健康餐、放心评审 AI 生成的 codebase。
+
+<Cite>(来源:《AI Coding Crash Course》 P34–P35,aihero.dev,Matt Pocock)</Cite>
+
+## P36–P37 ｜ Build a Feature
+
+**问题:直接 prompt 一次。** 理解了 codebase 和探索机制,该真刀真枪建功能了:课程评分系统。需求四条——学生可给课程打 1–5 星(暂不做文字评价);评分以全局平均分展示给所有用户;平均分同时显示在课程列表页和课程详情页;课程页上学生要有选星入口。动笔前先想清楚:选星控件放哪、平均分怎么算怎么存、要动哪些数据库表和 API 路由、谁有资格评分(讲师能给自己的课打分吗)——别过度设计,把用户流程想通即可,prompt 保持聚焦。这是全课程的 baseline 练习:先看「直接 prompt」的效果,重点观察 context 消耗、探索方式、文件改动量,后续课程再教改进技巧。
+
+发送后盯三件事:context 计数怎么涨、哪类改动最耗 context;agent 派 subagent 探索还是在主窗口自己探索;动了多少文件、新建还是修改。完成后 `npm run dev` 验证:以学生身份登录(dev UI 可切换用户)、进课程页、找到选星控件、打分、确认平均分出现在列表页和详情页、刷新后评分仍在。最后记录 baseline:改了/建了多少文件、实现质量如何、agent 有没有做出你没预料到的假设、这流程哪里该改进。
+
+```bash
+npm run dev
+```
+
+**解决:一次完整交付与一个致命 bug。** 拿到清晰请求后,agent 开始探索,头几轮交互就消耗约 20k token(配置、测试文件、整体结构)。随后它信心满满直接开写,没问任何澄清问题——这个毛病下一课会正式处理;而它的解药 grilling(动手前问透再开工),正是 [0002](/lessons/0002) 的主题。实现顺序一气呵成:SQLite 建 `course_ratings` 表(userId、courseId、rating 1–5 整数)加 migration;service 层 `courseRatingService`(rateCourse 插入或更新、findRating、getCourseRatingSummary 算平均分);为 service 写 17 个测试;React 组件 `StarRating`(展示平均分)和 `StarRatingInput`(交互打分);把组件接进课程列表页和详情页。
+
+验证也做得像样:全量测试 295 个全过、typecheck 通过、改进 seed 脚本让测试数据带上评分、起 dev server 用 curl 冒烟——请求页面并 grep "Rated" 确认评分真的渲染出来:
+
+```
+curl -s http://localhost:5173/courses | grep -o 'Rated [^"]*' | head -5
+```
+
+这种自动化验证说明 agent 在乎的是「是否解决了问题」,而不只是「能否编译」。整个 feature 约 75k token,仍在 smart zone 内;浏览器里看,每门课都亮出了平均分。
+
+但问题来了:交互测试时页面失去响应、用户切换器失灵,点击改评分导致整页刷新而非即时更新。控制台现出铁证:`Uncaught TypeError: promisify is not a function`,出自 `node_modules/better-sqlite3/lib/methods/backup.js`——数据库驱动被整个打进了浏览器 JavaScript,而浏览器没有 `util.promisify` 这类 Node 工具。
+
+把控制台报错原样贴回 agent(附一句:这发生在浏览器控制台,把事情搞怪了),它很快定位根因并认账:`star-rating.tsx`(client 组件)从 `courseRatingService` 导入了 `MAX_RATING`,而后者引入了数据库模块,于是把整个数据库驱动拖进浏览器 bundle。这是架构层面的问题:client 组件不该 import 依赖 server-only 代码的模块;React Router 通常会在 client 构建里剥离 loader 和 action,但防不住组件直接 import 用到数据库的 service。
+
+修复干净利落:把评分常量挪到零服务端依赖的模块 `app/lib/ratings.ts`(`MIN_RATING = 1`、`MAX_RATING = 5`),`star-rating.tsx` 改从那里导入,组件拿到所需常量而不再触发庞大的依赖链。随后 agent 验证修复:检查 Vite dev server 的模块转换输出、在生产 bundle 里 grep `better-sqlite3`(零命中)、再实测交互功能恢复——点星即时更新平均分,不再整页刷新。
+
+复盘:探索充分(没用 subagent);实现端到端完整(schema、service、17 个测试、两个组件、集成);测试全面(单元、类型、集成、冒烟);约 75k token 构建、约 90k 全程(smart zone 内);但上线了破坏交互的致命 bundle bug,拿到反馈后修复很快。结论:agent 工程习惯扎实,但对现代框架 client/server 边界的推理存在缺口——这不是终点,下一课就从这次暴露的模式问题讲起。
+
+<Cite>(来源:《AI Coding Crash Course》 P36–P37,aihero.dev,Matt Pocock)</Cite>
+
+<Quiz questions={workshopQuiz0004} />

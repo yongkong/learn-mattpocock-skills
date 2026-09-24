@@ -1,7 +1,7 @@
 // 本文件由 scripts/gen-lessons.mjs 生成(predev/prebuild),请勿手改。
 import type { LessonEntry } from "@/lib/structure";
 
-/** 全部课件元数据,来源:各 MDX 的 frontmatter。顺序即课程顺序。 */
+/** 全部主课件元数据,来源:各 MDX 的 frontmatter。顺序即系列顺序。 */
 export const LESSONS: LessonEntry[] = [
   {
     "num": "0001",
@@ -26,21 +26,21 @@ export const LESSONS: LessonEntry[] = [
   },
   {
     "num": "0004",
-    "short": "Shaping 模块",
+    "short": "绕行道",
     "title": "把不确定变成决策:三条绕行道",
     "lede": "主流程有一个隐含前提:路已经看清了。当路还没看清——想法大到一次会话装不下、一个设计问题在纸面上推不动、决策卡在仓库外的一个事实上——硬走主流程只会把模糊带进 spec。Shaping 模块的三个技能就是为这时准备的绕行道:/wayfinder、/prototype、/research。",
     "module": "Shaping"
   },
   {
     "num": "0005",
-    "short": "Upkeep 模块",
+    "short": "保养技能",
     "title": "保持健康:不让仓库腐烂的五个保养技能",
     "lede": "主流程默认进料是干净的:spec 有共识、工单说得清、代码改得动。Upkeep 模块的五个技能不服务于某个特性,它们保养的是这两样东西本身——工单池不堆烂票,代码库不积烂账:/triage、/diagnosing-bugs、/resolving-merge-conflicts、/improve-codebase-architecture、/wizard。",
     "module": "Upkeep"
   },
   {
     "num": "0006",
-    "short": "协作模块",
+    "short": "协作技能",
     "title": "人的工作流:流程两端的六个协作技能",
     "lede": "代码之外,流程两端各有一个会缺信息的人:你,和下一个接手的 agent。协作模块的六个技能服务的都是「人」这一端:/grill-me、/handoff、/to-questionnaire、/wait-what、/writing-for-agents、/teach——补上会话边界的记忆,补上你一个人的信息盲区。",
     "module": "协作"

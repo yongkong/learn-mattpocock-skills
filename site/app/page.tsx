@@ -3,7 +3,8 @@ import { AppLink } from "@/components/site/app-link";
 import { PageShell } from "@/components/site/page-shell";
 import { ProgressToggle } from "@/components/lesson/progress-toggle";
 import { ResumeButton } from "@/components/site/resume-button";
-import { LESSONS, lessonHref, MODULES } from "@/lib/structure";
+import { LESSONS, WORKSHOP_LESSONS, lessonHref, MODULE_LABELS, MODULES, workshopHref } from "@/lib/structure";
+import { workshopProgressId } from "@/lib/progress";
 
 const SCENARIOS = [
   { title: "想法模糊,边界没想清", hint: "先被访谈,把想法盘清楚", href: lessonHref("0001") },
@@ -67,7 +68,7 @@ export default function Home() {
             const items = LESSONS.filter((l) => l.module === mod);
             return (
               <div key={mod} className="rounded-xl border p-5">
-                <h3 className="font-semibold">{mod}</h3>
+                <h3 className="font-semibold">{MODULE_LABELS[mod]}</h3>
                 {items.length > 0 ? (
                   <ul className="mt-3 divide-y">
                     {items.map((l) => (
@@ -88,6 +89,34 @@ export default function Home() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      <section className="mt-14">
+        <h2 className="text-2xl font-semibold tracking-tight">独立系列</h2>
+        <div className="mt-6 rounded-xl border p-5">
+          <h3 className="font-semibold">
+            实战·Crash Course
+            <AppLink href="/workshop" className="ml-3 text-sm font-normal text-muted-foreground underline underline-offset-4 hover:text-foreground">
+              系列总览 →
+            </AppLink>
+          </h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Matt Pocock 付费课程《AI Coding Crash Course》的非官方中文笔记:7 节课件对应视频全 70 集,与上面五章相互独立。
+          </p>
+          <ul className="mt-3 divide-y">
+            {WORKSHOP_LESSONS.map((l) => (
+              <li key={l.num} className="flex items-center gap-3 py-2.5">
+                <span className="font-mono text-sm text-muted-foreground">{l.num}</span>
+                <AppLink href={workshopHref(l.num)} className="font-medium hover:underline">
+                  {l.title}
+                </AppLink>
+                <span className="ml-auto">
+                  <ProgressToggle num={workshopProgressId(l.num)} />
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

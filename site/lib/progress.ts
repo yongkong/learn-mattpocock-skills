@@ -7,6 +7,12 @@ export const PROGRESS_EVENT = "agentskills-cn:progress-changed";
 const PREFIX = "agentskills-cn:progress:";
 const key = (num: string) => `${PREFIX}${num}`;
 
+/**
+ * 独立系列的进度标识:实战系列(Workshop)编号自主从 0001 起,与主课件共用一个键空间,
+ * 故读写都带上系列前缀(如 "workshop:0001"),避免与主课 0001–0006 撞号。
+ */
+export const workshopProgressId = (num: string) => `workshop:${num}`;
+
 type ProgressStore = Pick<Storage, "getItem" | "setItem" | "key" | "length">;
 
 /** 注入点:单测传入内存实现,不必碰 window。 */
