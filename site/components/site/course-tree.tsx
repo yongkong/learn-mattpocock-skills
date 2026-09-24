@@ -1,6 +1,6 @@
 import { AppLink } from "@/components/site/app-link";
 import { Kicker } from "@/components/site/kicker";
-import { LESSONS, lessonHref, MODULES, TOP_LEVELS } from "@/lib/structure";
+import { LESSONS, lessonHref, MODULE_LABELS, MODULES, TOP_LEVELS } from "@/lib/structure";
 
 /** 课程目录树:五章 + 各章课件 + 顶级类目,全部由结构注册表派生。 */
 export function CourseTree({ currentNum }: { currentNum?: string }) {
@@ -12,7 +12,7 @@ export function CourseTree({ currentNum }: { currentNum?: string }) {
           const items = LESSONS.filter((l) => l.module === mod);
           return (
             <li key={mod}>
-              <p className="font-semibold">{mod}</p>
+              <p className="font-semibold">{MODULE_LABELS[mod]}</p>
               {items.length > 0 ? (
                 <ul className="mt-1 space-y-1 border-l pl-3">
                   {items.map((l) => (

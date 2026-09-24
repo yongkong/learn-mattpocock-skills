@@ -1,11 +1,15 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
+// GitHub Pages 项目页部署开关:PAGES_DEPLOY=1 时按 /learn-mattpocock-skills/ 前缀构建。
+// Pages 不会把 /foo 重写到 /foo.html,只有「/foo/ → /foo/index.html」是原生行为,故必须开 trailingSlash。
+const pagesDeploy = process.env.PAGES_DEPLOY === "1";
+
 const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "mdx"],
   // 纯静态生成:构建产物 = out/(即部署与站点检查的对象)
   output: "export",
-
+  ...(pagesDeploy ? { basePath: "/learn-mattpocock-skills", trailingSlash: true } : {}),
 };
 
 // 课件正文使用 GFM 扩展语法(表格等):不开 remark-gfm 时表格整段退化为带竖线的纯文本。
