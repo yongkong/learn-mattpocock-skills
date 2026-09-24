@@ -13,5 +13,9 @@ docs/overseas-freelance-plan.md
 AI_Coding_Crash_Course/AI Coding Crash Course HTML/
 site/public/crash-course-html/
 
+# 全文中译(付费课程衍生品,同上仅本地)
+AI_Coding_Crash_Course/translation-md/
+site/public/crash-course-html-zh/
+
 # 本机个人配置
 .claude/settings.local.json

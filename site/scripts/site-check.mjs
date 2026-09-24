@@ -100,9 +100,9 @@ if (!fs.existsSync(outDir)) {
 
 const htmlFiles = collectHtml(outDir);
 
-// 嵌入内容(public/crash-course-html/:付费课程原文拷贝,本地专属)不是站点页面,
+// 嵌入内容(public/crash-course-html[-zh]/:付费课程原文与中文全译,本地专属)不是站点页面,
 // 不参与站点壳/标题/死胡同/禁语自查;链接完整性仍覆盖它。
-const isEmbeddedCopy = (file) => file.replaceAll("\\", "/").includes("/crash-course-html/");
+const isEmbeddedCopy = (file) => file.replaceAll("\\", "/").includes("/crash-course-html");
 const sitePages = htmlFiles.filter((f) => !isEmbeddedCopy(f));
 
 // 1. 路由契约(顶级手列 + 课件/速查来自 manifest,与内容文件同源)
