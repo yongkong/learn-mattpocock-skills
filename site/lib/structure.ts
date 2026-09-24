@@ -43,11 +43,12 @@ import { WORKSHOP_LESSONS } from "@/content/workshop/registry.generated";
  */
 export { LESSONS, WORKSHOP_LESSONS };
 
-/** 不入章的顶级类目:Reference(速查)、Dictionary(词典)与 Workshop(实战)。展示名同走中文·英文。 */
+/** 不入章的顶级类目:Reference(速查)、Dictionary(词典)、Workshop(实战)与 Prompt Library(提示词库)。展示名同走中文·英文。 */
 export const TOP_LEVELS = [
   { key: "reference", label: "速查·Reference" },
   { key: "dictionary", label: "词典·Dictionary" },
   { key: "workshop", label: "实战·Crash Course" },
+  { key: "prompts", label: "提示词库·Prompt Library" },
 ] as const;
 
 /** 课件路由:全站链接课件统一走这里,编号改名只动一处。 */

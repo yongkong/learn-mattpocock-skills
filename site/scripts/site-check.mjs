@@ -42,6 +42,7 @@ const STATIC_ROUTES = [
   { route: "/", file: "index.html" },
   { route: "/about", file: "about.html" },
   { route: "/dictionary", file: "dictionary.html" },
+  { route: "/prompts", file: "prompts.html" },
   { route: "/reference", file: "reference.html" },
   { route: "/workshop", file: "workshop.html" },
   { route: "/workshop/read", file: "workshop/read.html" },

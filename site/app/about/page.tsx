@@ -53,6 +53,18 @@ export default function AboutPage() {
             。
           </li>
           <li>
+            「提示词库」页源出 Anthropic 官方文档{" "}
+            <a
+              href="https://code.claude.com/docs/zh-CN/prompt-library"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-4"
+            >
+              code.claude.com/docs/zh-CN/prompt-library
+            </a>
+            ,52 条提示词原文版权归 Anthropic;中文标题与讲解为本站转述。
+          </li>
+          <li>
             方法论参考 AI Hero 的免费内容,尤其是
             <a
               href="https://www.aihero.dev/5-agent-skills-i-use-every-day"

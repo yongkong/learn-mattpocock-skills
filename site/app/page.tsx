@@ -13,6 +13,7 @@ const SCENARIOS = [
   { title: "设计问题悬而未决", hint: "Shaping:把不确定变成决策", href: lessonHref("0004") },
   { title: "不确定该用哪个技能", hint: "十秒路由:查速查图", href: "/reference/skill-flow-map" },
   { title: "名词看不懂", hint: "AI 编码词典:随查随用", href: "/dictionary" },
+  { title: "提示词不知道怎么写", hint: "提示词库:Claude Code 官方 52 条,中英对照", href: "/prompts" },
 ];
 
 const GLOSSARY = [
