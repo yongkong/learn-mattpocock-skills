@@ -44,6 +44,7 @@ const STATIC_ROUTES = [
   { route: "/dictionary", file: "dictionary.html" },
   { route: "/reference", file: "reference.html" },
   { route: "/workshop", file: "workshop.html" },
+  { route: "/workshop/read", file: "workshop/read.html" },
 ];
 const CONTENT_ROUTES = [
   ...manifest.referenceSlugs.map((s) => ({ route: `/reference/${s}`, file: `reference/${s}.html` })),
@@ -99,6 +100,11 @@ if (!fs.existsSync(outDir)) {
 
 const htmlFiles = collectHtml(outDir);
 
+// 嵌入内容(public/crash-course-html/:付费课程原文拷贝,本地专属)不是站点页面,
+// 不参与站点壳/标题/死胡同/禁语自查;链接完整性仍覆盖它。
+const isEmbeddedCopy = (file) => file.replaceAll("\\", "/").includes("/crash-course-html/");
+const sitePages = htmlFiles.filter((f) => !isEmbeddedCopy(f));
+
 // 1. 路由契约(顶级手列 + 课件/速查来自 manifest,与内容文件同源)
 {
   const missing = EXPECTED_ROUTES.filter((r) => !fs.existsSync(path.join(outDir, r.file)));
@@ -128,7 +134,7 @@ const htmlFiles = collectHtml(outDir);
 {
   const noShell = [];
   const deadEnd = [];
-  for (const file of htmlFiles) {
+  for (const file of sitePages) {
     const html = fs.readFileSync(file, "utf-8");
     if (!html.includes("非官方") || !html.includes('aria-label="站点导航"') || !html.includes("CC BY-SA 4.0")) {
       noShell.push(routeOf(file));
@@ -138,7 +144,7 @@ const htmlFiles = collectHtml(outDir);
       deadEnd.push(routeOf(file));
     }
   }
-  if (noShell.length === 0) ok("站点壳:全部页面含页头徽章/四入口与页脚许可");
+  if (noShell.length === 0) ok("站点壳:全部站点页面含页头徽章/四入口与页脚许可");
   else fail("站点壳缺失", noShell);
   if (deadEnd.length === 0) ok("死胡同防护:每个课件页都有翻课链接");
   else fail("死胡同", deadEnd);
@@ -147,7 +153,7 @@ const htmlFiles = collectHtml(outDir);
 // 4. 标题模式:每页标题含站名
 {
   const bad = [];
-  for (const file of htmlFiles) {
+  for (const file of sitePages) {
     const m = fs.readFileSync(file, "utf-8").match(/<title>([^<]*)<\/title>/);
     if (!m || !m[1].includes(SITE_NAME)) bad.push(routeOf(file));
   }
@@ -158,7 +164,7 @@ const htmlFiles = collectHtml(outDir);
 // 5. 语域禁语(数据驱动)
 {
   const hits = [];
-  for (const file of htmlFiles) {
+  for (const file of sitePages) {
     const html = fs.readFileSync(file, "utf-8");
     for (const word of FORBIDDEN) {
       if (html.includes(word)) hits.push(`${routeOf(file)} 命中「${word}」`);

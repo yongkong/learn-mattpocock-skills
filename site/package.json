@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "predev": "npm run gen",
+    "predev": "node scripts/sync-course-html.mjs && npm run gen",
     "build": "next build",
-    "prebuild": "npm run gen",
+    "prebuild": "node scripts/sync-course-html.mjs && npm run gen",
     "gen": "node scripts/gen-lessons.mjs",
     "start": "next start",
     "lint": "eslint",

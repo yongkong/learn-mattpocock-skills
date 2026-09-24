@@ -55,6 +55,13 @@ export default function WorkshopPage() {
       <p className="mt-4 text-sm text-muted-foreground">
         时间紧:先读 0002 立语言,再直奔 0005 的 Grill-Execute-Clear 循环与 0007 的五步法落地。
       </p>
+      <p className="mt-2 rounded-xl border bg-muted/30 p-4 text-sm text-muted-foreground">
+        想对照英文原文?本地打开了课程原稿的话,可以在
+        <AppLink href="/workshop/read" className="mx-1 underline underline-offset-4">
+          原文阅读页
+        </AppLink>
+        按章切换阅读(内容不随公开站点分发)。
+      </p>
     </PageShell>
   );
 }

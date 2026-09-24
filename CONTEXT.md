@@ -33,7 +33,7 @@ Course 目录的顶级分类单位,共五章:主流程 / 参考层 / Shaping / U
 _Avoid_: 分类、部分、chapter
 
 **Workshop(实战系列)**:
-独立于五枚模块章的课件系列,挂顶级类目「实战·Crash Course」(`/workshop`):Matt Pocock 付费课程《AI Coding Crash Course》(aihero.dev)的非官方中文学习笔记。编号独立于主课件、从 0001 起(课件 0001–0007,路由 `/workshop/000N`,内容存 `content/workshop/`,frontmatter 记 `module: 实战`);学习进度键带 `workshop:` 前缀,与主课件不撞号;翻页只在系列内相邻。它是另一门课的伴随笔记,不是本课的章节——与 skills 五章是平行关系,不是归属关系(决策见 `docs/adr/0001-crash-course-module.md`)。
+独立于五枚模块章的课件系列,挂顶级类目「实战·Crash Course」(`/workshop`):Matt Pocock 付费课程《AI Coding Crash Course》(aihero.dev)的非官方中文学习笔记。编号独立于主课件、从 0001 起(课件 0001–0007,路由 `/workshop/000N`,内容存 `content/workshop/`,frontmatter 记 `module: 实战`);学习进度键带 `workshop:` 前缀,与主课件不撞号;翻页只在系列内相邻。`/workshop/read` 是英文原文阅读页,内容由同步脚本从本地原文 HTML 注入 `public/`,公开部署不含此内容。它是另一门课的伴随笔记,不是本课的章节——与 skills 五章是平行关系,不是归属关系(决策见 `docs/adr/0001-crash-course-module.md`)。
 _Avoid_: 实战课、第六章、专栏
 
 **Register(语域)**:
