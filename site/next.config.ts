@@ -5,10 +5,14 @@ import createMDX from "@next/mdx";
 // Pages 不会把 /foo 重写到 /foo.html,只有「/foo/ → /foo/index.html」是原生行为,故必须开 trailingSlash。
 const pagesDeploy = process.env.PAGES_DEPLOY === "1";
 
+// 私有部署开关:NEXT_STATIC_EXPORT=0 时按常规 Next.js(SSR)构建,让 proxy.ts 认证生效。
+// 公开站与 Pages 保持默认纯静态导出不变。
+const staticExport = process.env.NEXT_STATIC_EXPORT !== "0";
+
 const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "mdx"],
   // 纯静态生成:构建产物 = out/(即部署与站点检查的对象)
-  output: "export",
+  ...(staticExport ? { output: "export" as const } : {}),
   ...(pagesDeploy ? { basePath: "/learn-mattpocock-skills", trailingSlash: true } : {}),
 };
 

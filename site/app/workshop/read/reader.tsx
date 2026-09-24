@@ -28,7 +28,7 @@ export function CourseHtmlReader() {
           ← 返回
         </AppLink>
         <h1 className="text-sm font-semibold tracking-tight">AI Coding Crash Course · 课程讲稿</h1>
-        <span className="text-xs text-muted-foreground">仅本地学习使用,不随公开站点分发</span>
+        <span className="text-xs text-muted-foreground">付费课程内容 · 仅私有部署可读(需登录),公开站点不含此内容</span>
         <nav aria-label="语言切换" className="ml-auto flex gap-1.5">
           {(
             [
