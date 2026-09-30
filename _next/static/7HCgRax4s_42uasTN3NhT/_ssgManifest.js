@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Flessons\u002F[num]","\u002Freference\u002F[slug]","\u002Fworkshop\u002F[num]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()

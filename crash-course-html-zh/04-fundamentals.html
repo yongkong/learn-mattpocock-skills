@@ -1,0 +1,1848 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>基础工作流 · Fundamentals · AI Coding Crash Course 中文版</title><style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;line-height:1.9;color:#1f2937;background:#fafafa}
+  .wrap{display:flex;gap:40px;max-width:1240px;margin:0 auto;padding:40px 24px 96px}
+  aside.toc{width:264px;flex-shrink:0;position:sticky;top:0;align-self:flex-start;max-height:calc(100vh - 48px);overflow-y:auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem 1.25rem}
+  aside.toc>p{margin:0 0 .5rem;font-weight:700;font-size:.95rem}
+  aside.toc a{display:block;color:#4b5563;text-decoration:none;padding:.3rem .5rem;border-radius:6px;font-size:.92rem;line-height:1.5}
+  aside.toc a:hover{color:#b45309;background:#fffbeb}
+  aside.toc a.active{color:#b45309;background:#fffbeb;font-weight:600}
+  main{flex:1;min-width:0;max-width:800px}
+  @media (max-width:960px){.wrap{flex-direction:column;gap:24px}aside.toc{position:static;width:auto;max-height:240px}}
+  h1{font-size:1.9rem;line-height:1.35;padding-bottom:.6rem;margin:3rem 0 1.5rem;scroll-margin-top:16px}
+  h1::after{content:'';display:block;width:96px;height:3px;margin-top:.6rem;border-radius:2px;background:linear-gradient(90deg,#f59e0b,#8b5cf6)}
+  h1:first-child{margin-top:0}
+  h2{font-size:1.35rem;margin:2.5rem 0 1rem}
+  h3{font-size:1.12rem;color:#6d28d9;margin:2rem 0 .8rem}
+  p{margin:0 0 1rem}
+  a{color:#b45309;text-decoration:none;border-bottom:1px solid rgba(180,83,9,.25)}
+  a:hover{border-bottom-color:#b45309}
+  strong{color:#111827;font-weight:700}
+  img{max-width:100%;border-radius:10px;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.08);margin:1.25rem 0}
+  code{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.875em;background:rgba(180,83,9,.09);color:#9a3412;padding:.15em .4em;border-radius:4px}
+  pre{background:#0d1117;border:1px solid #30363d;border-left:4px solid #8b5cf6;border-radius:0 8px 8px 0;padding:1.1rem 1.25rem;overflow-x:auto;margin:1rem 0 1.25rem;font-size:.875rem;line-height:1.6}
+  pre code{background:none;padding:0;color:#c9d1d9}
+  blockquote{border-left:4px solid #8b5cf6;background:#f5f3ff;border-radius:0 8px 8px 0;padding:.75rem 1.25rem;margin:1rem 0 1.25rem;font-size:.95rem;color:#374151}
+  table{border-collapse:collapse;margin:1rem 0 1.25rem;width:100%;font-size:.92em}
+  thead tr{background:#f3f4f6}
+  th,td{border:1px solid #e5e7eb;padding:.55rem .9rem;text-align:left;vertical-align:top}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.02)}
+  hr{border:none;border-top:1px solid #e5e7eb;margin:3rem 0}
+  ul li::marker{color:#d97706}
+  .quiz-block{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0 1.5rem;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+  .quiz-block-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6d28d9;margin:0 0 1rem}
+  .quiz-q-text{font-weight:600;color:#111827;margin:1.4rem 0 .75rem;padding-top:1rem;border-top:1px dashed #e5e7eb}
+  .quiz-choices{list-style:none;padding:0;margin:0 0 .75rem}
+  .quiz-choices li{padding:.4rem .6rem;margin-bottom:.3rem;border-radius:6px;font-size:.95em;color:#4b5563;border:1px solid transparent}
+  .quiz-choices li.correct{background:#ecfdf5;border-color:#6ee7b7;color:#047857;font-weight:600}
+  .quiz-choices li.correct::before{content:'✓ ';font-weight:700}
+  .quiz-answer-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b45309;margin:1rem 0 .35rem}
+  .quiz-answer{font-size:.92em;color:#4b5563;background:#f3f4f6;border-radius:8px;padding:.75rem 1rem;line-height:1.7}
+</style></head><body><div class="wrap"><aside class="toc"><p>本篇目录</p><a href="#lesson-1">你的起点上下文（Your Starting Context）</a><a href="#lesson-2">消灭 bloat：理解你的 agent 载荷（Killing Bloat: Understanding Your Agent&#39;s Payload）</a><a href="#lesson-3">消灭 bloat：解决方案（Killing Bloat Solution）</a><a href="#lesson-4">在 status line 中显示 context（Showing Context in the Status Line）</a><a href="#lesson-5">代码库探索（Codebase Exploration）</a><a href="#lesson-6">Codebase Exploration 解法（Codebase Exploration Solution）</a><a href="#lesson-7">/teach skill（The /teach Skill）</a><a href="#lesson-8">/teach skill 解法（The /teach Skill Solution）</a><a href="#lesson-9">构建一个功能（Build a Feature）</a><a href="#lesson-10">构建一个功能：解法（Build a Feature Solution）</a><a href="#lesson-11">为什么 plan mode 很糟糕（Why Plan Mode Sucks）</a><a href="#lesson-12">Grill-Execute-Clear 循环：解法（The Grill-Execute-Clear Loop Solution）</a><a href="#lesson-13">Compaction 压缩（Compaction）</a></aside><main><h1 id="lesson-1">你的起点上下文（Your Starting Context）</h1>
+<p>如果你跟完了前面的概念部分，甚至动手做完了代码练习，你可能已经注意到：我对自己的 context window（上下文窗口）里到底装着什么，时刻都抱有一种强烈的偏执。</p>
+<p>构建 AI 应用时，你必须对放进 context window 的每一个 token 都格外小心，才能确保应用高效运行、并通过你的评测。我继承了这种 context 偏执，并把它带进了 agent 编码。</p>
+<p>课程真正的重头戏即将开始，我想确保我们所有人都从坚实的基础起步。还没开跑，harness 里就不能带任何 bloat（虚胖）。</p>
+<p>如果 context window 里混进了本不该存在的 token，那我们用这些 coding agent 时就不会有好体验，你也得不到预期的结果。</p>
+<p>本节的演示用的是 Claude Code，但你可以用任何 agent 走完整个流程——你或许只需要把下面的指引喂给它，也能达成同样的目标。</p>
+<h2>重置你的配置（Resetting Your Config）</h2>
+<p>第一步，在 VS Code 中打开你的 <code>.claude</code> 目录。</p>
+<p>接下来要做两件重要的事：</p>
+<ol>
+<li>找到你的 <code>settings.json</code> 文件，把它重命名为 <code>settings-backup.json</code>——这是你开始本课程之前的设置备份。</li>
+<li>同样，把你的 <code>skills</code> 目录重命名为 <code>skills-backup</code>。</li>
+</ol>
+<p>这样一来，你的 skills 和 settings 里的所有内容就都恢复到默认状态了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723060/ai-hero-images/j1hg6oyxus3skzkvxmzk.png" alt="VS Code 中显示的 .claude 目录，settings.json 与 skills 文件夹正待重命名"></p>
+<p>VS Code 中显示的 .claude 目录，settings.json 与 skills 文件夹正待重命名</p>
+<p>回到你的 AI Coding Crash Course 仓库，运行你选定的 agent。然后执行 <code>/context</code> 命令，把当前的 context 可视化出来。</p>
+<h2>基线里都有什么（What&#39;s In Your Baseline）</h2>
+<pre><code>/context
+</code></pre>
+<p>它会向你展示当前 context window 里的一切——此时你还没有发送过任何真正的消息。</p>
+<p>下面是默认配置下，一个全新 session 的样子：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>Token 数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>system prompt</td>
+<td>3k</td>
+</tr>
+<tr>
+<td>system tools</td>
+<td>17.9k</td>
+</tr>
+<tr>
+<td>MCP tools（deferred）</td>
+<td>24.5k</td>
+</tr>
+<tr>
+<td>system tools（deferred）</td>
+<td>16.9k</td>
+</tr>
+<tr>
+<td>skills</td>
+<td>2k</td>
+</tr>
+<tr>
+<td>messages</td>
+<td>8</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td><strong>~23k</strong></td>
+</tr>
+</tbody></table>
+<p>这就是大约 23,000 个 token——而你其实还没真正发送过任何消息。你唯一用掉的 token，就是敲入 <code>/context</code> 所花的那 8 个。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723061/ai-hero-images/w8tyk1g4orgsd1ihe99n.png" alt="终端输出：默认配置下 /context 命令的结果，已使用 22.9k token"></p>
+<p>终端输出：默认配置下 /context 命令的结果，已使用 22.9k token</p>
+<p>可以看到，这里有很多内置 skills 和内置的项目内容，这在意料之中。你还挂着一大堆 MCP tools，它们是从 claude.ai 加载进来的——比如 Figma、Gmail、Google Calendar、Google Drive、Slack、Todoist 和 Zapier。</p>
+<p>这一切加起来大约 23k token，而这还是在你真正开始干活之前。</p>
+<p>你的具体情况可能有所不同。你的 agent harness 默认发送的 token 可能比这更少，也可能你会发现自己的配置里其实塞满了一堆你根本不知道存在的东西。</p>
+<h2>看看区别（See The Difference）</h2>
+<p>现在，纯粹为了好玩，让我回到 <code>.claude</code> 文件夹，把我的 <code>settings.json</code> 和 <code>skills</code> 目录重新启用。</p>
+<p>我会重启 agent，再跑一次 <code>/context</code>，给你看看区别。</p>
+<pre><code>/context
+</code></pre>
+<p>现在只剩 <strong>6.6k token</strong> 了——仅靠配置我们就砍掉了 16k token。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>Token 数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>system prompt</td>
+<td>2k</td>
+</tr>
+<tr>
+<td>system tools</td>
+<td>3.5k</td>
+</tr>
+<tr>
+<td>MCP tools（deferred）</td>
+<td>192</td>
+</tr>
+<tr>
+<td>system tools（deferred）</td>
+<td>9.2k</td>
+</tr>
+<tr>
+<td>skills</td>
+<td>1.1k</td>
+</tr>
+<tr>
+<td>messages</td>
+<td>8</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td><strong>~6.6k</strong></td>
+</tr>
+</tbody></table>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723062/ai-hero-images/gbqbttndqy0yujnilzm6.png" alt="终端输出：恢复自定义配置后 /context 命令的结果，仅 6.6k token"></p>
+<p>终端输出：恢复自定义配置后 /context 命令的结果，仅 6.6k token</p>
+<p>这个差异至关重要，因为这意味着你在 smart zone（聪明区）里有了多得多的施展空间——那正是 context 中 agent 真正思考和推理的部分。也就是说，你每一次与 agent 交互都会感觉更加高效。</p>
+<h2>我们为什么要这么做（Why We&#39;re Doing This）</h2>
+<p>先说明一点：我们这么做不是为了把 token 花销精打细算到极致，也不一定是为了把成本压到最低。我们要的是把质量拉到最高。</p>
+<p>我们想扩展的是 smart zone 里的空间——context window 中 agent 真正推敲你问题的那部分。那里的空间越大，推理就越好。</p>
+<p>你很可能会被自己配置里的东西吓一跳，尤其是在你从未查看过那里的情况下。</p>
+<h2>理解你的 context（Understanding Your Context）</h2>
+<p>我想让你掌握这样的能力：</p>
+<ul>
+<li>查看自己 context window 的用量，看清里面到底有什么</li>
+<li>查看别人的配置，识别出那些真正不该存在的东西</li>
+</ul>
+<p>希望你能继承一点我的 context 偏执——有了它，你就能得到更高质量的输出。</p>
+<h2>你的下一步（Your Next Steps）</h2>
+<p>如果你在严格跟做，请确保完成了以下两步：</p>
+<ol>
+<li>把 <code>settings.json</code> 重命名为 <code>settings-backup.json</code></li>
+<li>把 <code>skills</code> 目录重命名为 <code>skills-backup</code></li>
+</ol>
+<p>本课程不会使用你的默认配置。</p>
+<p>如果你的 context window 里还有别的东西怎么也清不掉，到 Discord 上发个消息，我们看看能不能针对你的具体情况更新这些指引。</p>
+<hr>
+<p>干得漂亮——下一节见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你把 MCP servers 和多余的 skills 从 agent 配置中清了出去，让一个全新 session 从 23k token 降到了 6.6k。你由此获得的最主要的东西是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">smart zone 里有了更多空间，而那正是 agent 推理的地方</li>
+<li>更便宜的 session，因为计费的 token 变少了</li>
+<li>更快的启动，因为要加载的配置更少</li>
+<li>这个 session 的 context window 上限变大了</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">在你敲下第一条真正的 prompt 之前，你想先看看 context window 里已经有什么。该运行哪个命令？</p>
+<ul class="quiz-choices">
+<li class="correct">/context</li>
+<li>/config</li>
+<li>/compact</li>
+<li>/clear</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# 消灭 bloat（Killing Bloat）<h1 id="lesson-2">消灭 bloat：理解你的 agent 载荷（Killing Bloat: Understanding Your Agent&#39;s Payload）</h1>
+<p>你发给 agent 的每一个请求，都携带一份看不见的载荷。你的 tool schemas、system prompt、skills 目录、功能指令，全都打包在一起发送——而每一个 token、每一轮，你都在为此买单。</p>
+<p>在你敲下第一个字之前，账单就已经不小了。</p>
+<p>问题出在可见性上。<code>/context</code> 命令会把你的 window 按类别拆开，但它把所有 tools 归并成了一个数字。你看得见总量，却看不出哪个具体的 tool 吃掉的 token 最多。要精准下刀，你得看到真实的载荷。</p>
+<h2>配置 request logger（Set Up The Request Logger）</h2>
+<p>你的目标是：检查每次发给 agent provider 的请求中实际发送了什么，然后找出并砍掉其中最大的几个元凶。</p>
+<ul>
+<li>启动 request logger</li>
+</ul>
+<p>在一个终端里运行 request logger：</p>
+<pre><code>npm run request-logger
+</code></pre>
+<p>它会询问你用的是哪个 coding agent；如果你的 agent 能用多个 model provider，还会问你是哪一个。它能记住你的答案，所以只需要问一次。然后它会在 &quot;Run your agent in another terminal with:&quot; 这一行下方，打印出专属于你的 agent 的确切命令。</p>
+<ul>
+<li>把你的 agent 指向这个 logger</li>
+</ul>
+<p>把那条命令复制粘贴到一个新终端里运行。它是为你选的 agent 量身打造的，不需要做任何调整。如果你的 agent 还需要一个配置文件，logger 会在命令上方把它打印出来。</p>
+<ul>
+<li>清掉旧日志</li>
+</ul>
+<p>删除 <code>request-logger/logs/</code> 里的所有文件，让自己从零开始。</p>
+<ul>
+<li>发一条测试消息</li>
+</ul>
+<p>在你的 agent 里发送一条简单的消息：</p>
+<pre><code>Hello!
+</code></pre>
+<p>等它回复。然后查看 <code>request-logger/logs/</code>——现在你应该会看到一个新日志文件（一份 <code>.md</code> 渲染版，外加 <code>.request.txt</code> 和 <code>.response.txt</code> 文件）。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723322/ai-hero-images/yho1agxpyd4l4gqmyhg4.png" alt="VS Code 中显示的 request-logger/logs/ 目录及新生成的日志文件"></p>
+<p>VS Code 中显示的 request-logger/logs/ 目录及新生成的日志文件</p>
+<h2>检查载荷结构（Examine The Payload Structure）</h2>
+<p>现在打开日志文件，探究每次请求都发送了什么。</p>
+<ul>
+<li>搜索并阅读 system prompt</li>
+</ul>
+<p>在日志文件里搜索 <code>&lt;system-prompt&gt;</code>。花点时间弄清楚里面都有些什么。</p>
+<p>请特别注意：- <strong>Environment</strong> 部分——它告诉 agent 你的操作系统、shell 和工作目录 - <strong>Context management</strong> 部分——agent 如何处理长对话 - 最近的 git 提交记录（如果你用的是 Claude Code 这类 agent）</p>
+<ul>
+<li>查看所有可用的 tools</li>
+</ul>
+<p>找到 <code>&lt;tools&gt;</code> 部分。你的 agent 可用的每一个 tool 在这里都有自己的定义。</p>
+<p>往下滚动时，留意：- 一共列出了多少个 tools（你很可能会看到 70 多个定义）- 哪些 tools 你真的听说过（Artifact、Bash 等）- 哪些 tools 你完全陌生——去读它们的描述。有些会相当冷门：<code>CronCreate</code>、<code>DesignSync</code>、<code>EnterPlanMode</code>、<code>Workflow</code> - 有些定义体量有多大——里面有大段冗余文字，在解释 commit message 格式、PR 模板和 feature flags</p>
+<ul>
+<li>找出 MCP tools</li>
+</ul>
+<p>在文件里搜索 <code>mcp__</code>。这些是通过集成挂载上来的 Model Context Protocol tools。</p>
+<p>你会看到这样的 tools：- <code>mcp__claude_ai_Figma__authenticate</code> - <code>mcp__claude_ai_Gmail__create_draft</code> - <code>mcp__claude_ai_Slack__authenticate</code> - <code>mcp__claude_ai_Google_Drive__search_files</code></p>
+<p>数一数这样的 tool 一共有多少。无论你需不需要，这些 tools 都会随每一个请求一起发送。</p>
+<ul>
+<li>查看 skills 列表</li>
+</ul>
+<p>搜索 &quot;following skills are available&quot;，找到 skills 目录。你会看到一份包含 15 到 20 多个 skills 的清单，每个都带描述。</p>
+<p>留意哪些是项目特有的，哪些是你的 agent 默认内置的。</p>
+<h2>理解成本（Understand The Cost）</h2>
+<ul>
+<li>在你的 agent 里运行 <code>/context</code></li>
+</ul>
+<p>看看你的系统在不同类别（system prompt、tools、skills、messages）上各用了多少 token。</p>
+<p>仅仅一条 &quot;Hello!&quot; 消息，request logger 完整的 markdown 渲染通常就有 4,000 多行、150 到 200 KB。这整份载荷每一轮都会被发送、被计费。</p>
+<p>现在你明白了每个请求背后那笔看不见的成本。解决方案视频会教你如何把它砍下来。</p>
+<p>如果 request logger 跟你选的 agent 配不合拍，到 AI Hero Discord 上找我们——我们可以帮你为你的特定 agent 把它搭起来。</p>
+<h1 id="lesson-3">消灭 bloat：解决方案（Killing Bloat Solution）</h1>
+<p>第一步，在你的 <code>~/.claude</code> 目录里创建一个 <code>settings.json</code> 文件，并把它初始化为一个空对象。</p>
+<p>这里演示的步骤是针对特定 agent 的，但如果你看下面的文字版课程，那里同样有按需清除 bloat 的 harness 操作指引。</p>
+<h2>操作流程（The workflow）</h2>
+<p>每次修改 <code>settings.json</code> 之后，流程都一样：</p>
+<ol>
+<li>编辑 <code>~/.claude/settings.json</code></li>
+<li>退出你的 agent</li>
+<li>重新启动它</li>
+<li>发送一条 <code>Hello!</code> 消息</li>
+<li>运行 <code>/context</code> 命令</li>
+<li>查看日志，看有什么变化</li>
+</ol>
+<p>为了给我们一个基线参照，先在全新启动的状态下跑一次 <code>/context</code>。我们的起点是 <strong>68.3k token</strong>。这可真不少。</p>
+<h2>禁用 MCP connectors（Disable MCP connectors）</h2>
+<p>首先要处理的是 MCP（Model Context Protocol）相关的东西。只要你用 Claude.ai，就会有一堆 Claude AI connectors 自动启用。</p>
+<p>在 <code>~/.claude/settings.json</code> 里，你可以一次性把它们全部禁用：</p>
+<pre><code>{
+&quot;disableClaudeAiConnectors&quot;: true
+}
+</code></pre>
+<p>重启并运行 <code>/context</code> 之后，我们已经降到了 <strong>47k token</strong>。一个设置就省下了 21k token。</p>
+<h2>禁用 workflows（Disable workflows）</h2>
+<p>接下来你会注意到，有大量与 dynamic workflows 相关的配置。它们以确定性的方式编排多个 sub-agent。</p>
+<p>如果你不打算用 workflows，就禁用它们：</p>
+<pre><code>{
+&quot;disableClaudeAiConnectors&quot;: true,
+&quot;disableWorkflows&quot;: true
+}
+</code></pre>
+<p>现在降到了 <strong>39k token</strong>。</p>
+<h2>禁用内置 skills（Disable bundled skills）</h2>
+<p>内置 skills 包括 deep research、data visualization、artifact design、config updates 和 keybindings help。如果你一个都不用，就把它们全禁掉：</p>
+<pre><code>{
+&quot;disableClaudeAiConnectors&quot;: true,
+&quot;disableWorkflows&quot;: true,
+&quot;disableBundledSkills&quot;: true
+}
+</code></pre>
+<p>这一步把我们降到 <strong>37.1k token</strong>——同时也彻底关掉了 skills 的使用。</p>
+<h2>禁用 artifacts（Disable artifacts）</h2>
+<p>有个比较新的功能叫 Artifacts，你可能完全用不上。关掉它很简单：</p>
+<pre><code>{
+&quot;disableClaudeAiConnectors&quot;: true,
+&quot;disableWorkflows&quot;: true,
+&quot;disableBundledSkills&quot;: true,
+&quot;disableArtifact&quot;: true
+}
+</code></pre>
+<p>又少了 4k token，现在到了 <strong>33.1k token</strong>。</p>
+<h2>用 permissions 控制 tool 访问（Control tool access with permissions）</h2>
+<p>现在来处理大头：审视 tool 定义本身。</p>
+<p>**关键原则在这里：如果你通过 <code>permissions.deny</code> 拒绝 agent 访问某个 tool，它的定义就会从 system prompt 中被整体移除。**这不只是运行时的拦截——这是在每一次请求上都省下 context。</p>
+<p>我们来看看你真正需要哪些 tools：</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>问问自己……</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>NotebookEdit</code></td>
+<td>你需要在 Jupyter notebook 中替换、插入或删除单元格吗？</td>
+<td>多半不需要。禁掉。</td>
+</tr>
+<tr>
+<td><code>DesignSync</code></td>
+<td>你需要设计、同步、读取和更新 Claude.ai 的 design-system 项目吗？</td>
+<td>不需要。禁掉。</td>
+</tr>
+<tr>
+<td><code>CronCreate</code>、<code>CronDelete</code>、<code>CronList</code></td>
+<td>你需要创建和管理 cron 任务吗？</td>
+<td>多半不需要。三个都禁掉。</td>
+</tr>
+<tr>
+<td><code>EnterPlanMode</code>、<code>ExitPlanMode</code></td>
+<td>你需要 agent 进入和退出 plan mode 吗？</td>
+<td>不需要。两个都禁掉。</td>
+</tr>
+<tr>
+<td><code>PushNotification</code>、<code>RemoteTrigger</code></td>
+<td>你需要推送通知或远程触发吗？</td>
+<td>不需要。两个都禁掉。</td>
+</tr>
+<tr>
+<td><code>ReportFindings</code></td>
+<td>你需要 agent 汇报发现吗？</td>
+<td>不需要。禁掉。</td>
+</tr>
+<tr>
+<td><code>ScheduleWakeup</code></td>
+<td>你需要唤醒调度吗？</td>
+<td>不需要。禁掉。</td>
+</tr>
+</tbody></table>
+<p>把这些加进你的 settings：</p>
+<pre><code>{
+&quot;permissions&quot;: {
+&quot;deny&quot;: [
+&quot;NotebookEdit&quot;,
+&quot;DesignSync&quot;,
+&quot;CronCreate&quot;,
+&quot;CronDelete&quot;,
+&quot;CronList&quot;,
+&quot;EnterPlanMode&quot;,
+&quot;ExitPlanMode&quot;,
+&quot;PushNotification&quot;,
+&quot;RemoteTrigger&quot;,
+&quot;ReportFindings&quot;,
+&quot;ScheduleWakeup&quot;
+]
+},
+&quot;disableClaudeAiConnectors&quot;: true,
+&quot;disableWorkflows&quot;: true,
+&quot;disableBundledSkills&quot;: true,
+&quot;disableArtifact&quot;: true
+}
+</code></pre>
+<p>这一步把我们降到了大约 <strong>21.6k token</strong>。</p>
+<h2>还有一个 tool 值得考虑（One more tool to consider）</h2>
+<p>还有一个 tool 值得禁用：<code>AskUserQuestion</code>。它的 tool 定义非常长（约 130 行），有人很喜欢它的 UI，也有人觉得它碍事。</p>
+<pre><code>{
+&quot;permissions&quot;: {
+&quot;deny&quot;: [
+&quot;NotebookEdit&quot;,
+&quot;DesignSync&quot;,
+&quot;CronCreate&quot;,
+&quot;CronDelete&quot;,
+&quot;CronList&quot;,
+&quot;EnterPlanMode&quot;,
+&quot;ExitPlanMode&quot;,
+&quot;PushNotification&quot;,
+&quot;RemoteTrigger&quot;,
+&quot;ReportFindings&quot;,
+&quot;ScheduleWakeup&quot;,
+&quot;AskUserQuestion&quot;
+]
+},
+&quot;disableClaudeAiConnectors&quot;: true,
+&quot;disableWorkflows&quot;: true,
+&quot;disableBundledSkills&quot;: true,
+&quot;disableArtifact&quot;: true
+}
+</code></pre>
+<p>把它移除后，我们降到了 <strong>20k token 以下</strong>——大约 19.9k。这是个不错的收尾点。</p>
+<h2>态度比细节更重要（The attitude matters more than the specifics）</h2>
+<p>这个演示是针对特定 agent 的，但真正重要的是这种态度。</p>
+<p>你必须清楚自己 system prompt 里发送的所有 token。你不必逐字读完，但必须留意是不是混进了不该在的东西——因为它会影响之后的每一次请求。</p>
+<p>对自己的 tools 和配置做这种清洁工作非常重要。注意，我们在这里移除的所有东西，本来就是你不会用到的。它们绝对不该待在那里，影响行为、吞噬宝贵的 token。</p>
+<h2>轮到你了（Your turn）</h2>
+<p>去看看你自己的 harness 吧。看看你能在保留良好行为的前提下，从 system prompt 里移除些什么。找到属于你自己的 harness 专属优化，找到之后，记得分享到 Discord。</p>
+<p>现在你有了一个很好的工作起点。开始构建吧。</p>
+<h1 id="lesson-4">在 status line 中显示 context（Showing Context in the Status Line）</h1>
+<p>Claude Code 默认不显示你的 context window 用量。如果你想一边写代码一边持续监控它，就得自己动手配置。</p>
+<p>把这个数字直接放进你的 status line、一眼可见，你就能获得做出正确 session 决策所需的反馈。我们将使用 <code>ccstatusline</code>，这是一个社区工具，能把 Claude Code 的 session 数据格式化成一条整洁的 status line。</p>
+<h2>待完成步骤（Steps To Complete）</h2>
+<h3>配置 ccstatusline（Configure ccstatusline）</h3>
+<ul>
+<li>创建配置目录</li>
+</ul>
+<pre><code>mkdir -p ~/.config/ccstatusline
+</code></pre>
+<ul>
+<li>创建 <code>~/.config/ccstatusline/settings.json</code>，内容如下：</li>
+</ul>
+<pre><code>{
+&quot;version&quot;: 3,
+&quot;lines&quot;: [
+[
+{
+&quot;id&quot;: &quot;1&quot;,
+&quot;type&quot;: &quot;context-length&quot;,
+&quot;color&quot;: &quot;yellow&quot;,
+&quot;bold&quot;: true,
+&quot;rawValue&quot;: true
+},
+{
+&quot;id&quot;: &quot;2&quot;,
+&quot;type&quot;: &quot;custom-text&quot;,
+&quot;customText&quot;: &quot;(&quot;,
+&quot;color&quot;: &quot;brightBlack&quot;,
+&quot;merge&quot;: &quot;no-padding&quot;
+},
+{
+&quot;id&quot;: &quot;3&quot;,
+&quot;type&quot;: &quot;context-percentage&quot;,
+&quot;color&quot;: &quot;brightBlack&quot;,
+&quot;rawValue&quot;: true,
+&quot;merge&quot;: &quot;no-padding&quot;
+},
+{
+&quot;id&quot;: &quot;4&quot;,
+&quot;type&quot;: &quot;custom-text&quot;,
+&quot;customText&quot;: &quot;)&quot;,
+&quot;color&quot;: &quot;brightBlack&quot;,
+&quot;merge&quot;: &quot;no-padding&quot;
+}
+],
+[],
+[]
+],
+&quot;flexMode&quot;: &quot;full-minus-40&quot;,
+&quot;compactThreshold&quot;: 60,
+&quot;colorLevel&quot;: 2,
+&quot;defaultSeparator&quot;: &quot; &quot;,
+&quot;inheritSeparatorColors&quot;: false,
+&quot;globalBold&quot;: false,
+&quot;powerline&quot;: {
+&quot;enabled&quot;: false,
+&quot;separators&quot;: [&quot; &quot;],
+&quot;separatorInvertBackground&quot;: [false],
+&quot;startCaps&quot;: [],
+&quot;endCaps&quot;: [],
+&quot;autoAlign&quot;: false
+}
+}
+</code></pre>
+<p>这份配置在同一行上排布了四个 widget：一个加粗黄色的 token 计数（<code>context-length</code>），后面跟着括号里一个暗色百分比。括号和百分比 widget 上的 <code>&quot;merge&quot;: &quot;no-padding&quot;</code> 让它们紧密相连、不留多余空隙，而 <code>&quot;defaultSeparator&quot;: &quot; &quot;</code> 则在 token 计数与左括号之间加了一个空格。<code>&quot;rawValue&quot;: true</code> 会去掉标签，让你得到干净的数字。</p>
+<h3>更新 Claude Code 设置（Update Claude Code Settings）</h3>
+<ul>
+<li>打开 <code>~/.claude/settings.json</code></li>
+</ul>
+<p>如果这个文件还不存在，就创建它。</p>
+<ul>
+<li>添加 status line 配置</li>
+</ul>
+<pre><code>{
+&quot;statusLine&quot;: {
+&quot;type&quot;: &quot;command&quot;,
+&quot;command&quot;: &quot;npx ccstatusline@latest&quot;
+}
+}
+</code></pre>
+<p>保留这个文件里可能已有的其他设置。Claude Code 会自动把 session 数据通过管道传给这条命令——<code>ccstatusline</code> 读取这些数据并输出格式化后的 status line。</p>
+<h3>测试你的配置（Test Your Setup）</h3>
+<ul>
+<li>彻底重启 Claude Code</li>
+</ul>
+<p>把应用完全关闭，再重新打开。</p>
+<ul>
+<li>检查你的 status line</li>
+</ul>
+<p>现在你应该能在 Claude Code 的 status line 里看到一个加粗黄色的 token 计数，后面跟着一个暗色百分比（比如 <code>186.2k (17.3%)</code>）。随着 session 进行、context window 逐渐填满，这些数字会持续更新。</p>
+<h1 id="lesson-5">代码库探索（Codebase Exploration）</h1>
+<p>每当 agent 面对你的 codebase 开启一个全新 session，它都必须通过探索来找到自己需要的信息。stateless（无状态）是最难绕开的约束——agent 对之前的 session 毫无记忆。</p>
+<p>agent 探索的质量，直接决定了接下来一切的质量。如果它找不到需要的信息，多半就做不成你想做的事。</p>
+<p>所以探索这件事很重要，非常重要。而让你的 codebase 易于探索，是你能做的最重要的事情之一。</p>
+<h2>agent 已经知道什么（What The Agent Already Knows）</h2>
+<p>当你启动一个 session 时，agent 会自动拿到一些环境信息。我们来看看都包括什么：</p>
+<ul>
+<li>平台（Linux、macOS、Windows）</li>
+<li>工作目录（所以它能从仓库名里猜出点什么）</li>
+<li>Git 仓库状态（分支、主分支、git 用户、最近的提交）</li>
+<li>shell 类型（bash、zsh 等）</li>
+<li>你的助手的知识截止日期</li>
+</ul>
+<p>这些其实相当有用。但存在一个关键的缺口。</p>
+<h2>agent 不知道什么（What The Agent Doesn&#39;t Know）</h2>
+<p>agent <strong>完全拿不到任何文件系统信息</strong>。它没有当前目录的 <code>ls</code> 结果，没有文件树，对目录里实际存在哪些文件一无所知。</p>
+<p>所以 agent 知道的只有：</p>
+<ul>
+<li>目录名</li>
+<li>它所处的大致环境</li>
+<li>一些最近的提交名</li>
+<li>对真实文件系统则一无所知</li>
+</ul>
+<p>这恰恰就是你此刻作为这个仓库学习者的处境。你对我们要构建的这个应用大概还知之甚少。你和你的 agent 正处在相似的位置上。</p>
+<h2>待完成步骤（Steps To Complete）</h2>
+<ul>
+<li>打开一个终端，运行 request-logger 代理</li>
+</ul>
+<pre><code>npm run request-logger
+</code></pre>
+<p>它会询问你用的是哪个 coding agent，然后监听 <code>http://localhost:8787</code>，并打印出通过它启动该 agent 的确切命令。</p>
+<ul>
+<li><p>打开第二个终端，把打印出来的命令复制粘贴过去，通过这个代理启动一个 agent session</p>
+</li>
+<li><p>询问 agent 这个项目的技术栈和用途</p>
+</li>
+</ul>
+<pre><code>Tell me what the tech stack of this project is and what its intended purpose is.
+</code></pre>
+<p>观察 agent 探索时发生了什么：</p>
+<ul>
+<li><p>它是否派生 subagent 来协助探索？</p>
+</li>
+<li><p>它是否试图自己通读所有文件？</p>
+</li>
+<li><p>它如何在这个 codebase 中导航？</p>
+</li>
+<li><p>它是否探索了文件系统？读了文件？做出了合理的猜测？</p>
+</li>
+<li><p>追问后续问题，获取更多细节</p>
+</li>
+</ul>
+<p>让 agent 告诉你更多关于：</p>
+<ul>
+<li>每个文件夹的主要用途</li>
+<li>核心业务逻辑做了什么</li>
+<li>用了哪些技术、为什么用</li>
+</ul>
+<p>一直问下去，直到你对这个 codebase 有了非常细致的理解。</p>
+<p>-（可选）查看请求日志</p>
+<p>打开 <code>request-logger/logs/</code>，查看最新的 <code>.md</code> 文件。跳到 <code># Environment</code> 部分，看看究竟传给了 agent 什么。留意哪些被包含了，哪些缺失了。</p>
+<h1 id="lesson-6">Codebase Exploration 解法（Codebase Exploration Solution）</h1>
+<p>我们先跑一条初始的探索提示词，看看会发生什么。很多事情会在一瞬间接连发生，所以我们把镜头拉远一点，看得更清楚。</p>
+<p>我们要关注的是文件数量、搜索操作，以及 agent 在探索目录时用到的工具。想看得更细，可以按 Ctrl+O，这会显示更详细的输出版本。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723865/ai-hero-images/xccofy1jlg0xgxbkrhuo.png" alt="详细输出，展示工具使用的细节"></p>
+<p>详细输出，展示工具使用的细节</p>
+<h3>检视详细输出与工具使用（Examining the verbose output and tool usage）</h3>
+<p>看输出的顶部，也就是初始提示词刚发出去之后，我们可以看到 agent 使用工具的先后顺序：</p>
+<p>它最先读的是 <strong>README</strong> 文件。接着它通过一条 bash 命令找到了 <code>package.json</code>：</p>
+<pre><code>find . -name package.json -not -path &#39;*/node_modules/*&#39;
+</code></pre>
+<p>这是一条 Linux 命令，用来搜索 <code>package.json</code> 文件，同时排除 <code>node_modules</code> 目录。</p>
+<p>找到之后，它读取 <code>package.json</code> 文件。然后它又同时读了两个文件：request-logger 的 <code>package.json</code> 和 request-logger 的 <code>README</code>。至此，它已经拿到了生成技术栈表格所需的全部信息。</p>
+<p>如果在日志里搜索 &quot;tool_result&quot;，我们就能看到所有的工具结果。总共有八个标签，也就是说有四个工具结果。实际读取的文件只有主 README、<code>package.json</code>，以及 request-logger 的那几个文件。这真的只是一次走马观花。</p>
+<p>经过这第一轮探索，agent 总共只花了大约 <strong>26.1k tokens</strong>，其实并不多。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723866/ai-hero-images/bjmhbqui446hb1juwamv.png" alt="Token 计数显示已用 26.1k tokens"></p>
+<p>Token 计数显示已用 26.1k tokens</p>
+<h2>请求更深入的代码分析（Requesting deeper code analysis）</h2>
+<p>现在我们用一个更详细的要求向它发起追问：</p>
+<pre><code>Give me a much more in-depth understanding about the different parts of the app, the different modules inside it, and go ahead and read a ton of source code to give me more information.
+</code></pre>
+<p>这样做，是在要求 agent 投入更多精力、做更多跑腿活。它表示自己要做一次深度剖析。它列出了一些目录，找到了各个区域，然后开始并行读取文件：schema、数据库、路由、服务，等等。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723867/ai-hero-images/cmn5cndy3p4wzzqlqnod.png" alt="agent 并行读取多个文件"></p>
+<p>agent 并行读取多个文件</p>
+<p>这里有个有意思的点：agent 并没有开启任何 subagent（子智能体）。它把所有文件都直接读进了父 agent 的 context（上下文）里。</p>
+<p>这个过程会持续一段时间。agent 在啃的是大量非常长的原始代码文件。它此刻能接触到的信息量比之前丰富得多。</p>
+<h2>理解 non-deterministic 行为（Understanding non-deterministic behavior）</h2>
+<p>因为 model（模型）具有 non-determinism（非确定性），有时 agent 会把代码直接塞进自己的主 context window 里来做探索，有时它又会改用 sub-agent。</p>
+<p>为了给你展示使用 sub-agent 是什么样子，我们回到刚才发出那条「想要更深入理解」提示词的地方，在请求的末尾加上三个词：</p>
+<pre><code>Give me a much more in-depth understanding about the different parts of the app, the different modules inside it, and go ahead and read a ton of source code to give me more information. Use subagents.
+</code></pre>
+<p>这句对 sub-agent 的显式提及，应该会促使 agent 生成 sub-agent 去执行探索。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723868/ai-hero-images/ezinhfk9ps77a0uij4fa.png" alt="带有 &#39;Use subagents&#39; 指令的提示词"></p>
+<p>带有 &#39;Use subagents&#39; 指令的提示词</p>
+<h2>分而治之的策略（The divide-and-conquer approach）</h2>
+<p>agent 先快速摸清结构，然后派出 sub-agent 并行深挖不同区域。记住，我们已经回退到它手里只有 <code>package.json</code> 和 README 的时点，之前那轮深挖得到的信息已经不在它的 context window 里了。</p>
+<p>agent 决定分而治之。它把工作拆成四个区域，并给每个区域派一个 sub-agent 去并行深读：</p>
+<ul>
+<li>数据层</li>
+<li>服务层</li>
+<li>路由/UI 层</li>
+<li>request-logger 代理</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723869/ai-hero-images/ausummdxmd58fd4k2ynk.png" alt="派出四个 sub-agent 分别负责不同区域"></p>
+<p>派出四个 sub-agent 分别负责不同区域</p>
+<p>看右下角，我们可以看到这些 sub-agent 花掉的 token。这是个相当昂贵的操作，我们已经到了大约 200k tokens 并且还在上涨，分散在这四个 sub-agent 身上。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723870/ai-hero-images/rqp5rmvx0fenzmfftvyz.png" alt="Token 计数器显示四个 sub-agent 共用 200k tokens"></p>
+<p>Token 计数器显示四个 sub-agent 共用 200k tokens</p>
+<p>从这些 sub-agent 身上，我们会得到极其丰富的细节。它们的工作方式是：把自己的发现总结之后汇报给父 agent。</p>
+<p>光是路由/UI 层那一个 sub-agent，单这一个区域就用了 159k tokens。</p>
+<p>四个深读全部完成后，我们就掌握了极其详细的信息。agent 甚至发现了一个刻意为之的架构特例，非常聪明。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723870/ai-hero-images/vl42n66qufiw6yqyqdhv.png" alt="agent 输出识别出刻意设计的架构特例"></p>
+<p>agent 输出识别出刻意设计的架构特例</p>
+<p>路由和 UI 层被研究得非常深入，服务层覆盖全面，request-logger 也被完整记录了下来。而尽管 sub-agent 们干了这么多活，父 agent 的 context window 只用了大约 <strong>65.1k tokens</strong>——对于分析整个仓库并把它们压缩成一小份摘要来说，这个效率相当惊人。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723872/ai-hero-images/bzrhukn0t4liwpwafwld.png" alt="父 agent 的 context 只用了 65.1k tokens"></p>
+<p>父 agent 的 context 只用了 65.1k tokens</p>
+<h3>sub-agent 如何汇报（How sub-agents report back）</h3>
+<p>翻看日志，我们能找到 sub-agent 传回来的总结。它们以系统通知的形式到达，也就是自动化的后台任务事件。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723872/ai-hero-images/tzbjccpjbwpu1emmlfqp.png" alt="日志里来自 sub-agent 的系统通知"></p>
+<p>日志里来自 sub-agent 的系统通知</p>
+<p>下面就是某个 sub-agent 报告的样子。它带着一份「UI 层概览」而来，给出了一张覆盖所有不同区域的完整路由图：</p>
+<ul>
+<li>Public（未认证路由）</li>
+<li>Auth（位于应用布局之外）</li>
+<li>购买与兑换流程</li>
+<li>Instructor（创作工具）</li>
+<li>Admin</li>
+<li>Team</li>
+<li>API 端点</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723874/ai-hero-images/fjvu5ojsx2hqpfck7jnu.png" alt="sub-agent 报告展示的完整路由图"></p>
+<p>sub-agent 报告展示的完整路由图</p>
+<p>报告里包含大量模式信息和用户角色画像。它还列出了一份值得注意的 UI 组件清单以及一些开发者体验特性。报告内部还有关于关键文件路径的额外信息——这一点极其关键，父 agent 需要时直接去读那些路径就行。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723875/ai-hero-images/mkswu5kyxallyquo5h6b.png" alt="sub-agent 报告中的关键文件路径部分"></p>
+<p>sub-agent 报告中的关键文件路径部分</p>
+<p>这就是 sub-agent 汇报回来的东西：交给父 agent 一份极其详细的总结，就 token 的信息质量而言密度极高。这里传进去的不是原始文件，而是一份打磨得非常好的总结，父 agent 需要时可以借助它找到相关文件。</p>
+<h3>这个模式为什么有效（Why this pattern works）</h3>
+<p>在大型仓库里，大多数时候 sub-agent 就是这样工作的：</p>
+<ol>
+<li>sub-agent 读取一堆文件</li>
+<li>它把所有这些信息整合起来</li>
+<li>它向父 agent 汇报一份总结，其中包括关键文件路径和大量细节</li>
+</ol>
+<p>父 agent（即 orchestrator，编排者）保持精简，而 sub-agent 们则把 token 花在深度探索和总结发现上。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784723876/ai-hero-images/ozxbltlkeyefllfouu7e.png" alt="展示 orchestrator 与 sub-agent 关系的示意图"></p>
+<p>展示 orchestrator 与 sub-agent 关系的示意图</p>
+<p>另一种做法就是我们前面看到的那种：agent 自己动手探索，把所有文件直接读进自己的 context。</p>
+<h2>选择你的探索策略（Choosing your exploration strategy）</h2>
+<p>很多人更喜欢让 sub-agent 出去执行探索。这样，orchestrator 里的 context window 就能保持得非常紧凑。</p>
+<p>这正是「留意你的起始 context window」带来回报的地方。如果你的起始 context 很大，那么每次开启一个 sub-agent，你都要付出这份代价。让它保持小巧意味着更经济，你在 smart zone（聪明区）里待的时间也更长。</p>
+<p>所以，为什么探索如此重要、为什么用 sub-agent 做探索如此有效，现在就说得通了：它让你在把 token 成本控制在合理范围内的同时，还能扩展自己对大型代码库的理解。</p>
+<p>下一课，我们会向你展示一个学习任何仓库的技术。</p>
+<p>干得漂亮，下一课见。</p>
+<h1 id="lesson-7">/teach skill（The /teach Skill）</h1>
+<p>开始一份新工作、加入一个新项目，或者面对陌生的代码，是每个人都会遇到的挑战。你需要理解架构、库、各种模式——但你不知道从何下手。</p>
+<p>这正是 agent 大放异彩的地方。借助 <code>/teach</code> 这个 skill（技能），你可以深入探索一个代码库，并获得一份贴合你经验水平的个性化讲解。</p>
+<h2>完成步骤（Steps To Complete）</h2>
+<h3>搭建一个全新工作区（Set Up A Fresh Workspace）</h3>
+<ul>
+<li><p>退出你当前的 agent session</p>
+</li>
+<li><p>在课程仓库旁边新建一个目录</p>
+</li>
+</ul>
+<pre><code>mkdir ../ai-coding-learning
+</code></pre>
+<ul>
+<li>在你的代码编辑器里打开那个目录</li>
+</ul>
+<h3>安装 /teach skill（Install The /teach Skill）</h3>
+<ul>
+<li>在你的新目录里运行 skills 安装器</li>
+</ul>
+<pre><code>npx skills add mattpocock/skills
+</code></pre>
+<p>会出现一个交互式菜单。</p>
+<ul>
+<li><p>用空格键只勾选 <code>teach</code> 这一个 skill，然后按回车</p>
+</li>
+<li><p>选择为你的 agent 安装（Claude Code，或你正在使用的任何 agent）</p>
+</li>
+<li><p>安装到<strong>仅当前目录</strong>，不要装到全局</p>
+</li>
+<li><p>出现提示时，选择 <strong>symlink</strong> 作为安装方式</p>
+</li>
+<li><p>在询问时确认安装</p>
+</li>
+</ul>
+<p>现在，你应该能在文件树中看到一个 <code>.claude/skills/teach</code> 文件夹。</p>
+<h3>运行练习（Run The Exercise）</h3>
+<ul>
+<li>清空你的终端</li>
+</ul>
+<pre><code>clear
+</code></pre>
+<ul>
+<li>启动你的 agent</li>
+</ul>
+<pre><code>claude
+</code></pre>
+<ul>
+<li>按这个结构运行 <code>/teach</code> 命令：</li>
+</ul>
+<pre><code>/teach Teach me about this repo: ../ai-coding-crash-course I&#39;ve done a little bit of vibe coding before. I know the basics of TypeScript. I&#39;ve never worked in React before, and I&#39;m not very clear about client and server, and certainly not about the database.
+</code></pre>
+<p>把其中关于经验的描述，换成你对自己「会什么、不会什么」的诚实评估。</p>
+<p>这个 skill 会分析整个仓库，并创建一份贴合你水平的学习计划。</p>
+<h1 id="lesson-8">/teach skill 解法（The /teach Skill Solution）</h1>
+<p>agent 一开始会翻看各个目录，检查真实的代码库。它读取 readme 和 <code>package.json</code>，钻得比一次浮于表面的扫描更深。</p>
+<p>这项工作没有派出任何 subagent——所有探索都发生在主 context 里。探索得足够之后，agent 表示它已经有了清晰的图景，可以着手搭建教学工作区了。</p>
+<h2>搭建教学工作区（Setting up the teaching workspace）</h2>
+<p><code>/teach</code> skill 会准备几个关键文件，为你的学习打下地基。以下是被创建出来的内容：</p>
+<ul>
+<li><code>MISSION.md</code>——你的学习目标和成功标准</li>
+<li><code>NOTES.md</code>——一份学习者画像，描述你会什么、不会什么</li>
+<li><code>RESOURCES.md</code>——primary source（一手来源），比如官方文档和社区链接</li>
+<li><code>assets/lesson.css</code> 和 <code>assets/quiz.js</code>——每堂后续课程都会复用的共享样式表和测验组件</li>
+<li><code>lessons/</code>——专为你的水平设计的 HTML 课程</li>
+<li><code>reference/glossary.html</code>——你会反复查阅的参考文档</li>
+<li><code>learning-records/</code>——记录你走到学习之旅哪一步的有状态档案</li>
+</ul>
+<p>agent 已经找到了 primary sources，并写进了 <code>RESOURCES.md</code>。其中包括 React Router v7 关于 data loading 和 actions 的文档，以及其他官方文档。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724046/ai-hero-images/po6rkhaqzm12vkuyisjy.png" alt="MISSION.md 文件，显示学习目标：理解 AI Coding Crash Course 代码库"></p>
+<p>MISSION.md 文件，显示学习目标：理解 AI Coding Crash Course 代码库</p>
+<h2>第一课：The Round Trip（The first lesson: The Round Trip）</h2>
+<p>agent 创建了一份术语表，生成了第一课，然后把它打开给你阅读。</p>
+<pre><code>Lesson 01: The Round Trip
+What actually happens between typing a URL and seeing a page —
+traced through one real file in your repo.
+</code></pre>
+<p>这门课的排版与设计完全对准你此刻该在的位置。它引用了应用里真实的 URL，并用官方文档惯用的语言来描述它们。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724046/ai-hero-images/fhfsajuywfkojmkcsfon.png" alt="在浏览器中打开的 The Round Trip 课程 HTML 页面"></p>
+<p>在浏览器中打开的 The Round Trip 课程 HTML 页面</p>
+<p>下面是这门课带你走过的流程：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>发生什么</th>
+<th>在哪里</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Router 把 URL 与一组字面模式列表进行匹配</td>
+<td>服务端</td>
+</tr>
+<tr>
+<td>2</td>
+<td>loader 函数运行</td>
+<td>服务端</td>
+</tr>
+<tr>
+<td>3</td>
+<td>组件渲染</td>
+<td>服务端</td>
+</tr>
+<tr>
+<td>4</td>
+<td>浏览器绘制出 HTML</td>
+<td>客户端</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Hydration（水合）发生</td>
+<td>客户端</td>
+</tr>
+</tbody></table>
+<p><code>app/routes.ts</code> 中的 <code>route(&quot;courses&quot;, &quot;routes/courses.tsx&quot;)</code> 这一行告诉你：<code>/courses</code> 路径由该文件处理。</p>
+<h2>关键难点：同一个组件，两台机器（The tricky bit: Same component, two machines）</h2>
+<p>课程里有一个重要的提示框。在第 3 步和第 5 步，同一个组件函数运行了两次——一次在服务器上，一次在浏览器里。相比之下，<code>loader</code> 只在服务器上运行，而且每一次都是如此。</p>
+<p>这种不对称正是你需要理解的核心概念。</p>
+<p>当课程向你展示真实文件时，它剥掉了无关的一切，只留下要紧的部分：</p>
+<pre><code>// app/routes/courses.tsx
+
+export const loader = async (args: LoaderFunctionArgs) =&gt; {
+// ...
+};
+
+export default function CourseCatalog() {
+// ...
+}
+
+export const ErrorBoundary = () =&gt; {
+// ...
+}
+
+export const meta = () =&gt; {
+// ...
+}
+</code></pre>
+<p>这些导出名——<code>loader</code>、<code>default</code>、<code>ErrorBoundary</code>、<code>meta</code>——是一份契约。React Router 按照确切的名字查找它们。把 <code>loader</code> 改名成 <code>fetchData</code> 会弄坏一切。</p>
+<h2>用测验检验你的理解（Testing your understanding with quizzes）</h2>
+<p>课程里包含交互式测验。每个问题只考察一个概念：</p>
+<ol>
+<li>哪个文件告诉你 <code>/courses</code> 由 <code>courses.tsx</code> 处理？</li>
+</ol>
+<ul>
+<li><strong><code>app/routes.ts</code> 文件里列着它</strong></li>
+</ul>
+<ol>
+<li>默认导出的组件运行几次？</li>
+</ol>
+<ul>
+<li><strong>两次：先服务器，后浏览器</strong></li>
+</ul>
+<ol>
+<li>路由的 loader 函数实际在哪里执行？</li>
+</ol>
+<ul>
+<li><strong>只在服务器上，每次都是</strong></li>
+</ul>
+<ol>
+<li>在路由文件里把 loader 改名为 <code>fetchData</code> 会……</li>
+</ol>
+<ul>
+<li><strong>弄坏它：这个名字是一份契约</strong></li>
+</ul>
+<ol>
+<li>搜索课程是通过什么方式过滤列表的？</li>
+</ol>
+<ul>
+<li><strong>在服务器上重新运行 loader</strong></li>
+</ul>
+<p>注意每个答案的长度都一样。排版格式不会泄露「哪个是对的」这条线索。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724047/ai-hero-images/oqwbpoh7xqi9euz3zoia.png" alt="关于 React Router 的选择题交互式测验"></p>
+<p>关于 React Router 的选择题交互式测验</p>
+<h2>现在就做：亲自验证（Do this now: Prove it to yourself）</h2>
+<p>阅读不等于学习。课程要求你把应用跑起来，亲自验证这条边界。</p>
+<p>把这行加进你的 loader：</p>
+<pre><code>console.log(&quot;LOADER RAN&quot;);
+</code></pre>
+<p>再把这行加进你的组件：</p>
+<pre><code>function CourseCatalog() {
+console.log(&quot;COMPONENT RAN&quot;);
+// ...
+}
+</code></pre>
+<p>现在先预测：每条日志会出现在哪里？终端？浏览器 devtools？还是两者都有？跑一跑，看看有什么会让你意外。</p>
+<h2>有状态的学习：随时可以清空 context（Stateful learning: You can clear context anytime）</h2>
+<p><code>/teach</code> skill 被设计成 stateful（有状态）的。它会把学习记录保存到 <code>learning-records/</code> 目录——一些小小的 markdown 文件，精确追踪你在学习之旅中走到了哪里。</p>
+<p><code>MISSION.md</code> 让 agent 始终锚定在你的目标上。这两个文件放在一起意味着：你几乎可以在任何时刻清空 context，而 agent 会从你停下的地方精确地接下去。</p>
+<h2>agent 就是你的老师（The agent is your teacher）</h2>
+<p>在这个教学工作区里，你可以向 agent 追问：</p>
+<ul>
+<li>「组件为什么会运行两次？」</li>
+<li>「如果我在组件里发起数据库调用，会坏掉什么？」</li>
+<li>「<code>LoaderArgs</code> 是什么？」</li>
+</ul>
+<p>什么都可以问。学习一个代码库，一半的功夫就在于及早把问题问出口，而不是自己瞎猜一个星期。</p>
+<h2>充分利用 /teach（Getting the most from /teach）</h2>
+<p>暂时放下主课程，把 teach skill 用到透彻，直到你深入理解这个代码库的一切。让自己成为驾驭它的绝对专家。</p>
+<p>这会在你随后动手实现功能时给你带来巨大的先手优势——而且这一步很快就到。</p>
+<p>以下就是学习任何新仓库时推荐的技术：</p>
+<ol>
+<li>为那个仓库专门新建一个教学工作区</li>
+<li>告诉 agent 你现在的水平在哪</li>
+<li>告诉它你懂什么</li>
+<li>告诉它你不懂什么</li>
+<li>让它教你</li>
+</ol>
+<p><code>/teach</code> skill 能用在各种各样的事情上。你可以用它学怎么还原魔方、怎么让孩子吃得更健康，或者怎么自信地审查一个 AI 生成的代码库。</p>
+<p>这也是一个「怎样写好一个 skill」的好范例。</p>
+<h1 id="lesson-9">构建一个功能（Build a Feature）</h1>
+<p>Commit Map（提交对照）</p>
+<p>make-a-schema-change
+本课起点：还没有任何评分功能时的仓库</p>
+<p>course-star-ratings
+查看我的解法：agent 构建的星级评分系统</p>
+<p>现在你已经理解了这个代码库，也理解了探索是如何运作的。是时候真正动手构建一些东西了。</p>
+<p>你要创建一个课程评价系统，让学生可以给课程留下星级评分。这是一个刻意做得有分量的功能——它会触及数据库 schema、迁移（migration）、服务层、路由和 UI 组件。但它的范围划分得很清楚，不需要复杂的 UI 工作。</p>
+<p>在开始构建之前，先说明：这个练习是课程后续内容的基线。你会看到直接向 agent 下提示词时会发生什么。后面的课程会教你怎么改进这种做法。现在，请在 agent 工作时密切留意 context 的消耗情况，并观察你手头这套配置是如何探索代码库的。</p>
+<h2>你的任务（Your Task）</h2>
+<p>构建一个课程评价系统，需求如下：</p>
+<ul>
+<li>学生可以给课程留下 <strong>1-5 星评分</strong>（暂时没有文字评价）</li>
+<li>评分以<strong>全局平均分</strong>的形式呈现，对所有用户可见</li>
+<li>平均分同时显示在课程列表页和课程详情页上</li>
+<li>学生在课程页面上能看到选择星级评分的入口</li>
+</ul>
+<p>想一想用户会看到什么，然后从这里倒推。</p>
+<h2>完成步骤（Steps To Complete）</h2>
+<h3>准备你的提示词（Set Up Your Prompt）</h3>
+<ul>
+<li>在仓库中打开你的 agent</li>
+</ul>
+<p>仓库已经配置完毕、随时可用。你要用提示词指挥 agent 构建这个功能。</p>
+<h3>思考这个功能（Think About the Feature）</h3>
+<p>在你写下提示词之前，先考虑：</p>
+<ul>
+<li>星级评分组件应该出现在哪里？</li>
+<li>平均分应该如何计算和存储？</li>
+<li>哪些数据库表和 API 路由需要改动？</li>
+<li>对「谁能评分」是否需要限制（比如，讲师能否给自己开设的课程评分）？</li>
+</ul>
+<p>不要过度设计，把用户流程想一遍就好。</p>
+<h3>撰写你的提示词（Write Your Prompt）</h3>
+<ul>
+<li>写一条清晰、简洁的提示词，请 agent 构建课程评价系统</li>
+</ul>
+<p>保持聚焦。要提到：</p>
+<ul>
+<li>学生可以留下星级评分（1-5 星）</li>
+<li>评分要以平均分的形式显示在课程列表页和课程页面上</li>
+<li>只做星级评分（没有文字评价）</li>
+</ul>
+<h3>运行构建（Run the Build）</h3>
+<ul>
+<li>把提示词发给 agent，让它去构建</li>
+</ul>
+<p>在 agent 工作的过程中，观察：</p>
+<ul>
+<li><strong>Context 消耗</strong>：盯着 context 计数器一路上涨。哪类改动最消耗 context？</li>
+<li><strong>探索</strong>：agent 是派出了一个 subagent 去探索，还是在自己的主窗口里探索？</li>
+<li><strong>文件改动</strong>：它动到了多少个文件？是在新增文件，还是在修改已有文件？</li>
+</ul>
+<h3>验证功能是否正常（Verify the Feature Works）</h3>
+<ul>
+<li>用 <code>npm run dev</code> 启动 dev server</li>
+</ul>
+<p>构建完成后，测试这个功能：</p>
+<ul>
+<li>以学生身份登录（如果可用，用 dev UI 切换用户）</li>
+<li>导航到某个课程页面</li>
+<li>找到星级评分组件</li>
+<li>留下一个评分</li>
+<li>检查平均分是否显示在课程列表页和课程详情页上</li>
+<li>刷新页面，验证评分得以保留</li>
+</ul>
+<h3>观察基线（Observe the Baseline）</h3>
+<ul>
+<li>把发生的事情记录下来</li>
+</ul>
+<p>这就是你的基线。在后面的课程里，你会学到让这一流程更顺畅、更高效的技术。现在，先记录下：</p>
+<ul>
+<li>修改或新建了多少个文件？</li>
+<li>实现的质量如何？</li>
+<li>agent 有没有做出什么你没料到的假设？</li>
+<li>对这种做法你会做出哪些改进？</li>
+</ul>
+<h1 id="lesson-10">构建一个功能：解法（Build a Feature Solution）</h1>
+<p>Commit Map（提交对照）</p>
+<p>make-a-schema-change
+本课起点：还没有任何评分功能时的仓库</p>
+<p>course-star-ratings
+查看我的解法：星级评分功能，已包含打包 bug 的修复</p>
+<p>这次 session 的基石是一条清晰的功能需求：一个课程评价系统，学生可以留下星级评分（没有文字评价，只有评分）。这些评分应当在课程出现的所有地方都可见，平均分同时显示在课程列表页和单个课程页面上。</p>
+<h2>开始构建（Starting the Build）</h2>
+<p>手握一条扎实的提示词，agent 开始探索。它从读取代码库结构入手，弄清楚怎样有效实现这个功能。在最初几轮交互之内，它就已经消耗了大约 20k tokens，翻看了配置文件、测试文件和整体结构。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724339/ai-hero-images/offqibxtnjm9ktobkjdx.png" alt="agent 开始探索代码库结构"></p>
+<p>agent 开始探索代码库结构</p>
+<h2>开始实现（Implementation Begins）</h2>
+<p>agent 满怀信心地直接跳进实现，没有提出任何澄清问题。下面是它攻克这个功能的顺序：</p>
+<ol>
+<li><p><strong>Schema</strong>——在 SQLite 中创建一张 <code>course_ratings</code> 表，包含 <code>userId</code>、<code>courseId</code> 和 <code>rating</code>（1-5 的整数）字段。它还添加了一个迁移脚本来应用这次 schema 变更。</p>
+</li>
+<li><p><strong>Service layer</strong>——构建 <code>courseRatingService</code>，其中包含 <code>rateCourse</code>（插入或更新）、<code>findRating</code>，以及用于计算平均分的 <code>getCourseRatingSummary</code> 等函数。</p>
+</li>
+<li><p><strong>Test coverage</strong>——为该服务编写了 17 个测试来验证行为。</p>
+</li>
+<li><p><strong>React components</strong>——创建了用于展示平均分的 <code>StarRating</code>，以及用于交互式提交评分的 <code>StarRatingInput</code>。</p>
+</li>
+<li><p><strong>Integration</strong>——把评分组件接入课程列表页和课程详情页。</p>
+</li>
+</ol>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724340/ai-hero-images/vpatmro2t99njzlcu5rn.png" alt="生成的 schema，展示 course_ratings 表结构"></p>
+<p>生成的 schema，展示 course_ratings 表结构</p>
+<h2>验证与测试（Verification and Testing）</h2>
+<p>agent 没有只把代码交付了事，而是多走了几步：</p>
+<ul>
+<li>跑完整个测试套件，295 个测试全部通过</li>
+<li>用 TypeScript 的 <code>typecheck</code> 验证所有类型正确无误</li>
+<li>改进 seed 脚本，让测试数据带上评分</li>
+<li>启动 dev server，并使用 <code>curl</code> 执行冒烟测试</li>
+</ul>
+<p>为了确认实现真的可以工作，它向运行中的 dev server 发起 HTTP 请求，并在响应中 grep &quot;Rated&quot; 字样，确认评分出现在了页面上。</p>
+<pre><code>curl -s http://localhost:5173/courses | grep -o &#39;Rated [^&quot;]*&#39; | head -5
+</code></pre>
+<p>这种自动化验证表明，agent 思考的是自己的工作是否真正解决了问题，而不只是能不能通过编译。</p>
+<h2>构建总结（The Build Summary）</h2>
+<p>做完这一切之后，agent 给出了所构建内容的总结：</p>
+<ul>
+<li>一张 <code>course_ratings</code> 表组成的 schema，并在 <code>(user_id, course_id)</code> 上建立唯一索引，使用户对每门课程只能评分一次</li>
+<li>带校验、upsert 逻辑和批量查询函数的 service</li>
+<li>既负责展示也负责提交评分的组件</li>
+<li>集成进课程列表页和课程详情页</li>
+<li>更新了 seed 数据，为 6 门课程加入了评分</li>
+<li>完整的端到端验证</li>
+</ul>
+<p>整个功能消耗了大约 75k tokens，完全落在 agent 工作的 smart zone 之内。</p>
+<h2>查看结果（Viewing the Results）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724341/ai-hero-images/hhdvz51fog3l8baszycu.png" alt="课程列表页面现在在每个课程下方显示星级评分"></p>
+<p>课程列表页面现在在每个课程下方显示星级评分</p>
+<p>在浏览器中加载应用，可以看到评分如预期般工作。每门课程都醒目地展示自己的平均分。</p>
+<h2>关键 Bug（The Critical Bug）</h2>
+<p>但问题来了。交互测试时，dev UI 停止了响应，用户切换器也失灵了。点击修改评分会让整个页面刷新，而不是即时更新。有什么地方严重不对劲。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724342/ai-hero-images/tjvdpvmbmvrxc4rdp5nq.png" alt="浏览器控制台显示 promisify 错误"></p>
+<p>浏览器控制台显示 promisify 错误</p>
+<h2>诊断问题（Diagnosing the Issue）</h2>
+<p>打开浏览器开发者控制台，铁证浮现：一个未捕获的 <code>TypeError: promisify is not a function</code>。这是一个经典的 React Router / Vite 打包（bundling）问题。</p>
+<pre><code>Uncaught TypeError: promisify is not a function
+at node_modules/better-sqlite3/lib/methods/backup.js
+</code></pre>
+<p>这个错误说明 <code>better-sqlite3</code>（数据库驱动）不知怎么被打进了浏览器 JavaScript。浏览器环境里没有 <code>util.promisify</code> 这类 Node.js 工具，于是代码崩溃了。</p>
+<h2>把 Bug 反馈回去（Posting the Bug Back）</h2>
+<p>我复制了控制台错误，把它连同一条消息一起贴回给 agent：&quot;This is happening in the browser console, and it&#39;s making things go weird.&quot;</p>
+<h2>agent 的诊断（The Agent&#39;s Diagnosis）</h2>
+<p>agent 迅速定位到了根本原因：</p>
+<p>发现得好，这是我的 bug。<code>star-rating.tsx</code>（一个客户端组件）从 <code>courseRatingService</code> 导入了 <code>MAX_RATING</code>，而后者又导入了数据库模块。这等于把整个数据库驱动拖进了浏览器 bundle。</p>
+<p>这个问题出在架构层面：客户端组件不应该从依赖 server-only 代码的模块中导入内容。虽然 React Router 通常会在客户端构建中剥离 <code>loader</code> 和 <code>action</code> 函数，但当组件直接从使用数据库的 service 导入时，它就无能为力了。</p>
+<h2>修复（The Fix）</h2>
+<p>解法干净而极小：把评分常量挪进一个零服务端依赖的模块：</p>
+<pre><code>// app/lib/ratings.ts
+// Rating bounds live here rather than in courseRatingService so that client
+// components can import them without pulling the database driver into the
+// browser bundle.
+
+export const MIN_RATING = 1;
+export const MAX_RATING = 5;
+</code></pre>
+<p>现在 <code>star-rating.tsx</code> 改为从 <code>app/lib/ratings.ts</code> 导入，而不是从 service 导入。组件拿到了它需要的东西，却不会触发一整条依赖链。</p>
+<h2>修复后的验证（Verification After the Fix）</h2>
+<p>更新代码之后，agent 通过以下方式验证修复：</p>
+<ul>
+<li>检查 Vite dev server 的模块转换输出</li>
+<li>在生产 bundle 中 grep <code>better-sqlite3</code>（结果为零处）</li>
+<li>再次测试应用，确认交互功能正常</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724343/ai-hero-images/ggnsayu4mauz2wt74895.png" alt="课程页面现在即时更新评分，无需整页刷新"></p>
+<p>课程页面现在即时更新评分，无需整页刷新</p>
+<p>dev UI 恢复了正常响应，用户切换器好用了，点击星标给课程评分会即时更新平均分，而不是触发整页重新加载。</p>
+<h2>总结：哪些对了，哪些错了（Summary: What Went Right and Wrong）</h2>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>探索</td>
+<td>彻底，无需 subagent</td>
+</tr>
+<tr>
+<td>实现</td>
+<td>完整的端到端功能</td>
+</tr>
+<tr>
+<td>测试</td>
+<td>全面：单元、类型、集成、冒烟测试</td>
+</tr>
+<tr>
+<td>Token 消耗</td>
+<td>构建约 75k，总计约 90k（smart zone 之内）</td>
+</tr>
+<tr>
+<td>生产环境 bug</td>
+<td>交付了一个严重的打包问题</td>
+</tr>
+<tr>
+<td>Bug 修复</td>
+<td>得到反馈后迅速定位并解决</td>
+</tr>
+</tbody></table>
+<p>agent 展现出了扎实的工程实践：探索、测试驱动开发、验证，以及从反馈中学习的能力。但它也确实交付了一个破坏交互功能的 bug，这说明它在推理现代框架中客户端与服务端的边界时仍存在盲区。</p>
+<p>总的来说，我会说这次表现不算出色。不过我认为肯定还有可以改进的地方，接下来我们就来处理这些问题。</p>
+<h1 id="lesson-11">为什么 plan mode 很糟糕（Why Plan Mode Sucks）</h1>
+<p>在上一课里，我们看到了 agent 在常规条件下的表现。结果并不理想。真正让我不安的是那个模式：一条提示词进去，agent 探索了代码库，随即就开始实现。</p>
+<p>它没有和我们核实自己要造的东西对不对。AI 与我们之间也没有任何建立对齐的尝试。</p>
+<p>那一轮我们其实算是走运。agent 把我们想要的东西做得相当不错。有一些小问题和关键的 bug，但总之能用。然而，这种急于产出成品的冲劲在 AI 编码里非常危险，也是我一直努力踩刹车的地方。</p>
+<h2>plan mode：探索与实现之间的缓冲区（Plan mode: a buffer between exploration and implementation）</h2>
+<p>大多数 agent 都自带一个叫 <strong>plan mode（计划模式）</strong> 的东西。plan mode 的本意是在任何工作开始之前，先进行一轮规划 session。这轮规划 session 会产出一份计划文档，你阅读、审阅，然后决定是否继续（也可以带着修改继续）。只有当你对计划满意了，才往下走。</p>
+<p>让我给你演示这在实践中是怎么运作的。</p>
+<pre><code>npm run reset
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724469/ai-hero-images/vnwqiydtjqeik72mz6yl.png" alt="终端输出显示 npm run reset"></p>
+<p>终端输出显示 npm run reset</p>
+<p>这会把代码库重置回 main 分支，并清掉上一课里已有的课程评分实现。</p>
+<p>接着，我会打开 agent，用 <code>shift+tab</code> 在各个 permission mode（权限模式）之间循环切换，直到输入框底部显示 &quot;plan mode on&quot;，以此启用 plan mode。</p>
+<p>现在我把当初那条提示词粘贴进去：</p>
+<pre><code>I would like to create a course review system where students can review courses by leaving a star rating. We don&#39;t want to add written reviews, just star rating. These reviews will then be visible everywhere that courses are visible. We want to show the average rating on the courses in the list page and on the course page itself.
+</code></pre>
+<p>提交之后，agent 应该会先探索代码库来理解结构，然后带着一份计划回来。这个 plan mode 就像是探索与实现之间的一个小缓冲——一个让我们在继续之前先对齐的时刻。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724470/ai-hero-images/obq7zhdtilsfmhiojwt5.png" alt="plan mode 期间 agent 探索代码库"></p>
+<p>plan mode 期间 agent 探索代码库</p>
+<h2>它生成的计划（The plan it generates）</h2>
+<p>现在 agent 完成了探索，正在撰写计划。大多数 agent 处理 plan mode 的方式都与此大致相同，不同工具之间的行为也比较相似。</p>
+<p>我可以输入 <code>/plan</code> 来查看这份计划：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784724471/ai-hero-images/s91ltu5z2habcofjeeyt.png" alt="终端显示 /plan 命令的输出"></p>
+<p>终端显示 /plan 命令的输出</p>
+<p>它给了我一份相当详细的输出，涵盖 agent 打算做的每一件事，还附带了几个关键决策：</p>
+<ul>
+<li><strong>一门课程一个用户只能评一次分</strong>——合理</li>
+<li><strong>平均分在读取时计算</strong>——看起来没问题</li>
+<li>**空状态：**评分为零的课程显示 &quot;No ratings yet&quot;，而不是零颗星——合理</li>
+<li>**谁能评分：**仅限已选课的用户——合理</li>
+</ul>
+<h2>关键问题：plan mode 依然在赶（The critical issue: plan mode is still rushing）</h2>
+<p>问题在这里：agent 没有急着产出实现，而是急着产出了一份计划——而这份计划读起来跟实现方案一模一样。</p>
+<p>它已经把即将执行的实现原封不动地端给了我：</p>
+<ul>
+<li>数据库表结构</li>
+<li>Service 的命名与函数</li>
+<li>组件命名</li>
+<li>路由改动</li>
+<li>测试策略</li>
+</ul>
+<p>它依然在急着产出一件成品。只不过现在这件成品是计划，不再是代码。</p>
+<h2>根源：agent 的 sycophancy 特性（The root cause: sycophantic trait of agents）</h2>
+<p>这种「提前宣布完成」的感觉、这种一路冲向终点的急躁，是 agent 的 sycophancy（谄媚）特性。当你告诉它你要产出一个东西，它就会径直去把那样东西生产出来。</p>
+<p>它未必会停下来确认：自己是否已经做足了前期功课，确保你们就「它应该长什么样」达成了一致。</p>
+<p>这真的很糟，因为它会导致一个反复出现的失败模式：agent 造出了错误的东西。</p>
+<p>对课程评分这种相对简单的功能来说，影响还不算大。但换成更复杂的功能，这就真的非常要紧了。</p>
+<h2>这在实践中意味着什么（What this means in practice）</h2>
+<p>想象一下，如果一个人类开发者也这样行事。他只丢下一句「会，我知道怎么造」，然后就直接动手了。这将不存在任何对齐，也完全感受不到一种共享理解正在逐步形成。</p>
+<p>Frederick P. Brooks Jr.（《The Mythical Man-Month》的作者）在《The Design of Design》这本书里提出了一个概念，叫 <strong>design concept（设计共识）</strong>。</p>
+<p>design concept 不是一件成品。它是人们一起设计某样东西时，飘荡在房间里的那个概念。每个人对它的想象都略有不同，但随着对话推进、随着你们一起努力搞清楚要造的是什么，一切开始变得清晰、锐利。</p>
+<p>无论在 plan mode 里，还是在我们前面看到的那种做法里，都不存在 design concept。没有一个时刻让彼此停下来核对：我们是否真的就「在造什么」达成了一致。</p>
+<p>第一次跑的时候我们拿到了一个还过得去的结果，但我敢保证，换成更复杂的功能，这很快就会出岔子。</p>
+<h2>另一种方法（A different approach）</h2>
+<p>我设计的方法试图绕开这个问题。它移除了那种谄媚式的成品冲刺。我希望你最终收获的，是一种与 agent 对齐感更强的体验——就像你们俩读的是同一页剧本。</p>
+<p>我会在下一课讲解这个方法。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你在 plan mode 下提交了一个功能请求。agent 探索之后交回一份计划，上面写明了数据库表、service 函数、组件和测试策略。这有什么问题？</p>
+<ul class="quiz-choices">
+<li class="correct">它又一次急着产出成品——这份计划就是实现</li>
+<li>它太模糊，没法审阅，你无法判断这个方案</li>
+<li>它跳过了对代码库的探索，所以这份计划是瞎猜的</li>
+<li>它无法修改，你只能原样接受这份计划</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你说出你想要的东西，agent 就去把它生产出来，从不停下来确认你们对它该长什么样看法一致。这是 agent 的哪种特性？</p>
+<ul class="quiz-choices">
+<li class="correct">Sycophancy——你要什么就产出什么</li>
+<li>Hallucination——凭空编造毫无来源的事实</li>
+<li>Non-determinism——每次运行表现都不同</li>
+<li>Degradation——session 越长越失焦</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你和一位同事把一个功能从头聊到尾，直到你们俩脑中的画面完全一致，而且什么都没写下来。你们拥有的是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">一个 design concept——共享的理解，而不是一件成品</li>
+<li>一份可以用来对照检查实现的规格说明</li>
+<li>一份计划文档，只不过以非正式的口头形式存在</li>
+<li>在你们其中一人把决策写下来之前，什么可用的东西都没有</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# Grill-Execute-Clear 循环（The Grill-Execute-Clear Loop）<p>Commit Map（提交对照）</p>
+<p>grill-me-skill
+本课起点：<code>.agents/skills/</code> 中新增的 <code>/grill-me</code> skill</p>
+<p>lesson-comments
+查看我的解法：基于 grilling 得出的 spec 构建的课程评论功能</p>
+<p>在开始构建功能之前，你得先弄明白自己要构建的究竟是什么。大多数开发者会跳过这一步，一头扎进代码里，结果往往是白白浪费时间，做出来的方案也不太贴合问题本身。</p>
+<p><code>/grill-me</code> skill 会强迫你停下来。它会毫不留情地「面试」你，直到你们对要构建的东西达成共享理解为止。只有到那时才开始实现。</p>
+<p>这就是 grill-execute-clear 循环：先 grill 到理解透彻，再 execute 出解决方案，然后 clear 掉脑中的负担，转向下一个功能。</p>
+<h2>grilling 技能（The Grilling Skill）</h2>
+<p>grilling skill 的工作原理是构建一棵 design tree（设计树）。每个决策都会分叉出挂在其下的其他决策。</p>
+<p>它按轮次提问。所谓 frontier（边界），指的是所有前置条件均已敲定的那些决策。skill 会一次性把整个 frontier 上的问题全部抛出，然后等待你的回答。</p>
+<p>随着你作答，frontier 不断扩张。新的问题被解锁，先前被阻塞的决策变得可以回答。</p>
+<p>当 frontier 清空时，session 便告结束：每条分支都被访问过，没有任何东西被悄悄假设。只有在这之后，你才应该动手实现。</p>
+<h2>你的任务（Your Task）</h2>
+<p>为课程平台构建课程评论功能。学生和讲师应该能在单个课程页面上发表评论。</p>
+<p>想象一下你浏览到「Connecting to a Database」或「CRUD Operations」这样的课程页面。在这个页面上，学生应该能提问、分享心得，并与其他学生和讲师讨论课程内容。</p>
+<p>这个练习刻意保持开放，就像之前课程星级评分的练习一样。但这一次，你不再急着实现，而是先用 <code>/grill-me</code> 去探索这个功能的空间。</p>
+<p>skill 会问你这样的问题：</p>
+<ul>
+<li>谁能评论？只有已选课的学生？讲师也可以吗？</li>
+<li>用户能编辑或删除自己的评论吗？</li>
+<li>评论应该做成嵌套串（threaded），还是平铺（flat）？</li>
+<li>评论需要审核（moderation）吗？</li>
+<li>有人回复时，用户应该收到通知吗？</li>
+</ul>
+<p>这些问题你未必全想过。而这正是意义所在。grilling 过程会在你写下任何代码之前，把需要做的决策统统摆上台面。</p>
+<h2>完成步骤（Steps To Complete）</h2>
+<h3>获取 skill（Get the Skill）</h3>
+<ul>
+<li>运行 <code>npm run reset</code>，拉入 <code>/grill-me</code> skill</li>
+</ul>
+<pre><code>npm run reset
+</code></pre>
+<p>这会把仓库更新到当前这一课的 commit，其中就包括 <code>.agents/skills/</code> 目录里的 grilling skill。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726659/ai-hero-images/grl7ta1sfdt5yxdykxuw.png" alt="运行 npm run reset 后，编辑器中显示的 grilling skill 文件"></p>
+<p>运行 npm run reset 后，编辑器中显示的 grilling skill 文件</p>
+<h3>调用 skill（Invoke the Skill）</h3>
+<ul>
+<li>清空终端，运行你的 agent</li>
+</ul>
+<p>在你的 agent harness 里，具体怎么调用 skill 取决于你的配置。对命令行 agent 来说，通常是输入 <code>/</code> 再跟上 skill 名称。</p>
+<ul>
+<li>输入 <code>/</code> 打开 skill 选择器，然后选中 <code>grill-me</code></li>
+</ul>
+<p>这会调用 grilling skill，让你进入「面试模式」。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726660/ai-hero-images/qollr9ryuqvfb8mrdidz.png" alt="终端显示 skill 选择器，选中了 grill-me"></p>
+<p>终端显示 skill 选择器，选中了 grill-me</p>
+<h3>开始讨论（Start the Discussion）</h3>
+<ul>
+<li>就课程评论写一条宽松、不求全面的提示词</li>
+</ul>
+<p>这一步不需要面面俱到。agent 会主动提出澄清问题。</p>
+<pre><code>/grill-me
+I want to add comments to lessons so students can ask questions and discuss.
+</code></pre>
+<p>这会开启一场讨论。agent 会开始构建 design tree，并追问挂在这个功能之下的各项决策。</p>
+<h3>完成 grilling（Work Through the Grilling）</h3>
+<ul>
+<li>agent 每问一轮，就回答一轮</li>
+</ul>
+<p>agent 每一轮会抛出多个问题。在下一轮开始前把它们全部答完。你的回答会重塑 design tree，并解锁新的问题。</p>
+<ul>
+<li>持续进行，直到 frontier 清空</li>
+</ul>
+<p>当 agent 宣布 session 结束、你们已达成共享理解时，就可以动手实现了。</p>
+<p>这可能要经过很多轮。这正是意义所在：在写代码之前，先把问题想透。</p>
+<h3>实现功能（Implement the Feature）</h3>
+<ul>
+<li>达成共享理解之后，实现课程评论功能</li>
+</ul>
+<p>既然你已经清楚要构建什么，就动手写代码吧。</p>
+<ul>
+<li>在浏览器里测试你的实现</li>
+</ul>
+<p>学生和讲师应该能在课程页面上评论。评论应当持久化保存，并对其他用户可见。</p>
+<h3>验证你的工作（Verify Your Work）</h3>
+<ul>
+<li>运行应用，导航到某个课程页面</li>
+</ul>
+<p>选一门你已选的课程，找到「Connecting to a Database」或「CRUD Operations」这样的课程。</p>
+<ul>
+<li>以学生身份添加一条评论</li>
+</ul>
+<p>你的评论应该出现在页面上。</p>
+<ul>
+<li>切换用户，验证评论可见</li>
+</ul>
+<p>切换到另一个用户再回到同一课程时，你刚添加的那条评论应该可见。</p>
+<h1 id="lesson-12">Grill-Execute-Clear 循环：解法（The Grill-Execute-Clear Loop Solution）</h1>
+<p>Commit Map（提交对照）</p>
+<p>grill-me-skill
+本课起点：<code>.agents/skills/</code> 中新增的 <code>/grill-me</code> skill</p>
+<p>lesson-comments
+查看我的解法：完整的课程评论功能</p>
+<p>从一条宽松的提示词出发，你可以用 <code>/grill-me</code> skill 在写下第一行代码之前，先就功能达成对齐。</p>
+<h2>初始提示词（The Initial Prompt）</h2>
+<p>流程从简单开始。告诉 agent 你想构建什么：</p>
+<pre><code>/grill-me I would like to build a lesson comments feature.
+I think students should be able to comment on lessons they
+have access to. Instructors should also be able to comment
+on them as well.
+</code></pre>
+<p>agent 立即启动一个后台任务去摸清你的代码库。它不会等那轮探索结束——而是立刻开始提问。这正是 non-blocking（非阻塞）设计模式的实战运作。</p>
+<h2>第一轮：战略性问题（Round 1: The Strategic Questions）</h2>
+<p>问题接连不断地涌来。这些不是实现细节，而是设计决策。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726931/ai-hero-images/bu6pbikyisxkvjlplbu2.png" alt="显示出来的第一批 grilling 问题"></p>
+<p>显示出来的第一批 grilling 问题</p>
+<p>agent 问的是目的（「这个功能到底是干什么用的？」），而不仅仅是机制。它探索边界情况（「没人评论时会怎样？」）。它挑战假设（「为什么要把评论权限限制在有访问权的学生身上？」）。</p>
+<p>每个问题都附带一条建议。你不必照单全收——你的任务是把它想清楚，然后做出决定。</p>
+<h2>如何回答（How to Answer）</h2>
+<p>你不必逐题作答。你可以口述一整段话，把所有答案一并覆盖。</p>
+<p>以下是我对收到的问题给出的回答：</p>
+<pre><code>I would say this feature is for Q&amp;A and support, with a bit of community and discussion.
+I&#39;d say that having a comment section that&#39;s healthy is really useful for students.
+I think I don&#39;t mind a comments box with zero comments.
+We probably want to design an empty state that looks nice and makes students not turned off from commenting, that encourages them to comment.
+I am not actually the teacher in this situation.
+This is for other teachers.
+I think the expectation of a response should be there.
+I think I would prefer to build it.
+It&#39;s just weird to discuss a lesson that you can&#39;t see, and it&#39;s part of the paid-only perks.
+To be honest, all three of those seem fine.
+I think one table, one comments feature, the instructor gets a badge.
+Yep, your recommendation makes sense.
+</code></pre>
+<p>agent 吸收你的回答，准备下一轮。</p>
+<h2>第二轮：实现层（Round 2: The Implementation Layer）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726932/ai-hero-images/ct3hyjqe8nklz2pflxk3.png" alt="第二轮问题，关于 threading 模型与评论行为"></p>
+<p>第二轮问题，关于 threading 模型与评论行为</p>
+<p>现在的问题开始深入结构：threading 模型、编辑权限、排序、通知策略。</p>
+<p>以下是我对收到的问题给出的回答：</p>
+<pre><code>For the threading model, I think we just want a flat list, first of all.
+I don&#39;t want to have an explicit resolution state.
+I don&#39;t think we need that in v1.
+The instructor should have a dedicated queue page on their dashboard that lists every unanswered question.
+I guess, since we&#39;ve decided that we&#39;re not having an explicit resolution state, it should be that every thread where there&#39;s a recent comment that they&#39;ve not seen or not replied to.
+</code></pre>
+<h2>当 agent 反驳你时（When the Agent Pushes Back）</h2>
+<p>在第三轮中，agent 抓住了你回答里的一个矛盾：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726933/ai-hero-images/enpp42cqab5fxatodj8h.png" alt="agent 指出 flat list 与队列需求之间的矛盾"></p>
+<p>agent 指出 flat list 与队列需求之间的矛盾</p>
+<p>你选了 flat list（平铺列表）。你也选了不要显式的 resolution（已解决）状态。但你又要求有一个未回答问题的队列。</p>
+<p>在 flat list 里，每条评论都是顶层的，没有任何东西指向其他东西。那你怎么把某个问题标记成「已回答」？</p>
+<p>agent 强迫你做出决定。它给出三个选项：</p>
+<ol>
+<li>恢复单层回复（父子关系）</li>
+<li>保持 flat，在课程层面定义「未回答」</li>
+<li>保持 flat，增加显式的已读状态（seen-state）</li>
+</ol>
+<p>你选了选项 1。对于讲师与学生之间的互动关系来说，单层回复是合理的。</p>
+<h2>真正的 bug 浮出水面（The Real Bug Discovery）</h2>
+<p>在你回答问题的同时，后台探索完成了。agent 发现了一个关键的安全问题：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726935/ai-hero-images/raejvrzkmsz6tcsit0qp.png" alt="agent 报告 markdown 渲染中的 XSS 漏洞"></p>
+<p>agent 报告 markdown 渲染中的 XSS 漏洞</p>
+<p><code>renderMarkdown</code> 函数没有做任何 sanitization（净化处理）。原始 HTML 会原样通过。学生可以在评论里注入一个 script 标签，它就会在讲师的会话里执行。</p>
+<p>给出的建议是：创建一个单独的 <code>renderComment()</code> 函数，使用受限的 renderer。只有学生评论需要净化，讲师评论可以渲染完整的 markdown。</p>
+<p>你表示同意。这成为 spec 的一部分。</p>
+<h2>Spec（The Spec）</h2>
+<p>到第四轮时，agent 已经掌握了足够的信息。它产出了一份书面规格说明：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726937/ai-hero-images/aj390dgqynlla7hzmssa.png" alt="agent 产出完整的书面规格说明"></p>
+<p>agent 产出完整的书面规格说明</p>
+<p>你不需要去读它。你在整个 session 里的回答早已把所有决策编码进去。这份 spec 只是一种确认——证明你和 agent 共享着同一份理解。</p>
+<p>不过，如果这场 grilling session 走得比较诡异曲折，你或许还是想快速浏览一遍。就本例而言，一切都感觉对得上。</p>
+<h2>最后一击（One Last Push）</h2>
+<p>agent 就队列排序提出了最后一个反对意见：</p>
+<p>队列排序——你的论述与你自己的选择相矛盾。你想要 newest-first（最新在前），<em>好让被误标的条目漂走。<em>但这个队列里只包含没有任何工作人员回复的条目。没有什么会漂_走</em>，只会往下_沉</em>。</p>
+<p>你无需回应，只需说：</p>
+<pre><code>Okay, let&#39;s start building.
+</code></pre>
+<p>agent 自己解决了这个问题，随即进入执行模式。</p>
+<h2>构建开始（The Build Happens）</h2>
+<p>不清空 context，不从零再来。你把 grilling 得来的全部 context 留在 session 里，直接跳进实现。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726938/ai-hero-images/eygkseakympj4ikiyvqc.png" alt="agent 在 context 仍留在 session 中的同时构建功能"></p>
+<p>agent 在 context 仍留在 session 中的同时构建功能</p>
+<p>agent 埋头苦干了 14 分 28 秒。到最后，你得到的是 362 个通过的测试、一次干净的 typecheck，以及 VS Code 里一个能跑的功能。</p>
+<p>这一切都发生在远未触及 context 上限的情况下——构建结束时大约在 155k tokens，还有富余。</p>
+<h2>在浏览器里做质量保证（Quality Assurance in the Browser）</h2>
+<p>你在浏览器里打开这个功能。一个学生（Olivia Martinez）发了一条评论：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726939/ai-hero-images/kmsy3kwhhv84aiffvxcr.png" alt="学生在课程上发表评论"></p>
+<p>学生在课程上发表评论</p>
+<p>你切换到讲师（Marcus Johnson）进行回复：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726940/ai-hero-images/jnrmswl67n6adshvoiuh.png" alt="讲师回复学生评论"></p>
+<p>讲师回复学生评论</p>
+<p>你可以编辑自己的评论。编辑后 UI 会显示「(edited)」：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726941/ai-hero-images/xcnemhz1dcco7agfxnnz.png" alt="评论显示已编辑状态"></p>
+<p>评论显示已编辑状态</p>
+<p>你可以删除评论。系统会留下一块墓碑（tombstone）：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726941/ai-hero-images/ar2m61616prgmtp6xhx3.png" alt="已删除的评论显示墓碑，回复仍然可见"></p>
+<p>已删除的评论显示墓碑，回复仍然可见</p>
+<p>讲师有一个专门的 Questions（问题）队列：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784726942/ai-hero-images/ywfj7pcyplwaupddqzng.png" alt="讲师问题队列页面，显示未回答的问题"></p>
+<p>讲师问题队列页面，显示未回答的问题</p>
+<p>每个未回答的问题都会出现在这里。Olivia 的「how are you?」排在最上面，下面还有来自 Liam Thompson 的另一个问题。</p>
+<p>讲师可以就地回复，不必离开队列页面。</p>
+<h2>构建出的东西（What Gets Built）</h2>
+<p>完整的功能交付了：</p>
+<ul>
+<li>数据库里的一张 <code>comments</code> 表</li>
+<li><code>access.server.ts</code> 中的一个 <code>getAccess</code> 辅助函数（也就是 grilling 时讨论代码质量时敲定的那个共享守卫）</li>
+<li><code>comment-markdown.server.ts</code> 中一个经过净化的 <code>renderComment()</code> 函数，附带 19 个测试</li>
+<li>一个 <code>commentService</code>，用 48 个测试覆盖了全部业务逻辑</li>
+<li>一个带空状态（empty state）的评论串 UI 组件</li>
+<li><code>/instructor/questions</code> 路径下的讲师问题队列页面</li>
+<li>种子数据：9 个评论串共 15 条评论，其中 4 条未回答</li>
+</ul>
+<p>一切都有测试，一切都有类型。working tree 处于 dirty 状态，随时可以进入 review。</p>
+<h2>为什么这比直接实现更好（Why This Works Better Than Direct Implementation）</h2>
+<p>如果不做 grilling，你可能会构建出：</p>
+<ul>
+<li>没有空状态（零评论时页面长什么样？）</li>
+<li>没有讲师队列（讲师得自己去翻课程找问题）</li>
+<li>没有 XSS 净化（一个真实存在的安全漏洞）</li>
+<li>带已读状态的 flat list（比回复更复杂）</li>
+<li>学生端渲染完整 HTML（危险）</li>
+</ul>
+<p>grilling 让你在写代码_之前_就把这一切想清楚了。实现于是变得轻而易举，因为困难的决定早已做出。</p>
+<p>这就是对齐的力量。agent 并不是在耍聪明。它是在努力理解你真正想要什么，并借助压力（矛盾、边界情况、安全问题）把这种理解逼到明面上来。</p>
+<p>然后，它完全按照你们谈定的东西去构建。</p>
+<h2>这个循环（The Loop）</h2>
+<p>这就是 grill-execute-clear 循环的一个周期：</p>
+<ol>
+<li><strong>Grill</strong>：不断提出澄清问题，直到你和 agent 共享同一个心智模型</li>
+<li><strong>Execute</strong>：满怀信心地构建功能，context 还热乎着</li>
+<li><strong>Clear</strong>：功能做完并提交之后，清空 context，再开始下一个任务</li>
+</ol>
+<p>下一次你再开工做别的东西时，是从全新状态出发。session 历史已经不在了。但在那之前的那场 grilling session 给你留下的，恰恰就是你正需要的东西。</p>
+<h1 id="lesson-13">Compaction 压缩（Compaction）</h1>
+<p>用 agent 构建功能时，你迟早会抵达 smart zone（聪明区）的尽头——也就是 context window 中 model 表现最好的那一段。接下来会发生什么？</p>
+<p>如果你继续待在同一个 session 里，结果会慢慢劣化。agent 每次请求都会把之前所有的 token 一并送上。这些 token 因为已被缓存而更便宜，但你仍在一个延迟更高、能力更弱的环境里工作。</p>
+<p>更关键的问题是：这些 token 里到底有多少真正有用？其中一大块只是干活过程本身产生的噪音——读文件、写文件，以及项目推进途中处于各种中间状态的文件。</p>
+<h2>天真的解法：从零开始（The Naive Solution: Starting Fresh）</h2>
+<p>一个选项是彻底清空 context，开一个新 session。但这有一个隐性代价。</p>
+<p>清空 context 后，agent 会丢失最初对话中至关重要的理解。它必须重新探索、重新建立起之前知道的一切。你可能会这样提示它：</p>
+<pre><code>we are going to do QA on the stuff that&#39;s literally just been worked on.
+Can you go and explore it so you understand the reasons behind its existence?
+</code></pre>
+<p>agent 会去做那番探索，但它已经丢掉了你们最初对话里的一些关键推理。</p>
+<p>它可以重新探索代码、重读你构建的东西，但这种重新探索是有损的——你当初为什么这么建，那份真实的 <em>why</em> 已经丢掉了大半。</p>
+<h2>初识 Compaction（Introducing Compaction）</h2>
+<p>这正是 <strong>compaction</strong>（压缩）登场的地方。compaction 不把 context 整个清掉，而是取当前 session 的 context，把它挤压浓缩，再用它去 seed（播种）一个全新的 session。</p>
+<p>你可以把它想成一次由你掌控的、session 与 session 之间的 handoff——类似使用 subagent（子智能体），只是方向相反。session 历史被总结成摘要，然后作为种子生成一个你可以继续工作的全新 session。</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>Tokens</th>
+<th>质量</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>继续当前 session</td>
+<td>156k+</td>
+<td>完整 context，噪音很多</td>
+<td>高延迟，dumb zone 结果</td>
+</tr>
+<tr>
+<td>清空重来</td>
+<td>~5k</td>
+<td>一张白纸</td>
+<td>一切都要重新探索，理解有损</td>
+</tr>
+<tr>
+<td>Compaction</td>
+<td>~28k</td>
+<td>摘要化的 context</td>
+<td>有损压缩，二手来源</td>
+</tr>
+</tbody></table>
+<p>Compaction 省掉了重新探索。没有它，你得烧掉大量 token，只为重新发现那些你早就建立好的 context。</p>
+<h2>Compaction 实战（How Compaction Works in Practice）</h2>
+<p>在你的 agent 里，运行 <code>/compact</code> 命令并附上一条总结指令：</p>
+<pre><code>/compact Yeah, we&#39;re going to do some QA in this area.
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727213/ai-hero-images/ohchylfupfecbxkjykji.png" alt="运行 /compact 命令并附上总结指令"></p>
+<p>运行 /compact 命令并附上总结指令</p>
+<p>这条指令很重要。执行总结的是一个语言 model，它需要 context 才知道该突出哪些相关信息。你的指令不必详细——一句话往往就够了。</p>
+<p>启动 compaction 时，agent 会显示一个正在压缩对话的 UI。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727214/ai-hero-images/u1ode6xn0r2sg4nl1jvj.png" alt="Compaction UI 显示进度"></p>
+<p>Compaction UI 显示进度</p>
+<p>这里有个实用技巧：你可以在 compaction UI 里排队消息。compaction 一结束，排队的消息就会自动执行——完全不用干等。</p>
+<h3>会被保留的内容（What Gets Preserved）</h3>
+<p>compaction 完成后，会输出一份包含若干关键要素的摘要：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727215/ai-hero-images/y8tuacsohb14aaw8o2tk.png" alt="Compaction 完成后的输出，带有文件引用"></p>
+<p>Compaction 完成后的输出，带有文件引用</p>
+<ul>
+<li><strong>Primary request and intent（原始请求与意图）</strong>——你最初要求的是什么</li>
+<li><strong>Full agreed spec（完整商定的 spec）</strong>——你确认过的全部决策</li>
+<li><strong>Key technical concepts（关键技术概念）</strong>——重要的领域知识</li>
+<li><strong>File references（文件引用）</strong>——指向关键文件的指针，外加一些原样保留的文件</li>
+<li><strong>Errors and fixes（错误与修复）</strong>——哪里出了问题、你怎么解决的</li>
+<li><strong>Problem solving（问题求解）</strong>——你的思路与推理</li>
+<li><strong>All user messages（全部用户消息）</strong>——你说过的每一句话</li>
+<li><strong>Pending tasks（待办任务）</strong>——尚未完成的工作</li>
+</ul>
+<p>token 压缩的效果是这样的：</p>
+<p>原始 session 约 156,000 tokens，compaction 摘要把它压到了大约 28,300 tokens。150k 变成了 30k——让你在 smart zone 里重新获得大量空间。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727216/ai-hero-images/hvti9dpz5twk9hsrrnbk.png" alt="运行 /context，显示 compaction 后为 28.3k tokens"></p>
+<p>运行 /context，显示 compaction 后为 28.3k tokens</p>
+<pre><code>Model: claude-opus-4
+Tokens: 28.3k / 1m (3%)
+
+| Category | Tokens | Percentage |
+|-------------------------|--------|------------|
+| System prompt | 2.9k | 0.3% |
+| System tools | 4.5k | 0.5% |
+| Messages | 20.7k | 2.1% |
+| Free space | 971.7k | 97.2% |
+</code></pre>
+<p>举例来说，摘要里的一行可能是这样：</p>
+<pre><code>- app/lib/comments.ts (new): MIN_COMMENT_LENGTH = 1,
+MAX_COMMENT_LENGTH = 5000 (client-safe, mirrors ratings.ts)
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727217/ai-hero-images/py1iywplpcn5m2emfbml.png" alt="摘要中对文件改动的致密压缩"></p>
+<p>摘要中对文件改动的致密压缩</p>
+<p>这是对你在前一个 session 里所做一切的极限致密压缩。</p>
+<h2>代价：信息损失（The Trade-off: Information Loss）</h2>
+<p>Compaction 并非没有缺点。不妨借用历史学的术语来理解它：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727218/ai-hero-images/dlqjbiops0x6s2bicyoz.png" alt="把 compaction 摘要比作俯瞰整个 session 的「历史学家」"></p>
+<p>把 compaction 摘要比作俯瞰整个 session 的「历史学家」</p>
+<ul>
+<li>**primary source（一手来源）**是你的初始 session——当时在场者留下的记录</li>
+<li>**secondary source（二手来源）**是摘要——一份历史总结，是对一手来源的有损压缩</li>
+</ul>
+<p>Compaction 是你见到的第一种能在 session 之间保留 context 的 handoff 机制。但所有 handoff 机制都有同一个毛病：只要创建二手来源，就会丢失信息。</p>
+<p>不过，你换来的是效率。这笔交易是这样的：</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>信息</th>
+<th>噪音</th>
+<th>机动空间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一手来源（继续）</td>
+<td>完整</td>
+<td>很多</td>
+<td>受限</td>
+</tr>
+<tr>
+<td>二手来源（compaction）</td>
+<td>有损</td>
+<td>更少</td>
+<td>更充裕</td>
+</tr>
+</tbody></table>
+<p>如果你继续用一手来源，你拥有全部信息，但多半还附赠大量噪音。如果你用二手来源，你有更多回旋余地、占用空间更少，但可能会丢失一手来源里的某些细微之处。</p>
+<h2>Compaction 的高光时刻（When Compaction Shines）</h2>
+<p>不过，在你刚完成一项工作、正想对它做 QA 的这种确切场景里，compaction 是板上钉钉的绝佳用武之地。你不是在重新实现，不是在做架构决策，你是在验证一件已经完成的东西。</p>
+<p>这里只是 compaction 的入门。在接下来的课程里，你会看到它与 clearing 以及其他机制的比较。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你把一个 156k token 的 session 压缩到 28k 并继续干活。此时，压缩之前的那些细节处于什么状态？</p>
+<ul class="quiz-choices">
+<li class="correct">它们现在是一份摘要，原文的细微之处已经没了</li>
+<li>它们被完整保存着，需要时随时取回</li>
+<li>它们原封未动，只是按更便宜的缓存价计费</li>
+<li>它们被存成磁盘上的文件，你可以打开搜索</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你正准备 compact，好让下一个 session 对一个已完成的功能做 QA。你实际要输入的是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">/compact 加上一句「接下来要做 QA」</li>
+<li>单独一个 /compact，之后再解释目标</li>
+<li>/compact 再把完整商定的 spec 整份贴进去以求保险</li>
+<li>/clear，然后让 agent 去重读代码</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# Handoff 交接（Handing Off）<p>Commit Map（提交对照）</p>
+<p>handoff-skill
+本课起点：<code>.agents/skills/</code> 中新增的 <code>/handoff</code> skill</p>
+<p>在上一个练习里，我给你演示了 compaction 是怎么工作的：取一个 session 的 primary source（一手来源），把它总结成 secondary source（二手来源），再用它去 seed 一个新 session。</p>
+<p>不过，compaction 有一些限制。它只能在同一个目录里压缩，也只能在同一个 agent 里压缩。</p>
+<p>举例来说，如果我们用 Claude 做了一些实现，想把它 handoff 给另一个 AI agent（比如 Codex）去审查，用 compaction 该怎么做到？做不到。</p>
+<h2>/handoff skill（The /handoff skill）</h2>
+<p>不过确实有一个办法，而且这种场景我遇到得太频繁了，于是专门为它做了一个 skill。</p>
+<p>原理很直接：不是在 agent 内部（在内存里）做压缩，而是创建一个 <code>handoff.md</code> 文件——一个 markdown 文件。这个 markdown 文件是完全可移植的，你想拿它做什么都行。</p>
+<ul>
+<li>喂给 Codex</li>
+<li>传给另一个目录里的 agent</li>
+<li>发给一位同事</li>
+<li>用来交接你在功能开发途中发现的某个支线任务</li>
+</ul>
+<p>一个特别好用的场景是：你正在做一个功能，注意到一个与你正在构建的东西无关的随机 bug，想以后在单独的 session 里修掉它。你只需创建一个 handoff artifact（交接产物），回头再来处理。</p>
+<h3>看看这个 skill（Looking at the skill）</h3>
+<p>首先，运行 <code>npm run reset</code>，然后从列表中选择 handoff skill 那一课。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727431/ai-hero-images/dbqwmk3vzmn4zkyw4wb5.png" alt="/handoff skill 文件，显示 skill 定义"></p>
+<p>/handoff skill 文件，显示 skill 定义</p>
+<p>看一下 skill 目录，里面是一个 <code>/handoff</code> skill。和我大多数 skill 一样，它相当短。</p>
+<pre><code>Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save to the temporary directory of the user&#39;s OS - not the current workspace.
+</code></pre>
+<p>这里有一个很有用的特性：它保存到用户 OS 的临时目录。这意味着这些 handoff 文档被刻意设计成一次性的（ephemeral）。它们不会被保存到你的项目里，也不会存进任何 memory。当你的电脑重置，或者 OS 决定清理临时目录时，它们就会被删掉。</p>
+<p>（OS 就是 operating system（操作系统）：Windows、Mac、Linux，随便什么。）</p>
+<h2>实战中使用 handoff（Using handoff in practice）</h2>
+<p>让我演示一下它是怎么工作的。我会恢复（resume）一个之前的 session，用星级评分的审查系统来练手。</p>
+<p>我们现在在 89k tokens 左右，这可能是个 handoff 的好时机。要使用 <code>/handoff</code> skill，我会运行命令并传给它一个理由：</p>
+<pre><code>/handoff pass to Codex to review
+</code></pre>
+<p>和 compact 一样，我们给 <code>/handoff</code> skill 一个 handoff 的理由。这会告诉它下一个 session 的目的是什么。</p>
+<p>它回来后请求写入临时目录的权限。完美。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727432/ai-hero-images/prk8tezzgfbgbcsyxbza.png" alt="agent 请求写入临时目录的权限"></p>
+<p>agent 请求写入临时目录的权限</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727433/ai-hero-images/ssowi3pzda1bcvivq3xe.png" alt="VS Code 显示生成的 handoff 文档"></p>
+<p>VS Code 显示生成的 handoff 文档</p>
+<p>现在我们能看到 handoff 文件了。它是一份非常出色、非常详细的二手来源，涵盖了我们审查时可能需要的一切。它看起来和之前见过的 compaction 文档相当相似：精美详尽，带大量文件引用，以及其他种种。</p>
+<p>handoff 文档包括：</p>
+<ul>
+<li>这个功能是什么</li>
+<li>待审查的文件（附带 git status / git diff 指引）</li>
+<li>关键决策或 session 中途修掉的 bug</li>
+<li>已知的既有问题（不属于本次改动）</li>
+<li>已经做过的验证</li>
+<li>这个 diff 应当遵守的项目约定</li>
+<li>值得深挖的审查角度</li>
+<li>给下一个 session 建议使用的 skills</li>
+</ul>
+<p>我把它 seed 进一个新 session 的方式，是在另一个窗口里打开它。我刚刚运行了 <code>/clear</code>，所以手头是一个完全空白的 session。现在我可以使用 <code>@</code> 符号来引用这个文件：</p>
+<pre><code>@/tmp/handoff-course-star-ratings-review.md
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784727434/ai-hero-images/q5xyjuestj3paiiecrh6.png" alt="一个全新的 agent session 读入 handoff 文档"></p>
+<p>一个全新的 agent session 读入 handoff 文档</p>
+<p>一旦 seed 进去，它就会被立即读入 context window，随时可以开始审查。</p>
+<p>我直接把它取消了，因为我现在并不真想让它做审查。</p>
+<h2>/handoff 对比 Compact（/handoff vs. Compact）</h2>
+<p><code>/handoff</code> skill 就是这么工作的。它特别适合：</p>
+<ul>
+<li>把工作交给另一个独立的 agent</li>
+<li>存下一份可以发给同事的文档</li>
+<li>交接给另一个仓库里的 agent，去修你撞见的某个 bug</li>
+</ul>
+<p>它和 compaction 差不多，只是更灵活一点，也更繁琐一点。</p>
+<p>我不会说 handoff 能完全取代 compaction。下面是各自的使用时机：</p>
+<table>
+<thead>
+<tr>
+<th>时机</th>
+<th>用什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>留在同一个目录里</td>
+<td>Compaction</td>
+</tr>
+<tr>
+<td>要保留前一段对话的 context</td>
+<td>Compaction</td>
+</tr>
+<tr>
+<td>不在乎保留前一段对话</td>
+<td>Compaction（尤其是因为它后面还能排队消息）</td>
+</tr>
+<tr>
+<td>交给另一个 agent</td>
+<td><code>/handoff</code></td>
+</tr>
+<tr>
+<td>交接给另一个仓库</td>
+<td><code>/handoff</code></td>
+</tr>
+<tr>
+<td>发给同事</td>
+<td><code>/handoff</code></td>
+</tr>
+</tbody></table>
+<p>Compaction 依然非常好用。<code>/handoff</code> 也很不错，但把它接入下一段对话稍微繁琐一些，而且只有当你能从中真正得到点什么时才值得。</p>
+<p>下一课我们会做一个完整的对比。干得漂亮，下节课见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你刚用 Claude 实现了一个功能，想让 Codex 来审查它。你怎么把 context 带过去？</p>
+<ul class="quiz-choices">
+<li class="correct">写一份 handoff 文档，然后在 Codex 里引用它</li>
+<li>压缩这个 session，然后在 Codex 里重新打开该 session</li>
+<li>清空，让 Codex 自己去探索仓库</li>
+<li>把一份摘要以 notes.md 文件的形式存进项目里供阅读</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">handoff skill 写文档前会请求权限。这个文件去了哪里？它能存活多久？</p>
+<ul class="quiz-choices">
+<li class="correct">OS 的临时目录——过段时间就会被清理</li>
+<li>项目根目录——它会同你的工作一起被提交</li>
+<li>agent 的 memory——它会加载进之后的每个 session</li>
+<li>你主目录下的某个文件夹——它会被永久保留</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# Clear、Compact、Handoff 还是 Subagent（Clear, Compact, Handoff, Or Subagent）<p>在我们目前用 agent 做过的那些编码 session 里，你可能已经注意到，它们会切分成相当离散的几块。我们经历过一个 grilling 阶段，然后一个实现阶段，最后还有一个 QA 阶段。我们在开始 QA 之前做了 compaction。</p>
+<p>这些阶段的界定比较宽松。它们其实就是一个编码 session 里的几块工作。每个阶段都由两部分组成：阶段本身（运行 grilling、实现或 QA 的那段过程），以及它们之间的边界。</p>
+<p>边界极其重要。它们代表一个决策点：在每条阶段边界上，你都要决定拿这个 session 怎么办。</p>
+<h2>理解阶段边界（Understanding Phase Boundaries）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731108/ai-hero-images/kwbydppusjcror9prsom.png" alt="阶段边界的决策树，展示五个选项"></p>
+<p>阶段边界的决策树，展示五个选项</p>
+<p>grilling 结束时，我们才用了大约 30k tokens，直接接着做实现是合理的。这意味着实现可以依赖 grilling 这个一手来源，中间不必经过任何二手来源的有损转换。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731109/ai-hero-images/qy0xptnwp2laxqq0lmed.png" alt="展示我们分配给每条阶段边界的选择"></p>
+<p>展示我们分配给每条阶段边界的选择</p>
+<p>但实现结束、想要 QA 时，我们决定 compact。可以说，我们的 smart zone 已经用得差不多了，我们想丢掉所有杂质，只把好东西留给 QA。</p>
+<p>怎么做出这些决定，并不是特别显然。在这些阶段边界上，你其实有<strong>五个选项</strong>。</p>
+<h2>你的五个选项（Your Five Options）</h2>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Continue（继续）</strong></td>
+<td>留在当前 session，无需切换 context</td>
+</tr>
+<tr>
+<td><strong>Clear（清空）</strong></td>
+<td>彻底清空 context window，从零开始</td>
+</tr>
+<tr>
+<td><strong>Compact（压缩）</strong></td>
+<td>压缩 context，用它 seed 一个新 session</td>
+</tr>
+<tr>
+<td><strong>Handoff（交接）</strong></td>
+<td>生成一份总结该 session 的 markdown 文件，可传到任何地方</td>
+</tr>
+<tr>
+<td><strong>Subagent（子智能体）</strong></td>
+<td>派生一个 subagent 处理任务并汇报结果</td>
+</tr>
+</tbody></table>
+<p>把这五个选项用得得心应手绝非易事。我做了一棵决策树帮你理清它们。第一眼看上去可能挺吓人，但我们会一步一步走完它。</p>
+<h2>决策树：从顶端开始（The Decision Tree: Start At The Top）</h2>
+<p>当你走到一个阶段的尽头、不太确定该干什么时，就从这里开始。</p>
+<h3>问题 1：你能继续吗？（Question 1: Can You Continue?）</h3>
+<p><strong>继续待在当前 session 里是否说得通？</strong></p>
+<p>这本身就是个内涵相当丰富的决策。在 grilling 和实现之间，继续显然说得通：我们手里握着需要的那份丰富一手来源，到了实现阶段可不想把它丢掉。</p>
+<p>如果 smart zone 预算还够，你也可能想继续。比如你在 80k tokens 左右，知道接下来的任务很小、完全装得进 smart zone，那就继续好了。</p>
+<p>如果你认定<strong>确实需要做点什么</strong>，那就要进入这棵小决策树了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731109/ai-hero-images/m3c3gxq6wsrzjeieppxm.png" alt="决策树第一个问题：你能继续吗？"></p>
+<p>决策树第一个问题：你能继续吗？</p>
+<h3>问题 2：你的 context 对下一个任务无关紧要吗？（Question 2: Is Your Context Irrelevant To The Next Task?）</h3>
+<p>如果你需要做点什么，先问自己：<strong>这个 session 里的全部信息是不是完全可以丢弃？</strong></p>
+<p>换句话说，这个 session 里的探索、做过的决策——对于接下来要做的事，是不是完全无关？</p>
+<p><strong>如果是，清空你的 context window。</strong> 只要走得通，clearing 就是效率最高的路径，因为它耗时为零。你只是在删除信息，然后你就拥有了最多的 smart zone。你回到了一张白纸。</p>
+<p>然而，如果你在 context 里还装着相关信息时就把它清掉，你丢失的可能是日后有用的东西。想象一下，如果我去做 QA 时选择了 clear 而不是 compact。这意味着 QA 对实现一无所知——这也许还能接受，它可以从 git commit 里琢磨出来。但它同时也会丢掉 grilling 阶段的全部信息。</p>
+<p>它会丢掉我做出那些决策背后的推理。这两个阶段对随后的 QA 都很重要。所以 clearing 根本不是一个选项。</p>
+<p><strong>如果否，你的 context 是相关的。</strong> 进入下一个问题。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731110/ai-hero-images/npaie53oxvv1krfqq5sn.png" alt="决策树第二个问题：你的 context 无关紧要吗？"></p>
+<p>决策树第二个问题：你的 context 无关紧要吗？</p>
+<h3>问题 3：你需要 handoff 吗？（Question 3: Do You Need To Hand Off?）</h3>
+<p>这一条专门针对 handoff skill。和其他选项相比，handoff skill 的适用面相对窄。</p>
+<p>只有当你需要：</p>
+<ul>
+<li>把工作交给另一个 agent</li>
+<li>把工作交给另一个目录或另一位同事</li>
+<li>把阶段途中发现的支线任务分叉出去，而不让当前 session 脱轨</li>
+</ul>
+<p>时，才需要做 handoff。</p>
+<p>比如，你可能在做 grilling 的过程中发现某件同样需要处理的事。你可以在继续手头工作的同时，把它 handoff 给另一个 session。</p>
+<p><strong>如果是，使用 handoff</strong>（<code>/handoff</code>）。<strong>如果否，进入下一个问题。</strong></p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731111/ai-hero-images/ostylc7q6awkalssbffl.png" alt="决策树第三个问题：你需要 handoff 吗？"></p>
+<p>决策树第三个问题：你需要 handoff 吗？</p>
+<h3>问题 4：这个任务能 AFK 完成吗？（Question 4: Can The Task Be Done AFK?）</h3>
+<p><strong>AFK 的意思是 away from keyboard（离开键盘）。</strong> 你不碰键盘，只是看着 agent 干活，而且无法干预。</p>
+<p>这意味着任务的范围已被圈定得很清楚。agent 不需要你的任何干预就能完成。</p>
+<p>假设我们想在 human review（人工审查）介入之前，先对实现做一次 automated review（自动化审查）。automated review 就是把 agent 放进代码库，让它查看改动，检查有没有弄坏什么、有没有做出什么怪事。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731111/ai-hero-images/o6r9c6lxdswtqhwjkp0s.png" alt="以 automated review 作为 AFK 任务示例的图示"></p>
+<p>以 automated review 作为 AFK 任务示例的图示</p>
+<p>我们本可以在此时 compact（实现之后我们已到 150k tokens），然后在主 session 里跑审查。但既然 automated review 不需要人，那不如放到 subagent 里跑。这样它就在自己的 context window 里运行，完全不影响主 session。</p>
+<p>这是 automated review 非常见用的模式，本课程后面也会讲到它。</p>
+<p><strong>如果是，派生一个 subagent。</strong> <strong>如果否，进入最后一个选项。</strong></p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731112/ai-hero-images/hk9fqg0idlqdfykyvcmi.png" alt="决策树第四个问题：这个任务能 AFK 完成吗？"></p>
+<p>决策树第四个问题：这个任务能 AFK 完成吗？</p>
+<h2>默认选项：Compact（The Default: Compact）</h2>
+<p>这是决策树的底部。当你的 context 是相关的、你想拿这个 context 做点什么、你不能继续、你不需要 handoff、而且这个任务需要你在场才能做——那么 compact 就是答案。</p>
+<p>Compact 压缩你的 context window，把好东西 seed 进一个新 session。你留下要紧的，丢掉不要紧的。</p>
+<h2>这些都是主观决策（These Are Subjective Decisions）</h2>
+<p>这些问题并不客观。里面有一点主观，一点品味。随着你继续工作、继续与 agent 相处，你会找到属于自己的答案。</p>
+<p>但我希望「阶段」这个概念、以及在阶段边界上该做什么这件事，能真正刻进你脑子里。这是 AI 编码时你要做的最模糊、也最有意思的决策之一。它需要大量讨论，也需要大量智慧。</p>
+<p>加入 Discord，聊聊这些情形。讨论不同场景时，请用这套共同语言。如果你拿不准某条阶段边界上该做什么，Discord 是个好去处。</p>
+<p>我还在下面加了几道随堂测，会用不同的场景来考你。</p>
+<p>干得漂亮。下节课见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你刚结束 grilling。当前 30k tokens，下一步是实现。在这条边界上你会怎么做？</p>
+<ul class="quiz-choices">
+<li class="correct">Continue——grilling 就是你需要的一手来源</li>
+<li>Compact——先把商定的 spec 锁进一份摘要</li>
+<li>Clear——实现可以从一张白纸开始</li>
+<li>Handoff——在实现之前把 spec 写出来</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">一个阶段结束了。其中探索和决定的一切，对你即将开始的任务确实毫无用处。你会怎么做？</p>
+<ul class="quiz-choices">
+<li class="correct">Clear——零耗时，还能换回最多的空间</li>
+<li>Compact——留一份短摘要，以防万一</li>
+<li>Handoff——把这个 session 写进一个 markdown 文件</li>
+<li>Subagent——让下一个任务在自己的 context window 里跑</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">实现结束后你在 150k tokens，下一项工作是一场 automated review，运行期间完全不需要你。你会怎么做？</p>
+<ul class="quiz-choices">
+<li class="correct">派生一个 subagent，让审查拥有自己的窗口</li>
+<li>Compact，然后在主 session 里跑审查</li>
+<li>Clear，然后从空 session 开始跑审查</li>
+<li>Continue，反正审查只是读代码</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# Auto-Compaction 自动压缩（Auto-Compaction）<p>你可能会好奇：如果你试图冲破 context window 的上限，会发生什么？我们用的 Opus 4.8 有 100 万 token 的 context。如果你冲到 100 万零 1，会怎样？</p>
+<p>如果你发给 Anthropic 的请求里有 1,000,001 个 token，你会收到一个错误。model 就是无法处理那么多 token。</p>
+<p>你的 agent 内置了防止撞上这条硬上限的保护。到达某个点时，它会自动 compact 你的 session。</p>
+<h2>在你的 agent 里找到 Auto-Compact（Finding Auto-Compact in Your Agent）</h2>
+<p>你可以在 agent 里输入 <code>/config</code> 命令，然后搜索 <code>auto-compact</code>，就能看到这个设置。匹配的设置会出现在顶部。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731270/ai-hero-images/pa2wue1yhap7ovlnbo1o.png" alt="/config 面板显示 Auto-compact 设为 true"></p>
+<p>/config 面板显示 Auto-compact 设为 true</p>
+<p>相关配置显示为：</p>
+<pre><code>Auto-compact: true
+</code></pre>
+<p>附带说明：「Automatically compact conversation when context fills」（context 填满时自动压缩对话）。</p>
+<p>每一个 agent harness 里都有 auto-compaction，因为每个 harness 都有这个问题。每个 harness 都有一个窗口阈值，一旦触及，系统就会暂停你的 session，并自动压缩其中的内容。</p>
+<p>以前你可以输入 <code>/context</code>，在 context 明细里看到 autocompact 的 buffer（缓冲区）。但看起来各家团队已经把它弄得没那么容易看到了。</p>
+<h2>自定义 Auto-Compact 窗口（Customizing the Auto-Compact Window）</h2>
+<p>有一件有趣的事你可以做：自定义 auto-compact 窗口本身。在你的 <code>~/.claude/settings.json</code> 文件里，你可以调整 auto-compaction 何时触发：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731271/ai-hero-images/mto9trx4ba4a2ujvszyn.png" alt="settings.json 文件显示 autoCompactWindow 设置"></p>
+<p>settings.json 文件显示 autoCompactWindow 设置</p>
+<pre><code>{
+&quot;autoCompactWindow&quot;: 250000
+}
+</code></pre>
+<p>如果你想让它在 250,000 tokens 之后自动 compact，完全可以。这个设置接受从 100,000 到 1,000,000 tokens 之间的值。</p>
+<h2>承诺：context 管理从此消失（The Promise: Context Management Goes Away）</h2>
+<p>Auto-compaction 的愿景听起来非常美好。想象一个你完全不用思考阶段边界、不用思考 smart zone、完全不用思考 context 的世界。</p>
+<p>这棵决策树将根本不再需要：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731272/ai-hero-images/ipudznemkdjkzyecigin.png" alt="展示全部五个选项的决策树图"></p>
+<p>展示全部五个选项的决策树图</p>
+<ul>
+<li>继续 session</li>
+<li>清空 session</li>
+<li>把它 handoff 出去</li>
+<li>派生一个 subagent</li>
+<li>Compact</li>
+</ul>
+<p>你只会在恰当的时机自动 compact。事实上，你会在网上看到很多人说，auto-compaction 替他们搞定了一切问题。</p>
+<h2>为什么 Auto-Compaction 其实非常难（Why Auto-Compaction Is Actually Really Difficult）</h2>
+<p>然而事实证明，auto-compaction 是一个极难解决的问题。而且做错了会非常非常疼。</p>
+<h3>在阶段中途 compact 很危险（Compacting in the Middle of a Phase Is Dangerous）</h3>
+<p>回想一下一个典型 session：一个 grilling 阶段加一个实现阶段，中间隔着一条阶段边界。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784731273/ai-hero-images/fkutnevmvdbrbrmq5e5v.png" alt="展示 grilling 阶段、实现阶段与阶段边界的图示"></p>
+<p>展示 grilling 阶段、实现阶段与阶段边界的图示</p>
+<p>如果有人强迫你在这个 session 的某处塞进一次 compact，你多半会说，最安全的位置是阶段边界上，也就是 grilling 和实现之间。</p>
+<p>但如果在 grilling session 的中途 compact 会怎样？你将只拿着「之前做了什么」的一份摘要来工作。当这种事偶尔发生时，我发现 agent 确实经常彻底迷路，把你刚刚还在聊的东西忘得一干二净。</p>
+<p>实现阶段同理，而且往往更糟：</p>
+<ul>
+<li>agent 会经常完全迷失方向</li>
+<li>实现阶段的后半部分会用一种与前面完全不同的编码风格</li>
+<li>它会丢失思路，忘记本该实现的功能</li>
+</ul>
+<h3>你失去了对 handoff 的控制（You Lose Control of the Handoff）</h3>
+<p>还有一个问题：自动 compact 时，你没有机会说明该压缩什么、下一个 session 的意图是什么。</p>
+<p>你传给 handoff 文档或 <code>/compact</code> 的那些小小的总结性提示，是让它压缩对的东西的关键。Auto-compaction 没有给你任何等价的钩子。</p>
+<h2>更好的方式：由人掌控（The Better Approach: Human Control）</h2>
+<p>那么，阶段中途的 compact 就永远都不好吗？倒也未必，尽管无论 model 有多强，这看起来都会是个难题。这是个非常棘手、非常难解的问题。</p>
+<p>我的总体态度是：提升人的技能，而不是提高对 harness 和 model 的要求。我倾向于让这个人来掌控这棵决策树，而不是把它整个甩给 agent。</p>
+<p>这是人要经历的一次性学习曲线，而且你越熟练，结果就越好。你的 session 会有更多停留在 smart zone 里，你的掌控力也会更强。</p>
+<h2>真正的规则（The Real Rule）</h2>
+<p>在我看来，如果你撞上了 auto-compact buffer，如果你的 session 在自动压缩，那么多半说明有什么地方出了问题。</p>
+<p>相反，你应该掌控局面。继续 session、清空 session、把它 handoff 出去、派生一个 subagent 还是 compact——应该由你来决定。</p>
+<p>当你拥有这个决策权，你就能得到更好的代码。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">实现功能到一半，你的 session 暂停并自行压缩了。你该从中读出什么？</p>
+<ul class="quiz-choices">
+<li class="correct">你把边界决策拖得太晚了——自己把它接管过来</li>
+<li>harness 已经处理了，没什么要改的</li>
+<li>你的 context window 对这种规模的工作来说太小了</li>
+<li>model 的能力不足以做这么大的功能</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">一个 session 先 grilling 再实现，压缩总得发生在其中某处。放在哪里伤害最小？</p>
+<ul class="quiz-choices">
+<li class="correct">阶段边界上，grilling 与实现之间</li>
+<li>实现进行到一半，等风格定了之后</li>
+<li>grilling 进行到一半，等问题都问完之后</li>
+<li>任何位置都行——摘要保住的信息是一样的</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你想让 agent 在 250,000 tokens 时自动 compact，而不是在它目前触发的位置。你改什么？</p>
+<ul class="quiz-choices">
+<li class="correct">在设置文件里把 autoCompactWindow 设为 250000</li>
+<li>在设置文件里把 compactThreshold 设为 250000</li>
+<li>每次都给 /compact 命令传一个 token 预算</li>
+<li>在 /config 里关掉 auto-compact，改手动 compact</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div></main></div><script>
+  (function(){
+    var links=document.querySelectorAll('aside.toc a');
+    var map={};
+    links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+    var hs=document.querySelectorAll('main h1[id]');
+    if(!('IntersectionObserver' in window)||!hs.length)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active')});
+          var a=map[e.target.id];
+          if(a){a.classList.add('active');
+            if(a.scrollIntoViewIfNeeded)a.scrollIntoViewIfNeeded(false);
+          }
+        }
+      });
+    },{rootMargin:'0px 0px -70% 0px'});
+    hs.forEach(function(h){io.observe(h)});
+  })();
+</script></body></html>

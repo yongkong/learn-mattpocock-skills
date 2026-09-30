@@ -1,0 +1,1201 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>转向控制 · Steering · AI Coding Crash Course 中文版</title><style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;line-height:1.9;color:#1f2937;background:#fafafa}
+  .wrap{display:flex;gap:40px;max-width:1240px;margin:0 auto;padding:40px 24px 96px}
+  aside.toc{width:264px;flex-shrink:0;position:sticky;top:0;align-self:flex-start;max-height:calc(100vh - 48px);overflow-y:auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem 1.25rem}
+  aside.toc>p{margin:0 0 .5rem;font-weight:700;font-size:.95rem}
+  aside.toc a{display:block;color:#4b5563;text-decoration:none;padding:.3rem .5rem;border-radius:6px;font-size:.92rem;line-height:1.5}
+  aside.toc a:hover{color:#b45309;background:#fffbeb}
+  aside.toc a.active{color:#b45309;background:#fffbeb;font-weight:600}
+  main{flex:1;min-width:0;max-width:800px}
+  @media (max-width:960px){.wrap{flex-direction:column;gap:24px}aside.toc{position:static;width:auto;max-height:240px}}
+  h1{font-size:1.9rem;line-height:1.35;padding-bottom:.6rem;margin:3rem 0 1.5rem;scroll-margin-top:16px}
+  h1::after{content:'';display:block;width:96px;height:3px;margin-top:.6rem;border-radius:2px;background:linear-gradient(90deg,#f59e0b,#8b5cf6)}
+  h1:first-child{margin-top:0}
+  h2{font-size:1.35rem;margin:2.5rem 0 1rem}
+  h3{font-size:1.12rem;color:#6d28d9;margin:2rem 0 .8rem}
+  p{margin:0 0 1rem}
+  a{color:#b45309;text-decoration:none;border-bottom:1px solid rgba(180,83,9,.25)}
+  a:hover{border-bottom-color:#b45309}
+  strong{color:#111827;font-weight:700}
+  img{max-width:100%;border-radius:10px;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.08);margin:1.25rem 0}
+  code{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.875em;background:rgba(180,83,9,.09);color:#9a3412;padding:.15em .4em;border-radius:4px}
+  pre{background:#0d1117;border:1px solid #30363d;border-left:4px solid #8b5cf6;border-radius:0 8px 8px 0;padding:1.1rem 1.25rem;overflow-x:auto;margin:1rem 0 1.25rem;font-size:.875rem;line-height:1.6}
+  pre code{background:none;padding:0;color:#c9d1d9}
+  blockquote{border-left:4px solid #8b5cf6;background:#f5f3ff;border-radius:0 8px 8px 0;padding:.75rem 1.25rem;margin:1rem 0 1.25rem;font-size:.95rem;color:#374151}
+  table{border-collapse:collapse;margin:1rem 0 1.25rem;width:100%;font-size:.92em}
+  thead tr{background:#f3f4f6}
+  th,td{border:1px solid #e5e7eb;padding:.55rem .9rem;text-align:left;vertical-align:top}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.02)}
+  hr{border:none;border-top:1px solid #e5e7eb;margin:3rem 0}
+  ul li::marker{color:#d97706}
+  .quiz-block{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0 1.5rem;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+  .quiz-block-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6d28d9;margin:0 0 1rem}
+  .quiz-q-text{font-weight:600;color:#111827;margin:1.4rem 0 .75rem;padding-top:1rem;border-top:1px dashed #e5e7eb}
+  .quiz-choices{list-style:none;padding:0;margin:0 0 .75rem}
+  .quiz-choices li{padding:.4rem .6rem;margin-bottom:.3rem;border-radius:6px;font-size:.95em;color:#4b5563;border:1px solid transparent}
+  .quiz-choices li.correct{background:#ecfdf5;border-color:#6ee7b7;color:#047857;font-weight:600}
+  .quiz-choices li.correct::before{content:'✓ ';font-weight:700}
+  .quiz-answer-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b45309;margin:1rem 0 .35rem}
+  .quiz-answer{font-size:.92em;color:#4b5563;background:#f3f4f6;border-radius:8px;padding:.75rem 1rem;line-height:1.7}
+</style></head><body><div class="wrap"><aside class="toc"><p>本篇目录</p><a href="#lesson-1">steering map：转向地图（The Steering Map）</a><a href="#lesson-2">用 pointer 进行 steering：我的解法（Steering With A Pointer Solution）</a><a href="#lesson-3">什么是 agent skill？（What Are Agent Skills?）</a><a href="#lesson-4">写一个 skill：我的解法（Write A Skill Solution）</a><a href="#lesson-5">User skills 还是 Project skills（User Vs Project Skills）</a><a href="#lesson-6">动手修剪：解法（Trying Out Pruning Solution）</a><a href="#lesson-7">Claude Code 的 automatic memory（Claude Code&#39;s Automatic Memory）</a></aside><main><h1 id="lesson-1">steering map：转向地图（The Steering Map）</h1>
+<p>每次开启一个全新的 session，agent 醒来时对你的工作方式一无所知。这不是 bug——这正是 <strong>stateless（无状态）</strong> 的含义。model 不会把任何东西从一个 session 带进下一个 session，所以你的约定、你的边界情况、你想在项目里固化的那些模式，在你清空 context 的那一刻就统统消失了。</p>
+<p><strong>steering（转向）</strong> 要回答的问题是：如何跨越不同的 session 去引导 agent 的行为。哪些指令应该每次都送达 agent？又该如何送达，才不必每次继续干活时都重新复述一遍？</p>
+<p><strong>那么，这些 steering 指令应该住在哪里？</strong> 这就是本节要回答的问题。</p>
+<h2>理解 context load（Understanding Context Load）</h2>
+<p>在回答之前，我们得先解决一个概念——本节余下的内容全都建立在它之上。</p>
+<p><strong>任何你预先加载给 agent 的东西，你都要在每一次 model provider request（模型供应商请求）上为它买单。</strong></p>
+<p>一个 session 可以包含多个 turn（轮次），每个 turn 又包含许多 model provider request——你发出一个请求，收到一个响应。单个 turn 可以持续 15 分钟，包含数百个 model provider request。一个 session 里可以有非常非常多的 turn。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240099/ai-hero-images/kpatkbzczx6ceeukphjb.png" alt="示意图：一个包含三个 turn 的 session，每个 turn 中有多个 model provider request，以浅蓝色圆点表示"></p>
+<p>示意图：一个包含三个 turn 的 session，每个 turn 中有多个 model provider request，以浅蓝色圆点表示</p>
+<p>每个 model provider request 都会把全部历史连同所有新增内容一起带上。<strong>你在 context window 靠前位置添加的任何一条小指令，都会在每一次请求中被传进去。</strong></p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240100/ai-hero-images/w0nkvqqwigeaoxedqi9o.png" alt="context load 示意图：五个编号的请求，每一行包含代表不断增长的负载的方块，最前方的紫色方块每次都被重新发送"></p>
+<p>context load 示意图：五个编号的请求，每一行包含代表不断增长的负载的方块，最前方的紫色方块每次都被重新发送</p>
+<p>你仍然能享受到一些缓存，所以实际成本会比预期略低，但如果那东西并非每次请求都需要，让它一直占着窗口依然令人恼火。</p>
+<h3>context load 的两种成本（The Two Costs of Context Load）</h3>
+<p><strong>你在为每次请求都带上这些 steering 指令而支付 token。</strong> 但还有第二种成本：<strong>你还在支付注意力。</strong></p>
+<p>你多加载的每一条额外指令，都会让其他每条指令的「声音」小一点，把 agent 往 dumb zone（愚蠢区）再推近一步。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240100/ai-hero-images/ilerrt0gymc12zmde3om.png" alt="注意力示意图：五个空盒子，箭头散布其上，在左侧密集聚集，越往右越稀疏"></p>
+<p>注意力示意图：五个空盒子，箭头散布其上，在左侧密集聚集，越往右越稀疏</p>
+<p>这两种成本合在一起——支付更多 token，同时把 agent 的注意力摊得更薄——就是我们所说的 <strong>context load（上下文负载）</strong>。每当你有一条 steering 指令，你都要想一想这条指令会带来多少 context load。</p>
+<p><strong>所以，当我们谈论 steering 时，想的不只是给 agent 写出好规则。关键在于搞清楚：哪些规则、哪些模式值得我们编码进 context window——因为我们添加的每一样东西，都要付出 context load 的代价。</strong></p>
+<h2>push 与 point：两种 steering 策略（Push vs Point: Two Strategies for Steering）</h2>
+<p>每当想对 agent 做 steering，实际上只有两种选择：把指令 <strong>push（推送）</strong> 给它，或者 <strong>point（指向）</strong> 这条指令。</p>
+<h3>push：常开的 steering（Push: Always-On Steering）</h3>
+<p>想象 agent 的 context window 是一个盒子，我们的指令是躺在里面的一团黄色方块。把指令 push 给 agent，意味着这条 steering 指令永远开启。它在每一个 session 里都待在 context window 中。agent 不可能错过它，因为它本来就在 agent 的 context window 里。</p>
+<p>这意味着，无论当前这个 turn 需不需要它，它都在消耗我们的 context load。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240101/ai-hero-images/hirqymqtrxl7yrzo3fea.png" alt="push 示意图：context window 内有一大块黄色方块，代表一条始终在场的 steering 指令"></p>
+<p>push 示意图：context window 内有一大块黄色方块，代表一条始终在场的 steering 指令</p>
+<h3>point：按需的 steering（Point: On-Demand Steering）</h3>
+<p>选择 point 时，你把 steering 指令放到 environment（环境）里的某个地方，然后在 context window 里放一行小字，仅仅用来指向它。这一行可以写成：「当你在做某一类工作时，就使用这些指令。」这一行就是一个 <strong>context pointer（上下文指针）</strong>。</p>
+<p>它是待在 context window 里的一个指针：当 agent 需要时，就会顺着它走过去，把完整的指令拉进来。</p>
+<p>在大多数 turn 里，一个 context pointer 几乎不花你任何成本。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240102/ai-hero-images/ydjdzsmqfdihbebfljqe.png" alt="point 示意图：context window 内有一个很小的黄色方块，一条黄色箭头向下指向窗口外的一整块黄色方块"></p>
+<p>point 示意图：context window 内有一个很小的黄色方块，一条黄色箭头向下指向窗口外的一整块黄色方块</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>成本</th>
+<th>可用性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>push</td>
+<td>每次请求成本都很高</td>
+<td>始终在场</td>
+</tr>
+<tr>
+<td>point</td>
+<td>大多数 turn 里成本极低</td>
+<td>仅在需要时</td>
+</tr>
+</tbody></table>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240103/ai-hero-images/ahd4ovjwdm5s4szn7fn7.png" alt="push 与 point 两种策略的并排对比：push 是 context window 内的一大块方块，point 则是窗口内的一个微小指针方块"></p>
+<p>push 与 point 两种策略的并排对比：push 是 context window 内的一大块方块，point 则是窗口内的一个微小指针方块</p>
+<h2>push 式 steering 放在哪里：AGENTS.md（Where Pushed Steering Lives: AGENTS.md）</h2>
+<p>那么，怎么往 agent 的 context window 里 push 呢？一种技术是 AGENTS.md 文件。它通常位于项目根目录，harness（挽具）会在 session 开始时把它加载进 context window。</p>
+<p><code>AGENTS.md</code> 是一个跨 harness 的约定，所以无论你用的是什么工具，多半都认识它。最大的例外是 Claude Code——出于某种难以理解的原因，它管这文件叫 <code>CLAUDE.md</code>。我在课程里会叫它 <code>AGENTS.md</code>，不是因为迂腐，而是因为我希望有朝一日 <code>CLAUDE.md</code> 也能从善如流，跟上大部队。</p>
+<h2>push 式规则失灵时（When Pushed Rules Misfire）</h2>
+<p>我们现在理解了 push steering 规则的成本——它以 context load 的形式在每次请求上支付。但还有一个更大的问题：<strong>agent 分不清规则何时适用，于是它们常常会把你 push 进去的 steering 规则，套用到错误的场景上。</strong></p>
+<p>有人发来一个特别好笑的例子，讲 agent 执行指令时热心过了头。而且它并没有发生在 coding harness 里，而是在 claude.ai 上。</p>
+<p>在 claude.ai 里，你可以打开设置，看到「instructions for Claude」（给 Claude 的指令），它的作用跟 <code>AGENTS.md</code> 文件一模一样：被 push 进 agent 的 context。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240104/ai-hero-images/wh6llq9dpga8yg67rtym.png" alt="claude.ai 设置页面，显示 Instructions for Claude 区块"></p>
+<p>claude.ai 设置页面，显示 Instructions for Claude 区块</p>
+<p>有人在他们的全局指令里写了类似这样的一条：</p>
+<p>我在符合 PCI DSS 银行卡支付合规要求的环境下工作。任何涉及安全的事项都应标记出来。</p>
+<p>然后他们问 agent 怎么烤巧克力蛋糕。agent 给了他们食谱，却在最后补了一条备注：鉴于他们在 PCI DSS 下处理信用卡，应当考虑这块巧克力蛋糕的安全影响。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240105/ai-hero-images/wddma0p6p1i8blmghtne.png" alt="浏览器显示一个标题为「Chocolate cake recipe」的 claude.ai 对话，agent 的回复在谈烘焙的 PCI DSS 合规影响"></p>
+<p>浏览器显示一个标题为「Chocolate cake recipe」的 claude.ai 对话，agent 的回复在谈烘焙的 PCI DSS 合规影响</p>
+<p>换句话说，<strong>这些 push 进去的规则会让 agent 做出奇怪的事。</strong> 我们最好确保自己使用 agent 的方式，跟放在里面的那些规则对得上。</p>
+<h2>过度 push 的流行病（The Epidemic of Over-Pushing）</h2>
+<p>这条建议会跟很多人当下的做法背道而驰。他们正把海量的指令 push 进 <code>CLAUDE.md</code> 或 <code>AGENTS.md</code>，而我认为正因如此，他们得到的结果反而更差。</p>
+<p>眼下正流行一种「push 传染病」，无数 token 因此被浪费，这些 agent 背上了沉重的 context load。而我认为，你反而应该去研究 point 的技术。</p>
+<p><strong>在本课程中，实际的做法是：默认 point。</strong> 然后让 agent 自己决定要不要把这些指令拉进来。</p>
+<p>本节余下的内容我们都会按这个思路展开。push 和 point 两种技术我们都会演示。有些场景你的确想 push；我们还会讲到 skill、讲到仓库内的文档，以及各种好用的技巧，让你既能 steer 自己的 agent，又不会 push 进太多 context load。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你的项目里有一条编写数据库迁移（migration）的约定，大约每周才用上一次，而它足足有四十行。你会把它放在哪里？</p>
+<ul class="quiz-choices">
+<li class="correct">放在独立的文件里，在 AGENTS.md 中留一行 pointer</li>
+<li>直接内联进 AGENTS.md，让 agent 绝无可能错过</li>
+<li>写成一条笔记，等它相关时手动粘贴进 prompt</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">内联意味着在每个 session 的每一次 model provider request 上，都要为整整四十行买单，而这条规则一周才用一次——并且每多一条指令，其他指令都会更「安静」一点。手动粘贴则把成本转嫁到你身上，而恰恰在要紧的那一周，你一定会忘。pointer 在大多数 turn 里几乎零成本，工作需要时，agent 会自己把文件拉进来。</p>
+<p class="quiz-q-text">每个 session 开始时加载四十行，让你在每次请求上都支付 token。你要支付的第二种成本是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">注意力：其他每条指令都变得更「安静」</li>
+<li>延迟：每个请求都要更久才有回音</li>
+<li>缓存：折扣彻底失效</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">缓存并没有消失——你仍然能享受一些，成本只是略有下降，所以失去的不是折扣。受拖累的也不是速度。是注意力：每多加载一条指令，其他指令都会更「安静」一点，agent 也被推得离 dumb zone 更近。</p>
+<p class="quiz-q-text">你的常开指令要求把任何涉及安全的事项标记出来。现在 agent 开始给跟安全毫无关系的工作附上合规备注。怎么修？</p>
+<ul class="quiz-choices">
+<li class="correct">把这条规则挪到一条 pointer 后面，并写明何时使用</li>
+<li>保持 push 状态，但补充它何时适用的措辞</li>
+<li>在更靠下的位置重述这条规则，让 agent 读到它</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">问题的根源是：一条 push 进去的规则摆在 agent 面前、对每个任务都生效，而 agent 分不清它何时适用。补充措辞改变不了它被 push 的事实，它照样在每次请求上消耗 context load，面对巧克力蛋糕问题时它依然在场。重述则让它在本该闭嘴的场景里嗓门更大。正确做法是把它放进 environment，只留一行指向它。</p></div>
+# 用 pointer 进行 steering（Steering With A Pointer）<p><strong>Commit Map（提交地图）</strong></p>
+<ul>
+<li><code>pushed-migration-steps</code>：本课起点——migration 步骤被 push 进 <code>AGENTS.md</code>，且 <code>/writing-for-agents</code> skill 可用</li>
+<li><code>migration-steps-doc</code>：查看我的解法——步骤被移入 <code>docs/database-migrations.md</code>，藏在一条 pointer 后面</li>
+</ul>
+<p>在这个项目里，数据库 schema 值得格外小心。每当你修改 schema、新增一张表、改动一列，背后都藏着一个隐藏的第二步：你还必须更新 <code>scripts/seed.ts</code>——那个往数据库里填充初始数据的脚本。</p>
+<p>如果你改了 schema 却忘了 seed 脚本，下一次 reseed 留给你的数据就不再匹配新的结构。Drizzle 给你的类型安全只到 schema 为止，<code>DROP TABLE IF EXISTS</code> 块里的裸 SQL 没有任何护栏，于是不匹配会悄无声息地溜过去，在下游把事情搞坏。</p>
+<p>还有第二件事值得说清楚：在这个项目里，<strong>数据库是用完即弃的</strong>。它住在 <code>data.db</code> 里，已被 gitignore，里面除了 seed 数据什么都没有。你可以随意迁移、直接扔掉、从头 reseed。这些是实实在在的约束，是你会向前来报到的新同事交代的那种事。而 <strong>agent 不可能知道这些，除非你告诉它</strong>，因为 <strong>它们无法从代码里推导出来</strong>。</p>
+<h2>问题所在（The Problem）</h2>
+<p>最直接的做法是把所有这些步骤 push 进 <code>AGENTS.md</code>，让 agent 随时都有。但看看代价是什么。</p>
+<p>每次请求都拖着完整的 migration 步骤。session 余下的每个 turn 都在为一个它此刻并不需要的文档支付 input token——说不定 agent 正在做一个跟数据库毫无关系的 UI 功能。这些步骤还要争夺 attention budget（注意力预算）。想象一个项目里有十套这样的指令，全部 push 进 context。成本会滚雪球式叠加。</p>
+<h2>doc-plus-pointer 模式（The Doc-Plus-Pointer Pattern）</h2>
+<p>你不需要每次请求都带着这些步骤。你需要的是每次请求都<strong>够得着</strong>它们。这是两回事。</p>
+<p>把步骤从 <code>AGENTS.md</code> 里拿出来，给它们一份独立的文档。在 <code>AGENTS.md</code> 里只留一小行：<em>改数据库 schema 时，先读这份文档</em>。context load 变成一个句子。步骤只在 agent 顺着 pointer 走过去、真正需要时才加载。</p>
+<p>这就是 <strong>doc-plus-pointer（文档加指针）</strong> 模式。context pointer 是 agent context 中的一个引用：它点明某份材料，并写明在什么条件下该去取。要让它起作用，需要两样东西：</p>
+<ul>
+<li><strong>稳定的路径</strong>——agent 得知道去哪儿找它。</li>
+<li><strong>清晰的 description</strong>——agent 得知道什么时候顺着它走才值得。一个光秃秃的路径是一个 agent 没有理由去用的 pointer。措辞要按任务实际出现的样子来写。</li>
+</ul>
+<h2><code>/writing-for-agents</code> 这个 skill（The /writing-for-agents Skill）</h2>
+<p>给 agent 写好一份文档，本身就是一门手艺。你将使用 <code>/writing-for-agents</code> skill 来完成这件事。这个 skill 会把你脑子里的步骤变成 agent 能照着执行的文档：清晰、有序、没有废话。它正是为编写 <code>AGENTS.md</code>、以及编写那些藏在 pointer 背后的聚焦文档而造的。</p>
+<h2>待完成步骤（Steps To Complete）</h2>
+<ul>
+<li><p>运行 <code>npm run reset</code>，拿到 <code>/writing-for-agents</code> skill</p>
+<p>这会把仓库重置到包含该 skill 的那个 commit。</p>
+</li>
+<li><p>打开 <code>/writing-for-agents</code> skill，通读一遍</p>
+<p>弄明白它在要求什么，尤其是关于 context pointer 的部分，以及两种负载（context load 和 cognitive load，认知负载）。这就是你接下来要用的词汇。</p>
+</li>
+<li><p>在仓库根目录新建一个 <code>docs/</code> 文件夹</p>
+<p>你的 migration 步骤文档就放在这里。</p>
+</li>
+<li><p>使用 <code>/writing-for-agents</code>，把 migration 步骤从 <code>AGENTS.md</code> 移到 <code>docs/</code> 文件夹里一份名为 <code>database-migrations.md</code> 的新文档中</p>
+<p>skill 会引导你。让它把当前 <code>AGENTS.md</code> 里的步骤重构成一份独立成篇的文档。这份文档要能自立门户——它头顶上不会再有 <code>AGENTS.md</code>，所以把各级标题上提一级。</p>
+</li>
+<li><p>用一行 pointer 取代 <code>AGENTS.md</code> 里的 migration 步骤</p>
+<p>这行 pointer 应该说清 agent 何时、为什么要去取那份文档。比如：「在做数据库 schema 变更时，查阅 <code>docs/database-migrations.md</code> 获取确切步骤。」</p>
+</li>
+<li><p>做一个小而真实的 schema 变更，来测试这条 pointer</p>
+<p>打开一个 agent，让它对 schema 做一个简单的修改，比如给已有的表加一个非空列，或者加一个新字段。观察会发生什么。</p>
+<p>agent 应该会看到你在 <code>AGENTS.md</code> 里的那行 pointer，认出自己在做 schema 变更，然后从 <code>docs/database-migrations.md</code> 拉入完整文档。接着它应该照步骤执行：更新 schema、生成 migration、更新 <code>scripts/seed.ts</code>、reseed，最后 typecheck。</p>
+</li>
+<li><p>验证变更是否成功</p>
+<p>确认 <code>npm run db:seed</code> 能无错跑完，<code>npm run typecheck</code> 通过，数据库里的数据与新 schema 相符。</p>
+</li>
+<li><p>提交你的改动，完成后重置项目</p>
+<p>确认一切正常后，提交到你的分支。准备好继续往下走时，运行 <code>npm run reset</code> 回到初始状态。</p>
+</li>
+</ul>
+<hr>
+<h1 id="lesson-2">用 pointer 进行 steering：我的解法（Steering With A Pointer Solution）</h1>
+<p><strong>Commit Map（提交地图）</strong></p>
+<ul>
+<li><code>pushed-migration-steps</code>：本课起点——migration 步骤被 push 进 <code>AGENTS.md</code></li>
+<li><code>migration-steps-doc</code>：查看我的解法——<code>docs/database-migrations.md</code> 加上那条 pointer，以及用来测试它的 <code>salesCopy</code> schema 变更</li>
+</ul>
+<p>好，我们先运行 <code>/writing-for-agents</code> skill 来开局，然后由我来口述想要发生什么。</p>
+<pre><code>I would like you to take the AGENTS.md file, especially the stuff about the database migrations and all of those steps, and put that behind a context pointer. It&#39;s just a little bit too large right now, and I don&#39;t want to have this in every model provider request.
+</code></pre>
+<p>好，跑一下，看看会发生什么。</p>
+<p>它接下来会创建 <code>docs/database-migrations.md</code>，并把 <code>AGENTS.md</code> 留作 pointer。可以想见，这是一个非常简单的改动。最终我们得到一份 database migrations 文档，它就是原文档内容的一比一呈现。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240422/ai-hero-images/ak0pryvyhmqoqkhp1sne.png" alt="docs/database-migrations.md 文件，显示 migration 步骤"></p>
+<p><code>docs/database-migrations.md</code> 文件，显示 migration 步骤</p>
+<p>然后在 <code>AGENTS.md</code> 里，就有了这条 database migrations pointer。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240423/ai-hero-images/gxd1rklyhbrgurd96jl8.png" alt="AGENTS.md，显示指向 database-migrations.md 的 pointer"></p>
+<p><code>AGENTS.md</code>，显示指向 database-migrations.md 的 pointer</p>
+<h2>理解 pointer（Understanding Pointers）</h2>
+<p>如你所见，一个 pointer 基本由两部分组成：</p>
+<ol>
+<li>链接本身——真正进行指向的那个东西</li>
+<li>pointer 周围的文字——告诉 agent 什么时候该用它</li>
+</ol>
+<p>记住：这才是真正会被 push 给 agent 的内容，只有真正需要时它才会去看那个文件。所以 pointer 上的 description 真的非常重要。</p>
+<p>就我而言，我对这条 pointer 的 description 不算完全满意。它确实相当具体，比如「编辑这个特定文件之前先读；每当 schema 变更需要更新这个东西时读；或者当这个特定命令启动失败时读」。非常具体、非常明确，但我想把它放宽一点。</p>
+<p>所以我要说：</p>
+<pre><code>Update the description of the pointer in AGENTS.md to be a bit broader to say: whenever we make a database change, follow these steps.
+</code></pre>
+<p>这样一来，agent 就有了非常明确的依据，清楚地知道什么时候需要照做。当然它也会自行判断——比如说，它可能看一眼文件名就说「好，database migrations，凡是需要数据库迁移的时候我就照做」。但这样写在我读来更舒服，而且也更短一点，这总是好事。</p>
+<p>pointer 的样子我满意了。现在我们清空 context，来实测一下。</p>
+<h2>做一次 schema 变更（Making A Schema Change）</h2>
+<p>我想用来实测的变更是：进入 <code>app/db/schema.ts</code>，看 <code>courses</code> 下面的 <code>salesCopy</code>。我们注意到其中大多数字段都挂着 <code>.notNull()</code>，意思是它们在数据库里必须有值，哪怕是空字符串。那我们就把 <code>salesCopy</code> 也改成非空（not nullable）。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240424/ai-hero-images/uyfr4u8sly6dxss2y3xn.png" alt="app/db/schema.ts，显示 courses 表中的 salesCopy 字段"></p>
+<p><code>app/db/schema.ts</code>，显示 <code>courses</code> 表中的 <code>salesCopy</code> 字段</p>
+<p>我觉得这挺合理，因为所有课程总得有点销售文案。</p>
+<pre><code>Make the salesCopy attribute of courses non-nullable. Make it a required field when creating new courses, and make sure that it&#39;s non-empty.
+</code></pre>
+<p>于是我们有了一个小而边界清晰的功能，需要一个数据库 migration。看看它能不能接上这条 database migration。</p>
+<p>看到了——它在读两个文件，其中一个，呃，它一闪而过非常快，但其中一个就是那份 database migrations 文档。</p>
+<p>你可以在这里按 Ctrl+O 展开回溯，应该能在上面看到它。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240425/ai-hero-images/lgfifo3l3bt0tjfjaawb.png" alt="agent 的 tool call 列表，显示正在 Read docs/database-migrations.md"></p>
+<p>agent 的 tool call 列表，显示正在 Read <code>docs/database-migrations.md</code></p>
+<p>没错，就是它。Read <code>…/ai-coding-crash-course/docs/database-migrations.md</code></p>
+<p>我们的 pointer 生效了，它已经把正确的文档拉进了自己的 context window。</p>
+<h2>agent 自己搞定了（The Agent Works It Out）</h2>
+<p>你还能看到，它立刻改掉了这里的 <code>salesCopy</code> 字段，而且看起来跑了一条 shell 命令——对，它运行了 <code>npm run db:generate</code>，漂亮。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240426/ai-hero-images/oywmaoqlow6rzuagy8s6.png" alt="终端输出，显示 npm run db:generate 命令的执行"></p>
+<p>终端输出，显示 <code>npm run db:generate</code> 命令的执行</p>
+<p>现在它正在继续完成所需的其余改动。</p>
+<p>问题是：它更新 seed 脚本了吗？这才是真正关键的地方。</p>
+<p>看起来它其实不需要改，因为 seed 脚本里的两门课程本来就都传了 <code>salesCopy</code>。但它现在正在跑 reseed——从零重新灌数据、typecheck、然后跑测试。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240427/ai-hero-images/dktcrmabfdhaa4grieax.png" alt="终端输出，显示数据库 reseed 的行数统计和测试结果"></p>
+<p>终端输出，显示数据库 reseed 的行数统计和测试结果</p>
+<p>所以，即使没有必要，它还是把数据库重新 seed 了一遍，我认为这是好习惯。它显然知道 seed 脚本的存在——如果当初没把它写进那份文档，它多半不会有这个意识。</p>
+<p>我们的实验成功了。这条 pointer 的效果之好，几乎就像步骤直接写在 <code>AGENTS.md</code> 里一样——需要的时候，它就能把 agent 引到文档那里去。</p>
+<h2>关键要点（The Key Takeaway）</h2>
+<p>所以，每当你要在全局范围里添加或实施 steering 时，我推荐用 point 而不是 push。</p>
+<p>而这种「在仓库里放本地文档、藏在 pointer 后面」的模式，非常非常有效。</p>
+<p>不过它确实有一些弱点，这正是接下来几课要探讨的。</p>
+<p>干得漂亮，我们下一课见。</p>
+<hr>
+<h1 id="lesson-3">什么是 agent skill？（What Are Agent Skills?）</h1>
+<p>「文档配 pointer」这个模式很好用，但它撞上一个有趣的限制：它的全部东西都只待在一个仓库里。没有什么简单办法把它打包，交到你的队友手上。</p>
+<p>你也没法把它们在项目之间搬运——每次都得手动抽取、手动粘贴。每一处使用都意味着手工复制文件，每个团队成员都得把这套活重做一遍。</p>
+<h2>skill：打包好的 pointer（Skills: A Pointer, Packaged）</h2>
+<p>skill 正是为这个问题而生的。<strong>skill</strong> 就是你前面见过的那套结构——一个指向文档的 pointer——但经过了打包和标准化。它是一个自包含的文件夹，干的是 doc-plus-pointer 那套活：steering 文件留在磁盘上，只在相关时才拉进来，全部捆成一个可移植、可分享的单元。</p>
+<p>一个 skill 文件夹里有一个 <code>SKILL.md</code> 文件（主文档），外加它需要的任何辅助文件。skill 之所以可移植，靠的是这几点：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240639/ai-hero-images/upofvz83alclqqmxpj1a.png" alt="skill 文件夹结构，显示 SKILL.md 文件"></p>
+<p>skill 文件夹结构，显示 SKILL.md 文件</p>
+<ul>
+<li><strong>常驻的只有一行</strong>：skill 的 name 和 description</li>
+<li><strong>其余都按需加载</strong>：正文和任何被链接的文件，只在 agent 伸手去取时才加载</li>
+<li><strong>打包在一起</strong>：所有文件都在同一个文件夹里，随时可以分享</li>
+</ul>
+<p>description 扮演着 agent 的 context pointer。它读一下 description，判断这个 skill 此刻是否相关；看完 description 之后，再决定要不要把这个 skill 加载进自己的 context window。</p>
+<p>比如，一个叫 <code>writing-for-agents</code> 的 skill，description 是 &quot;Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md.&quot;（为 agent 撰写文档。在创建或编辑 skill、修改 AGENTS.md 或 CLAUDE.md 时使用。），它就清清楚楚地告诉了 agent 什么时候该取用它。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240640/ai-hero-images/k7kipxybnnpvucxf0931.png" alt="writing-for-agents skill，显示含 name 和 description 的 frontmatter"></p>
+<p>writing-for-agents skill，显示含 name 和 description 的 frontmatter</p>
+<h2>不止一个文件（More Than One File）</h2>
+<p>一个 skill 并不限于单个文件。skill 文件夹里的所有东西都会一起打包进去。所以一个 skill 可能包含：</p>
+<ul>
+<li><code>SKILL.md</code>（主入口）</li>
+<li>像 <code>SKILL-MECHANICS.md</code> 这样的辅助文件</li>
+<li>其他参考资料</li>
+</ul>
+<p>主文件 <code>SKILL.md</code> 可以用 context pointer 指向这些辅助文件，agent 只在需要时才顺着这些链接走。这是 progressive disclosure（渐进式披露）再往下一层——在 agent 决定真正使用这个 skill 之前，它不用为辅助文件支付任何 context load。</p>
+<p>比如你可以在 <code>SKILL.md</code> 里写：「当你正在写的文档本身是一个 skill 时，读 <code>SKILL-MECHANICS.md</code>，了解 frontmatter、调用方式的选择和 router skill。」</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240641/ai-hero-images/zesddzibslodabbzkaeu.png" alt="SKILL.md，显示指向 SKILL-MECHANICS.md 的 context pointer"></p>
+<p><code>SKILL.md</code>，显示指向 SKILL-MECHANICS.md 的 context pointer</p>
+<p>这就形成了一个分层结构：</p>
+<ul>
+<li>context window → name 和 description</li>
+<li>name 和 description → <code>SKILL.md</code></li>
+<li><code>SKILL.md</code> → <code>SKILL-MECHANICS.md</code>（及其他文件）</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240641/ai-hero-images/pkxlmmnoe4k561xrijtc.png" alt="示意图：从 context window 到 SKILL.md 再到参考文件的分层结构"></p>
+<p>示意图：从 context window 到 SKILL.md 再到参考文件的分层结构</p>
+<h2>开放标准（The Open Standard）</h2>
+<p>skill 是一个开放标准，定义在 agentskills.io。这一点意义重大：为一个 agent 写的 skill，几乎可以原样工作在任何支持 skill 的 agent 上。它们是完全可移植的。</p>
+<p>这种可移植性意味着你可以：</p>
+<ul>
+<li>skill 只写一次</li>
+<li>与你的团队共享</li>
+<li>跨项目复用</li>
+<li>把海量信息打包进一个可移植的单元</li>
+</ul>
+<h2>调用 skill 的两种方式（Two Ways To Invoke A Skill）</h2>
+<p>skill 有两种主要的调用方式，二者在两种不同的负载之间做权衡：</p>
+<table>
+<thead>
+<tr>
+<th>调用方式</th>
+<th>如何运作</th>
+<th>Context Load</th>
+<th>Cognitive Load</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>model-invoked（model 自主调用）</strong></td>
+<td>description 位于 context window 中。agent 能看到它、注意到它相关，然后自己把它拉进来。</td>
+<td>较高</td>
+<td>较低</td>
+</tr>
+<tr>
+<td><strong>user-invoked（用户手动调用）</strong></td>
+<td>description 对 agent 隐藏。只有你自己能通过输入它的名字来调用。</td>
+<td>零</td>
+<td>较高（你得记住它）</td>
+</tr>
+</tbody></table>
+<p>两者的差别，归结为 skill frontmatter 里的一行。</p>
+<h3>model-invoked skill（Model-Invoked Skills）</h3>
+<p>把 description 留在 frontmatter 里，agent 就能自主发现这个 skill。它读到 description，认出什么时候相关，然后不用你提起就会自行调用。你当然还是可以自己输入 skill 的名字——model-invoked 永远包含手动调用这条路，它只是在之上多加了 agent 自主发现。</p>
+<p>description 是这个 skill 的顶层 context pointer，它始终处于加载状态。这是一笔永久的 context load，但换来了自动可发现性。</p>
+<h3>user-invoked skill（User-Invoked Skills）</h3>
+<p>在 frontmatter 里加上 <code>disable-model-invocation: true</code>，description 就对 agent 隐藏了。这下只有你能按名字调用这个 skill——agent 完全够不着它，哪怕它本来能帮上忙。context load 为零，但你得记得这个 skill 存在，还得记得去用它。</p>
+<p>一个 user-invoked skill 的 frontmatter 长这样：</p>
+<pre><code>---
+name: handoff
+description: Compact the current conversation into a handoff document for another agent to pick up.
+disable-model-invocation: true
+---
+</code></pre>
+<p>有了 <code>disable-model-invocation: true</code>，description 就从面向 agent 变成了面向人——这是留给你读的一行摘要，不是给 agent 解析的。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240642/ai-hero-images/obx95tezqnbl6wukehfu.png" alt="handoff skill 的 frontmatter，显示 disable-model-invocation: true"></p>
+<p>handoff skill 的 frontmatter，显示 disable-model-invocation: true</p>
+<h2>权衡（The Trade-Off）</h2>
+<p>在 model-invoked 和 user-invoked 之间做选择，是一种权衡：</p>
+<ul>
+<li><strong>更多 model-invoked skill</strong> = 更高的 context load，但 agent 能自主发现它们</li>
+<li><strong>更多 user-invoked skill</strong> = 额外 context load 为零，但你的认知负载更高</li>
+</ul>
+<p>user-invoked skill 零 context load 这一点确实诱人。你可以囤一大堆，而不把 context window 撑得虚胖。这就是为什么很多个人 skill 集合都倾向于 user-invoked skill——就 context 而言，它们是「免费」的。</p>
+<h2>列出你的 skill（Listing Your Skills）</h2>
+<p>想看看你手头有哪些 skill，运行 <code>/skills</code> 命令。它会弹出一个菜单，列出你能用到的每个 skill 的 name 和 description。这就是你在支付的 context load——每个 model-invoked skill 一行。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785240643/ai-hero-images/zduh7hycsbb04qoqwwvy.png" alt="/skills 命令输出，显示可用 skill 列表"></p>
+<p><code>/skills</code> 命令输出，显示可用 skill 列表</p>
+<p>在那份列表里，你能看出哪些是 user-invoked。比如：</p>
+<ul>
+<li><code>grill-me</code> 是 user-invoked（不向 agent 展示 description）</li>
+<li><code>writing-for-agents</code> 是 model-invoked（向 agent 展示 description）</li>
+</ul>
+<p>user-invoked skill 可以通过输入名字来调用，跟任何命令一样。</p>
+<h2>skill：可移植的 pointer（Skills as Portable Pointers）</h2>
+<p>skill 不过是打包好的 pointer。它跟「仓库里一份文档加 <code>AGENTS.md</code> 里一行 pointer」是同一套结构，区别在于这里你可以：</p>
+<ul>
+<li>把它打包起来</li>
+<li>交给你的团队</li>
+<li>在网上分发</li>
+<li>在项目之间随身携带</li>
+</ul>
+<p>「能轻松分享的东西」这个概念本身就充满力量。现在，你已经准备好动手造一个了。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">对一个 agent 能自主发现的 skill 来说，始终待在 context window 里的是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">skill 的 name 和 description，就一行</li>
+<li>SKILL.md 的全部内容，只是不含辅助文件</li>
+<li>skill 文件夹里打包的每一个文件</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">SKILL.md 的正文和它链接到的任何文件，都只在 agent 伸手去取这个 skill 时才加载，所以两者都不会预先待在窗口里。打包是把文件放进同一个文件夹、好让 skill 可以被分享——它并不会把文件放进 context。每个可被发现的 skill 只占一行，这就是全部的常驻成本。</p>
+<p class="quiz-q-text">你写了一个大概每月才用两次的 skill，而且你知道自己会忘记它的存在。你会怎么写 frontmatter？</p>
+<ul class="quiz-choices">
+<li class="correct">保留 description，让 agent 能找到它</li>
+<li>设置 disable-model-invocation，用时按名字调用</li>
+<li>干脆把 skill 正文粘贴进 AGENTS.md 来代替它</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">把 description 藏起来的 context load 是零，但 agent 就完全够不着这个 skill 了，认知负载全落在你头上——对一个你注定会忘的 skill，恰恰是这一点会出问题。把正文粘进 AGENTS.md，则是每次请求都为整份文档付费，而不是一行。一行 description，换来的是 agent 有机会注意到它。</p>
+<p class="quiz-q-text">你的 SKILL.md 长出了很长一段讲 frontmatter 细节的内容，可它十次里只有一次用得上。这段内容该怎么处理？</p>
+<ul class="quiz-choices">
+<li class="correct">把它挪到第二个文件里，由 SKILL.md 用 pointer 指过去</li>
+<li>留在 SKILL.md 里，反正文件夹是整体打包的</li>
+<li>把它做成一个独立 skill，配自己的 description</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">留在 SKILL.md 里，意味着 skill 每次触发它都会加载，包括那九次用不上的场合——文件夹整体打包是为了分享，不是为了决定什么进窗口。拆成独立 skill 则又多出一行永久加载的 description。指向辅助文件的 pointer，在 agent 顺藤摸瓜之前分文不花。</p></div>
+# 写一个 skill（Write A Skill）<p><strong>Commit Map（提交地图）</strong></p>
+<ul>
+<li><code>migration-steps-doc</code>：本课起点——migration 步骤位于 <code>docs/database-migrations.md</code>，藏在一条 pointer 后面</li>
+<li><code>migration-steps-skill</code>：查看我的解法——这份文档转换成了 <code>database-migrations</code> skill</li>
+</ul>
+<p>你已经为 database migrations 建好了文档，并用 <code>AGENTS.md</code> 把 agent 指了过去。但 pointer 也给你留下一个问题：每个 agent 在可能需要这份文档的时候，都得自己去取。</p>
+<p>skill 解决的正是这个。skill 就是一个 pointer，只不过打包了。它的 name 和 description 告诉 agent 它是否相关，正文只在 agent 伸手去取时才加载。</p>
+<p>本课要把你的「文档加 pointer」变成一个 skill。你可以手工做，也可以交给 agent、用 <code>writing-for-agents</code> skill 来处理。然后你会用 request logger（请求日志器）确认这个 skill 恰好在正确的时机被调用。</p>
+<h2>待完成步骤（Steps To Complete）</h2>
+<h3>配置 request logger（Set Up The Request Logger）</h3>
+<ul>
+<li><p>运行 <code>npm run request-logger</code></p>
+<p>这会启动一个代理服务器，把你的 agent 发出的每个请求都记录下来。它会问你在用哪个 coding agent，监听 <code>http://localhost:8787</code>，并打印出让该 agent 经由它启动的确切命令。</p>
+</li>
+<li><p>在另一个终端里，复制粘贴打印出来的命令，让 agent 经由代理启动</p>
+</li>
+<li><p>发一个测试请求</p>
+<p>输入 <code>Hello!</code>，看看在正式干活之前都加载了些什么。</p>
+</li>
+<li><p>查看 <code>request-logger/logs</code> 里的日志</p>
+<p>打开生成的那个 markdown 文件，找这几样东西：</p>
+<ul>
+<li><code>CLAUDE.md</code> 的内容，里面能看到指向 <code>docs/database-migrations.md</code> 的那条 pointer</li>
+<li>skill 列表（搜 &quot;skills&quot;）。你应该只会看到 <code>grilling</code> 和 <code>writing-for-agents</code> 可用，因为其他 skill 都设了 <code>disable-model-invocation: true</code></li>
+<li>Skill tool 的定义，它展示了 agent 如何按名字调用 skill、harness 如何解析到 <code>SKILL.md</code> 文件</li>
+</ul>
+</li>
+</ul>
+<p>这就是你的基线——转换之前，线上传输的东西长这样。</p>
+<h3>把文档转换成 skill（Convert The Doc Into A Skill）</h3>
+<ul>
+<li><p>让 agent 把 database migrations 文档转换成一个 skill</p>
+<p>你可以口述类似这样的话：</p>
+<pre><code>I&#39;d like you to take the documentation on database migrations and move it
+into its own skill project based in this repo.
+</code></pre>
+<p>不要手动调用 <code>writing-for-agents</code> skill。让 agent 自己决定需不需要它。</p>
+</li>
+<li><p>观察 request logger 里发生了什么</p>
+<p>agent 应该会调用 <code>writing-for-agents</code> skill，把它加载进 context，然后在 <code>.agents/skills/database-migrations/</code> 里创建新 skill。</p>
+</li>
+<li><p>确认 skill 已创建</p>
+<p>检查这几点：</p>
+<ul>
+<li><code>.agents/skills/database-migrations/SKILL.md</code> 已存在，frontmatter 里包含 name 和 description</li>
+<li>skill 正文包含原始文档里的 migration 步骤</li>
+<li>那行 pointer 已从 <code>AGENTS.md</code> 中移除</li>
+<li>原来的 <code>docs/database-migrations.md</code> 文件已删除</li>
+</ul>
+</li>
+</ul>
+<h3>测试这个 skill（Test The Skill）</h3>
+<ul>
+<li><p>清空 agent 的 context，再发一条测试消息</p>
+<p>这会生成一份新的日志，展示发生了什么变化。</p>
+</li>
+<li><p>查看 <code>request-logger/logs</code> 里的新日志</p>
+<p>再搜一次 &quot;skills&quot;。你现在应该能在列表里看到 <code>database-migrations</code> skill 和它的 description——context pointer 从 <code>CLAUDE.md</code> 挪到了 skill 列表里。</p>
+</li>
+<li><p>运行 <code>npm run reset</code> 清空数据库</p>
+</li>
+<li><p>让 agent 做一次 schema 变更</p>
+<p>比如，把 <code>purchases</code> 表里的 <code>pricePaid</code> 改名为 <code>amountPaid</code>：</p>
+<pre><code>In the purchases table, change pricePaid to amountPaid.
+</code></pre>
+</li>
+<li><p>看 agent 立刻调用这个 skill</p>
+<p>agent 一认出自己需要 migration 步骤，就应该立刻调用 <code>database-migrations</code> skill。</p>
+</li>
+<li><p>如果 agent 碰到交互式提示，就手动替它完成</p>
+<p>比如 <code>npm run db:generate</code> 可能需要你确认一次列改名。自己把命令跑完，然后告诉 agent 已经搞定。</p>
+</li>
+<li><p>确认 agent 是照着 skill 的步骤走的</p>
+<p>它应该使用与 skill 相同的措辞：reseed、verify、typecheck。</p>
+</li>
+<li><p>对比线上传输内容的变化</p>
+<p>pointer 从 <code>CLAUDE.md</code> 挪到了 skill 列表，但 agent 的行为没有任何不同。变的是包装，不变的是指引。</p>
+</li>
+</ul>
+<hr>
+<h1 id="lesson-4">写一个 skill：我的解法（Write A Skill Solution）</h1>
+<p><strong>Commit Map（提交地图）</strong></p>
+<ul>
+<li><code>migration-steps-doc</code>：本课起点——migration 步骤位于 <code>docs/database-migrations.md</code>，藏在一条 pointer 后面</li>
+<li><code>migration-steps-skill</code>：查看我的解法——<code>database-migrations</code> skill，加上用来测试它的 <code>pricePaid</code> 改名 <code>amountPaid</code></li>
+</ul>
+<p>我在这里已经发了一个只说 &quot;Hello&quot; 的测试请求，看看系统是怎么设置的。我们进到日志里看看 <code>AGENTS.md</code> 文件。</p>
+<p>在请求日志里，我们能看到 <code>CLAUDE.md</code> 的内容。那里就只有一个小小的 pointer，指向 database migrations 文档。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242252/ai-hero-images/s1vmk0zd9peumcl9tnb6.png" alt="CLAUDE.md 的内容，显示 database migrations pointer"></p>
+<p><code>CLAUDE.md</code> 的内容，显示 database migrations pointer</p>
+<p>如果我们搜 &quot;skills&quot;，会注意到 context window 里只有 <code>grilling</code> 和 <code>writing-for-agents</code> 这两个 skill 可用。这是因为仓库里另外两个 skill 的 frontmatter 里设了 <code>disable-model-invocation: true</code>，agent 自己没法调用它们。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242253/ai-hero-images/zsute8bxbbpu1222xvq7.png" alt="skill 列表，只显示 grilling 和 writing-for-agents"></p>
+<p>skill 列表，只显示 grilling 和 writing-for-agents</p>
+<p>再看上面定义的 Skill tool，我们能看清它是怎么工作的：一旦 agent 决定要去找某个 skill 文件，它就会带上那个文件的名字调用 Skill tool；然后 harness 会去解析真正的 <code>SKILL.md</code> 文件在哪里。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242254/ai-hero-images/jh0j6lsuktgyhizqqksy.png" alt="请求日志中的 Skill tool 定义"></p>
+<p>请求日志中的 Skill tool 定义</p>
+<h2>动手迁移（Making the move）</h2>
+<p>我们来真正动手迁移。我会向 Claude Code 口述我想要什么。</p>
+<pre><code>I&#39;d like you to take the documentation on database migrations and move it
+into its own skill project based in this repo.
+</code></pre>
+<p>做个小实验：我不手动调用 writing-for-agents skill——就放着不管，看它会不会自己调用。</p>
+<p>瞧，<code>writing-for-agents</code> skill 在这里被调用了。它正在把这个 skill 加载进自己的 context window。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242255/ai-hero-images/nypybox4u31atla8m1da.png" alt="writing-for-agents skill 被调用"></p>
+<p>writing-for-agents skill 被调用</p>
+<p>它接着在 <code>.agents</code> 里创建了 skill，位于 database migrations 文件夹下面，其中的 <code>SKILL.md</code> 看起来就跟原来那份 <code>AGENTS.md</code> 一个样。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242256/ai-hero-images/k7k4mln6am4ylflrwynu.png" alt="新建的 database-migrations skill 文件夹与 SKILL.md"></p>
+<p>新建的 database-migrations skill 文件夹与 SKILL.md</p>
+<p>现在它继续把旧 pointer 移除，<code>AGENTS.md</code> 于是完全空了。docs 文件也被删掉了。</p>
+<h2>用第二个 session 测试（Testing with a second session）</h2>
+<p>现在，我清空 context，再发一条测试消息。然后进到请求日志里，我们应该能看到事情起了变化。</p>
+<p>来了。「以下 skill 现已可用」（The following skills are now available）。你能看到：&quot;Database schema changes - generate the migration, update the seed, reseed. Use when editing the schema, when adding or altering a table column or enum, or when npm run db:seed fails to start.&quot;（数据库 schema 变更——生成 migration、更新 seed、重新灌数据。在编辑 schema、新增或修改表列或 enum、或 <code>npm run db:seed</code> 启动失败时使用。）</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242257/ai-hero-images/ejmyfdbcmelz7o8b8tps.png" alt="skill 列表，现在显示了 database-migrations skill"></p>
+<p>skill 列表，现在显示了 database-migrations skill</p>
+<p>这样我们就有了一个指向 skill 的 context pointer。现在想让同事们也用上它，只需要回到顶层，把 database-migrations 文件夹打个包发给他们就行。</p>
+<h2>schema 变更测试（The schema change test）</h2>
+<p>这个 session 的 schema 变更，我们来改 purchases：把 <code>pricePaid</code> 改成 <code>amountPaid</code>。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242257/ai-hero-images/zvg7zmqtjryjqaxldcth.png" alt="schema 文件，显示 pricePaid 字段"></p>
+<p>schema 文件，显示 pricePaid 字段</p>
+<p>我们要改一个属性的名字。在 purchases 表里，我要把 <code>pricePaid</code> 换成 <code>amountPaid</code>。</p>
+<p>先看原始的 schema：</p>
+<pre><code>export const purchases = sqliteTable(&quot;purchases&quot;, {
+id: integer(&quot;id&quot;).primaryKey({ autoIncrement: true }),
+userId: integer(&quot;user_id&quot;)
+.notNull()
+.references(() =&gt; users.id),
+courseId: integer(&quot;course_id&quot;)
+.notNull()
+.references(() =&gt; courses.id),
+pricePaid: integer(&quot;price_paid&quot;).notNull(),
+country: text(&quot;country&quot;),
+createdAt: text(&quot;created_at&quot;)
+.notNull()
+.$defaultFn(() =&gt; new Date().toISOString()),
+});
+</code></pre>
+<p>现在就期待它在正确的时刻调用正确的 skill。哦，立刻就调了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242258/ai-hero-images/mfxe02pces41arzptu5x.png" alt="database-migrations skill 被立即调用"></p>
+<p>database-migrations skill 被立即调用</p>
+<p>接下来它应该会继续完成剩下的必要工作。</p>
+<p>看起来它需要一个 TTY、一个交互式终端。所以我把它发我的东西拿来，自己跑一遍 <code>npm run db:generate</code>。</p>
+<pre><code>npm run db:generate
+</code></pre>
+<p>我们这是在改名，所以我会选择 rename column（重命名列），然后回去告诉它我已经搞定了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242259/ai-hero-images/hxpspvkr4ebnrftnc8iy.png" alt="交互式终端，提示选择 rename column"></p>
+<p>交互式终端，提示选择 rename column</p>
+<p>好，完成了。</p>
+<p>跟之前一样，它现在知道自己还要 reseed 和 verify。用的正是我们 skill 里的那些措辞。</p>
+<p>我相当有信心，这回稳了。</p>
+<h2>可移植的 pointer（The portable pointer）</h2>
+<p>到这里就完成了。skill 跟我们「文档加 pointer」的做法本质相同，只不过可移植性更强。</p>
+<p>我们其实是把 context pointer 挪了个位置：它不再待在 <code>CLAUDE.md</code> 里，而是出现在 skill 列表里。</p>
+<p>两次我们都能成功调用它、在正确的时刻把它取出来，靠的是一份写得好的 description。</p>
+<p>如果想省掉这笔 context load，我们也可以把它做成 user-invoked skill——把它从列表里拿出来，靠人在正确的时机手动调用。</p>
+<p>但就我而言，让它成为应用的一部分、成为 agent 所处环境的一部分，才更说得通。而且我认为这是个相当不错的 skill。</p>
+<p>你的第一个 skill 完成，干得漂亮。我们下一课见。</p>
+<h1 id="lesson-5">User skills 还是 Project skills（User Vs Project Skills）</h1>
+<p>Skills 可以放在两个地方之一，而这个选择很重要。</p>
+<h2>skills 的两个层级（Two Levels for Skills）</h2>
+<p>第一个层级是你的<strong>用户目录</strong> <code>~/.agents/skills</code>。放在这里的 skill 是你个人的，走到哪跟到哪：你在这台机器上打开的每一个项目都能用到它。</p>
+<p>第二个层级是<strong>项目本身</strong>，也就是项目里的 <code>.agents/skills</code> 文件夹。放在这里的 skill 会被提交进仓库，作用范围限定在这一个项目，但会共享给所有克隆这个仓库的人。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242729/ai-hero-images/bhc0ovk7ovgjqph5rz4m.png" alt="~/.agents/skills/ 下的用户级 skills 目录"></p>
+<p>~/.agents/skills/ 下的用户级 skills 目录</p>
+<p><strong>一边是个人专属、随身携带；一边是团队共享、随仓库提交。</strong> 选择就在这两者之间。</p>
+<h2>skills 存放在哪里（Where Skills Live）</h2>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>位置</th>
+<th>作用范围</th>
+<th>共享方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户级</td>
+<td><code>~/.agents/skills/</code></td>
+<td>你个人专属</td>
+<td>在你所有项目间全局通用</td>
+</tr>
+<tr>
+<td>项目级</td>
+<td><code>.agents/skills/</code></td>
+<td>限定于单个项目</td>
+<td>共享给每一个克隆仓库的人</td>
+</tr>
+</tbody></table>
+<p>用户级的 skills 在两套约定下是同一回事——你也会看到有人说它们放在 <code>~/.claude/skills/</code>。这两个路径在你的机器上指的是同一批 skills。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242730/ai-hero-images/d8pqicjizgx7okziz1vs.png" alt="仓库内的项目级 skills 目录"></p>
+<p>仓库内的项目级 skills 目录</p>
+<p>在项目这一级，skills 会被提交进仓库。这意味着它们进入 git 历史，并自动共享给所有克隆该项目的人。到这个节点为止，<code>ai-coding-crash-course</code> 项目包含五个 skills：</p>
+<pre><code>.agents/skills/database-migrations/
+.agents/skills/grill-me/
+.agents/skills/grilling/
+.agents/skills/handoff/
+.agents/skills/writing-for-agents/
+</code></pre>
+<h2>如何选择：个人还是团队？（How to Choose: Personal or Team?）</h2>
+<p>规则是这样的：如果它是纯粹的个人效率小玩意——你偏好的工作方式、属于你自己的捷径——就放进你的用户目录。</p>
+<p>一旦某个 skill 变成团队依赖的东西，变成「这个项目该怎么干活」的约定，它就该归项目所有。项目是更强的默认选项，因为：</p>
+<ul>
+<li>它有版本控制</li>
+<li>它随代码库一起演进</li>
+<li>每个克隆仓库的人自动获得它</li>
+<li>你永远不用提醒队友去安装任何东西</li>
+</ul>
+<p>拿不准的时候，只要它关乎工作本身而不是你个人，就放进项目。</p>
+<h2>两种不同的风格（Two Different Flavors）</h2>
+<table>
+<thead>
+<tr>
+<th>User 级</th>
+<th>Project 级</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>个人的</td>
+<td>随仓库提交的</td>
+</tr>
+<tr>
+<td>全局的</td>
+<td>单项目的</td>
+</tr>
+<tr>
+<td></td>
+<td>团队共有的</td>
+</tr>
+</tbody></table>
+<p><strong>个人的（Personal）：</strong> 它只属于你，别人看不到，别人也不必使用它。</p>
+<p><strong>全局的（Global）：</strong> 它走到哪跟到哪。在用户目录装一次，你在这台机器上打开的每个项目里都能用，无需任何配置、无需复制。</p>
+<p><strong>随仓库提交的（Checked-in）：</strong> 这个 skill 成了仓库的一部分。它被 git 历史追踪，随项目一起走。</p>
+<p><strong>单项目的（Single-project）：</strong> 它不会跟到你的下一个项目，但它被限定在这一个项目里是有充分理由的。</p>
+<p><strong>团队共有的（Communal）：</strong> 每个参与这个项目的人都能为这个 skill 做贡献。skill 会随项目自动成长，团队里每个人都在长期建设它。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785242731/ai-hero-images/uazwufxlurewh35auiec.png" alt="白板图：user 级与 project 级 skill 的特性对比"></p>
+<p>白板图：user 级与 project 级 skill 的特性对比</p>
+<h2>一个人干还是团队干？（Solo or Team?）</h2>
+<p>如果你基本是一个人干活，user 级 skills 大概率更方便，因为它们走到哪跟到哪。</p>
+<p>一旦有了团队，或者有多个人向同一个项目做贡献，project 级 skills 就是正解。它会让所有在这个代码库里工作的人都实实在在受益。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">有个 skill 写明了这个仓库里数据库迁移必须怎么跑，而两位队友总是搞错。它该放在哪？</p>
+<ul class="quiz-choices">
+<li class="correct">项目的 .agents/skills，随仓库提交</li>
+<li>你的 ~/.agents/skills，让它走到哪跟到哪</li>
+<li>你的用户目录，然后叫他们自己复制</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你自己有个措辞偏好的小捷径，想在打开的每个仓库里都能用。它该放在哪？</p>
+<ul class="quiz-choices">
+<li class="correct">你的用户目录，在你的所有项目间全局生效</li>
+<li>每个项目的 skills 文件夹，一个一个分别提交</li>
+<li>建一个仓库，每开新项目就克隆进去</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# 导航指针（Navigation Pointers）<p>Commit Map（提交对照）</p>
+<p>migration-steps-skill
+本课起点：<code>AGENTS.md</code> 已被清空，迁移步骤挪进了一个 skill</p>
+<p>seed-script-nav-pointer
+查看我的解法：在 <code>AGENTS.md</code> 中加入了指向 <code>scripts/seed.ts</code> 的 navigation pointer</p>
+<p>把你的代码库想象成一张卫星地图。agent 需要找东西的时候，它并没有鸟瞰视角，只能走在所谓的 **local roads（地方道路）**上。</p>
+<p>agent 要扫描目录、一个一个打开文件、沿着引用链一路追下去，才能找到目标。它最终能到，但旅程很慢。沿途打开的每个文件都在往 context window 里添东西，消耗掉本可用于解决实际问题的 token。</p>
+<p>但还有另一条路。**highway（高速公路）**和地方道路不是一回事。</p>
+<h2>Navigation pointer：为你的 agent 修高速公路（Navigation Pointers: Highways for Your Agent）</h2>
+<p>所谓 <strong>navigation pointer（导航指针）</strong>，就是 <code>AGENTS.md</code> 里的短短一行，它把 agent 直接送往代码库中的重要位置，中间免掉一切扫描。它是一种有专门职责的 context pointer（上下文指针）：不告诉 agent 该做什么，而是告诉 agent 该去哪看。</p>
+<p>你不会给每一个地方都修高速公路。那会把整个文件树都塞进 context，带来沉重的 context load（上下文负担）。你只给 agent 高频需要的地方修路；等它抵达附近，最后一段让它走 local roads 就好。</p>
+<h2>以 quiz 为例（The Quiz Example）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785243611/ai-hero-images/ze6o4bqd3nnshafwsrjj.png" alt="在代码库中搜索 quiz，命中多个文件"></p>
+<p>在代码库中搜索 quiz，命中多个文件</p>
+<p>在代码库里搜索 &quot;quiz&quot;，agent 可能发现命中结果散落在很多文件里：</p>
+<pre><code>app/db/schema.ts
+app/routes.ts
+app/services/quizService.ts
+scripts/seed.ts
+...and more
+</code></pre>
+<p>接下来，agent 就得沿着引用链一条一条追下去，才能理解这个结构。</p>
+<p>在 <code>app/db/schema.ts</code> 里，它可能会发现：</p>
+<pre><code>export const quizzes = sqliteTable(&quot;quizzes&quot;, {
+id: integer(&quot;id&quot;).primaryKey({ autoIncrement: true }),
+lessonId: integer(&quot;lesson_id&quot;)
+.notNull()
+.references(() =&gt; lessons.id),
+title: text(&quot;title&quot;).notNull(),
+passingScore: real(&quot;passing_score&quot;).notNull(),
+});
+
+export const quizQuestions = sqliteTable(&quot;quiz_questions&quot;, {
+id: integer(&quot;id&quot;).primaryKey({ autoIncrement: true }),
+quizId: integer(&quot;quiz_id&quot;)
+.notNull()
+.references(() =&gt; quizzes.id),
+questionText: text(&quot;question_text&quot;).notNull(),
+questionType: text(&quot;question_type&quot;).notNull().$type&lt;QuestionType&gt;(),
+position: integer(&quot;position&quot;).notNull(),
+});
+</code></pre>
+<p>agent 只能顺着这些引用链一条一条走。有了 navigation pointer，它清清楚楚知道自己该去哪。</p>
+<h2>给 seed 脚本加一条 navigation pointer（Adding a Navigation Pointer to the Seed Script）</h2>
+<p>最近几课里，数据库迁移老是坏，原因是 agent 没有更新 <code>scripts/seed.ts</code>。seed 脚本是一个关键文件，agent 经常需要落到它上面，但搜索时却偏偏容易漏掉它。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785243612/ai-hero-images/lhn7rc5nqyph5ll33hrb.png" alt="让 agent 往 AGENTS.md 里加一条 navigation pointer"></p>
+<p>让 agent 往 AGENTS.md 里加一条 navigation pointer</p>
+<p>解法就是加一条 navigation pointer。与其让 agent 自己探索时碰巧发现 seed 脚本，不如在 <code>AGENTS.md</code> 里直接把它指过去：</p>
+<pre><code># Navigation
+
+- `scripts/seed.ts` - the definition of the database&#39;s starting data, rebuilt from scratch on every `npm run db:seed`. Every schema change lands here too.
+</code></pre>
+<p>这轻量到了极点：三行，一个列表项。但它给了 agent 关键的一臂之力，因为这是一个难以发现、却非改不可的文件。</p>
+<p>当 agent 在改 schema 时，它现在知道了：「每一次 schema 改动都会落到 seed 脚本上。」这就是那个触发器。agent 会主动去找它，而不需要某个 skill 被触发。</p>
+<h2>一个真实案例：我的 skills 仓库（A Real-World Example: My Skills Repo）</h2>
+<p>来看一个更复杂的仓库，navigation pointer 在这里才真正显出分量。</p>
+<p>在我的 skills 仓库里，结构是这样的：</p>
+<pre><code>skills/
+engineering/
+productivity/
+misc/
+personal/
+in-progress/
+deprecated/
+
+docs/
+engineering/
+productivity/
+
+.claude-plugin/
+plugin.json
+</code></pre>
+<p>每个新建的 skill 都有一些不摆在前面的依赖：</p>
+<ol>
+<li>它要放进 <code>skills/</code> 下的某个分类文件夹（比如 <code>skills/productivity/</code>）</li>
+<li>如果它在 <code>engineering/</code> 或 <code>productivity/</code> 里，就必须在 <code>.claude-plugin/plugin.json</code> 中有一条记录</li>
+<li>如果它在 <code>engineering/</code> 或 <code>productivity/</code> 里，就必须有一份面向人类的文档页，位于 <code>docs/&lt;bucket&gt;/&lt;skill-name&gt;.md</code></li>
+<li>如果它在 <code>engineering/</code> 或 <code>productivity/</code> 里，就必须在顶层的 <code>README.md</code> 中被引用</li>
+<li><code>misc/</code>、<code>personal/</code>、<code>in-progress/</code>、<code>deprecated/</code> 里的 skill 则绝不能出现在 plugin manifest 或文档里</li>
+</ol>
+<p>这些依赖在文件系统上是看不见的。agent 扫描目录树时，不会明白为什么 <code>productivity/</code> 里新建一个 skill，还要在另外三个地方补记录。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785243612/ai-hero-images/ni1nndzee7eawspsk1is.png" alt="AGENTS.md 文件：navigation pointer 与分类（bucket）规则"></p>
+<p>AGENTS.md 文件：navigation pointer 与分类（bucket）规则</p>
+<p>一份带 navigation pointer 的详细 <code>AGENTS.md</code> 把这些依赖写得明明白白：</p>
+<pre><code>Every skill in `engineering/` or `productivity/` (the promoted buckets) must
+have a reference in the top-level `README.md` and an entry in
+`.claude-plugin/plugin.json`&#39;s `skills` array. Skills in `misc/`, `personal/`,
+`in-progress/`, and `deprecated/` must not appear in either.
+</code></pre>
+<h2>过期指针的代价（The Cost of Stale Pointers）</h2>
+<p>navigation pointer 会过期。危险在这里：你移动了一个文件，却忘了更新 <code>AGENTS.md</code> 里指向它的指针——这条指针不会报错，也不会警告你，它只是继续指着老位置。</p>
+<p>于是你就修了一条通往 nowhere 的高速公路。agent 信任你 steering files（引导文件）里的信息，并且照着行动。一条过期指针会把它带到错误的地方，还在它琢磨「文件怎么不在这」的时候白白烧掉 token。</p>
+<p>规则很简单：<strong>每当你改动项目结构，就去检查你的 navigation pointer</strong>。一条过期的高速公路比没有高速公路更糟，因为 agent 是真的信它。</p>
+<h2>单条提示词里的 navigation pointer（Navigation Pointers in a Single Prompt）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785243613/ai-hero-images/ixxmc9rauigey7subet2.png" alt="用 @-mention 把文件加进 context"></p>
+<p>用 @-mention 把文件加进 context</p>
+<p>同样的思路在单条消息里也成立。当你在提示词里 <strong>@-mention</strong> 一个文件时，你其实是在创建一条只管一轮对话的 navigation pointer：</p>
+<table>
+<thead>
+<tr>
+<th>范围</th>
+<th>机制</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每个 session</td>
+<td>navigation pointer</td>
+<td><code>AGENTS.md</code></td>
+</tr>
+<tr>
+<td>一轮对话</td>
+<td>@-mention</td>
+<td>聊天消息</td>
+</tr>
+</tbody></table>
+<p>两者都是把 agent 直接送往某个文件、免掉扫描。<code>AGENTS.md</code> 里的 navigation pointer 是永久的，作用于每一个任务；@-mention 只作用于一条提示词。同一套机制，不同的作用范围。</p>
+<h2>什么时候该用 navigation pointer（When to Use Navigation Pointers）</h2>
+<p>navigation pointer 适合这样的文件：</p>
+<ul>
+<li>靠扫描很难发现</li>
+<li>解决问题时非改不可</li>
+<li>属于那些不直观的工作流的一部分</li>
+</ul>
+<p>别给所有东西都加。指针越少，代码库变动时你要维护的就越少。但在那些结构举足轻重、依赖又看不见的仓库里，一份带 navigation pointer 的好 <code>AGENTS.md</code>，决定了一个 agent 是高效探索，还是反复漏掉关键文件。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">迁移老是坏，因为 agent 从不更新 seed 脚本——一个它搜索时根本翻不出来的文件。你该加什么？</p>
+<ul class="quiz-choices">
+<li class="correct">在 AGENTS.md 里给它加一行 navigation pointer</li>
+<li>把 seed 脚本的内容整段贴进 AGENTS.md</li>
+<li>加一条规则，命令它编辑前更卖力地搜索</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你在一个重构里移动了三个文件。没有报错，构建是绿的，agent 看起来也没事。还有什么需要检查？</p>
+<ul class="quiz-choices">
+<li class="correct">AGENTS.md 里写着旧路径的那些指针</li>
+<li>什么都不用——agent 自己会找到新路径</li>
+<li>测试是否还覆盖你移动的那些文件</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">这个任务需要 agent 读一个特定的配置文件，今天之后就再也不需要了。哪种做法匹配这个范围？</p>
+<ul class="quiz-choices">
+<li class="correct">在你正写的消息里 @-mention 这个文件</li>
+<li>把这个文件加进 AGENTS.md 的 Navigation 部分</li>
+<li>描述一下文件夹，让 agent 自己扫描</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# 修剪（Pruning）<p>把文件放进项目仓库、让所有人共同贡献，这种做法有一个大问题。</p>
+<p>它们只增不减。它们总是越变越大，极少变小。里面每条规则当初都有理由加进来，而几乎没有一条会被删掉。一个文件从五行开始，长到 500 行，再到 1000 行。</p>
+<p>原因是心理层面的。加一条规则感觉成本低、感觉安全，尤其当你在给一份集体文档做贡献的时候。删一条规则，感觉像在宣称「这条规则不重要了」，像是在踩别人的劳动成果。</p>
+<p>但 pruning（修剪）这个理念很重要。<strong>Pruning 就是定期回头过一遍文件，把里面的东西剪掉。</strong> 它对降低整体 context load 至关重要。</p>
+<p>现实世界里的 <code>AGENTS.md</code>，几乎每一份都远远、远远超出了它该有的体量。好消息是，你可以学会有效地修剪它们。</p>
+<h2>Pruning 工具箱（The Pruning Toolkit）</h2>
+<p>你需要一个办法，逐行决定什么留下。解法是三项测试，你可以对任何 steering 文件逐一执行。这三项测试构成了 pruning 工具箱。</p>
+<table>
+<thead>
+<tr>
+<th>测试</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Single Source Of Truth（唯一事实来源）</td>
+<td>每条事实都应该只住在一个权威位置</td>
+</tr>
+<tr>
+<td>Sediment（沉积物）</td>
+<td>曾经为真、如今已不为真的行</td>
+</tr>
+<tr>
+<td>No-Op（无效指令）</td>
+<td>对 agent 行为毫无影响的指令</td>
+</tr>
+</tbody></table>
+<p>任何通不过这三项测试的东西，都没有挣到它在 context window 里的位置。剪掉它，你会发现你的 steering 水平大幅提升。</p>
+<h2>测试 1：Single Source Of Truth（Test 1: Single Source Of Truth）</h2>
+<p>agent 需要的每一条事实，都应该只住在一个权威位置。每条事实，只留一个 single source of truth（唯一事实来源）。</p>
+<p>这意味着要避免重复。你可能在 <code>AGENTS.md</code> 里写了条规则，然后又把一个略有出入的版本贴进了某份文档。也许它们在不同地方被分别编辑，或者来自不同的 pull request。现在，完全相同的信息有了多个、还常常互相打架的来源。</p>
+<p>当重复很多的时候，agent 常常分不清哪份是现行版本，于是信了错的那份。文件特别长的时候，甚至同一个文件内部也会出现重复。</p>
+<h3>重复的代价（The Cost of Duplication）</h3>
+<p>重复从三个方面坑你：</p>
+<ol>
+<li><p><strong>维护成本</strong>——每次要改行为，你得在多个地方都改一遍。</p>
+</li>
+<li><p><strong>context load</strong>——你付着 token，把同一句话说了一遍又一遍。</p>
+</li>
+<li><p><strong>存在感</strong>——被重复的信息会比没被重复的信息更显眼，于是它的权重远高于它真实的实际重要性。</p>
+</li>
+</ol>
+<p>这意味着被重复的内容，会淹没其他同样重要、只是没被重复的信息。一条事实有三个家，就是一条你不再说了算的事实。</p>
+<p>每条事实只放一个地方，其他所有地方都指向那里。</p>
+<h2>测试 2：Sediment（Test 2: Sediment）</h2>
+<p>Sediment（沉积物）是第二个让 steering 文件腐烂的东西。sediment 本质上是个心理问题，是团队与这些文件相处方式的问题。</p>
+<p><code>AGENTS.md</code> 里的 sediment 会随时间层层堆积，因为<strong>加感觉安全，删感觉冒险</strong>。任何一份没有严格 pruning 纪律的 steering 文件都会陷入沉积，变得越来越长、越来越长、越来越长。</p>
+<p>每条规则在你写下它的那天都合理。但项目在前进：库被换掉了，约定变了，你当年防的那个 bug 修好了。而你为它写的规则还在。没人删它。它沉到文件底部，把 agent 往一个已经不复存在的世界拽。</p>
+<p>这意味着你的 <code>AGENTS.md</code> 会慢慢对越来越多的任务失去相关性。沉积意味着大量无关的东西挤进 context window，占着 context、拖着 agent 的表现往下走。</p>
+<h3>识别 Sediment（Identifying Sediment）</h3>
+<p>sediment 特别危险，因为它大概率曾经是对的。它可能对过一阵子，也可能到现在仍然正确、只是并不适用于所有场景。<strong>你必须毫不留情地删掉它，或者把它挪到某条指针背后。</strong></p>
+<p>对每一行都问一句：它现在还是真的吗？</p>
+<h2>测试 3：No-Op（Test 3: No-Ops）</h2>
+<p>No-op 大概是其中最阴险的问题：最容易加进来，最难删出去。</p>
+<p><strong>no-op</strong> 是一条什么都不做的指令，对输出毫无影响。它以两种方式发生：</p>
+<ul>
+<li>模型默认就会这么做</li>
+<li>在那条 steering 指令的特定语境下，它什么作用也没有</li>
+</ul>
+<p>想象你写了一个 <code>/implement</code> skill，里面有条指令说「写一条详细的 commit message」。这条指令真的需要吗？删掉它会怎样？它还会写出好的 commit message 吗？多半会。</p>
+<p>所以你在付 context load，只为告诉它一件它无论如何都会做的事。</p>
+<h3>侦测 No-Op（Detecting No-Ops）</h3>
+<p>去掉 no-op 的办法很简单：<strong>把它删掉，然后看行为有没有变。</strong> 如果没变，那一行八成就是 no-op，可以删。</p>
+<p>这项测试只问一个问题：这一行相对于默认行为，改变了什么吗？</p>
+<p><strong>一条指令可以完全切合当下情境，却依然是个 no-op。</strong> 它可以是真的、切题的，却依然不值一个 token，因为 agent 根本不需要你告诉它。</p>
+<p>而 no-op 不是免费的。它还在 context 里，还在付 context load，还在稀释它周围那些真正要紧的行。</p>
+<h2>综合运用（Putting It Together）</h2>
+<p>这就是 pruning 工具箱——对每份 steering 文件执行的三项测试：</p>
+<ol>
+<li><strong>这条指令是否被重复了</strong>，破坏了 single source of truth？</li>
+<li><strong>这条指令是不是一块 sediment</strong>——曾经为真，如今已不为真？</li>
+<li><strong>这一行是不是 no-op？</strong> 它真的有改变行为的作用吗？</li>
+</ol>
+<p>任何通不过这三项测试的东西，都没有挣到它在 context window 里的位置。它只是在让你白付 context load，换不来任何收益。</p>
+<p>剪掉它，你会发现你的 steering 水平大幅提升。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你的 implement skill 里写着「写一条详细的 commit message」。你删掉了这行，commit message 写出来一模一样。然后呢？</p>
+<ul class="quiz-choices">
+<li class="correct">它是个 no-op，这行就保持删除状态</li>
+<li>放回去——是它在撑着质量</li>
+<li>把它挪进 AGENTS.md，让它永远生效</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">同一套命名约定，AGENTS.md 里写了一遍，某个文档页里换了措辞又写了一遍。你该怎么办？</p>
+<ul class="quiz-choices">
+<li class="correct">只留一份，从另一个地方指向它</li>
+<li>把两份都编辑到措辞一字不差</li>
+<li>两份都留着——说两遍能让规则更深入人心</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你 steering 文件里有一条规则，防的是你的项目上季度就换掉的那个库的怪癖。这一行会怎样？</p>
+<ul class="quiz-choices">
+<li class="correct">剪掉，或把它残留的有效部分挪到指针背后</li>
+<li>留着，以防老库哪天回来</li>
+<li>把它改写成一条更宽泛的库使用建议</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# 动手修剪（Trying Out Pruning）<p>Commit Map（提交对照）</p>
+<p>init-generated-claude-md
+本课起点：<code>/init</code> 生成的那个臃肿的 <code>AGENTS.md</code></p>
+<p>pruned-claude-md
+查看我的解法：<code>AGENTS.md</code> 修剪成一个导航层，<code>testing-services</code> 和 <code>adding-a-route</code> 被抽取成了 skill</p>
+<p>agent 可以用 <code>/init</code> 命令从零生成一份 <code>AGENTS.md</code>。它会扫描你的代码库，自动创建 steering 指引。</p>
+<p>问题在于？它通常造出一份<strong>庞然大物</strong>。泛泛的建议、样板文字、目录清单、命令表——很多东西其实根本改变不了 agent 的行为。而这一切，在 agent 每次运行时都要烧 token。</p>
+<p>你的任务是通读这份生成出来的文件，然后毫不留情地修剪。只留下在每个 session 里都挣得了位置的东西，其余全删。</p>
+<h2>三项测试（The Three Tests）</h2>
+<p>用 pruning 工具箱里的这三个过滤器，来决定什么留、什么走：</p>
+<p><strong>Single source of truth</strong> 这条事实是不是已经在代码库的其他地方存在，还是在文件内部就重复了？如果 agent 读代码就能发现它，你就不需要 steer 它往那去。</p>
+<p><strong>Sediment</strong> 它对你的这个具体项目来说是真的吗，还是那种放到任何代码库上都成立的通用填充物？&quot;Write unit tests for all new utilities&quot; 是 sediment。&quot;Our tests run on Vitest in watch mode with <code>npm run test:watch</code>&quot; 不是。</p>
+<p><strong>No-ops</strong> 相对于它默认本来就会做的事，这行改变了 agent 的行为吗？如果它影响不了任何决策，它就是在白白占地方。</p>
+<p>通不过其中任何一项测试的东西，都应该剪掉。对着留下来的部分，问自己：每一行都在每个 session 里挣到了自己的位置吗？</p>
+<h2>完成步骤（Steps To Complete）</h2>
+<ul>
+<li>打开生成出来的 <code>AGENTS.md</code> 文件，从头到尾通读一遍</li>
+</ul>
+<p>感受一下它的结构。标出那些显得泛泛的部分、重复代码里显而易见信息的部分，以及重复文件内已有信息的部分。</p>
+<ul>
+<li>识别 no-op</li>
+</ul>
+<p>找那些读起来像最佳实践、而不是项目专属指引的建议。比如：&quot;Write unit tests for all new utilities&quot;、&quot;Provide helpful error messages to users&quot;、&quot;Never include sensitive information in commits&quot;。这些指引不了 agent——它们描述的是它本来就会做的事。</p>
+<p>标记待删。</p>
+<ul>
+<li>识别 sediment</li>
+</ul>
+<p>找出那些放到任何代码库都成立、而非专属于你这个项目的行。泛泛的项目简介、不加说明就列出每个 npm script 的命令表、目录清单、通用开发小贴士。这些不是谎话，但它们没挣到自己花掉的 token。</p>
+<p>标记待删。</p>
+<ul>
+<li>识别重复</li>
+</ul>
+<p>扫描文件内部互相重复的事实。检查有没有哪个部分，重复了 <code>README.md</code>、<code>package.json</code>、代码注释或仓库其他地方类型定义里的信息。如果 agent 能读源码，你就不需要替它抄一遍。</p>
+<p>把冗余的那份标记待删。</p>
+<ul>
+<li>在全新的终端里运行 <code>/context</code>，测量 token 用量</li>
+</ul>
+<p>在同一目录开一个全新的 agent session，运行 <code>/context</code>。记下 Memory Files 部分的 token 数——这就是 <code>AGENTS.md</code> 每个 session 要你付的价钱。</p>
+<p>你会用这个数字来验证修剪是否见效。</p>
+<ul>
+<li>用 <code>/writing-for-agents</code> 删除或重构标记的部分</li>
+</ul>
+<p>对每个标记的部分做个决定：整个删掉，还是挪到某条指针背后（一个链接或引用，指向 agent 能找到真正来源的地方）？</p>
+<p>用 <code>/writing-for-agents</code> 这个 skill 来帮你编辑文件。它会引导你把各部分改写得更紧凑、更精确，或者干脆整个移除。</p>
+<p>如果某个部分确实重要、但已在别处有文档，就加一条指针。如果它真的泛泛或冗余，直接删掉。</p>
+<ul>
+<li>再跑一次 <code>/context</code>，对比</li>
+</ul>
+<p>开一个全新的 agent session，再跑一次 <code>/context</code>。Memory Files 的 token 数应该明显下降。这就是修剪生效的证明。</p>
+<ul>
+<li>确认文件仍然讲得通</li>
+</ul>
+<p>把修剪过的 <code>AGENTS.md</code> 再通读一遍。剩下的每一行，是否都在把 agent 引向它本来不会做出的决策？是的话，你就完成了。如果还发现能删的，继续剪。</p>
+<h1 id="lesson-6">动手修剪：解法（Trying Out Pruning Solution）</h1>
+<p>Commit Map（提交对照）</p>
+<p>init-generated-claude-md
+本课起点：<code>/init</code> 生成的那个臃肿的 <code>AGENTS.md</code></p>
+<p>pruned-claude-md
+查看我的解法：11 行的 <code>AGENTS.md</code>，测试与路由流程都挪到了 skill 背后</p>
+<p>面对一份臃肿的 <code>AGENTS.md</code>，首先要考虑的是重复。不只是文件内部的重复，还有代码库里那些随手就能查到的来源里的重复。</p>
+<h2>找出重复项（Finding the Duplicates）</h2>
+<p>最显眼的重复出现在开发命令部分。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244400/ai-hero-images/keliqrzuuf7vvwjptaxv.png" alt="开发命令部分：npm run dev、npm build 和 npm start"></p>
+<p>开发命令部分：npm run dev、npm build 和 npm start</p>
+<p>你会看到 <code>npm run dev</code>、<code>npm run build</code>、<code>npm run start</code> 列在那里，但这些命令本来就在 <code>package.json</code> 里：</p>
+<pre><code>{
+&quot;scripts&quot;: {
+&quot;dev&quot;: &quot;react-router dev&quot;,
+&quot;build&quot;: &quot;react-router build&quot;,
+&quot;start&quot;: &quot;react-router-serve ./build/server/index.js&quot;
+}
+}
+</code></pre>
+<p>对 agent 来说，在 <code>package.json</code> 里找到这些命令毫不费力。</p>
+<p>它们是可执行的事实来源。每个命令是干嘛的，agent 可以从自己的 parametric knowledge（参数化知识）里推断出来——它知道 <code>npm run dev</code> 会启动开发服务器，而且它能从看到的输出里验证这一点。没有任何必要重复这个信息。</p>
+<p>这是对 single source of truth 的违反。当两份信息争夺权威地位时，你应该留下那个可执行的东西当事实来源。</p>
+<h2>概览与技术栈部分的问题（The Overview and Tech Stack Problem）</h2>
+<p>看看概览和技术栈部分。同样的信息已经存在于项目根目录的 <code>README.md</code> 里：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244401/ai-hero-images/yqziayktbkopgjqi29h1.png" alt="README.md：概览与技术栈"></p>
+<p>README.md：概览与技术栈</p>
+<pre><code>&gt; The exercise repo for the AI Coding Crash Course
+
+This is a full-stack course platform (think a mini Udemy) built with React Router, TypeScript, SQLite, and Drizzle ORM.
+</code></pre>
+<p>agent 知道 <code>README.md</code> 就在项目根目录。它能读它、从那里理解技术栈。它也能看目录结构、看出这是个 React Router 项目。如果它需要确认用的 React Router 是什么版本，它可以打开 <code>package.json</code> 看安装的版本。</p>
+<p>这些部分根本不需要在 <code>AGENTS.md</code> 里存在。</p>
+<h2>开场白就是一个 No-Op（The Preamble is a No-Op）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244401/ai-hero-images/ymygytr82e3dlnibjjfb.png" alt="AGENTS.md 的开场白，写着 &#39;This file provides guidance to Claude Code&#39;"></p>
+<p>AGENTS.md 的开场白，写着 &#39;This file provides guidance to Claude Code&#39;</p>
+<p>开头那句「This file provides guidance to the agent when working with code in this repository」——谁都知道。agent 知道，harness 也知道。这是不增加任何价值的信息，应该整行删掉。</p>
+<h2>格式规则属于「理所当然的知识」（Formatting Rules Are Assumed Knowledge）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244402/ai-hero-images/n0dftpi4bxuomvzc6rxi.png" alt="AGENTS.md 里的 Prettier 配置行"></p>
+<p>AGENTS.md 里的 Prettier 配置行</p>
+<p>有一行说 Prettier 已在 <code>.prettierrc</code> 中配置。agent 有好几个途径能判断出 Prettier 正在被使用：</p>
+<ul>
+<li>它可以跑 <code>ls</code>，看到根目录有 <code>.prettierrc</code></li>
+<li>它可以在 <code>package.json</code> 的依赖里看到 Prettier</li>
+<li>它从训练里早就知道 Prettier 的种种约定</li>
+</ul>
+<p>没有任何理由把这写出来。</p>
+<h2>目录结构清单（The Directory Structure Listing）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244403/ai-hero-images/ids8xjl7pqpf7dkgmhwx.png" alt="AGENTS.md 里整段目录结构部分"></p>
+<p>AGENTS.md 里整段目录结构部分</p>
+<p>一整份目录结构被列了出来，但这只是把文件系统本身这个事实来源复述了一遍。这类 navigation pointer 有用，但前提是它指向的东西真的难找。比如 <code>scripts/seed.ts</code> 在 <code>app</code> 目录外面，把它标出来就合理。但把 <code>app/routes/</code>、<code>app/services/</code>、<code>app/components/</code> 列出来——一次目录列表就能一目了然。</p>
+<p>其中一些指针如果真有导航价值，值得保留，但整段目录结构部分基本上是冗余的。</p>
+<h2>架构部分全是代码里已有的行内文档（The Architecture Section Contains Inline Documentation）</h2>
+<p>有意思的地方来了。架构部分包含大量详细信息，但其中很多已经在代码本身里有文档了。</p>
+<p>打开 <code>app/db/index.ts</code>，你会看到：</p>
+<pre><code>// The connection is opened lazily, on first use. Opening it at module scope
+// made this module side-effectful, which meant Rollup could not drop it from
+// the client bundle when a route imported a service purely for its loader -
+// dragging better-sqlite3 into the browser. Keep this file side-effect free.
+</code></pre>
+<p>一模一样的解释，代码里已经写着了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244404/ai-hero-images/omcxouibcxumj3vhu8ya.png" alt="comment-markdown.server.ts：注释头"></p>
+<p>comment-markdown.server.ts：注释头</p>
+<p>再看 <code>app/lib/comment-markdown.server.ts</code>，你会看到：</p>
+<pre><code>// ─── Comment Rendering ───
+// Deliberately separate from renderMarkdown (~/lib/markdown.server).
+//
+// renderMarkdown handles lesson content and sales copy, which are written by
+// instructors - trusted input, raw HTML allowed through. Comments are written by
+// students, so the same treatment would be stored XSS against every reader.
+</code></pre>
+<p>又一次，这份文档已经在了，就内联在代码里。agent 会读到它。</p>
+<h2>真正配得上留下的内容（What Actually Earns Its Place）</h2>
+<p>有些信息是真正挣得了 <code>AGENTS.md</code> 里一席之地的。比如：这里的路由是基于配置的，不是基于文件的。如果 agent 创建了一个路由文件、却没在路由表里注册它，这个路由不会生效，返回 404。</p>
+<p>没有这条指引，agent 会一直漏掉这一步。这是改变行为的信息，应该留下。</p>
+<p>测试用的 <code>vi.mock</code> getter 模式也一样。如果你用一个普通对象而不是 getter 函数，测试会在 mock 的那一刻把值捕获死。第一个测试之后的每一个测试，跑的都是一份过期、已关闭的数据库。这种失败是无声的——你的测试全过，但它们对着旧数据在测。</p>
+<h2>测试板块应该挪到指针背后（The Testing Block Should Go Behind a Pointer）</h2>
+<p><code>AGENTS.md</code> 里的测试板块是一整套流程，教你如何配合数据库 mock 写测试。这是 skill 抽取的天然候选。</p>
+<p>与其把它内联在 <code>AGENTS.md</code> 里，不如放到指针背后。当 agent 在写测试时，应该引导它去读 <code>testing-services</code> skill。当它在加新路由时，应该让它看到 <code>adding-a-route</code> skill。</p>
+<p>这样一来，<code>AGENTS.md</code> 就成了一份带 navigation pointer 的索引，而不是一本操作手册。</p>
+<h2>清空 context，重新评估（Clearing Context and Re-Evaluating）</h2>
+<p>把整个文件通读一遍之后，清空 context window，从头再来。这能重置你的思路。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244404/ai-hero-images/bcebhm7min7n2ot3mb8h.png" alt="/context 输出：2.4k tokens"></p>
+<p>/context 输出：2.4k tokens</p>
+<p>到这里，<code>AGENTS.md</code> 大约 2.4k tokens，差不多是起点的一半。现在的问题是：还能更狠一点吗？</p>
+<h2>运行 /writing-for-agents（Running /writing-for-agents）</h2>
+<p>让 <code>/writing-for-agents</code> skill 来干修剪的活：</p>
+<pre><code>I want you to find me candidates in AGENTS.md that have single-source-of-truth issues between AGENTS.md and the rest of the stuff on the filesystem. I want you to give me candidates for removal or for putting behind pointers. Basically, I want you to do a whole pruning pass on AGENTS.md, and the ideal state for it should be just a few navigation pointers to different documentation.
+</code></pre>
+<p>agent 会通读文件和文件系统，把每一条说法跟它的真实来源核对。</p>
+<p>它应该回报这些内容：</p>
+<ul>
+<li>代码注释里已经原样存在的逐字重复</li>
+<li>agent 本来就知道怎么做的 no-op</li>
+<li>不值一提的文件系统事实</li>
+<li>真正挣得了位置的行</li>
+</ul>
+<p>第一轮过后，你降到了 51 行。好多了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244405/ai-hero-images/moo7kywbgi4av1pb68wz.png" alt="第一轮修剪后的 AGENTS.md"></p>
+<p>第一轮修剪后的 AGENTS.md</p>
+<p>agent 下手很狠。它保留了基于配置的路由要求、<code>vi.mock</code> getter 模式、TypeScript typegen 问题，以及开发 UI 的错误信息映射。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244406/ai-hero-images/nc6gl8gj7dt9zhr6gbxb.png" alt="agent 的报告：删了什么、留了什么"></p>
+<p>agent 的报告：删了什么、留了什么</p>
+<p>但还有得剪。</p>
+<h2>第二轮：把内容挪到指针背后（A Second Pass: Putting Things Behind Pointers）</h2>
+<p>现在让 skill 再来一轮：</p>
+<pre><code>I would like you to do another pass for me and look for opportunities where we can take even more stuff out of AGENTS.md and put them behind pointers. I agree with the deletions that you&#39;ve made, but I think there are more opportunities for putting existing docs behind pointers and writing careful descriptions so that they are grabbed at the right time.
+</code></pre>
+<p>第二轮，agent 会：</p>
+<ol>
+<li>把测试模式抽取成 <code>testing-services</code> skill</li>
+<li>把路由模式抽取成 <code>adding-a-route</code> skill</li>
+<li>建一张症状与成因对照的 triage 表</li>
+<li>只在 <code>AGENTS.md</code> 里留下导航层</li>
+</ol>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244407/ai-hero-images/xqyju3l1yjpeprmfyoc7.png" alt="最终的 31 行 AGENTS.md"></p>
+<p>最终的 31 行 AGENTS.md</p>
+<p>agent 在遵循一条原则：任务流程有可预测的触发条件。你知道自己正在加路由，你知道自己正在写测试。这些就该放到带有清晰描述的指针背后。而错误恢复的触发条件不可预测，所以 triage 表留在内联。</p>
+<h2>这些 skill 长什么样（What the Skills Look Like）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244408/ai-hero-images/d1dz6jdutgw0f170dws5.png" alt="testing-services skill 文件"></p>
+<p>testing-services skill 文件</p>
+<p><code>testing-services</code> skill 包含完整的 <code>vi.mock</code> 模式，解释了 getter 这一点为什么特别关键（第 2 个及之后的测试会撞上过期的数据库），还包含了单独跑某个测试的调用方式：</p>
+<pre><code>Use when adding or changing a test under app/services or app/lib, or when a test writes to data.db instead of an in-memory database.
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244409/ai-hero-images/vxmx1qp4e0c6visieztb.png" alt="adding-a-route skill 文件"></p>
+<p>adding-a-route skill 文件</p>
+<p><code>adding-a-route</code> skill 包含基于配置的路由解释、两处编辑的要求、带点号和美元符号的文件名约定，以及 loader 与 action 分别鉴权的规则：</p>
+<pre><code>Use when adding or removing a page, URL, or route, or when a new route renders a 404.
+</code></pre>
+<h2>Triage 表（The Triage Table）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244410/ai-hero-images/un4mulbkpuiqzhdojiuq.png" alt="「When something breaks」triage 表"></p>
+<p>「When something breaks」triage 表</p>
+<p>留在 <code>AGENTS.md</code> 里的，是一张简单的 triage 表，把症状映射到成因：</p>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>成因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>401「从 DevUI 面板选择一个用户」</td>
+<td>session 里没有用户</td>
+</tr>
+<tr>
+<td><code>tsc</code> 报告所有 <code>./+types/*</code> 导入缺失</td>
+<td>typegen 还没跑。用 <code>npm run typecheck</code></td>
+</tr>
+<tr>
+<td>跑测试后 <code>data.db</code> 里留下数据行</td>
+<td><code>~/db</code> 的 mock 写错了</td>
+</tr>
+</tbody></table>
+<p>这正是 navigation pointer 的用武之地。出了故障的时候，你不需要整套流程——你只需要知道该扳哪个开关。</p>
+<h2>删掉那些显而易见的 No-Op（Deleting the Obvious No-Ops）</h2>
+<p>agent 第二轮之后，你还会看到一些仍然是 no-op 的东西：</p>
+<ul>
+<li>一行说注释头约定（comment header convention）是用来给模块写文档的</li>
+<li>一份复述文件系统的目录列表</li>
+<li>一条指向 database migrations skill 的指针——而这个 skill 本身已经加载了</li>
+</ul>
+<p>这些可以删。注释头读代码就一目了然。目录列表本来就看得见。database migrations skill 已经作为 skill 自动加载了，<code>AGENTS.md</code> 里再写一行指向它，就是同一信息的第三份副本。</p>
+<h2>最终的文件（The Final File）</h2>
+<p>到最后，<code>AGENTS.md</code> 只剩 11 行：</p>
+<pre><code>Requests flow route → service → Drizzle. Routes own HTTP concerns and
+rendering; services own data access and use the shared db instance
+directly rather than receiving a handle.
+
+## When something breaks
+
+| Symptom | Cause |
+| 401 &quot;Select a user from the DevUI panel&quot; | No user in session - use the DevUI panel |
+| tsc reports ./+types/* missing | Typegen hasn&#39;t run - use npm run typecheck |
+| Test run leaves rows in data.db | The ~/db mock is wrong - see testing-services skill |
+</code></pre>
+<p>每一行都在干活。没有 sediment，没有重复，没有在向 agent 复述它早就知道的事。</p>
+<h2>纪律（The Discipline）</h2>
+<p>真正的纪律，不在于写更多的 steering 文档，而在于让你已有的内容保持诚实。</p>
+<p>当你为 agent 写指引时，你是在制造一项维护负担。你留下的每一行都需要保持最新。你做出的每一个断言都需要保持为真。文件越长，就越容易腐烂、偏离真实的代码库、变成负资产。</p>
+<p>Pruning 的过程逼你问一些扎心的问题：</p>
+<ul>
+<li>agent 是不是早就知道这个？</li>
+<li>这个是不是别处已经有文档了？</li>
+<li>这是真坑还是 no-op？</li>
+<li>这句话一个月之后还为真吗？</li>
+</ul>
+<p>等你做完，留下来的东西精瘦而诚实。这就是「真正能引导行为的指引」和「agent 学会无视的噪音」之间的区别。</p>
+<h1 id="lesson-7">Claude Code 的 automatic memory（Claude Code&#39;s Automatic Memory）</h1>
+<p>还有一类 steering 来源我们没有讨论过，那就是 agent 为自己写的那一种。</p>
+<h2>automatic memory 的工作原理（How Automatic Memory Works）</h2>
+<p>大多数 harness 都自带一个 memory system（记忆系统），agent 会往里写、从里读，未必需要你开口。工作过程中，agent 会注意到值得记住的东西。于是它会注意到你对它行为的某次纠正、你表达过的某个偏好，或是一条关于你希望活儿怎么干的实事，然后把它存进本地某个文件里。</p>
+<p>这些文件会在之后的 session 里被读进 context window。取决于具体 harness，方式要么像 <code>AGENTS.md</code> 那样直接推入，要么以指针的形式。</p>
+<p>这意味着，理论上，agent 会在你不用 steer 它的情况下，慢慢拼出「你喜欢怎么干活」的图景。它在给自己掌舵。它在抢方向盘。</p>
+<h2>找到 automatic memory（Finding Automatic Memory）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244641/ai-hero-images/rb5shn9oucfpvfyebeuk.png" alt="Claude Code 的 /memory 命令：auto-memory 已开启"></p>
+<p>Claude Code 的 /memory 命令：auto-memory 已开启</p>
+<p>在 Claude Code 里，在这里运行 <code>/memory</code> 就能看到：automatic memory 是开着的。</p>
+<p>我们可以看到，它用 <code>CLAUDE.md</code> 作为 memory 的文件名——这挺有意思。另外还有一个 auto-memory 部分。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244642/ai-hero-images/weydt0owzza0llyzapjk.png" alt="Chrome 中打开的 auto-memory 文件夹，里面有 MEMORY.md 文件"></p>
+<p>Chrome 中打开的 auto-memory 文件夹，里面有 MEMORY.md 文件</p>
+<p>按下「open auto-memory folder」之后，它居然是在 Chrome 里打开的（有点怪），里面有一个小小的 <code>MEMORY.md</code> 文件。</p>
+<p>auto-memory 文件存放在你的仓库之外，位于 Claude Code 的每项目状态目录里，以当前工作目录为键。这就是为什么它永远不会出现在 <code>git status</code> 里，也永远不会被 code review。</p>
+<h2>auto-memory 里装了什么（What Auto-Memory Contains）</h2>
+<p><code>MEMORY.md</code> 里面是一份索引，指向 agent 写下的各个 memory 文件。这里有一条是这么写的：</p>
+<pre><code>- Editing course repos skill - this is a course repo; the governing skill lives in personal-wiki, not here
+</code></pre>
+<p>这是 agent 在把它自己的记忆念给你听。它在留意你项目里的事实，先存起来留给之后的 session。</p>
+<p>被链接的那个 memory 文件本身，用的形状和 skill 一模一样：YAML frontmatter 带着 <code>name</code> 和 <code>description</code>，然后是正文。agent 其实在你背后给自己写 skill。</p>
+<h2>过期记忆的问题（The Problem With Stale Memory）</h2>
+<p>问题在这里：automatic memory 就像自动沉积的 sediment。它是一份自己会写自己的沉积物，堆起一层层过期内容，而 agent 极少会把它们删掉。</p>
+<p>agent 写下条目，却不删除。所以文件只增不减。里面每一行都在每个 session 里付着 context load。你曾有、后来又改掉的一个偏好，会变成 agent 一直相信的错误假设。适配过某一个任务的一条提示，会变成跟着你进每一个后续任务的规则。</p>
+<p>而且因为这些行不是你写的，你更不可能会进去修剪它们。</p>
+<p>看一下 memory 的 metadata，你能看到创建它的那个原始 session，往往已是几周之前。而它从那时起，就一直在 context window 里无声地搭着车。</p>
+<h2>我的建议（The Recommendation）</h2>
+<p>我已经给你看过我修剪 <code>AGENTS.md</code> 有多狠，也说过我多不喜欢让 agent 给自己掌舵——就因为那些 no-op 和它往 context window 里堆的垃圾。automatic memory 恰恰就是这个问题，只不过现在发生时，连放什么东西进去都不由你决定。</p>
+<p>所以我的建议是：进到 auto-memory 设置里，把它关掉。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244643/ai-hero-images/m3z3pwp41hgrsfkmeyjn.png" alt="在 Claude Code 设置里关闭 auto-memory"></p>
+<p>在 Claude Code 设置里关闭 auto-memory</p>
+<p>从此不再有任何记忆被存下来。这也让 context window 变小了，因为创建记忆的那个工具不再出现在里面。真是轻松。</p>
+<p>很多人问我 memory system 的事，问该不该把它们加进自己的配置。我的回答是：不要。你作为用户，应该掌控记忆如何被创建、steering 如何进行。</p>
+<p>因为如果你放任这些 automatic memory 一层层攒下去，你就是在往自己的 context 里堆积没用的 sediment。</p>
+<p>这一节的全部主旨就是「有意识地 steering」：挑选什么配得上 context 里的位置，并让它保持最新。automatic memory 与此背道而驰。它是你没选择的 steering，在你看不见的地方累积。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你的 harness 主动提出：记住你做出的纠正，在之后的 session 里反馈回来，全程不需要你开口。你会让它开着吗？</p>
+<ul class="quiz-choices">
+<li class="correct">不会——关掉它，用你自己写的文件来 steer</li>
+<li>会——它零成本地学会你的工作方式</li>
+<li>会，但开工前先读一遍 memory 文件夹</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">为什么 automatic memory 文件永远不会出现在 code review 里？</p>
+<ul class="quiz-choices">
+<li class="correct">它存在仓库之外，在每项目的状态目录里</li>
+<li>它写进了仓库，但被 git 忽略</li>
+<li>它每个 session 都重建，所以没有 diff</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">agent 存下了一条你三个月前持有、后来已经改变主意的偏好。今天的 session 里会发生什么？</p>
+<ul class="quiz-choices">
+<li class="correct">它被加载，agent 按旧偏好行事</li>
+<li>它会过期，被更新的纠正取代</li>
+<li>它被使用之前会请你确认</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div></main></div><script>
+  (function(){
+    var links=document.querySelectorAll('aside.toc a');
+    var map={};
+    links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+    var hs=document.querySelectorAll('main h1[id]');
+    if(!('IntersectionObserver' in window)||!hs.length)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active')});
+          var a=map[e.target.id];
+          if(a){a.classList.add('active');
+            if(a.scrollIntoViewIfNeeded)a.scrollIntoViewIfNeeded(false);
+          }
+        }
+      });
+    },{rootMargin:'0px 0px -70% 0px'});
+    hs.forEach(function(h){io.observe(h)});
+  })();
+</script></body></html>

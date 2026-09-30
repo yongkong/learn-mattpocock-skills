@@ -1,0 +1,1565 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>大型交付 · Shipping · AI Coding Crash Course 中文版</title><style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;line-height:1.9;color:#1f2937;background:#fafafa}
+  .wrap{display:flex;gap:40px;max-width:1240px;margin:0 auto;padding:40px 24px 96px}
+  aside.toc{width:264px;flex-shrink:0;position:sticky;top:0;align-self:flex-start;max-height:calc(100vh - 48px);overflow-y:auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem 1.25rem}
+  aside.toc>p{margin:0 0 .5rem;font-weight:700;font-size:.95rem}
+  aside.toc a{display:block;color:#4b5563;text-decoration:none;padding:.3rem .5rem;border-radius:6px;font-size:.92rem;line-height:1.5}
+  aside.toc a:hover{color:#b45309;background:#fffbeb}
+  aside.toc a.active{color:#b45309;background:#fffbeb;font-weight:600}
+  main{flex:1;min-width:0;max-width:800px}
+  @media (max-width:960px){.wrap{flex-direction:column;gap:24px}aside.toc{position:static;width:auto;max-height:240px}}
+  h1{font-size:1.9rem;line-height:1.35;padding-bottom:.6rem;margin:3rem 0 1.5rem;scroll-margin-top:16px}
+  h1::after{content:'';display:block;width:96px;height:3px;margin-top:.6rem;border-radius:2px;background:linear-gradient(90deg,#f59e0b,#8b5cf6)}
+  h1:first-child{margin-top:0}
+  h2{font-size:1.35rem;margin:2.5rem 0 1rem}
+  h3{font-size:1.12rem;color:#6d28d9;margin:2rem 0 .8rem}
+  p{margin:0 0 1rem}
+  a{color:#b45309;text-decoration:none;border-bottom:1px solid rgba(180,83,9,.25)}
+  a:hover{border-bottom-color:#b45309}
+  strong{color:#111827;font-weight:700}
+  img{max-width:100%;border-radius:10px;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.08);margin:1.25rem 0}
+  code{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.875em;background:rgba(180,83,9,.09);color:#9a3412;padding:.15em .4em;border-radius:4px}
+  pre{background:#0d1117;border:1px solid #30363d;border-left:4px solid #8b5cf6;border-radius:0 8px 8px 0;padding:1.1rem 1.25rem;overflow-x:auto;margin:1rem 0 1.25rem;font-size:.875rem;line-height:1.6}
+  pre code{background:none;padding:0;color:#c9d1d9}
+  blockquote{border-left:4px solid #8b5cf6;background:#f5f3ff;border-radius:0 8px 8px 0;padding:.75rem 1.25rem;margin:1rem 0 1.25rem;font-size:.95rem;color:#374151}
+  table{border-collapse:collapse;margin:1rem 0 1.25rem;width:100%;font-size:.92em}
+  thead tr{background:#f3f4f6}
+  th,td{border:1px solid #e5e7eb;padding:.55rem .9rem;text-align:left;vertical-align:top}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.02)}
+  hr{border:none;border-top:1px solid #e5e7eb;margin:3rem 0}
+  ul li::marker{color:#d97706}
+  .quiz-block{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0 1.5rem;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+  .quiz-block-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6d28d9;margin:0 0 1rem}
+  .quiz-q-text{font-weight:600;color:#111827;margin:1.4rem 0 .75rem;padding-top:1rem;border-top:1px dashed #e5e7eb}
+  .quiz-choices{list-style:none;padding:0;margin:0 0 .75rem}
+  .quiz-choices li{padding:.4rem .6rem;margin-bottom:.3rem;border-radius:6px;font-size:.95em;color:#4b5563;border:1px solid transparent}
+  .quiz-choices li.correct{background:#ecfdf5;border-color:#6ee7b7;color:#047857;font-weight:600}
+  .quiz-choices li.correct::before{content:'✓ ';font-weight:700}
+  .quiz-answer-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b45309;margin:1rem 0 .35rem}
+  .quiz-answer{font-size:.92em;color:#4b5563;background:#f3f4f6;border-radius:8px;padding:.75rem 1rem;line-height:1.7}
+</style></head><body><div class="wrap"><aside class="toc"><p>本篇目录</p><a href="#lesson-1">如何应对巨型任务（How to Tackle Massive Tasks）</a><a href="#lesson-2">用这个 skill 写出出色的 spec（Write Great Specs With This Skill）</a><a href="#lesson-3">用这个 skill 写出出色的 spec：参考解法（Write Great Specs With This Skill Solution）</a><a href="#lesson-4">用这个 skill 写出出色的 spec（Write Great Specs With This Skill）</a><a href="#lesson-5">用 ticket 把特性拆分到多个 context window（Split Features Across Context Windows With Tickets）</a><a href="#lesson-6">用 ticket 把特性拆分到多个 context window：解法（Split Features Across Context Windows With Tickets Solution）</a><a href="#lesson-7">执行你的 ticket（Executing Your Tickets）</a><a href="#lesson-8">执行你的 ticket：解法（Executing Your Tickets Solution）</a><a href="#lesson-9">你该保留 spec 吗？（Should You Keep Your Specs?）</a></aside><main><h1 id="lesson-1">如何应对巨型任务（How to Tackle Massive Tasks）</h1>
+<p>希望你已经染上了我的 context window（上下文窗口）妄想症。看得出来，我无时无刻不在惦记 context，惦记 smart zone 和 dumb zone。</p>
+<h2>呆在聪明区里（Staying in the Smart Zone）</h2>
+<p>以当前这代 model 而论，我主张待在 context window 的前段，也就是 smart zone（聪明区）里。</p>
+<p>对于只需要在单个 context window 内完成的任务，这样完全够用。比如小功能或 bug 修复，从头到尾一个 session 搞定。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785746820/ai-hero-images/dlzjpatyo2uvlinpnurk.png" alt="任务 #1 和 #2 完全落在 smart zone 内"></p>
+<p>任务 #1 和 #2 完全落在 smart zone 内</p>
+<h2>当任务装不下的时候（When Tasks Don&#39;t Fit）</h2>
+<p>可当你想做点更大的事——注定要闯进 dumb zone（愚蠢区）的事，比如一次触及应用每一层的重构——会发生什么？</p>
+<p>或者一眼就能看出连单个 context window 都装不下、更别提 smart zone 的任务呢？</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785746820/ai-hero-images/qk2upijustihkz3vrgqe.png" alt="任务 #3 溢出进 dumb zone，任务 #4 撑爆了整个 context window"></p>
+<p>任务 #3 溢出进 dumb zone，任务 #4 撑爆了整个 context window</p>
+<p>换句话说，怎么把一大坨工作一口气交付出去？</p>
+<h2>拆解问题（Breaking Down the Problem）</h2>
+<p>答案是用开发者们用了几十年的老办法：把大任务拆成小块，每一块都能装进 agent 的 smart zone。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785746821/ai-hero-images/ltpkc4slcmjfjtpmflxv.png" alt="任务 #4 被拆进四个 smart zone 格子"></p>
+<p>任务 #4 被拆进四个 smart zone 格子</p>
+<p>那么问题就变成了：要让这一切跑通，你需要做怎样的前置规划？毕竟到目前为止，我们的计划其实只够撑过单个 context window 的时长。</p>
+<p>我们还从没认真想过，让 agent 跨多个 session 工作、让一项工作横跨多个 context window，会是什么样子。</p>
+<h2>两份必不可少的文档（Two Essential Documents）</h2>
+<p>我在这个问题上做了大量实验，试过很多不同的路子，最后落到一个方案上：它依赖两份文档。</p>
+<h3>1. spec（The Spec）</h3>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785746822/ai-hero-images/cdlh4y2suvu6hvnrwxf8.png" alt="spec 的定义：一份描述多 session 工作目的地的 handoff artifact"></p>
+<p>spec 的定义：一份描述多 session 工作目的地的 handoff artifact</p>
+<p>我们需要的第一份文档，是对目的地的描述——我们要去的地方。因为连要去哪都不知道，又怎么完成任务？又怎么知道自己做对了？</p>
+<p>我称这份目的地文档为 spec（规格），一份描述多 session 工作之最终目的地的 handoff artifact（交接产物）。</p>
+<p>这份 spec 会传给每一个 session，让每个 session 都知道自己的工作是如何贡献于最终目标的。</p>
+<p>最后我们还会拿这份 spec 来做审查，确保我们真的到达了当初声称要去的地方。</p>
+<h3>2. tickets（Tickets）</h3>
+<p>但这里有个问题。如果 spec 里只写了目的地，agent 怎么知道该把它拆成哪些小块？除了目的地，我们还得把旅程也描述清楚。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785746823/ai-hero-images/ypvllb4glotxq93lhajh.png" alt="tickets 的定义：spec 和 tickets 都是 handoff artifact"></p>
+<p>tickets 的定义：spec 和 tickets 都是 handoff artifact</p>
+<p>这正是为什么除了 spec，你还要写 tickets：每份要装进一个 smart zone 的工作对应一张 ticket。按图里的情况，就是四张 ticket。</p>
+<p>每张 ticket 描述那个 session 里要做的事，所以它就是这份 spec 的实施计划。</p>
+<h2>承接有野心的工程（Scaling Ambitious Work）</h2>
+<p>有了这套打法，你敢接的活可以非常有野心。我手头就有过带着 30 张 ticket 的巨型 spec，最后结果也不赖。</p>
+<p>这就是本节的主旨。我们要聊的，是如何用 specs 和 tickets 交付比以往你能想象的更大、更有野心的项目。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">一次重构会触及应用的每一层，而且事先就能看出它装不进一个 context window。你该如何组织这项工作？</p>
+<ul class="quiz-choices">
+<li class="correct">为目的地写一份 spec，然后每一小块对应一张 ticket</li>
+<li>用一个超长 session 一口气跑完，任由它填满整个窗口</li>
+<li>写一份极其详细的 spec，交给单个 session</li>
+<li>从第一个文件动手，边做边决定下一步</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">spec 和 ticket 的区别是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">spec 是目的地；每张 ticket 是旅程中的一段</li>
+<li>spec 是长版本；ticket 是同一份计划的精简版</li>
+<li>spec 在 tickets 之后写，用来记录建成了什么</li>
+<li>spec 是写给你看的；tickets 是写给 agent 看的</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# 搭建你的 issue tracker（Set Up Your Issue Tracker）<p><strong>Commit Map（提交地图）</strong></p>
+<p>setup-skills-skill
+开始本课：添加了 <code>/setup-matt-pocock-skills</code> skill</p>
+<p>run-setup-skill
+查看我的解法：skill 运行之后的样子，<code>AGENTS.md</code> 指向 <code>docs/agents/issue-tracker.md</code></p>
+<p>你已经了解了 specs 和 tickets，但这些文档到底存放在哪？是本地文件吗？放在哪里？</p>
+<p>我建议把 specs 和 tickets 都放到仓库之外的 issue tracker（issue 跟踪器）里。只要你做过开发，issue tracker 对你就不陌生——它就是用来协调跨团队或团队成员之间工作的工具。</p>
+<p>和 agent 协作有个很妙的地方：agent 可以读你参与维护的那个 issue tracker。市面上最有名的 issue tracker 就是 GitHub。你可以创建 GitHub Issues，然后你的 coding agent 就能通过 GitHub CLI 访问它们。</p>
+<p>这门课虽然用的是 GitHub，但这里学到的所有概念你可以搬到任何 issue tracker 上用——Jira、Linear、Todoist，随你喜欢。我们选 GitHub 是因为它好配置、免费，而且你八成已经有账号了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748085/ai-hero-images/i8bspbkon8hkcywx3sqq.png" alt="GitHub issues 页面，显示 1,200 个已关闭 issue 和 28 个开放 issue"></p>
+<p>GitHub issues 页面，显示 1,200 个已关闭 issue 和 28 个开放 issue</p>
+<h2>待完成步骤（Steps To Complete）</h2>
+<h3>安装并认证 GitHub CLI（Install and Authenticate the GitHub CLI）</h3>
+<p>GitHub CLI 是 agent 从你本地环境连到 GitHub 去取 issues 的通道。</p>
+<ul>
+<li>安装 GitHub CLI</li>
+</ul>
+<p>访问 cli.github.com 查看你所用平台的安装说明。</p>
+<ul>
+<li>运行 <code>gh auth login</code> 完成认证</li>
+</ul>
+<pre><code>gh auth login
+</code></pre>
+<p>它会依次提示你选择使用 GitHub 的位置（选 <code>github.com</code>）、首选协议（选 <code>HTTPS</code>），以及是否用你的 GitHub 凭据认证 Git（我建议选是）。然后用浏览器登录，完成整个流程。</p>
+<ul>
+<li>用 <code>gh auth status</code> 验证认证状态</li>
+</ul>
+<pre><code>gh auth status
+</code></pre>
+<p>你应该会看到输出显示你已登录 GitHub 账号，账号状态为 active。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748086/ai-hero-images/cturn2rdpjgioqtzbexo.png" alt="终端显示 gh auth status 的输出，账号已登录"></p>
+<p>终端显示 gh auth status 的输出，账号已登录</p>
+<pre><code>github.com
+✓ Logged in to github.com account &lt;your-username&gt; (...)
+- Active account: true
+- Git operations protocol: https
+- Token: gho_************************************
+</code></pre>
+<h3>Fork 课程仓库（Fork the Course Repo）</h3>
+<p>默认情况下，你提的任何 issue 都会落在 crash course 仓库的主版本上，那一切都会乱成一锅粥，因为大家会互相看到彼此的 issue。那将是一场灾难。</p>
+<p>所以你需要 fork 这个仓库，创建自己的私有副本。</p>
+<ul>
+<li>运行 <code>npx ai-hero-cli fork</code></li>
+</ul>
+<pre><code>npx ai-hero-cli fork
+</code></pre>
+<ul>
+<li>给你的私有 GitHub 仓库起个名字</li>
+</ul>
+<p>它会提示你为仓库输入一个新名字。用默认的也行，自己起一个也行。</p>
+<ul>
+<li>确认操作</li>
+</ul>
+<p>CLI 会警告你：它将用一个全新的 commit 替换这个文件夹的 git 历史，并创建一个新的私有 GitHub 仓库。同意以继续。</p>
+<p>完成后，你会看到一条成功消息，附带你新私有仓库在 GitHub 上的链接。之前那些 <code>pull</code>、<code>reset</code>、<code>cherry-pick</code> 之类的命令都照常能用——关键区别在于，现在你拥有了自己的一套 issues。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748087/ai-hero-images/lj5tidngy4u2txfhjsmt.png" alt="浏览器中显示新建好的私有 GitHub 仓库"></p>
+<p>浏览器中显示新建好的私有 GitHub 仓库</p>
+<h3>配置仓库以使用 GitHub Issues（Configure the Repo to Use GitHub Issues）</h3>
+<p>现在需要配置这个仓库，让它使用正确的 issue tracker。</p>
+<ul>
+<li>运行 <code>npm run reset</code></li>
+</ul>
+<pre><code>npm run reset
+</code></pre>
+<ul>
+<li>搜索 &quot;setup skills skill&quot;</li>
+</ul>
+<p>这会把 <code>/setup-matt-pocock-skills</code> skill 加进仓库。</p>
+<ul>
+<li>在 Claude Code 里运行 <code>/setup-matt-pocock-skills</code></li>
+</ul>
+<p>这个 skill 会对仓库的当前状态做一次快速探查，并就该用哪个 issue tracker 给出建议。</p>
+<ul>
+<li>在提示时，确认你要用 GitHub</li>
+</ul>
+<p>输入类似 &quot;yes, GitHub - write both files&quot; 的话来确认。</p>
+<p>这个 skill 会给你的环境加上基础设施，让 agent 知道 GitHub 就是 issue tracker。它会写两个文件：</p>
+<ul>
+<li><code>AGENTS.md</code> 里新增一个 <code>## Agent skills</code> 小节，其中包含指向 issue tracker 文档的指引</li>
+<li><code>docs/agents/issue-tracker.md</code>，包含完整的 GitHub 约定</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748088/ai-hero-images/mtm3i1chq1y3tyuvde4z.png" alt="Claude Code 中显示带新 Agent skills 小节的 AGENTS.md 文件"></p>
+<p>Claude Code 中显示带新 Agent skills 小节的 AGENTS.md 文件</p>
+<pre><code>## Agent skills
+
+### Issue tracker
+
+Issues and PRDs live as GitHub issues on &lt;your-username&gt;/&lt;your-repo&gt;, managed with the `gh` CLI. See `docs/agents/issue-tracker.md`.
+</code></pre>
+<p><code>docs/agents/issue-tracker.md</code> 文件里写满了 agent 与 GitHub 打交道的所有约定——创建、读取、列出、评论、打标签、关闭 issue 的命令。</p>
+<h3>测试你的配置（Test Your Setup）</h3>
+<p>现在我们来创建一个测试 issue，验证一切就绪。</p>
+<ul>
+<li><p>运行 <code>/clear</code> 清空 context</p>
+</li>
+<li><p>让 agent 添加一个测试 issue</p>
+</li>
+</ul>
+<pre><code>Add an issue to the issue tracker just as a test, just for a dummy.
+</code></pre>
+<p>agent 应该会去读 <code>docs/agents/issue-tracker.md</code>，看到 issue 存放在 GitHub，然后运行：</p>
+<pre><code>gh issue create --title &quot;Test issue (dummy)&quot; --body &quot;Dummy issue created as a test of the issue tracker. Safe to close.&quot;
+</code></pre>
+<ul>
+<li>确认 issue 已创建</li>
+</ul>
+<p>点击命令返回的 GitHub URL，在你的仓库 issue tracker 里查看新 issue。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748088/ai-hero-images/vuxjykubewybv7fggomi.png" alt="GitHub issue 页面，显示那条测试用的 dummy issue"></p>
+<p>GitHub issue 页面，显示那条测试用的 dummy issue</p>
+<p>现在你可以把 GitHub 当作存放 specs 和 tickets 的 issue tracker 了。如果这一步遇到任何问题，去 Discord 里问。</p>
+<h1 id="lesson-2">用这个 skill 写出出色的 spec（Write Great Specs With This Skill）</h1>
+<p><strong>Commit Map（提交地图）</strong></p>
+<p>to-spec-skill
+开始本课：添加了 <code>/to-spec</code> skill</p>
+<p>我们现在明白为什么要有一份 spec 了。spec 是一份目的地文档，它帮我们管理跨多个 session 的 context，也给了我们一个可以瞄准的靶子。</p>
+<p>那你可能要问了：我该怎么动手创建一份？嗯，正好有个 skill 干这个。</p>
+<h2><code>/to-spec</code> skill（The <code>/to-spec</code> Skill）</h2>
+<p><code>/to-spec</code> skill 会拿当前的对话内容和对代码库的理解，产出一份 spec。换句话说，它不会再就对话内容 grill（拷问）你——它默认 grilling session 已经在对话历史里发生过了。</p>
+<p>运行下面的命令即可把它拉下来：</p>
+<pre><code>npm run reset
+</code></pre>
+<p>然后从列表里选中 <strong><code>to-spec-skill</code></strong> 这一步，重置当前分支，这个 skill 就会出现在你的工作树里。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748551/ai-hero-images/qg2hwcj1xnaigeo2wxe9.png" alt="运行 npm run reset 并选中 to-spec-skill 步骤"></p>
+<p>运行 npm run reset 并选中 to-spec-skill 步骤</p>
+<p>这个 skill 位于 <code>.agents/skills/to-spec/SKILL.md</code>。它的配置是 <code>disable-model-invocation: true</code>，也就是说它只是一个 slash command——Claude 绝不会自作主张去调用它。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748551/ai-hero-images/za02v1ilcw0wexer5jvp.png" alt="to-spec skill 文件，展示 disable-model-invocation 配置"></p>
+<p>to-spec skill 文件，展示 disable-model-invocation 配置</p>
+<h2>流程（The Process）</h2>
+<p>我们的流程大致是这样的：</p>
+<ol>
+<li>初始 grilling session</li>
+<li>把 grilling session 变成 spec</li>
+<li>把 spec 变成 tickets</li>
+<li>逐个实现每张 ticket</li>
+<li>对照最初创建的 spec 做审查</li>
+</ol>
+<p>别担心，这张图我们后面还会反复回来看、反复展开讲，但基本思路就是这样。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748552/ai-hero-images/wl0tldormkmno18uxthe.png" alt="流程图：grilling session → spec → tickets → 实现 → 审查"></p>
+<p>流程图：grilling session → spec → tickets → 实现 → 审查</p>
+<p>本练习里我们只做前两步——grilling session 和 spec。不会接着往下实现，因为后面还要把这份 spec 转成 tickets。这一课我们只产出 spec。</p>
+<h2>spec 模板（The Spec Template）</h2>
+<p>生成的 spec 用的是一个相当扎实的模板，包含：</p>
+<ul>
+<li>问题陈述（problem statement）</li>
+<li>解决方案描述（solution）</li>
+<li>一大把 user stories（用户故事，经典软件开发手法）</li>
+<li>实现决策（implementation decisions）</li>
+<li>测试决策（testing decisions）</li>
+<li>范围外条目（out of scope）</li>
+<li>补充说明（further notes）</li>
+</ul>
+<pre><code>## Problem Statement
+
+The problem that the user is facing, from the user&#39;s perspective.
+
+## Solution
+
+The solution to the problem, from the user&#39;s perspective.
+
+## User Stories
+
+A LONG, numbered list of user stories. Each user story should be in the format of:
+
+1. As an &lt;actor&gt;, I want a &lt;feature&gt;, so that &lt;benefit&gt;
+
+## Implementation Decisions
+
+A list of implementation decisions that were made. This can include:
+
+- The modules that will be built/modified
+- The interfaces of those modules that will be modified
+- Technical clarifications from the developer
+- Architectural decisions
+- Schema changes
+- API contracts
+- Specific interactions
+
+Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+
+## Testing Decisions
+
+A list of testing decisions that were made.
+
+## Out of Scope
+
+A description of the things that are out of scope for this spec.
+
+## Further Notes
+
+Any further notes about the feature.
+</code></pre>
+<p>这些内容足够丰富，任何接手它的东西——也就是负责实现的 agent——都能获得一次非常给力的信息注入，顺利完成实现。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785748552/ai-hero-images/sewhq60jnrksflqludrj.png" alt="spec 模板：problem statement、solution、user stories 与 implementation decisions"></p>
+<p>spec 模板：problem statement、solution、user stories 与 implementation decisions</p>
+<h2>我们要做的功能（The Feature We&#39;re Building）</h2>
+<p>我们要看的是讲师仪表盘（instructor dashboard）。如果你以讲师身份（Sarah Chen）登录，点进仪表盘，会发现里面几乎什么都没有。</p>
+<p>我们确实给未回答问题做了一个不错的 questions UI，但讲师看不到任何数据分析，任何能反映课程表现的信息都没有。</p>
+<p>我们得给他们提供点东西，让他们能看到：</p>
+<ul>
+<li>有多少用户选了他们的课程</li>
+<li>他们赚了多少钱</li>
+<li>完课率</li>
+<li>测验分数</li>
+</ul>
+<p>数据分析页这个东西太大了，太容易范围蔓延、越滚越大，所以我认为它非常适合先来一轮 grilling session、再落成 spec。我们需要把它收敛成一个合理的形态，而且它肯定会超出一个 smart zone 的容量。</p>
+<h2>待完成步骤（Steps To Complete）</h2>
+<h3>跑一轮 grilling session（Run a Grilling Session）</h3>
+<ul>
+<li>就 Instructor Analytics 仪表盘跑一轮 <code>/grill-me</code> session</li>
+</ul>
+<p>和 Claude 聊聊这个数据分析仪表盘应该包含什么。让 grilling session 把这个功能打磨成合理且定义清晰的样子。</p>
+<h3>创建 spec（Create the Spec）</h3>
+<ul>
+<li>对那段对话运行 <code>/to-spec</code></li>
+</ul>
+<p>它会把 grilling session 里的一切综合成一份结构化的 spec 文档。spec 会发布到你的 GitHub issue tracker（前一课配置好的那个），并打上 <code>ready-for-agent</code> 分类标签。</p>
+<h3>审查 spec（Review the Spec）</h3>
+<ul>
+<li>读一读最终进入你 issue tracker 的那份 spec</li>
+</ul>
+<p>看看生成了什么。它有没有很好地捕捉你们的对话？细节够不够？</p>
+<ul>
+<li>看看这份 spec 是不是你心目中 spec 该有的样子</li>
+</ul>
+<p>如果你对这个模板有什么想法，它就是留给你折腾的。你可以修改 <code>.agents/skills/to-spec/SKILL.md</code> 来调整：</p>
+<ul>
+<li><p>spec 的结构</p>
+</li>
+<li><p>包含哪些小节</p>
+</li>
+<li><p>每个小节写到多细</p>
+</li>
+<li><p>user stories 的格式</p>
+</li>
+<li><p>到此为止——不要去实现这个功能</p>
+</li>
+</ul>
+<p>这一课我们不会照着 spec 往下实现。后面我们还要把 spec 转成 tickets。眼下只产出 spec。</p>
+<h1 id="lesson-3">用这个 skill 写出出色的 spec：参考解法（Write Great Specs With This Skill Solution）</h1>
+<p><strong>Commit Map（提交地图）</strong></p>
+<p>to-spec-skill
+跟着一起做：添加了 <code>/to-spec</code> skill</p>
+<h1 id="lesson-4">用这个 skill 写出出色的 spec（Write Great Specs With This Skill）</h1>
+<p>我们要再把 <code>/grill-me</code> skill 完整过一遍：先初始化它，然后用语音听写描述我们想做什么。</p>
+<p>这个 session 产出的完整 spec 在 GitHub 上：Instructor Analytics Dashboard。建议把它开着，和本文对照着读，这样在我们一步步逼近成品时，你可以随时翻阅最终文档。</p>
+<h2>初始提示词（The Initial Prompt）</h2>
+<p>我想做一个讲师数据分析仪表盘，让讲师登录平台后有东西可看。</p>
+<p>不仅如此，我们还要能给他们展示关键信息。他们需要能看到：</p>
+<ul>
+<li>他们在平台上赚了多少钱</li>
+<li>完课率</li>
+<li>课程流失点（lesson drop-off points）</li>
+</ul>
+<p>对于这里我们可能还想实现的其他东西，我也非常欢迎你提建议。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749548/ai-hero-images/iymo3oicu8a2fwjfigdu.png" alt="听写输入讲师数据分析仪表盘的初始提示词"></p>
+<p>听写输入讲师数据分析仪表盘的初始提示词</p>
+<p>我挺好奇这轮会聊成什么样，因为这次 grilling 的范围相当开放。搞清楚这个范围、确保我们在做对的东西，本身就是这轮 grilling session 的一部分。</p>
+<h2>探索阶段（The Explore Phase）</h2>
+<p>它正在跑一个相当深入的探索阶段。能看到 <code>Map schema and domain model</code>、<code>Map routes, auth, and UI conventions</code>。开局就挖得挺深。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749549/ai-hero-images/dlaaviyt4rbn5lom4oxx.png" alt="Claude 在后台运行探索用 subagent"></p>
+<p>Claude 在后台运行探索用 subagent</p>
+<p>然后它带回来了一大堆东西。</p>
+<h3>高质量的观察（High-Quality Observations）</h3>
+<p>它一开场就给出了几条观察：数据库里压根没有收益（earnings）这个概念——没有手续费、打款、退款、币种、价格历史。</p>
+<p>目前讲师能赚多少，只能通过 <code>courses.instructor_id</code> 联表把已支付金额加总推出来。而那其实是平台总流水。</p>
+<pre><code>// Current reality: earnings = SUM of purchase amounts
+SUM(purchases.amount_paid)
+JOIN courses ON purchases.course_id = courses.id
+WHERE courses.instructor_id = ?
+</code></pre>
+<p>这是非常高质量的信息，尤其是流失（drop-off）几乎没有数据这一点。它让我们清楚地洞察到：基于当前的数据模型，什么才是可行的。</p>
+<p>这有点像工程师在怼产品负责人：「不行，我不确定现有的数据模型能做这事。这活儿比你以为的大得多。」</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749550/ai-hero-images/hnv7n8c7d11arxwabrse.png" alt="Claude 对当前 schema 缺失数据的观察"></p>
+<p>Claude 对当前 schema 缺失数据的观察</p>
+<h2>第一轮：回答问题（Round 1: Answering the Questions）</h2>
+<p>下面我们来逐条回答这些问题。</p>
+<p>我同意你的建议，在 Instructor Analytics 下面加一个新路由是合理的。</p>
+<p>我们既要跨课程的总览汇总，也要单门课程的深度下钻。</p>
+<p>我喜欢让 admin 也能在这里看到些东西的想法，admin 应该可以通过一个讲师选择器看到所有讲师。挺妙。</p>
+<p>就当平台抽成 20% 吧。用一个硬编码的费率常量来算。</p>
+<p>说到完课率，这个有意思。我同意你的看法，按每个学生算出的平均进度大概是最优解，但在亲眼看到它跑起来之前，我不敢打包票。</p>
+<p>我同意，相比视频观看事件，课程进度大概更干净、信息损耗更小。</p>
+<p>对，我同意加个时间范围筛选，这样我们可以有 30 天、90 天和全部时间。</p>
+<p>第一批答完了。感觉相当不错。</p>
+<h2>后台探索（Background Exploration）</h2>
+<p>这批问题里有几个，不亲眼看一看我实在说不出答案，而这有时就是 grilling 的本性。有些事你就是得先看到实物，才能想明白。</p>
+<p>grilling 有个很棒的特性：在支持它的 harness 里，它真的可以把一个 agent 放到后台。于是你继续聊天的同时，它就在后台做探索。这一点我特别喜欢。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749551/ai-hero-images/lcdgwrkbd8otbefgg486.png" alt="回答问题的同时，后台探索在运行"></p>
+<p>回答问题的同时，后台探索在运行</p>
+<h2>第二轮：「拉远视角」技巧（Round 2: The &quot;Zoom Out&quot; Technique）</h2>
+<p>现在进入第二轮。</p>
+<p>我同意买家（buyers）和学生（students）是两回事，是两组独立的统计。我们还应该给「买得最多的人」整个排行榜，这样我们就能主动出击、真正联系上他们，提供进一步的支持。</p>
+<p>这里有个有意思的案例。第二问我其实不太明白它到底在问什么，所以我给你演示一下，当我要求它补充信息时会是什么样。</p>
+<p>按时长给进度计算加权？我不懂，这对我有点太术语化了。</p>
+<p>我不确定你第二问是什么意思。你能不能 zoom out（拉远视角）一点，多给我点背景，或者换个更简单的问法？</p>
+<p>「zoom out」就是此处引导 agent 的关键词。它会就这个问题给我更多上下文，到那时我应该就能答上来了。</p>
+<p>我们再来看第三问。</p>
+<p>第三问给我的感觉也差不多：我不知道什么叫「真正单调递减的漏斗」，也不知道什么叫「真正的断崖」。你在说术语行话，快帮帮我。</p>
+<h3>实现层面的问题（Implementation Questions）</h3>
+<p>接着，它在问：用分组 SQL，还是在循环里复用学生数据的 helper 函数。</p>
+<p>这是一个非常重要的实现问题，而且它解释得挺照顾我的水平，但如果你开发经验不算丰富，可能会被绕晕，那你也许该再让它 zoom out 一次。</p>
+<p>第四问，我觉得你怎么顺手怎么来。性能问题很难提前预料，所以我们不妨先尽力做出我们认为最好的版本，事后再测性能。</p>
+<p>第五问，好，用 recharts 和 shadcn 的 <code>chart.tsx</code>，看着没问题。</p>
+<p>课程选择器放进 URL search params，别放客户端状态里。</p>
+<p>至于这些附加项，我建议干脆全部放进去，以后需要再撤。第一版把所有东西都摆上屏幕会有帮助，到了 V2 再收回来就是了。</p>
+<p>顺带说，这是个很有意思的观察。我们在这里做的是一大块工作，但未必指望做完就是终态，对吧？我们还会继续迭代。所以有时候先大手一挥铺一堆功能、回头再收，是说得通的。</p>
+<p>这一轮到此结束了吗？是的。</p>
+<h3>复述后的问题（The Restated Questions）</h3>
+<p>它现在按我们的要求，用大白话把问题重新表述了一遍，这下好多了。</p>
+<p>我们怎么把「已完成的课程」换算成百分比？</p>
+<p>对，要么直接数课程数，要么在百分比里给更长的课更高的权重。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749551/ai-hero-images/iqho4t0pyb0f5wpkqwbl.png" alt="Claude 用大白话复述满是行话的问题"></p>
+<p>Claude 用大白话复述满是行话的问题</p>
+<p>以我的经验，时长短的课程未必花在它身上的时间就少。你可能正把学员打发去做外部作业，或者去做一个练习。</p>
+<p>所以我认为唯一说得通的，就是纯粹按课程数来算。</p>
+<p>接着是第三问的复述：流失图上的每根柱子是什么意思？</p>
+<p>它多少是在点我们流失逻辑里的一个窟窿：那套逻辑假设学生总会把课程的每一部分都做完。</p>
+<p>我们来看看。</p>
+<p>说实话，可能我就是不喜欢这个功能。</p>
+<p>我猜我们可能得先看到它跑起来，才能下结论。</p>
+<p>第三问我倾向选项 B，它比较稳妥，但我还是得先看到它实际跑起来，才知道这功能到底行不行。那就选 B 吧。</p>
+<h2>第三轮：种子数据与排行榜（Round 3: Seed Data and Leaderboards）</h2>
+<p>进入第三轮。</p>
+<p>把种子数据改成和我们实际看到的场景一致，这样我们才能正经地 QA。</p>
+<p>30 天、90 天、全部时间照样保留。上周或许也该加上，发布上线时特别有用。</p>
+<p>关于 10 这个取值，同意你的建议。</p>
+<p>就这么推进吧。</p>
+<p>注意看，这轮规划我们才花了多少 context。这里总共才 40K 左右。说到底我们也没聊多少，无非是问题来了就答，答案还都挺短。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749552/ai-hero-images/tzhnouyhtutk49vwpaxu.png" alt="context 用量约 40K token"></p>
+<p>context 用量约 40K token</p>
+<p>它又派出去一个 subagent，去核查种子数据与测试之间的耦合。这个问题非常有意思。</p>
+<p>它在问：种子数据是否和我们做测试的方式耦合。我相当确定没有，但这件事非常值得验证。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749553/ai-hero-images/rlk3nnnp01g4oyqrtssn.png" alt="后台 agent 核查种子数据与测试的耦合"></p>
+<p>后台 agent 核查种子数据与测试的耦合</p>
+<h2>第四轮：最后的细节（Round 4: Final Details）</h2>
+<p>它在问做单页还是 tabs。我觉得 tabs 有道理，不过多半得看到实物才知道。</p>
+<p>往下走，还有什么？</p>
+<p>第 12 条，我希望你拿出全部本事去做，之后我们再来点评。</p>
+<p>我同意数据库索引很重要，那就把它们纳入这次一起做。</p>
+<p>可以，<code>calculateProgress</code> 上那个废弃的 include quizzes 参数删掉就好。看着又便宜又容易。</p>
+<p>我们确实需要给全新讲师做一个显式的空状态（empty state）。这一下抓得好。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749553/ai-hero-images/nputagb9kujpidvzjljv.png" alt="Claude 抓住全新讲师没有数据的边界情况"></p>
+<p>Claude 抓住全新讲师没有数据的边界情况</p>
+<p>顺带说，这一下抓得真好。grilling 里有一幕经典戏码：agent 突然替你想到一个你还没意识到的边界情况，然后问你「这种情况你想怎么办」，还附送一个不错的建议。太舒服了。</p>
+<p>第 16 条，对，扩展版种子数据听着不错，规模也拿捏得正好。</p>
+<p>看看这个，绝了。它真的接上了我们的 testing services skill，而且是基于我们已经提供的引导来问我们想要什么样的测试覆盖率。漂亮。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749555/ai-hero-images/zxwjsu7rtovdg7jfxumo.png" alt="Claude 调用 testing-services skill 询问测试覆盖率"></p>
+<p>Claude 调用 testing-services skill 询问测试覆盖率</p>
+<p>我们给过的一点引导，现在正在反过来影响 grilling 的进行方式。美，实在是美。</p>
+<p>关于测试覆盖率的建议，百分之百同意。</p>
+<p>好，往下走，往下走。好，第四轮到此为止。舒服。</p>
+<p>看起来这一轮过后，frontier（待决问题清单）空了。</p>
+<h2>达成共识（Reaching Shared Understanding）</h2>
+<p>我们正在抵达与 agent 达成共识的状态。对我们要做什么，我心里已经相当有谱：一个规模不小的数据分析页、一大块新种子数据、我觉得可能还有 tabs，外加一大堆新查询和相当多的新代码。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749556/ai-hero-images/ghzadkfz67oosfpqa3x7.png" alt="frontier 已空，与 agent 达成共识"></p>
+<p>frontier 已空，与 agent 达成共识</p>
+<p>它到这里给我们的输出已经很短了，所以是时候喊出 <code>/to-spec</code> 了。</p>
+<p>我要做的，只是在这里敲下斜杠加 <code>to-spec</code>，剩下的交给它。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749557/ai-hero-images/rfacv9r1pq6y3yf8ndod.png" alt="输入 /to-spec 命令"></p>
+<p>输入 /to-spec 命令</p>
+<p>刚才那一下你差点没看清：它立刻就去读了该怎么发布 spec、发布到哪、用哪个 issue tracker 的说明。</p>
+<h2>测试接缝检查点（The Test Seam Checkpoint）</h2>
+<p>它说，在写好并发布 spec 之前，要先就测试接缝（test seams）达成一致。</p>
+<p>测试是构建任何东西时都极其重要的一环，所以在 <code>/to-spec</code> skill 里我设了一个小检查点：它会问用户，你想把测试建在哪？建在应用的哪个接缝上？</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749557/ai-hero-images/ngksywzpdmlw6ec0g58s.png" alt="/to-spec skill 中的测试接缝检查点"></p>
+<p>/to-spec skill 中的测试接缝检查点</p>
+<p>测试接缝（test seam）这个概念出自 Michael Feathers 的 <em>Working Effectively with Legacy Code</em>。这本书我确实有，本来该来个经典的「举书示意」，可惜找不着了。</p>
+<p>这一次的决定非常简单，因为它提出的接缝方案只有一个。所以测试接缝只有一个：直接测 services 本身。</p>
+<p>它说，这只有在根 loader 确实只是薄薄一层透传时才成立。于是它在围绕这个约束做设计，确保我们用的是现有的测试接缝。</p>
+<p>那这里就往下走：确认单接缝方案。可以，看着不错。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749559/ai-hero-images/gs5rtktmapfdlpvuegio.png" alt="确认单接缝测试方案"></p>
+<p>确认单接缝测试方案</p>
+<p>到这里，写 spec 所需的信息应该就齐了。</p>
+<h2>逐节过一遍 spec（Walking Through The Spec）</h2>
+<p>我们的 spec 出炉了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749560/ai-hero-images/pykooud554jujaxrnb40.png" alt="以 GitHub issue 形式呈现的成品 spec"></p>
+<p>以 GitHub issue 形式呈现的成品 spec</p>
+<p>现在我们来逐节看过去。</p>
+<h3>讲清 why：Problem 与 Solution（The Why: Problem and Solution）</h3>
+<p>spec 里非常关键的一点，是不只讲清「做什么」，还要讲清「为什么」。agent 手里握着 why，哪怕走到某个必须拍板的岔路口——比如「这种具体场景该怎么办，spec 里可没写」——它也能凭借 why，就它要构建之物的目的做出有依据的决策，从而更有希望逼近正确的解。</p>
+<p>这个 why，就写在 problem statement（问题陈述）和 solution（解决方案）里。</p>
+<p>problem statement 是这么说的：讲师对自己表现得如何一无所知。讲师登录后落在营销首页上，为他们而建的只有一份课程列表和每门课程的学生名册。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749561/ai-hero-images/ynypqrc3s6jydghane0j.png" alt="阅读 spec 中的 problem statement"></p>
+<p>阅读 spec 中的 problem statement</p>
+<p>因此 solution 是一个可从侧边栏进入的专属讲师数据分析页，让讲师在一个屏幕里就能回答「我的教学生意做得怎么样」。</p>
+<h3>用户故事 user stories（User Stories）</h3>
+<p>接下来是一大批 user stories，数量可观——足足 49 条。</p>
+<p>其中大部分是「作为讲师」，另外还有几条是「作为 admin」「作为学生」「作为开发者」。</p>
+<p>如果你从没见过 user story，它长这个样子：「作为某角色，我希望某件事发生，以便达成某目的」。</p>
+<p>举个例子：</p>
+<p>作为已有一门课程但还没有销量的讲师，我希望每个空面板都能自我说明，这样我就能分辨出「目前还没有数据」和「这个功能坏了」。</p>
+<p>这就是 why。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749563/ai-hero-images/vkq4rawumdk2gny6e2vw.png" alt="user story 示例，展示 as/I want/so that 结构"></p>
+<p>user story 示例，展示 as/I want/so that 结构</p>
+<p>user story 的编号出奇地重要：有了编号，它之后就能引用编号说「这条修复了 user story 35」「这条修复了 user story 37」，诸如此类。</p>
+<h3>实现决策（Implementation Decisions）</h3>
+<p>然后是 implementation decisions（实现决策）。这些是 spec 里需要敲定的一部分实现决策。</p>
+<p>该写多少条实现决策，这是个开放问题。我的习惯是：想象这些 spec 会在获得批准前被搁置一段时间。设想是你会把它交给团队，说：好，这就是我打算做的东西，这就是我打算做的方式。</p>
+<p>所以它未必会细到引用单个文件这种粒度。它主要是在说：好，这些就是我们实现它的具体方式。</p>
+<p>比如这里面就有类型定义，像 <code>analytics_range</code>，另外这里还有几条测试决策。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749565/ai-hero-images/fophmixgrlo0vohnv536.png" alt="implementation decisions 一节，展示类型和思路"></p>
+<p>implementation decisions 一节，展示类型和思路</p>
+<h3>测试策略（Testing Strategy）</h3>
+<p>我们明确写了什么才算好测试，写了测试接缝，也写了被测模块——仅 analytics service。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749566/ai-hero-images/qizglgswhxhnuzkkovth.png" alt="spec 的测试策略一节"></p>
+<p>spec 的测试策略一节</p>
+<p>它还列出了必须覆盖的用例；此外还有一个分量不小的 out of scope（范围外）小节。</p>
+<p>further notes（补充说明）这块也很不错。</p>
+<p>我们甚至在里面记下了开发者预期要点评的两个设计：tabs 的双标签拆分，以及最终视觉效果——两者都被接受，但附有一条明确的警告：眼见之前不可评断。做出最好的版本，预期会有迭代，别把任何一方当成定稿。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749567/ai-hero-images/ob4pie4oh9o5lq41nunu.png" alt="further notes 一节，提到待点评的设计"></p>
+<p>further notes 一节，提到待点评的设计</p>
+<h2>为什么我不读自己写的 spec（Why I Don&#39;t Read My Own Specs）</h2>
+<p>你会注意到，这份 spec 和我们的对话几乎没有偏离。正因如此，我其实很少亲自去读这些 spec。</p>
+<p>就算我去读，我到底在检验什么？无非是在检验 agent 总结我们刚才谈话的能力。而这事儿，我大体上是信得过的。</p>
+<p>总的来说，我对这份 spec 非常满意。这是一个绝佳的目的地，等代码实现出来，我们就能拿它对照验收。</p>
+<p>希望「先 grilling、再跑 <code>/to-spec</code>」的这套流程你已经理顺了，尤其是关于测试接缝的那个决定。</p>
+<p>干得漂亮，我们下一节见。</p>
+<h1 id="lesson-5">用 ticket 把特性拆分到多个 context window（Split Features Across Context Windows With Tickets）</h1>
+<p>Commit Map（提交地图）</p>
+<p>to-tickets-skill
+本课起点：新增 <code>/to-tickets</code> skill</p>
+<p>你已经有了一份 spec，但还没有路线。你知道终点在哪，却不知道要怎么走过去。</p>
+<p>你需要为每个 smart zone、每个 session 创建一张张独立的 ticket。每张 ticket 都会被逐个领取、逐个实现。</p>
+<p>但拆分工作有好方法，也有坏方法。</p>
+<h2>横切是一个陷阱（Horizontal Slices Are a Trap）</h2>
+<p>每个应用都有分层。你可能有一个数据库、一个 API 和一个前端，各自作为独立的部署单元。应用内部，你可能有负责与前端通信的 service；前端内部，又有自带层级的组件。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749912/ai-hero-images/mn0uzggkfkztyds0nybu.png" alt="展示应用分层的示意图：数据库、API、前端、service 与组件"></p>
+<p>展示应用分层的示意图：数据库、API、前端、service 与组件</p>
+<p>当 agent 面对涉及不同层级的工作拆分时，它通常会切成水平切片（horizontal slices），让每个层级各自领到一个阶段。</p>
+<p>阶段 1 专注数据库。阶段 2 把它接到 service 上。阶段 3 再把所有东西接到前端。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749914/ai-hero-images/wxgun1hajhkycnbnks2n.png" alt="展示水平切片的示意图：每个层级各自一个阶段"></p>
+<p>展示水平切片的示意图：每个层级各自一个阶段</p>
+<p>这看起来井井有条、合情合理，但其实是个陷阱。软件开发者们几十年前就明白这一点了。</p>
+<p>如果按这种方式做，阶段 1 写下的所有代码，你要等到实现阶段 3 时才能真正知道它能不能跑、设计得好不好。你必须跨过所有层级，才能判断某一层的代码设计是否合理。</p>
+<p>用水平切片，你对整个系统的反馈来得太晚了。</p>
+<h2>垂直切片能带来早期反馈（Vertical Slices Give Early Feedback）</h2>
+<p>解决办法是垂直切片（vertical slices）。agent 从第一个阶段起就横跨所有层级工作。</p>
+<p>从一开始，它就在碰数据库、API 和前端。它先搭出一个最小实现，再在此基础上逐步扩展。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749914/ai-hero-images/by0ajypofoikn8ar68bj.png" alt="展示垂直切片的示意图：从第一个阶段起就贯穿所有层级"></p>
+<p>展示垂直切片的示意图：从第一个阶段起就贯穿所有层级</p>
+<p>这意味着从第一阶段开始，它就能对设计和可行性获得反馈，并看到所有层级是如何集成的。</p>
+<p>之后每个阶段都相当轻松，因为它们只是在已被验证集成良好的工作之上继续搭建。</p>
+<p>使用「vertical slices」这个说法其实非常管用，因为 agent 对它的含义多少有点概念。垂直切片和曳光弹（tracer bullets）的概念由来已久——可以追溯到《程序员修炼之道》（<em>The Pragmatic Programmer</em>）。</p>
+<h2>/to-tickets skill（The /to-tickets Skill）</h2>
+<p>想得到切得漂漂亮亮的垂直切片 ticket，就用 <code>/to-tickets</code> skill。</p>
+<p>在 crash course 项目里运行 <code>npm run reset</code> 就能拿到它。它叫 <code>/to-tickets</code>，重置完分支之后，你会在 <code>.agents/skills</code> 里看到它。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749915/ai-hero-images/yvuiq1im6getaeq7vs4d.png" alt="终端显示 npm run reset 命令以及 .agents/skills 目录中的 /to-tickets skill"></p>
+<p>终端显示 npm run reset 命令以及 .agents/skills 目录中的 /to-tickets skill</p>
+<p>这个 skill 会把一份计划、spec 或对话拆成一组 ticket——曳光弹式的垂直切片，每张都声明了阻塞自己的那些 ticket。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749916/ai-hero-images/r00jheuxfqybn8liu0ii.png" alt="/to-tickets skill 的描述：它会把计划拆成曳光弹式的垂直切片"></p>
+<p>/to-tickets skill 的描述：它会把计划拆成曳光弹式的垂直切片</p>
+<h2>什么时候调用 /to-tickets（When to Call /to-tickets）</h2>
+<p>当你走到一个阶段的尽头，就需要决定下一步怎么做。<code>/to-spec</code> 之后，绝对算是一段工作的终点了。</p>
+<p>我们来过一遍这棵决策树：</p>
+<p><strong>还能继续吗？</strong> 剩下的 smart zone 还够吗？</p>
+<p>如果够，而且你的 context 与下一段工作相关，那就可以在同一个 session 里继续。</p>
+<p><strong>context 已经不相关了吗？</strong> 如果你 context 里的信息与下一个任务无关，那就重开。</p>
+<p>在这个场景里，context 高度相关。沉淀进 spec 的所有决策都在 context 里，把它留在身边是明智的。</p>
+<p><strong>需要 handoff 吗？</strong> 只要还在同一个 agent 和目录里，就不需要。</p>
+<p><strong>这件事能 AFK 完成吗？</strong> 如果你需要 human review，那就不能。</p>
+<p>如果你已经出了 smart zone，这种情况非常适合做 compaction。不过如果没必要，直接继续就行。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749917/ai-hero-images/bmg4weovualzcxoiu28j.png" alt="阶段结束时的决策树示意图：继续、compact 还是重开"></p>
+<p>阶段结束时的决策树示意图：继续、compact 还是重开</p>
+<h2>完成步骤（Steps To Complete）</h2>
+<h3>安装 /to-tickets skill（Install the /to-tickets Skill）</h3>
+<ul>
+<li>运行 <code>npm run reset</code> 安装 <code>/to-tickets</code> skill</li>
+</ul>
+<pre><code>npm run reset
+</code></pre>
+<p>这会从课程仓库拉取最新的 skills。你应该会看到 <code>/to-tickets</code> skill 出现在 <code>.agents/skills</code> 里。</p>
+<h3>在同一个对话里运行 /to-tickets（Run /to-tickets in the Same Conversation）</h3>
+<ul>
+<li>回到你运行 <code>/to-spec</code> 的那个对话</li>
+</ul>
+<p>这正是你创建 spec 的那个 session。所有 context 和决策都已经在里面了。</p>
+<ul>
+<li>需要的话就 compact</li>
+</ul>
+<p>看看剩余的 smart zone。如果快用完了，就 compact 这个对话；否则直接继续。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785749917/ai-hero-images/bweprexs101w0w7szeyp.png" alt="Claude Code 状态栏显示剩余 64k smart zone"></p>
+<p>Claude Code 状态栏显示剩余 64k smart zone</p>
+<ul>
+<li>调用 <code>/to-tickets</code> skill</li>
+</ul>
+<pre><code>/to-tickets
+</code></pre>
+<p>这个 skill 会给你展示它打算创建的各张 ticket 的拆分方案，并征求你的反馈。</p>
+<h3>审查 ticket 拆分方案（Review the Ticket Breakdown）</h3>
+<ul>
+<li>检查这些 ticket 是横切还是竖切</li>
+</ul>
+<p>每张 ticket 都应该贯穿所有层级——数据库、API、前端——而不是只盯着一层。</p>
+<p>留意那些把「实现数据库 schema」「搭建 API 端点」当成独立阶段的 ticket。那就是横切。</p>
+<p>好的垂直切片会让每张 ticket 都交付端到端的行为——一条穿过每个层级的窄而完整的路径。</p>
+<ul>
+<li>检查 ticket 是不是太大了</li>
+</ul>
+<p>记住，每个 session 你只有一个 smart zone 可用。每张 ticket 的体量都应该刚好装进一个全新的 context window。</p>
+<p>如果某张 ticket 看起来想干的事太多，就让 agent 再拆细一点。</p>
+<ul>
+<li>给 agent 提供反馈</li>
+</ul>
+<p>agent 会和你反复迭代，直到你认可这份拆分方案。在 ticket 被恰当地垂直切分、体量合适之前，别往前走。</p>
+<h1 id="lesson-6">用 ticket 把特性拆分到多个 context window：解法（Split Features Across Context Windows With Tickets Solution）</h1>
+<p>Commit Map（提交地图）</p>
+<p>to-tickets-skill
+跟着做：新增 <code>/to-tickets</code> skill</p>
+<p>你已经对这个特性做了 grilling，把它变成了 spec——现在要把它拆成 ticket。</p>
+<p>我们来运行 <code>/to-tickets</code>，看看会发生什么。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750366/ai-hero-images/fzv8dcovlrfmlztghwos.png" alt="在 Claude Code 里运行 /to-tickets 命令"></p>
+<p>在 Claude Code 里运行 /to-tickets 命令</p>
+<h2>第一个提案：10 张 ticket（The first proposal: 10 tickets）</h2>
+<p>它返回得挺快，给了我们 10 张 ticket。</p>
+<p>对这个特性来说，10 张感觉太多了。如果把 smart zone 看作 150,000 个 token，那就意味着我们要为这个特性预留 150 万个 token。</p>
+<p>在我看来这太夸张了。我心里的估算是顶多需要 450k。那就定三张 ticket 吧。</p>
+<p>我之所以能做这个判断，其实纯凭直觉——这类事做得多了，看过很多这样的 ticket 拆分提案，也见过它们最终的样子。</p>
+<p>450k 都感觉算宽松了。我觉得这个搞不好两个 session 就能做完，但我不想冒这个险。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750367/ai-hero-images/b4n4acgnk6xljddnwfde.png" alt="Claude 最初的 10 张 ticket 拆分方案，呈现水平切片"></p>
+<p>Claude 最初的 10 张 ticket 拆分方案，呈现水平切片</p>
+<h2>横切依然是个问题（Horizontal slicing is still a problem）</h2>
+<p>我们还能看到它在做经典的横切，这挺让人沮丧的：我在 skill 里明明努力不让它这么干，它还是固执地这么干。</p>
+<p>顺便说一句，这正是为什么我觉得必须有人亲眼把这一切看一遍。</p>
+<p>我觉得 10 张不是个好方案，我直接说：</p>
+<pre><code>I would like to break this down into maximum three tickets.
+I think ten feels way too much.
+</code></pre>
+<p>我们试试看。</p>
+<h2>三张 ticket，但 Claude 提出了异议（Three tickets, but Claude pushes back）</h2>
+<p>好，它现在给了我三大块工作，而且明确说：</p>
+<p>我想明确指出一个权衡：ticket 二和 ticket 三的体量超过了单个全新的 context window。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750368/ai-hero-images/bwajkdz4qmcnb7hymrml.png" alt="Claude 警告 ticket 超出了 context window 的体量"></p>
+<p>Claude 警告 ticket 超出了 context window 的体量</p>
+<p>所以它对这个 overview 标签页相当发怵。好吧，那我们或许拆成五张左右。</p>
+<p>不过我能看到，这三张确实是相当不错的垂直切片。这里做了一些地基工作（groundwork）。还有一些东西被塞进了这个 PR，其实放别处也许更合适：索引、seed 重写，还有死参数预备重构（dead parameter prefactor）。</p>
+<p>顺便说下 prefactor，如果你没听过——它就是在动手干活之前先做的重构。</p>
+<p>这一步会烧掉很多 token，因为我们要一股脑灌入一大堆 seed 数据，期间会产生大量 output token。所以我想，把它放在其他所有垂直切片之前是合理的。</p>
+<p>而剩下那几张，因为它们把大量工作打包在了一起，从定义上讲就是垂直的——它们是在整个特性范围内纵向推进。</p>
+<p>那我们看看拆到五张时，它还能不能保住垂直切片：</p>
+<pre><code>Could we have five tickets instead of three?
+</code></pre>
+<h2>五张 ticket：恰到好处（Five tickets: the sweet spot）</h2>
+<p>好，地基部分看起来没变，然后它从 page shell（页面骨架）开始。这是很经典、很漂亮的垂直切片，我非常喜欢。</p>
+<p>接着它继续添加一些额外的 overview 面板，然后是课程详情选择器、进度与流失漏斗（drop-off funnel），以及课程详情的补充内容。不错。</p>
+<p>它甚至在这里明确写了：</p>
+<p>每张 ticket 落地后都是你能亲眼看到的东西</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750368/ai-hero-images/yb646ltvz7xlz79fgg5f.png" alt="Claude 的消息：每张 ticket 落地后都是你能亲眼看到的东西"></p>
+<p>Claude 的消息：每张 ticket 落地后都是你能亲眼看到的东西</p>
+<h2>阻塞关系与并行工作（Blocking relationships and parallel work）</h2>
+<p>顺便说一句，它还做了件聪明事：这里有阻塞关系（blocking relationships）。</p>
+<p>所以理论上，只要我们愿意，这些 ticket 是可以并行的。比如在 overview 面板这里，ticket 二是 page shell，而 ticket 三被二阻塞，ticket 四也被二阻塞。</p>
+<p>这意味着我们可以先做一和二，然后兵分两路，在各自独立的 context window 里做三和四——只要我们想。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750370/ai-hero-images/sttnynjuwkqxqbe9rkib.png" alt="依赖关系图：ticket 3 和 ticket 4 都被 ticket 2 阻塞"></p>
+<p>依赖关系图：ticket 3 和 ticket 4 都被 ticket 2 阻塞</p>
+<p>这完全是可选项，不做也行，但如果能跑通，确实会快一点。这也意味着我们可以把这个 skill 扩展到真正的扇出（fan out）：同时产出多份工作，再把它们合并回来。</p>
+<p>好，我对这个方案相当满意。我们把它们发布到 issue tracker 上吧。</p>
+<h2>发布出来的 ticket（The published tickets）</h2>
+<p>好嘞，来了。我们的 Instructor Analytics Dashboard（讲师分析仪表盘）现在下面挂了五个 sub-issue。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750371/ai-hero-images/se8fkn0dgceufagulqds.png" alt="GitHub issues 页面：父 issue #4 下挂着五个 sub-issue"></p>
+<p>GitHub issues 页面：父 issue #4 下挂着五个 sub-issue</p>
+<p>我们的 spec 在这儿，第一张没有阻塞的 ticket 是地基工作。</p>
+<p>有指向父 issue 的明确链接，还有要构建的内容和验收标准（acceptance criteria）。</p>
+<p>注意这张 ticket 相当轻量，因为我们有父 spec 可以依靠。我们真正要做的，只是指明现在在构建 spec 里的哪一部分。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750371/ai-hero-images/yhhanzipoqbleo1hhehr.png" alt="Ticket #5：展示父 issue 链接和验收标准"></p>
+<p>Ticket #5：展示父 issue 链接和验收标准</p>
+<p>而且有这样明确的验收标准非常好——它给了 agent 一个可以停下来的点。</p>
+<h2>轻量审查 ticket（Review the tickets lightly）</h2>
+<p>我建议你把它们当中的几篇通读一遍。再说一次，我不建议逐张细细审查，因为它们只是把我们已经决定的内容摘要了一遍。</p>
+<p>这些 ticket 相对轻量，它们只是把 spec 切开，方便我们开工而已。</p>
+<h2>分享你的经历（Share your experience）</h2>
+<p>我很想听听你做得怎么样。</p>
+<ul>
+<li>你创建的 ticket 数量和我一样吗？</li>
+<li>你发现垂直切片了吗？</li>
+<li>你有没有遇到奇怪的横切？</li>
+</ul>
+<p>记得到 Discord 里冒个泡，加入讨论。</p>
+<p>这样我们就有了一整套 ticket。干得漂亮，我们下节课见。</p>
+<h1 id="lesson-7">执行你的 ticket（Executing Your Tickets）</h1>
+<p>Commit Map（提交地图）</p>
+<p>implement-skill
+本课起点：新增 <code>/implement</code>、<code>/tdd</code> 和 <code>/code-review</code> skill</p>
+<p>analytics-quiz-and-geography
+看我的解法：五张 ticket 全部实现，直至测验通过率和按国家划分的收入</p>
+<p>spec 和 ticket 都有了。现在要真正动手实现它们。</p>
+<p>有三个 skill 负责这件事：<code>/implement</code>、<code>/tdd</code> 和 <code>/code-review</code>。它们协同工作：构建特性、先写测试、提交之前审查成果。</p>
+<p>我们来看看它们是怎么配合的。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750677/ai-hero-images/ruazusamecb6lqbzo7vk.png" alt="编辑器中打开的 /implement skill 文件"></p>
+<p>编辑器中打开的 /implement skill 文件</p>
+<h2><code>/implement</code> skill（The <code>/implement</code> Skill）</h2>
+<p><code>/implement</code> skill 是编排者（orchestrator）。它把大部分工作委托给另外两个 skill。</p>
+<p>它的职责如下：</p>
+<ul>
+<li>实现 spec 或 ticket 中描述的工作</li>
+<li>尽可能用 <code>/tdd</code>，在预先商定好的 seam 处</li>
+<li>定期跑 typecheck、定期跑单个测试文件，最后完整跑一次整个测试套件</li>
+<li>完成后，用 <code>/code-review</code> 审查成果</li>
+<li>把工作提交到当前分支</li>
+</ul>
+<p>非常简单。真正干活的是 <code>/tdd</code> 和 <code>/code-review</code>。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750678/ai-hero-images/zkusvjlpu0qiarzrbzci.png" alt="/tdd skill 文件：展示 TDD 工作流"></p>
+<p>/tdd skill 文件：展示 TDD 工作流</p>
+<h2><code>/tdd</code> skill（The <code>/tdd</code> Skill）</h2>
+<p>质量就来自 <code>/tdd</code> skill。agent 在反馈最多的时候表现最好，而 TDD 正是制造反馈的绝佳手段。</p>
+<p>你先为特性写好单元测试，再去实现它。测试会让 agent 立刻知道实现是否正确。</p>
+<p>这个 skill 包含：</p>
+<ul>
+<li>什么样的测试是好测试——测试要通过公共接口验证行为，而不是实现细节</li>
+<li>关于 mock 与测试的建议</li>
+<li>什么是 seam——你进行测试的公共边界</li>
+<li>什么样的测试是坏测试——与实现耦合的、同义反复（tautological）的，或是横切出来的</li>
+<li>循环的规则——先红后绿、一次只切一片、重构留到审查阶段</li>
+</ul>
+<h3>只在预先商定的 seam 处测试（Test Only at Pre-Agreed Seams）</h3>
+<p>**seam（接缝）**是你测试时所依托的公共边界。测试住在 seam 上，绝不针对内部实现。</p>
+<p>在写任何测试之前，你要先写下受测的 seam，并与用户确认。没有得到确认的 seam 上，不写任何测试。</p>
+<p>这能把测试精力留在关键路径和复杂逻辑上，而不是铺向每一个边界情况。</p>
+<h3>同义反复的测试（Tautological Tests）</h3>
+<p>有一个反模式值得点名：<strong>同义反复的测试（tautological tests）</strong>。这类测试的断言会用与代码相同的方式重新计算期望值。</p>
+<p>比如 <code>expect(add(a, b)).toBe(a + b)</code>。这种测试从构造上就注定通过，永远不可能与代码相左。</p>
+<p>期望值必须来自独立的事实来源——一个已知正确的字面量、一个算好的例子，或是 spec 本身。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750679/ai-hero-images/nvg72btkhpsllth4qcqp.png" alt="编辑器中打开的 /code-review skill 文件"></p>
+<p>编辑器中打开的 /code-review skill 文件</p>
+<h2><code>/code-review</code> skill（The <code>/code-review</code> Skill）</h2>
+<p><code>/code-review</code> skill 会对 <code>HEAD</code> 与你指定的固定基点之间的 diff 做一次双轴审查。</p>
+<p>它在两个并行 subagent 里跑两场审查：</p>
+<ul>
+<li><strong>Standards（规范）</strong>——代码是否符合这个仓库书面记录的编码规范？</li>
+<li><strong>Spec（规格）</strong>——代码是否忠实实现了来源 issue / PRD / spec？</li>
+</ul>
+<h3>为什么要两条轴（Why Two Axes）</h3>
+<p>一次改动完全可能过了一条轴、栽在另一条上：</p>
+<ul>
+<li>代码处处符合规范，实现的东西却错了——<strong>Standards 过，Spec 挂</strong></li>
+<li>代码严格照 issue 的要求做了，却破坏了项目的约定——<strong>Spec 过，Standards 挂</strong></li>
+</ul>
+<p>分开报告，两条轴就不会互相遮掩。</p>
+<h3>Standards subagent（The Standards Sub-Agent）</h3>
+<p>Standards subagent 会拿到：</p>
+<ul>
+<li>完整的 diff 命令和 commit 列表</li>
+<li>仓库中找到的规范来源文件列表</li>
+<li>来自《重构》（<em>Refactoring</em>）的坏味道（smell）基线——Mysterious Name（神秘命名）、Duplicated Code（重复代码）、Feature Envy（依恋情结）、Data Clumps（数据泥团）等</li>
+</ul>
+<p>它会报告 diff 违反书面规范的每一处，以及它发现的任何基线坏味道。违反书面规范可能是硬性违规，而基线坏味道永远只是主观判断。</p>
+<h3>Spec subagent（The Spec Sub-Agent）</h3>
+<p>Spec subagent 会拿到：</p>
+<ul>
+<li>diff 命令和 commit 列表</li>
+<li>spec 的路径或抓取到的内容</li>
+</ul>
+<p>它会报告：</p>
+<ul>
+<li>spec 要求了但缺失或只做了一半的需求</li>
+<li>diff 中没人要求的行为（scope creep，需求蔓延）</li>
+<li>看似实现了、但实现方式可疑的需求</li>
+</ul>
+<p>这第二轮检查能极大提升产出的质量。它经常自己动手把真正糟糕的问题修掉。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750679/ai-hero-images/s8u0bujduvuexgkqsdze.png" alt="GitHub issue：展示 spec 及其 sub-issue"></p>
+<p>GitHub issue：展示 spec 及其 sub-issue</p>
+<h2>Context 管理（Context Management）</h2>
+<p>这里有个争议：是等所有 ticket 都完成后再审查，还是拿 spec 逐张审查 ticket？</p>
+<p>本课我们会逐张审查。但有时你也可以留到最后一起做。</p>
+<h3>清空还是压缩（Clearing vs. Compacting）</h3>
+<p>规划阶段结束后，你需要决定：**clear（清空）**还是 <strong>compact（压缩）</strong>？</p>
+<p>spec 和 ticket 都待在 context 之外。它们在文档里，所以对话历史现在是可以丢弃的——它只是你手上那几份文档的更啰嗦版本。</p>
+<p>如果你选择 <strong>compact</strong>，下一个 session 可能不用做那么多探索，因为它应该已经带着合适的 context 了。</p>
+<p>但 <strong>clear</strong> 就是更便宜、更快。这样你的新 session 能以最满的 smart zone 起步。</p>
+<p>本课中，规划结束后我们用了约 90k token。规划阶段的 context 现在可以丢弃了，因为它已经被编码进 spec 和 ticket 里。所以我们要把它清掉。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785750680/ai-hero-images/ilqd7fnypw0klo7bwk10.png" alt="Context 计量条：已用 90k token"></p>
+<p>Context 计量条：已用 90k token</p>
+<h2>完成步骤（Steps To Complete）</h2>
+<h3>准备 skills（Set Up the Skills）</h3>
+<ul>
+<li>运行 <code>npm run reset</code>，重置到 <code>implement-skill</code> 这一课的 commit</li>
+</ul>
+<p>这会把 <code>/implement</code>、<code>/tdd</code> 和 <code>/code-review</code> 三个 skill 加进你的 <code>.agents/skills</code> 目录。</p>
+<ul>
+<li>打开 <code>.agents/skills/implement/SKILL.md</code> 读一遍</li>
+</ul>
+<p>注意它有多简单：它把活儿委托给 <code>/tdd</code> 和 <code>/code-review</code>。</p>
+<ul>
+<li>打开 <code>.agents/skills/tdd/SKILL.md</code>，读一读 TDD 工作流</li>
+</ul>
+<p>留意这些部分：</p>
+<ul>
+<li><p>「What a good test is（什么是好测试）」一节</p>
+</li>
+<li><p>「Seams - where tests go（seam——测试放在哪）」一节</p>
+</li>
+<li><p>反模式：与实现耦合、同义反复、横切</p>
+</li>
+<li><p>循环规则：先红后绿、一次一片</p>
+</li>
+<li><p>打开 <code>.agents/skills/code-review/SKILL.md</code>，读一读双轴审查</p>
+</li>
+</ul>
+<p>注意它如何并行跑两个 subagent——一个管 Standards，一个管 Spec。</p>
+<h3>实现第一张 ticket（Implement the First Ticket）</h3>
+<ul>
+<li>在 GitHub 上打开你的 spec issue，滚动到第一个 sub-issue</li>
+</ul>
+<p>第一个 sub-issue 应该没有阻塞，随时可以开工。</p>
+<ul>
+<li>复制第一个 sub-issue 的链接</li>
+</ul>
+<p>右键点击 issue 链接，复制 URL。</p>
+<ul>
+<li>在你的 agent 里，以 issue URL 为参数运行 <code>/implement</code></li>
+</ul>
+<pre><code>/implement &lt;issue-url&gt;
+</code></pre>
+<p>这会启动实现流程。agent 会：</p>
+<ol>
+<li>用 <code>/tdd</code> 先写测试，再实现特性</li>
+<li>定期跑 typecheck 和测试</li>
+<li>用 <code>/code-review</code> 审查成果</li>
+<li>把工作提交到当前分支</li>
+</ol>
+<ul>
+<li>看着 agent 完成整个实现</li>
+</ul>
+<p>你会看到它：</p>
+<ul>
+<li>提出测试 seam 并与你确认</li>
+<li>写出失败的测试（红）</li>
+<li>实现特性（绿）</li>
+<li>运行 <code>/code-review</code> 抓问题</li>
+<li>修掉审查发现的所有问题</li>
+<li>提交工作</li>
+</ul>
+<h3>审查并关闭 ticket（Review and Close the Ticket）</h3>
+<ul>
+<li>审查 code review 的输出</li>
+</ul>
+<p>agent 会把 Standards 审查和 Spec 审查都展示给你。确认：</p>
+<ul>
+<li><p>没有违反任何书面规范</p>
+</li>
+<li><p>没有引入任何基线坏味道</p>
+</li>
+<li><p>spec 的所有需求都已实现</p>
+</li>
+<li><p>没有混入任何 scope creep</p>
+</li>
+<li><p>在 GitHub 上关闭第一个 sub-issue</p>
+</li>
+</ul>
+<p>这是好习惯。你关掉第一张，第二张就解除阻塞了。</p>
+<p>你可以手动操作，也可以让 agent 代劳。</p>
+<h3>决定：clear、compact 还是继续（Decide: Clear, Compact, or Continue）</h3>
+<ul>
+<li>在你的 agent 里查看 context window 用量</li>
+</ul>
+<p>看看状态栏里的 token 数。</p>
+<ul>
+<li>决定是 clear、compact 还是继续</li>
+</ul>
+<p>如果你已经到 90k token 或更高，考虑 clear。spec 和 ticket 都在 context 之外，对话历史已经可以丢弃了。</p>
+<p>如果低于这个数，你或许可以直接继续下一张 ticket。</p>
+<ul>
+<li>如果决定 clear，就清空 context，为下一张 ticket 开一个全新 session</li>
+</ul>
+<p>如果决定 compact，下一个 session 可能不用做那么多探索。</p>
+<p>如果决定继续，立刻投入下一张 ticket。</p>
+<h3>实现剩下的 ticket（Implement the Remaining Tickets）</h3>
+<ul>
+<li>对剩下的每个 sub-issue 重复这套流程</li>
+</ul>
+<p>每张 ticket：</p>
+<ol>
+<li>复制 issue URL</li>
+<li>运行 <code>/implement &lt;url&gt;</code></li>
+<li>看着 agent 干活</li>
+<li>审查 code review 输出</li>
+<li>关闭 ticket</li>
+<li>决定 clear、compact 还是继续</li>
+</ol>
+<h3>对实现做 QA（QA the Implementation）</h3>
+<ul>
+<li>所有 ticket 完成后，在本地运行应用</li>
+</ul>
+<p>启动 dev server，打开分析仪表盘。</p>
+<ul>
+<li>确认所有功能都按 spec 工作</li>
+</ul>
+<p>逐一确认 spec 里的每个功能都在，且工作正常。</p>
+<ul>
+<li>检查控制台有没有报错</li>
+</ul>
+<p>打开浏览器的开发者控制台，确认没有出现错误。</p>
+<ul>
+<li>确认 UI 看起来正常</li>
+</ul>
+<p>确保分析仪表盘显示正常，与设计一致。</p>
+<ul>
+<li>确认分析仪表盘展示了预期数据</li>
+</ul>
+<p>确认展示的数据合理，与 seed 数据应有的结果相符。</p>
+<h1 id="lesson-8">执行你的 ticket：解法（Executing Your Tickets Solution）</h1>
+<p>Commit Map（提交地图）</p>
+<p>implement-skill
+本课起点：新增 <code>/implement</code>、<code>/tdd</code> 和 <code>/code-review</code> skill</p>
+<p>analytics-groundwork
+第 1 轮之后：索引、seed 重写和 progress 预备重构</p>
+<p>analytics-page
+第 2 轮之后：收入概览、图表和时间范围控件</p>
+<p>analytics-audience
+第 3 轮之后：买家、排行榜、问题和评分</p>
+<p>analytics-course-detail
+第 4 轮之后：课程进度、完成人数和流失漏斗</p>
+<p>analytics-quiz-and-geography
+第 5 轮之后：测验通过率和按国家划分的收入</p>
+<p>好，开工。我们把第一个 issue 丢给 <code>/implement</code>。</p>
+<h2>第 1 轮——地基 ticket（Run 1 - The groundwork ticket）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751277/ai-hero-images/rtxjtwcmd476562lndca.png" alt="Claude Code 读完 issue #5 后探索代码库"></p>
+<p>Claude Code 读完 issue #5 后探索代码库</p>
+<p>可以看到它已经读了 issue，现在正在探索代码库。有意思的是，它没有为此启用 subagent，而是直接自己上。</p>
+<p>然后砰，第一波更新就来了。它在更新 <code>includeQuizzes</code>，看起来正在做第一个 issue 里描述的事情。</p>
+<h3>Auto Mode</h3>
+<p>顺便说一句，在这种场景下非常重要的一样东西是 Auto Mode（自动模式）：你只管放手让它跑，由一个分类器去审核权限请求。</p>
+<p>所以我大可以离开一会儿再回来，届时第一阶段应该已经实现完，审查最好也完成了。</p>
+<p>这是 Claude Code 独有的功能，不过我很确定，其他 harness 迟早也会实现各自的 Auto Mode。</p>
+<h3>seed 脚本（The seed script）</h3>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751279/ai-hero-images/euxcw7spix4dymf1ehha.png" alt="终端输出：seed 脚本正在创建数据库条目"></p>
+<p>终端输出：seed 脚本正在创建数据库条目</p>
+<p>它给 seed 脚本添加了一大堆东西，还跑了一次数据库迁移。看起来这一切都是按照本地 skill 里的要求做的，很好。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751280/ai-hero-images/tspctub63eztzfxgrv3p.png" alt="Token 计数器：已用 95k token"></p>
+<p>Token 计数器：已用 95k token</p>
+<p>现在到 95k 了，还在弄这个 seed 脚本。</p>
+<p>看起来运行 seed 脚本本身就报了些错。来了——找不到那个邮箱对应的 seed 学生。</p>
+<p>于是它现在着手修复，很好。</p>
+<h3>验证循环（Verification loops）</h3>
+<p>这类验证循环绝对会吃 token，这也是我们如此小心确保任务体量合适的原因之一。</p>
+<p>如果实现途中遇到麻烦，或者某个东西的表现不合它的意，它就可能烧掉大量 token 才能走到目的地。</p>
+<p>它现在在做最后的验证：跑测试和 typecheck。然后它转去跑 code review 了。</p>
+<h3>审查流程（The review process）</h3>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751281/ai-hero-images/ozjn52ahhewvmllbo7yf.png" alt="code review skill 被调用，带起两个 subagent"></p>
+<p>code review skill 被调用，带起两个 subagent</p>
+<p>code review 是一个 model 可自行调用的 skill，所以它能直接把它们串起来，不用问你。可以看到它在这里初始化了两个 agent：standards 审查和 spec 审查。</p>
+<p>两者都会带回一份报告，我们可以看看是否想对实现方式做任何调整。</p>
+<p>这一点非常妙，因为我们基本上重置了 smart zone。这些 subagent 在各自的 smart zone 里工作，所以完全不用担心被我们这个 $113k token 的 context window 拖进 dumb zone。</p>
+<p>这两个 agent 现在完成了 standards 审查和 spec 审查，带回了四条发现，它立刻动手把它们修了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751283/ai-hero-images/ajkfmvnvylsb1cmp44bh.png" alt="code review 的四条发现列表"></p>
+<p>code review 的四条发现列表</p>
+<p>看起来它发现了一些重复代码、一条注释里不准确的百分比、一些没清理的硬编码中间日志，还有一个有误导性的变量名。</p>
+<p>这些我不需要确认，它直接就改了。</p>
+<p>如果我们滚到底部、再稍微缩小视图，最终能看到大约用了 125k token，并且它给出了本次落地的内容摘要。</p>
+<h3>决定如何继续（Deciding how to continue）</h3>
+<p>到这一步，我们需要决定怎么继续。我们现在就可以对这个 commit、这个 issue 做 QA，但我想把 QA 留到最后。</p>
+<p>所以我要做的是：打开这个 issue，然后立刻把它关掉，这样下一个 issue 就解锁、可以开工了。现在轮到六号了。</p>
+<p>我来复制链接地址，接下来就实现这个 issue。</p>
+<h3>清空 context（Clearing the context）</h3>
+<p>下一个问题是：context window 怎么处理？目前是 125k。我一般会直接清空这个 context window。</p>
+<p>原因在于，context window 之外有着非常丰富的 context：我们有 spec，有下一张 ticket，甚至有上一张 ticket（如果它想看原本打算做什么），还有 commit 历史里的那次 commit，它可以读它来了解实际做了什么。</p>
+<p>所以我非常有信心：直接清空 context，一秒钟搞定，就能接着实现下一个 issue。</p>
+<h2>第 2 轮——页面骨架（Run 2 - The page shell）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751284/ai-hero-images/ueuyeonl8ffh3ckh1qcv.png" alt="agent 正在抓取 issue #6"></p>
+<p>agent 正在抓取 issue #6</p>
+<p>我们开工，看看它的表现。</p>
+<p>好了，六号 issue 依赖五号，而五号看起来已经被最新的 commit 落地了。现在它要重新探索代码库结构。</p>
+<p>顺便说一句，我们之前埋下的那些 navigation pointer（导航指针）就是在这里发挥作用的。仓库易于探索，意味着它花更少的 token 就能找到需要的信息，也就意味着 clear 更可行，你就能跑得更快一点。</p>
+<h3>识别 seam（Identifying the seams）</h3>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751285/ai-hero-images/yy7pbf4zm3zjcugj9yve.png" alt="agent 声明受测的 seam"></p>
+<p>agent 声明受测的 seam</p>
+<p>这里很不错：它明确说了受测的 seam 是 X、Y 和 Y。不针对 route 或组件内部写测试。所有算术和范围解析都藏在那条边界之后。非常漂亮。</p>
+<h3>红绿循环（The red-green loop）</h3>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751286/ai-hero-images/rn96pzxdrxak3iduvedp.png" alt="运转中的 TDD 循环"></p>
+<p>运转中的 TDD 循环</p>
+<p>可以看到红绿循环开始转起来了：它先在 analytics service 里创建一组最小的测试，又多写了几个测试，等测试骨架就位后，再去写最小实现。</p>
+<p>现在它在做绿色那一步：真正写代码，然后测试转绿。可以看到它在这里跑了一条 shell 命令，点进去就能看到那个单独的测试文件已经通过了。</p>
+<p>这也是个很快的循环：不到一秒就能跑完，意味着它能对正在写的代码获得非常快的反馈。</p>
+<p>看起来它的实现基本完成了。106k token，相当不错。现在进入 code review——又是 standards 和 spec 两路审查。</p>
+<h3>审查改动（Reviewing the changes）</h3>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751287/ai-hero-images/olmihr9fjuharke7odcy.png" alt="VS Code 源代码管理面板显示变更文件"></p>
+<p>VS Code 源代码管理面板显示变更文件</p>
+<p>在 VS Code 里，我们可以通过源代码管理标签页浏览变更文件。里面东西不少：有 analytics service 的测试，也有 analytics 本身的测试。</p>
+<p>看起来这里面有一些纯函数——不会产生什么奇怪副作用的函数。它们是测试的好目标。</p>
+<p>另外还有围绕 service 本身的测试：analytics service，加上测试这一切的 <code>analyticsService.test.ts</code>。这个测试文件相当大，大约 400 行。</p>
+<p>这场审查的一个妙处是：它不光审查代码，还审查测试代码的测试。它会去检查你没考虑到的边界情况，以及 spec 里本该测试却没被测试的部分。</p>
+<h3>agent 炖着的时候你去干活（Working while the agent cooks）</h3>
+<p>顺便说一句，在这些漫长的实现进行时，我通常跑去规划别的事情，试着在代码库的其他地方派上用场，也许在另一个分支或另一个 work tree 里。</p>
+<p>agent 在那儿慢炖的时候，实在没必要干坐着。这轮现在五六分钟了。这个循环的妙处在于，你几乎不用输入什么，只要说一句：好，现在做下一张。</p>
+<h3>同义反复的测试（The tautological test）</h3>
+<p>好，它发现了一些问题。看起来它得删掉一些测试。啊，来了——一个经典的同义反复测试。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751289/ai-hero-images/eho0xzgezarxon4y9pfd.png" alt="代码截图：一个只检查常量等于自身的测试"></p>
+<p>代码截图：一个只检查常量等于自身的测试</p>
+<p>它就真的只是在测试一个叫 <code>platformFeeRate</code> 的常量等不等于这个值。拜托，这只是配置，根本不用测。</p>
+<pre><code>it(&quot;takes a fifth of gross as the platform fee&quot;, () =&gt; {
+expect(PLATFORM_FEE_RATE).toBe(0.2);
+});
+</code></pre>
+<p>看起来做了不少修复，而且这个 context window 刚好落在 smart zone 之内——这些估算拿捏得相当漂亮。</p>
+<h3>验证手段（Verification methods）</h3>
+<p>它又在做更多验证，看起来是想把真实页面跑起来，翻看页面、在 UI 里找那些东西——这是个挺有意思的验证过程。</p>
+<p>agent 用来获取信息的反馈回路超级重要，所以设计代码库时要想清楚怎么让它产生更好的反馈回路、得到更好的产出——这实在太太重要了。</p>
+<p>我们的 typecheck 和测试做得不错：typecheck 某种程度上是在检查代码的正确性，测试则检查它在运行时的表现。</p>
+<p>但我们其实还没有让它验证一个正在运行的应用的办法。为此，你可以用 Chrome DevTools MCP server 之类的工具，它能给页面拍照。甚至还有 agent-browser，也很不错。</p>
+<h3>自行裁量的判断（Judgement calls）</h3>
+<p>好，现在到了 137k token，非常好。共 401 个测试，其中 32 个是新测试，另外还有一些需要我们裁量判断的地方。</p>
+<p>这里有点范围上的小越界。它说 course detail 标签页已经有真实内容了——看起来它确实擅自实现了一些本不该实现的东西，但它说没关系，因为很容易拆掉。</p>
+<p>它还主动做了一处调整，在 gross 之外加上了 net。我觉得，也还行吧。</p>
+<p>总的来说，这些不用太担心。等所有东西都落地后，我会做一次最终 QA。</p>
+<h2>第 3 轮——compact 还是 clear（Run 3 - Compacting vs clearing）</h2>
+<p>这次换个花样，不用 clear，改跑 compact。我要运行 compact 来进入下一阶段，这会压缩对话，我们看看这会不会让它少做一些探索。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751290/ai-hero-images/jdwbzpkpbz9cjl6dui7f.png" alt="复制 issue #7 的链接地址"></p>
+<p>复制 issue #7 的链接地址</p>
+<p>我把下一个 issue——六号——像这样关掉，然后接下来两张就解锁了。我拿这一张，复制它的链接地址。</p>
+<p>现在我可以回到对话里，说一声「实现这张 ticket」。它会被排进队列，等压缩一结束就开始。</p>
+<h3>compact 的代价（The cost of compacting）</h3>
+<p>说实话，我平时每段对话结束后基本只用 clear，所以我也很好奇 compact 会不会让事情快一点、多给一点 context，还是根本没必要。</p>
+<p>当然，它肯定更慢。我们得花 output token 去生成上一段对话的摘要。我有点希望它能把到底花了多少 output token 显示出来——那肯定不是小数目。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751292/ai-hero-images/vaoayldqdtepaet1madc.png" alt="压缩后的摘要：显示恢复的文件"></p>
+<p>压缩后的摘要：显示恢复的文件</p>
+<p>可以看到它压缩后保留了一些测试，我猜是接下来……要用的。它留了相当多文件。它恢复了 code review skill，我理解后面可能也用得上。</p>
+<p>它抓取了 issue，然后还在继续探索。显然，它还是需要探索比摘要里更多的东西。那么问题来了：压缩出来的摘要跟它正在做的事情真的相关吗？不好说。</p>
+<p>这儿真是热得要命，我把法兰绒衬衫脱了，抱歉。</p>
+<h3>硬性违规（The hard violation）</h3>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751293/ai-hero-images/lkxiawqqikrmranckhqu.png" alt="code review：两条轴都发现了硬性违规"></p>
+<p>code review：两条轴都发现了硬性违规</p>
+<p>又一轮实现完成了，审查也做完了：两条轴各自独立地标记了同一个硬性违规——question count 在 route 里做行过滤。听起来像是没有在服务端过滤，而是把所有数据都堆给客户端，在前端做过滤。这真的很糟。</p>
+<p>糟就糟在，大量数据跨越网络传输，最后却在浏览器里被过滤掉。极度浪费。</p>
+<p>好，这一轮挺长。这张 ticket 花了 17 分 30 秒，token 冲到了 140K。</p>
+<p>spec 那条轴抓到了一个真实缺口：never enrolled（从未报名）这一项在团队买家的情况下被隐藏了。</p>
+<p>你也看到了，实现 agent 实际能偏离 spec 多远。所以有个审查环节，对抓住这类问题真的很管用。</p>
+<h3>回到 clear（Back to clearing）</h3>
+<p>现在关掉七号，前往八号，复制链接地址，贴进去。</p>
+<p>我觉得 compact 并没带来什么，所以我直接 clear——更快、更便宜——然后说一句：实现八号。</p>
+<p>经验法则是：如果 clear 和 compact 之间五五开、拿不定主意，那就选 clear，因为它更便宜也更快。</p>
+<h2>第 4 轮——流失漏斗（Run 4 - The drop-off funnel）</h2>
+<p>这块工作进行到 spec 审查了，token 用到 77.5k。我的天，好吧，它做得非常彻底。</p>
+<p>好，看起来它又提交了。又一份「已实现、已审查、已提交」的总结。service 有了，route 有了，测试也有了。</p>
+<p>144k token，数字在悄悄往上爬。我要清空 context 了。</p>
+<p>我把刚做完的这个 issue 关掉，打开最后一张——它现在解锁了——出发。</p>
+<h3>为 QA 做打算（Planning for QA）</h3>
+<p>等这张做完，我会做一次最终 QA，把所有东西好好过一遍，看看结果如何。</p>
+<p>我们现在在——哦，视频时间 11.25——但这更像是……我说不好，我觉得实际拍了大概一个小时。</p>
+<p>这期间我一直在回邮件、做别的事，偶尔回来看一眼进展。</p>
+<h3>估算再次拿捏（Nailing the estimates）</h3>
+<p>好，实现完成，看起来我们又稳稳命中了。102.5k token，这次真是漂亮。</p>
+<p>说实话，就任务体量而言，事情从来没这么顺过。我有时会碰上特别大的任务、特别大的 ticket，一路烧到 300K token。</p>
+<p>遇到那种情况，我基本就当成一次教训，然后改进 skill，让它们以后能提前拦住。通常都是些蠢事，比如一次 rename 意外波及了远超预期的范围，爆炸半径比我预想的大得多。</p>
+<h3>大 context window 的好处（The benefit of large context windows）</h3>
+<p>有时你能拦住它们，有时就是拦不住。这算是大 context window 的一个好处：就算你搞砸了，它也不会在奇怪的时机 compact，而是一直跑、一直跑。代价是贵，但至少意味着还能继续。</p>
+<p>当然，就算它在奇怪的时刻 compact 了，你还是能继续，但我发现那种时候压缩会以莫名其妙的方式丢失 context，最终效果就是差点意思。</p>
+<h3>自动化审查（The automated review）</h3>
+<p>好，审查又一次发现了实质性问题。我很期待最后拿到报告时会看到什么。</p>
+<p>它还在增加更多测试用例，挺有意思。</p>
+<p>顺便说一句，我把这种 automated review（自动化审查）当作整个流程不可缺少的一环。在我脑子里，「产出」和「审查」不是两件事——它们出自同一个开发者，或者说至少是同一个 agent：实现工作在被另一个 agent 审查过之前，就不算完成。</p>
+<h2>第 5 轮——最后一张 ticket（Run 5 - The final ticket）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751294/ai-hero-images/esqz9s7t0g9uftrzrx9z.png" alt="最后的 commit 总结：用了 132k token"></p>
+<p>最后的 commit 总结：用了 132k token</p>
+<p>好，最后一个 commit 来了，132k token。我们又精准命中了。</p>
+<p>它带回来几条需要裁量的判断，平时我会处理它们，但为了这个演示就不处理了，保持轻简。不过，我觉得是时候做点 QA 了。</p>
+<h2>QA——检验实现（QA - Testing the implementation）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751295/ai-hero-images/kjnfybp3xlocygqdiewe.png" alt="运行 npm run dev 测试应用"></p>
+<p>运行 npm run dev 测试应用</p>
+<p>我来开一个新终端，运行 <code>npm run dev</code>，看看这个应用。</p>
+<p>进入 dev UI，切换到 Priya Nair。这是一位新讲师，有一堆新——哇，好多好多新学生。</p>
+<p>所以 seed 数据肯定被大改过了。进入她的仪表盘，再进入新的分析页面。</p>
+<p>好，正巧，Priya 没有任何课程。那就切到有课程的 Marcus Johnson。</p>
+<h3>逛一逛分析页（Exploring the analytics）</h3>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751296/ai-hero-images/dosz2onfcydp9pon8dok.png" alt="分析仪表盘：展示收入和头部买家"></p>
+<p>分析仪表盘：展示收入和头部买家</p>
+<p>把那个关掉。上面有几个标签页：overview，还有 course detail。有随时间变化的收入，还有头部买家。</p>
+<p>把视角移到这里的标签页，可以看到课程数据，然后选一门课程。</p>
+<p>这做得真精致、真细致，对吧？我把时间范围切到 all time，看看有没有变化。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751297/ai-hero-images/dqjozrl0hneyuwan7ap4.png" alt="课程进度：23 人中 23 人到达，1 人困在里面"></p>
+<p>课程进度：23 人中 23 人到达，1 人困在里面</p>
+<p>这里的数据真的很酷：23 人里 23 人到达，1 人 lost inside（困在里面）。措辞有点好笑，好像这个学生永远被困在了课程里。</p>
+<p>这分析真的很棒，我都想给自己的课程配一套。</p>
+<p>这里有测验成绩，也有按国家划分的收入。</p>
+<p>看起来真的非常、非常漂亮。</p>
+<h3>管理员视角（Admin view）</h3>
+<p>现在如果我们进 dev UI、以管理员身份看会怎样？管理员能看到什么？</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751298/ai-hero-images/whox4wrw0moqxk0koha2.png" alt="分析仪表盘的管理员视图"></p>
+<p>分析仪表盘的管理员视图</p>
+<p>看起来除了这些，现在还有一个管理员页面。在 course detail 里他们可以看到一切，比如《TypeScript 入门》。</p>
+<p>他们能看到流失情况。切到 overview，就能看到整体情况，还能按讲师筛选。</p>
+<h3>总体评价（Overall assessment）</h3>
+<p>总的来说，它跑得好得离谱，做得真、真的很漂亮。</p>
+<p>当然也有一些我想再 QA 的地方。有不少视觉 bug 我不喜欢。比如这里的文字，层级在我看来不太对劲。</p>
+<p>这一小块 UI 也看着不太对。</p>
+<h3>反馈回路的重要性（The importance of feedback loops）</h3>
+<p>不过你能看出，凡是 agent 有反馈回路的那些东西——比如各种功能的实际运作方式——似乎都完成得非常好。</p>
+<p>比如这些分析数据，我没有逐条去验证是否正确，但看起来是合理的。</p>
+<p>而没有好的反馈回路的部分——比如用户界面本身——就稍微粗糙一些。</p>
+<p>总的来说我相当满意，现在去关掉 spec 的最后一张 ticket。</p>
+<h2>收尾（Wrap-up）</h2>
+<p>到这里，这场超长录制就算完成了。</p>
+<p>坚持到现在，干得漂亮。我也很想了解你在这个练习里做的种种决策。</p>
+<h3>几点观察（Key observations）</h3>
+<p>你注意到 clear 和 compact 的区别了吗？你创建的 ticket 是否被恰当地垂直切分了？</p>
+<p>我注意到这次顺利的另一个原因：ticket 垂直切得漂亮，很多都直接建立在之前的工作之上。</p>
+<h3>这套方法能扩展（This approach scales）</h3>
+<p>这套方法能扩展到非常非常大的任务。我有过一份 spec 下面挂着 30 张 ticket，虽然要花些时间才能完成，但用这套东西能推进的工作量是惊人的。</p>
+<p>尤其是还有审查者在里面把关，每个 commit 落地前都要过一遍。</p>
+<p>所以，干得好，真棒，我们下节课见。</p>
+<h1 id="lesson-9">你该保留 spec 吗？（Should You Keep Your Specs?）</h1>
+<p>我被问到无数遍的一个问题是：spec 完成之后该怎么处置？当它们对应的代码已经存在时，这些 spec 该怎么办？</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751440/ai-hero-images/srlqoogz2du9bbbq3p6b.png" alt="GitHub issue #4：Instructor Analytics Dashboard 的 spec，含详细的 user story 和实现决策"></p>
+<p>GitHub issue #4：Instructor Analytics Dashboard 的 spec，含详细的 user story 和实现决策</p>
+<p>这份 spec 相当不错地呈现了代码实际如何工作、长什么样，只不过是用用户能懂、agent 也能懂的纯文本写成的。</p>
+<p>把它们留着似乎总该有点价值吧？也许当作解释代码如何工作的文档，甚至只是当作历史记录。</p>
+<h2>令人震惊的答案（The Shocking Answer）</h2>
+<p>好，我要说点震惊你的：既然这些内容已经体现在代码里了，我要把这个 spec 关掉。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751441/ai-hero-images/au0geneqexmxfx2sxxrl.png" alt="Matt 在 GitHub 上把 issue #4 标记为已完成并关闭"></p>
+<p>Matt 在 GitHub 上把 issue #4 标记为已完成并关闭</p>
+<h2>一手来源与二手来源（Primary and Secondary Sources）</h2>
+<p>我们可以用之前讲过的 primary source 和 secondary source（一手来源与二手来源）来理解 spec 和代码库。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751441/ai-hero-images/dqdb6twh4u9cym5uouow.png" alt="白板图：Codebase 标注为 Primary Source，Spec 标注为 Secondary Source"></p>
+<p>白板图：Codebase 标注为 Primary Source，Spec 标注为 Secondary Source</p>
+<p>spec 本质上是「代码库如何工作」的浓缩版——甚至只是代码库某一部分如何工作的浓缩版。</p>
+<p>当然，secondary source 的问题在于它只是一种投影——它是对事物实际运作方式的摘要。</p>
+<h2>漂移问题（The Drift Problem）</h2>
+<p>最糟的是，代码库会很快偏离 spec。</p>
+<p>换句话说，如果你不持续让 spec 与代码库保持同步，两者就会渐行渐远。</p>
+<h2>为什么不搞 spec 驱动开发？（Why Not Spec-Driven Development?）</h2>
+<p>有一种很流行的方法叫 spec 驱动开发（spec-driven development）。其中一种做法是：把这些 spec 存进仓库，让它们取代代码成为事实来源（source of truth）。</p>
+<p>然而，正是这种漂移风险让我对这种方法深感恐惧。当你的 agent 探索本地仓库、发现这些讲代码如何工作的陈年旧 spec 时，它很可能去相信那份过时的 spec——secondary source——而不是 primary source。</p>
+<p>secondary source 通常更容易探索、更小、更密集。所以一旦它看过这个，就不太可能再去碰那份更冗长、更难探索的 primary source 了。</p>
+<h2>代码不会说谎（The Code Doesn&#39;t Lie）</h2>
+<p>当然，关键在于：代码库不会就它自己撒谎。看代码库中可执行的部分——函数本身——它们不太可能谎报代码实际在做什么。</p>
+<p>前提是你的代码库里没有那些古怪陈旧的部分，比如：</p>
+<ul>
+<li>再也没人调用的函数</li>
+<li>出于兼容旧有原因而留在系统里的部分</li>
+<li>仓库里的一次性原型</li>
+</ul>
+<h2>归档，而不是删除（Archive, Don&#39;t Delete）</h2>
+<p>说了这么多，结论就是：spec 一旦落进代码，就尽快处理掉。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751442/ai-hero-images/fwluyvj2rlasfonp5z1b.png" alt="GitHub issues 列表：已关闭的 issue #4 和它的五张子 ticket，全部标记为已完成"></p>
+<p>GitHub issues 列表：已关闭的 issue #4 和它的五张子 ticket，全部标记为已完成</p>
+<p>我非常喜欢 issues 这种方式：关掉一个 issue，它就从主视图里挪开，算是被归档了，还带着明确的「已归档」标记。但如果 agent 需要回来看某个东西是怎么实现的、为什么这么实现，spec 还在那里等它翻阅。</p>
+<h2>为什么 GitHub issues 好用（Why GitHub Issues Work）</h2>
+<p>不仅如此，团队还能看到它们。如果你的 spec 只是你笔记本上的本地 Markdown，那它只属于你；而躺在 issue tracker 里的 spec 是团队的——可以评审、可以评论，不在决策现场的人也能找到它。</p>
+<p>不止如此，把这些 ticket 放在本地环境之外，意味着你切换 worktree、更换笔记本时它们依然安然无恙。状态不会和你本地环境打架。</p>
+<h2>结论（The Verdict）</h2>
+<p>所以我想传达的就是这句话：把你的 spec 归档。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751443/ai-hero-images/vl6ngbevkhqarw0rfzv3.png" alt="片尾字幕卡：写着「Archive Your Specs」，副标题说 spec 是临时产物"></p>
+<p>片尾字幕卡：写着「Archive Your Specs」，副标题说 spec 是临时产物</p>
+<p>你的 spec 本来就是定义一段工作的临时产物，而不是「代码如何工作」的事实来源。</p>
+<p>如果你不认同，我很乐意到 Discord 跟你辩一辩。有很多框架都主张持久化你的 spec、把它们当作事实来源，但我发现效果并不好。</p>
+<p>希望这样你就明白了：完成一段跨多个 session 的工作之后，spec 该怎么处理。</p>
+<p>干得漂亮，我们下节课见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">spec 下最后一张 ticket 已合并，工作已经上线。你该怎么处置这份 spec？</p>
+<ul class="quiz-choices">
+<li class="correct">在 issue tracker 里关闭它，让它归档但仍可查找</li>
+<li>把它提交进仓库，当作解释代码如何工作的文档</li>
+<li>直接删掉，让任何过时内容都无从再被读到</li>
+<li>保持打开状态，代码每次变动都跟着更新它</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">关闭的 issue 会移出主视图，但仍留在那里，供 agent 或队友随时回看。把 spec 提交进仓库，恰恰会让 agent 去相信一份日渐老化的摘要而不是代码。删掉它则白白扔掉了本可免费获得的历史记录。而手动保持同步，正是你原本想避开的维护负担。</p>
+<p class="quiz-q-text">代码已经向前走了，仓库里还躺着一份旧 spec，为什么危险？</p>
+<ul class="quiz-choices">
+<li class="correct">它是 secondary source，agent 会宁可信它也不信代码本身</li>
+<li>它很冗长，读它会烧掉 window 的大块容量</li>
+<li>它与 ticket 冲突，agent 无法调和这种冲突</li>
+<li>它只存在于你的笔记本上，团队里没人能读到</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">spec 是代码库的一种投影，而且比代码更小、更密集，所以 agent 发现它就会停在原地，再也不去读那份不会对自己撒谎的 primary source。体积不是危险所在——spec 才是紧凑的那个。到那时 ticket 早已不在。而「私人可见」只是支持 issue tracker 的理由，并不是漂移伤人的原因。</p></div>
+# Rerouting：当目的地改变时（Rerouting: When The Destination Changes）<p>想象这样一个场景：你有一份 spec，并为它拆好了一些 ticket。走到一半——也许你正在逐个审查交上来的 ticket——突然意识到：糟糕，这个路子整个就是错的。</p>
+<p>当两个 ticket 交上来、我们意识到必须改方向时，该怎么办？</p>
+<h2>Ticket 是一次性的（Tickets Are Disposable）</h2>
+<p>这里你需要意识到的一点是：ticket 是一次性的。</p>
+<p>如果我们意识到这批 ticket 不对——也许前两个已经实现了，但后两个还没实现——那就直接把还没实现的那些 ticket 删掉就好。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751537/ai-hero-images/ud5qocqqhvme0vkggynn.png" alt="白板，上面写着「Tickets - Disposable」和「Spec - Editable」的标签"></p>
+<p>白板，上面写着「Tickets - Disposable」和「Spec - Editable」的标签</p>
+<p>然后我们回到 spec——而 spec 是可以编辑的。</p>
+<p>所以我们可以就当前所处的位置来一次 grilling session。两个 ticket 做出来我们都不满意，那就需要回到 spec 去修改它。</p>
+<h2>Spec 就是目的地（The Spec Is The Destination）</h2>
+<p>换句话说，spec 就是目的地，而我们正在改变目的地。</p>
+<p>我会做的是：回到 spec，再开一次 grilling session，等我对 spec 的修改满意之后，就重新生成一批 ticket。</p>
+<p>这批新 ticket 可能会让工作范围略有变化，所以最后我们要做的事情也许会多上一点点。但这意味着，我们已经找到了从当前位置通往新目的地的路线。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751538/ai-hero-images/ref3q19ypuciwm4wzrmo.png" alt="白板，六个 ticket 方块，下方的 spec 长条向外延伸"></p>
+<p>白板，六个 ticket 方块，下方的 spec 长条向外延伸</p>
+<h2>整体流程（The Flow）</h2>
+<p>整个流程长这样：</p>
+<p><strong>1. 「哦不，这得改」</strong></p>
+<p>意识到你想改变目的地。事情没有按你期望的样子发展。</p>
+<p><strong>2. 关掉 ticket</strong></p>
+<p>删除所有尚未实现的 ticket。但 spec 要留着，因为你要修改的正是 spec。</p>
+<p><strong>3. 修改 spec</strong></p>
+<p>用 <code>/grill-me</code> 来调整 spec，说清楚你想改什么。最好在一个新的 session 里进行。</p>
+<p><strong>4. 重新生成 ticket</strong></p>
+<p>等你对 spec 满意了，就基于当前所在的位置重新生成 ticket。用 <code>/to-tickets</code> 来重新生成新 ticket。</p>
+<p>所以你大概率不用扔掉已完成的工作——除非它真的真的太糟。然后你就从那个节点继续实现。</p>
+<p><strong>5. 继续实现</strong></p>
+<p>用 <code>/implement</code> 来实现新的 ticket。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751539/ai-hero-images/roiidvegkhlydyfwwtds.png" alt="白板上的五步流程图"></p>
+<p>白板上的五步流程图</p>
+<p>如果你需要在流程中途改方向，这就是一份简洁好用的小抄。</p>
+<h2>为什么要两份文档？（Why Two Documents?）</h2>
+<p>我想为这个话题加一小节视频，因为总有人问我这个问题，而它其实是个相当简单的过程。</p>
+<p>这也正是我们采用两份文档设计的原因：让 spec 充当目的地，而 ticket 完全是一次性的。</p>
+<p>如果它们都挤在同一份文档里，事情就会变得有点混乱。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">两个 ticket 交上来，你审查成果时发现整个路子都错了。第一步做什么？</p>
+<ul class="quiz-choices">
+<li class="correct">删掉尚未实现的 ticket，保留 spec</li>
+<li>回滚已经完成的两个 ticket，spec 从零重写</li>
+<li>废弃现有 spec，在保留 ticket 的旁边另写一份新 spec</li>
+<li>先做完剩下的 ticket，再在 review 里修正方向</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">ticket 是一次性的，spec 是可编辑的，所以该扔的是 ticket。已经实现的工作通常保留，而不是回滚。在旧 ticket 旁边另写新 spec，会让那些 ticket 依然指着你刚刚放弃的目的地。而明知道是错的还硬做完，只会给你攒下更多要撤销的代码。</p>
+<p class="quiz-q-text">为什么目的地和路线图要放在两份独立文档里，而不是一份？</p>
+<ul class="quiz-choices">
+<li class="correct">这样目的地可以编辑，而路线图可以整个扔掉</li>
+<li>这样两份文档都不会大到塞不进一个 context window</li>
+<li>这样一份文档归你所有，另一份完全归 agent 所有</li>
+<li>这样在任何计划写出来之前，就能先审查目的地</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">两份文档的生命周期不同，混在一份里，想扔掉其中一半时就会很混乱。长度并不是拆分的理由。两份文档也不专属于你们中的任何一方——spec 是你和 agent 一起 grill 出来的，ticket 也是 agent 从它生成的。而单独一份文档照样可以分阶段审查。</p></div>
+# /goal 命令（The Goal Command）<p>大家经常问我的一个问题就是：为什么我们不用 <code>/goal</code> 来实现 spec？</p>
+<h2>/goal 的思路（The /goal Theory）</h2>
+<p>思路是这样的：先创建一份 spec，然后用 <code>/goal</code>——这是许多 harness 都有的功能，让 agent 在单个 context window 里追逐一个目标，直到完成为止。</p>
+<p>这个目标就是目的地，而且是一份被写得非常非常明确的目的地，看起来简直是 <code>/goal</code> 的完美用例。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751619/ai-hero-images/wrzqrh5xtiygf5hnc1xs.png" alt="示意图：上方是 spec 的定义，下方是 /goal 的定义"></p>
+<p>示意图：上方是 spec 的定义，下方是 /goal 的定义</p>
+<h2>问题所在：dumb zone（The Problem: The Dumb Zone）</h2>
+<p>然而，我见过的所有 <code>/goal</code> 实现，都没有真正利用 smart zone。全部工作都在单个 context window 里完成，靠 auto-compaction（自动压缩）来撑着。</p>
+<p>于是你最后得到的就是：开头一小段 smart zone，然后是一大片 dumb zone。</p>
+<p>每次我尝试这条路，看到的都是同一副景象。所以我依然认为 Spec-and-Tickets 的方案好过 Spec-and-<code>/goal</code>。</p>
+<h2>保留余地：如果 auto-compaction 变好了（The Caveat: If Auto-Compaction Improves）</h2>
+<p>不过，如果 auto-compaction 有朝一日好到 dumb zone 不再是问题，那我会认为这是一个非常棒的设置。</p>
+<p>你依然要做所有围绕 spec 的思考。只不过，你如今把它交出去的那个东西，负责：</p>
+<ul>
+<li>它自己的 context 管理</li>
+<li>它自己的 ticket 管理</li>
+<li>理解所有需要完成的任务</li>
+</ul>
+<p>而且最后你仍然可以做一次大 code review，检查成果是否符合 spec。</p>
+<h2>我目前的建议：用 ticket（My Current Recommendation: Use Tickets）</h2>
+<p>但就目前而言，我的建议依然是改用 ticket。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785751619/ai-hero-images/vjn0dbsluoyezktgsuv3.png" alt="示意图：四个等宽矩形，每个都标着绿色的「Smart」，下方的时间条更短"></p>
+<p>示意图：四个等宽矩形，每个都标着绿色的「Smart」，下方的时间条更短</p>
+<h3>为什么 ticket 能给你更多控制（Why Tickets Give You More Control）</h3>
+<p>Ticket 能给你的控制力多得多。而且我认为它们通常更省钱，因为你大部分工作都发生在许多个 smart zone 里。</p>
+<p>从 spec 生成 ticket 往往是一件非常非常快的事，通常只要花我几分钟。</p>
+<p>在我的一些工作流里——课程里没有细讲的那些——我甚至在 AFK 状态下生成 ticket，连审查都省了。</p>
+<h2>对比：Spec-and-Tickets vs Spec-and-/goal（Comparison: Spec-and-Tickets vs Spec-and-/goal）</h2>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>上下文管理</th>
+<th>成本</th>
+<th>区域质量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Spec-and-Tickets</strong></td>
+<td>多个 smart zone</td>
+<td>通常更便宜</td>
+<td>大部分时候很聪明</td>
+</tr>
+<tr>
+<td><strong>Spec-and-/goal</strong></td>
+<td>单个 context window</td>
+<td>可能更贵</td>
+<td>smart zone 很小，dumb zone 很大</td>
+</tr>
+</tbody></table>
+<p>我觉得，眼下这套做法比直接用 <code>/goal</code> 稳得多。</p>
+<h2>你的体验可能不同（Your Experience May Vary）</h2>
+<p>当然，如果你得到了和我不同的结果，如果你比我相信你的 auto-compaction，我很乐意知道——而且如果它真能跑通，<code>/goal</code> 绝对是个好点子。</p>
+<p>干得漂亮，我们下节课见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你的 harness 提供了一条命令，能在单个 context window 里追逐一个目标直到完成。你手上也有一份写得非常明确的 spec。为什么还要把它拆成 ticket？</p>
+<ul class="quiz-choices">
+<li class="correct">单个 window 只给你一小段 smart zone，剩下的一大片都是 dumb zone</li>
+<li>spec 太模糊，当不了 agent 追逐的目标</li>
+<li>最后你根本没有机会对照 spec 审查成果</li>
+<li>从 spec 生成 ticket 太慢，goal 正好跳过这一步</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">单个 window 依赖的是 auto-compaction，于是整个过程开头聪明、余生愚蠢；而 ticket 让你待在好几个 smart zone 里，往往还更便宜。spec 恰恰是一份写得非常明确的目的地，这正是 goal 这个点子起初显得诱人的原因。最后你依然可以做一次大 review，检查成果是否符合 spec。而把 spec 变成 ticket，通常也就花几分钟。</p>
+<p class="quiz-q-text">在「单个 window 里追逐一个目标」成为好方案之前，什么必须先进步？</p>
+<ul class="quiz-choices">
+<li class="correct">auto-compaction，要好到 dumb zone 不再是个问题</li>
+<li>context window，要大到能一次装下整个项目的工作</li>
+<li>token 价格，要低到让一次超长运行成为便宜的选择</li>
+<li>code review，要能在与实现相同的 window 里运行</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">拦路的是 dumb zone，而被指望管住它的正是 auto-compaction。更大的 window 帮不上忙，因为问题出在 window 后半段的质量，而不是空间不够用。价格只是症状，不是病根。而 review 本来就可以在事后用一次大检查完成，运转良好。</p></div>
+# 落实你的 coding standards（Enforcing Your Coding Standards）<p>Commit Map（提交对照）</p>
+<p>add-coding-standards
+本课起点：仓库里加入了一份只有一行的 <code>CODING_STANDARDS.md</code></p>
+<p><code>/implement</code> skill 里有这么一行，很容易一眼扫过：</p>
+<pre><code>Once done, use /code-review to review the work.
+</code></pre>
+<p>值得在这里停下来。code review 正是你把自己的 coding standards 强加给 agent 的地方。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786109399/ai-hero-images/ikostxyi7dtrewrfwqwn.png" alt="/implement skill 中展示 code review 那一行的地方"></p>
+<p>/implement skill 中展示 code review 那一行的地方</p>
+<h2>三层检查（Three Levels Of Checks）</h2>
+<p>在代码交付之前，你真正想让它跑上三层检查。</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>能抓住什么</th>
+<th>代价是什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>automated checks（自动化检查）</td>
+<td>机械性错误</td>
+<td>零</td>
+</tr>
+<tr>
+<td>automated review（自动化审查）</td>
+<td>「判断型」的问题</td>
+<td>token</td>
+</tr>
+<tr>
+<td>human review（人工审查）</td>
+<td>其余的一切</td>
+<td>你的注意力</td>
+</tr>
+</tbody></table>
+<h3>自动化检查（Automated Checks）</h3>
+<p>Automated checks 指的就是 linting、typecheck 和单元测试。它们重要，是因为它们是确定性的：agent 跑一遍，得到的永远是同样的通过或失败。</p>
+<p>运行它们也不花 token，几乎是免费的。要是所有事都能靠 automated checks 解决，那我们就活在梦里了。</p>
+<p>但 automated check 抓不住所有 bug。测试套件只能证明你断言过的那些性质。所以你还需要在上面再叠一层审查系统。</p>
+<h3>人工审查（Human Review）</h3>
+<p>在 AI 出现之前，这层审查系统就是人。有人会看着 pull request 说：这看起来不对。这个测试做的根本不是我们以为的事。你考虑过这种做法吗？</p>
+<p>换句话说，人在提供定性反馈。说的是：这个我不太确定。</p>
+<p>而 human review 从来都是开发里最没人喜欢的环节。你手头总攒着一摞等着你去 review 的 pull request，非常痛苦。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786109399/ai-hero-images/sdnryyet4az1ro9akv85.png" alt="堆成一摞、等着被 review 的 pull request"></p>
+<p>堆成一摞、等着被 review 的 pull request</p>
+<h3>自动化审查（Automated Review）</h3>
+<p>现在 agent 能帮上忙了。Automated review 就是让 agent 来审查你的工作，自己给出那些定性反馈。</p>
+<p>关键在于，它并不取代 human review，而是让 human review 变轻松——因为 agent 已经把 diff 通读了一遍，做完了首轮筛查。有 automated review，能抓到的问题比你赤手空拳时更多。对大多数类型的工作，你依然需要一个人在最上面做 sanity check。</p>
+<p>code review skill 做的正是这件事。你在一个 context window 里实现，再在一个全新的 window 里审查。</p>
+<h2>两条审查轴线（The Two Axes）</h2>
+<p>这次审查沿着两条轴线展开。Spec 轴问的是：代码是否忠实地实现了当初要求的东西：</p>
+<pre><code>- **Spec** — does the code faithfully implement the originating issue / PRD / spec?
+</code></pre>
+<p>另一条轴是 standards。coding standards（编码规范）很重要，因为你不想让 agent 把同一个错误一次又一次地重犯。这些「掌舵指令」总得有个安身之处。</p>
+<p>把它们塞进 <code>CLAUDE.md</code> 很难受，而且有实实在在的坏处。不过 code review 是个有趣的特例，因为这个 skill 允许你定制。你可以创建自己的 <code>CODING_STANDARDS.md</code> 文件。</p>
+<h2>CODING_STANDARDS.md</h2>
+<p>这个文件就静静躺在那里，记录着这个仓库的 coding standards。当你发现 agent 干了什么怪事，就把它写进 standards 文件，下一次 review 就会把它抓住。</p>
+<p>一份全新的文件可以只有一行：</p>
+<pre><code>Don&#39;t do stupid stuff.
+</code></pre>
+<p>skill 会在它的第三步找到这个文件——那一步是在弄清楚这个仓库在哪里写了「代码该怎么写」：</p>
+<pre><code>Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`.
+</code></pre>
+<p>这一步，正是你要写进去的那道接缝。</p>
+<h2>为什么 standards 应该放在 review 里（Why Standards Belong In Review）</h2>
+<p>这样做之所以合理，是因为 code review 受到的约束远比实现少。</p>
+<p>实现一个东西时，你得探索它在代码库里的落点，写完所有文件，再调试确认它真的能跑。三重负担，全压在同一个 context window 上。</p>
+<p>code review 一样都不沾。你不需要探索，因为探索已经完成，正确的文件直接递到你手上。你不需要做多少改动，因为你要做的只是阅读现成的东西。你也不必背负「验证一切能跑」的责任，因为测试早已写好、跑过。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>/implement</code></th>
+<th>code review</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>探索代码库</td>
+<td>要</td>
+<td>不用</td>
+</tr>
+<tr>
+<td>编写文件</td>
+<td>要</td>
+<td>不用</td>
+</tr>
+<tr>
+<td>调试与测试</td>
+<td>要</td>
+<td>不用</td>
+</tr>
+</tbody></table>
+<p>所以，把 coding standards 装进 code review，远比逼着实现者一次写对要合理得多。审查用的 agent 在 context window 里有充裕得多的空间，身上的要求也少得多。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786109400/ai-hero-images/aufn60fjsehd37ywisn9.png" alt="实现者与 code review agent 所背负任务的对比"></p>
+<p>实现者与 code review agent 所背负任务的对比</p>
+<h2>真实的 standards 文件长什么样（What A Real Standards File Looks Like）</h2>
+<p>一份成熟的 standards 文件是松散的，这完全没问题。里面每一行的来历都一样：你发现 agent 干了件蠢事，然后把它记了下来。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786109402/ai-hero-images/c2vq3ht40orxwv9vjyke.png" alt="课程视频管理器仓库里真实的 CODING_STANDARDS.md 文件"></p>
+<p>课程视频管理器仓库里真实的 CODING_STANDARDS.md 文件</p>
+<pre><code>Context menu items should always include a leading icon (from `lucide-react`), matching the style of the surrounding items. When adding a new menu item, pick an icon that conveys the action.
+</code></pre>
+<p>这条规则的存在，是因为不知为何，agent 就是不肯加图标。</p>
+<pre><code>All files in `./app/routes` will be exposed publicly as routes. Do not include test files or utility files there.
+</code></pre>
+<p>你当然可以把这样一个文件拆开，把其中一部分放到 context pointer（上下文指针）后面。如果某条规则只对前端工作有意义，那它就该待在前端那里。但由于 standards 文件只在 code review 时才被加载，它的体量远不像常驻的掌舵文件那么要紧。长得相当大也无所谓。</p>
+<h2>白送的基线（The Baseline You Get For Free）</h2>
+<p>哪怕完全没有 standards 文件，Standards 轴线也自带一组 code smell（代码坏味道），取自 Martin Fowler 的 <em>Refactoring</em> 一书：</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786109403/ai-hero-images/hr71xvfksiwidzt3m4s2.png" alt="skill 中列出的 Martin Fowler《Refactoring》一书中的 code smell"></p>
+<p>skill 中列出的 Martin Fowler《Refactoring》一书中的 code smell</p>
+<pre><code>- **Feature Envy** — a method that reaches into another object&#39;s data more than its own. → move the method onto the data it envies.
+</code></pre>
+<p>Shotgun Surgery、Divergent Change、Mysterious Name。这些都是经典的编程术语，agent 本来就了如指掌。所以哪怕你什么都没写下来，review 也常常能有所发现。</p>
+<p>你自己的文件叠在这条基线之上，并覆盖它。如果你的仓库认可了基线本会标记的某种做法，那条标记就会消失。</p>
+<h2>别冲 agent 发火（Don&#39;t Shout At The Agent）</h2>
+<p>有一个值得养成的习惯。下次你完成一次实现、发现不喜欢的地方时，别冲 agent 发火。</p>
+<p>把它写进 <code>CODING_STANDARDS.md</code>，让审查者去抓住它。</p>
+<p>干得漂亮，我们下节课见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你反复发现 agent 写的代码违反了仓库的某条约定。这条规则该写在哪里？</p>
+<ul class="quiz-choices">
+<li class="correct">写进 CODING_STANDARDS.md，让 review 抓住它</li>
+<li>写进 CLAUDE.md，让实现者每次都读到</li>
+<li>写进提示词，每项工作都重申一遍</li>
+<li>哪儿也不写，反正 linter 会抓住它</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">实现本身已经把三重负担压在一个 context window 上：探索、写代码、调试。review 一样都不沾，所以才有空间装下你的 standards。写进 CLAUDE.md，不管规则适不适用，每个 window 都要为它买单；写进每次任务的提示词，就成了需要你自己记住的规则；而 linter 能强制执行的约定，本来就不用写下来。</p>
+<p class="quiz-q-text">automated check 和 automated review 的区别是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">check 是确定性的、免费的；review 是定性的、要花 token</li>
+<li>check 跑得更快，但两者抓住的是同一类问题</li>
+<li>check 在提交前运行；review 在提交后运行</li>
+<li>check 由工具运行；review 只能由人来运行</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">linting、typecheck 和测试每次运行都给出同样的通过或失败，而且分文不花——这恰恰说明它们给不了判断力。review 是判断这一层，用 token 付费。两者可以在同一阶段运行，review 既可以由 agent 跑，也可以由人来跑。</p>
+<p class="quiz-q-text">你在一个没有 CODING_STANDARDS.md 的仓库里运行 code review skill。Standards 这条轴线靠什么工作？</p>
+<ul class="quiz-choices">
+<li class="correct">一套内置的 code smell，取自《Refactoring》</li>
+<li>什么都靠不上，Standards 轴线报不出任何发现</li>
+<li>当时 CLAUDE.md 里碰巧有什么就用什么</li>
+<li>先通读整个代码库推断出的约定</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">Feature Envy、Shotgun Surgery、Divergent Change 等等是随 skill 自带的，所以哪怕仓库什么都没写下来，也能得到一次 review。你自己的文件是叠加在这条基线之上、覆盖它，而不是取代它。</p></div>
+# 向 Matt 提问（Ask Matt）<p>Commit Map（提交对照）</p>
+<p>add-ask-matt-skill
+本课起点：加入了 <code>/ask-matt</code> skill</p>
+<p>学完这门课程时，你手里多半还攒着问题。这很正常。问题在于，从「有了疑问」到「得到解答」之间的空档，你该怎么办。</p>
+<p>你随时可以在 Discord 上问我。我很乐意回答，社区的其他人也是。但在等回复的间隙，有一样东西你可以试试。</p>
+<p>有一个工具，能让你在我本人不在场的情况下征求我的建议。</p>
+<h2>重置到引入 skill 的课程节点（Reset To The Skill）</h2>
+<p>打开终端，重置到加入这个 skill 的那节课。</p>
+<pre><code>npm run reset add-ask-matt-skill
+</code></pre>
+<p>这个 commit 会把一个 <code>/ask-matt</code> skill 放进仓库。把当前分支重置到它上面，打开你的 agent，就可以向 Matt 提问了。</p>
+<h2>问它一个真问题（Ask It A Real Question）</h2>
+<p>这个 skill 吃的是情境，不是关键词。下面是我抛给它的那个问题。</p>
+<pre><code>/ask-matt What&#39;s the best flow for fixing a bug once I&#39;ve finished doing an implementation on a spec and all the tickets are closed?
+</code></pre>
+<p>这是一个真实会遇到的处境。spec 已经建好，每个 ticket 都已关闭，然后发现有东西坏了。眼下没有哪条命令是显而易见该敲的，因为你一直在走的那条流程已经到头了。</p>
+<h2>它的回答（What It Answered）</h2>
+<p>router（路由）的开场白是这样的。</p>
+<pre><code>**Short answer: `/clear`, then `/diagnosing-bugs`.**
+</code></pre>
+<p>两步棋。先清空 context，因为 spec 这条线已经用尽，而 bug 是一个新的起点，不是这次构建的延续。然后伸手去拿处理 bug 的那个 skill。</p>
+<p>它给的不止这句标题。它说，先检查你能否用一条命令让 bug 变红（复现出失败）：如果能，而且原因一目了然，那就写下失败的测试然后修掉它。如果不能，那才是诊断 skill 上场的时刻。它还点名了两件不要做的事。不要去 triage 这个 bug，因为 triage 只用于那些不是你亲手制造出来的 issue。也不要重开已关闭的 spec，因为一份被证明是错的 spec 是一个新想法，不是打补丁。</p>
+<h2>它知道课程没讲的 skill（It Knows Skills The Course Does Not Cover）</h2>
+<p>它推荐的那个 skill，我们在课程里没遇到过。但它确实存在于我真实的 skillset（技能集）中。</p>
+<p>这正是关键。这门课程覆盖了主流程和相当多非常重要的 skill，但没有覆盖 skillset 里的一切。还有东西要学，而 <strong><code>/ask-matt</code> 就是你学习它们的方式</strong>。它列在 Getting Started（入门）之下，是快速熟悉其余 skill 的好办法。</p>
+<p>所谓 <strong>flow</strong>，是贯穿各个 skill 的一条路径，不是单个 skill。大多数工作都沿着一条主 flow 前行，有几条「匝道」汇入其中，其余的则各自独立，或是垫在底下的一层「词汇表」。当你说出自己的处境时，router 会把你放上某条 flow 的正确一步——这个答案往往和「名字与你用词匹配的那个 skill」并不相同。</p>
+<h2>阶段边界清单（The Phase Boundary Checklist）</h2>
+<p>skill 本身内藏一个特别有用的东西：<strong>阶段边界清单（phase boundary checklist）</strong>。</p>
+<p>一个 phase（阶段）就是 session 里的一块工作：grilling、实现、QA。边界则是两块之间的缝隙，而你要在哪里决定 context window 的去留。这个决定是真的难做：你有五个选项，却没有显而易见的挑选办法。</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Continue</td>
+<td>留在当前 session，完全不切换 context。</td>
+</tr>
+<tr>
+<td>Clear</td>
+<td>清空 context window，从零开始。</td>
+</tr>
+<tr>
+<td>Handoff</td>
+<td>写一份便于携带的 markdown 文件，用它随处播种一个新 session。</td>
+</tr>
+<tr>
+<td>Subagent</td>
+<td>把任务送进它自己的 context window，干完只带回一份报告。</td>
+</tr>
+<tr>
+<td>Compact</td>
+<td>压缩当前 context，用摘要播种一个新 session。</td>
+</tr>
+</tbody></table>
+<p>所以当你拿不准该 continue、clear、hand off、丢给 subagent 还是 compact 时，这个 skill 能带你走一遍。它从上到下过一遍这些选项，第一个「是」胜出——这就把一种模糊的感觉变成了一组有序的问题。</p>
+<h2>对它的回答打个问号（Take Its Answers With A Pinch Of Salt）</h2>
+<p>回头看看它给我的那个答案。它说要去 clear。要我说，那里最好的选择恐怕是 compact，因为实现阶段的一些 context 值得带进捉虫之旅。而且说实话，你也许根本用不上 <code>/diagnosing-bugs</code> skill——那个 skill 只为非常非常刁钻的 bug 而设。如果是个简单 bug，你自己可能就能搞定。</p>
+<p>所以，把它当成任何一个 agent 来对待。它是 router，不是神谕。它是你围绕 skill 提问、弄清下一步可能想用什么的好办法，但对它给出的东西，你依然要过一遍自己的判断。</p>
+<p>如果你发现它给出了什么奇怪的答案，就去 skills 仓库本身提个 issue。router 就是这么变好的。</p>
+<p>大家发现，在啃 skill 的过程中，把它当作第一站去弄懂那些还不太明白的东西，非常有用。</p>
+<p>干得漂亮，我们下节课见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">/ask-matt 这个 skill 还给你的是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">一条建议：接下来该走哪条 flow、用哪个 skill</li>
+<li>把你描述的改动直接实现好的成品</li>
+<li>根据你描述的情境写好的一份 spec</li>
+<li>仓库里安装的每一个 skill 的清单</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">它是一个 router。你说出自己身处的情境，它就说出与之匹配的 flow，以及下一步该敲什么。它不会替你把改动做出来，不会写 spec，也不是一份目录清单。另外三个是别的 skill 的活儿。</p>
+<p class="quiz-q-text">router 让你先 clear、再运行 /diagnosing-bugs skill。你该怎么做？</p>
+<ul class="quiz-choices">
+<li class="correct">行动之前，先拿它和你自己对局势的判断掂量掂量</li>
+<li>原样执行这两条命令，毕竟 skill 掌握着完整的地图</li>
+<li>无视它，因为 router 又看不见你的代码库</li>
+<li>反复问它，直到两次运行给出同一个答案</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">router 很有用，但它也有出错的时候。在这个例子里，compact 也许胜过 clear，而一个简单 bug 可能根本用不着诊断 skill。盲目照做就忽略了这些；全盘否定则扔掉了一个很好的起点；而反复追问，只会让你从一份猜测变成两份猜测。</p></div>
+# 接下来的路（Where You Go From Here）<p>希望这门课程已经给了你一些扎实的东西，让你能立刻带进自己的工作场所。</p>
+<p>本课程讲到的五步流程，是「如何构建软件」不可或缺的一部分：</p>
+<ol>
+<li><strong>Grill 你的想法</strong>——在开工之前先与 AI 对齐</li>
+<li><strong>创建 spec</strong>——决定你要去哪里</li>
+<li><strong>创建 ticket</strong>——把工作拆开来并行推进，或者确保自己留在 smart zone 里</li>
+<li><strong>实现</strong>——逐个完成 ticket</li>
+<li><strong>审查</strong>——检查那些实现阶段没法完成的事</li>
+</ol>
+<p>尽管世事一直在变，这个流程依然装得进这个框架。而这核心的五步，也会一直留得下来。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014924/ai-hero-images/ncwdvbbgk9netq6zztxn.png" alt="五步流程总览"></p>
+<p>五步流程总览</p>
+<h2>接下来做什么（What To Do Next）</h2>
+<p>课程已经结束，你的下一个任务，就是去把这几步打磨得更深。</p>
+<p>不妨考虑探索以下方向：</p>
+<ul>
+<li><strong>AFK loop</strong>——与其坐在那里像保姆一样盯着实现，不如把活儿委托给一个 AFK（away from keyboard，离开键盘）的 agent loop</li>
+<li><strong>Prototyping 与 research</strong>——在你动笔写 spec 之前的初始构思阶段，它们能怎么帮到你？</li>
+<li><strong>The AI Coding Dictionary</strong>——把这一切背后的心智模型夯实：model provider request、turn、context window、tool，等等</li>
+<li><strong>Sandcastle</strong>——一个开源尝试：在相互隔离的 sandbox 里跑 AFK agent</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014924/ai-hero-images/nuzqmriyctjqxh3ywi1m.png" alt="Sandcastle 的 GitHub 仓库"></p>
+<p>Sandcastle 的 GitHub 仓库</p>
+<h2>持续学习（Keep Learning）</h2>
+<p>去看看 Wayfinder、Prototype 以及其他还在开发中的 skill。AI coding 会继续变化，这套流程的形态也会被反复打磨、变得更复杂、走得更远。</p>
+<p>AI Hero 上开设的 cohort（训练营）也是深耕这一切的机会，如果你或你的公司感兴趣，请保持关注。</p>
+<h2>加入社区（Join the Community）</h2>
+<p>Discord 和里面的社区会一直都在。</p>
+<p>如果你在真实世界撞上了让你困惑的东西，不知道该怎么调教 agent 去做，或者课程给你留下了需要解答的疑问，来 Discord 吧。我们一起把它弄明白，会是一段愉快的时光。</p>
+<p>非常感谢你的观看与加入。我们很快再见。</p>
+</main></div><script>
+  (function(){
+    var links=document.querySelectorAll('aside.toc a');
+    var map={};
+    links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+    var hs=document.querySelectorAll('main h1[id]');
+    if(!('IntersectionObserver' in window)||!hs.length)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active')});
+          var a=map[e.target.id];
+          if(a){a.classList.add('active');
+            if(a.scrollIntoViewIfNeeded)a.scrollIntoViewIfNeeded(false);
+          }
+        }
+      });
+    },{rootMargin:'0px 0px -70% 0px'});
+    hs.forEach(function(h){io.observe(h)});
+  })();
+</script></body></html>

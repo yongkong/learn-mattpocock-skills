@@ -1,0 +1,615 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>认识 Claude Code · AI Coding Crash Course 中文版</title><style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;line-height:1.9;color:#1f2937;background:#fafafa}
+  .wrap{display:flex;gap:40px;max-width:1240px;margin:0 auto;padding:40px 24px 96px}
+  aside.toc{width:264px;flex-shrink:0;position:sticky;top:0;align-self:flex-start;max-height:calc(100vh - 48px);overflow-y:auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem 1.25rem}
+  aside.toc>p{margin:0 0 .5rem;font-weight:700;font-size:.95rem}
+  aside.toc a{display:block;color:#4b5563;text-decoration:none;padding:.3rem .5rem;border-radius:6px;font-size:.92rem;line-height:1.5}
+  aside.toc a:hover{color:#b45309;background:#fffbeb}
+  aside.toc a.active{color:#b45309;background:#fffbeb;font-weight:600}
+  main{flex:1;min-width:0;max-width:800px}
+  @media (max-width:960px){.wrap{flex-direction:column;gap:24px}aside.toc{position:static;width:auto;max-height:240px}}
+  h1{font-size:1.9rem;line-height:1.35;padding-bottom:.6rem;margin:3rem 0 1.5rem;scroll-margin-top:16px}
+  h1::after{content:'';display:block;width:96px;height:3px;margin-top:.6rem;border-radius:2px;background:linear-gradient(90deg,#f59e0b,#8b5cf6)}
+  h1:first-child{margin-top:0}
+  h2{font-size:1.35rem;margin:2.5rem 0 1rem}
+  h3{font-size:1.12rem;color:#6d28d9;margin:2rem 0 .8rem}
+  p{margin:0 0 1rem}
+  a{color:#b45309;text-decoration:none;border-bottom:1px solid rgba(180,83,9,.25)}
+  a:hover{border-bottom-color:#b45309}
+  strong{color:#111827;font-weight:700}
+  img{max-width:100%;border-radius:10px;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.08);margin:1.25rem 0}
+  code{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.875em;background:rgba(180,83,9,.09);color:#9a3412;padding:.15em .4em;border-radius:4px}
+  pre{background:#0d1117;border:1px solid #30363d;border-left:4px solid #8b5cf6;border-radius:0 8px 8px 0;padding:1.1rem 1.25rem;overflow-x:auto;margin:1rem 0 1.25rem;font-size:.875rem;line-height:1.6}
+  pre code{background:none;padding:0;color:#c9d1d9}
+  blockquote{border-left:4px solid #8b5cf6;background:#f5f3ff;border-radius:0 8px 8px 0;padding:.75rem 1.25rem;margin:1rem 0 1.25rem;font-size:.95rem;color:#374151}
+  table{border-collapse:collapse;margin:1rem 0 1.25rem;width:100%;font-size:.92em}
+  thead tr{background:#f3f4f6}
+  th,td{border:1px solid #e5e7eb;padding:.55rem .9rem;text-align:left;vertical-align:top}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.02)}
+  hr{border:none;border-top:1px solid #e5e7eb;margin:3rem 0}
+  ul li::marker{color:#d97706}
+  .quiz-block{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0 1.5rem;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+  .quiz-block-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6d28d9;margin:0 0 1rem}
+  .quiz-q-text{font-weight:600;color:#111827;margin:1.4rem 0 .75rem;padding-top:1rem;border-top:1px dashed #e5e7eb}
+  .quiz-choices{list-style:none;padding:0;margin:0 0 .75rem}
+  .quiz-choices li{padding:.4rem .6rem;margin-bottom:.3rem;border-radius:6px;font-size:.95em;color:#4b5563;border:1px solid transparent}
+  .quiz-choices li.correct{background:#ecfdf5;border-color:#6ee7b7;color:#047857;font-weight:600}
+  .quiz-choices li.correct::before{content:'✓ ';font-weight:700}
+  .quiz-answer-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b45309;margin:1rem 0 .35rem}
+  .quiz-answer{font-size:.92em;color:#4b5563;background:#f3f4f6;border-radius:8px;padding:.75rem 1rem;line-height:1.7}
+</style></head><body><div class="wrap"><aside class="toc"><p>本篇目录</p><a href="#lesson-1">引言（Intro）</a><a href="#lesson-2">管理你的 Claude Code session（Managing Your Claude Code Session）</a><a href="#lesson-3">在时间中前进与后退（Going Forwards and Backwards in Time）</a></aside><main><h1 id="lesson-1">引言（Intro）</h1>
+<p>在这门课程里，我将主要使用 Claude Code 作为我的 agent（智能体），用它来推进课程、演示各种操作，并向你展示 agent 的一般工作方式。</p>
+<p>我这么做，是因为它是一款非常流行的 harness（挽具 / 承载工具），你可能自己也用过，而且它也是我个人目前用得最多的一个。</p>
+<p>**不过，本课程是 harness 无关的。**只要能在 CLI 里运行，你可以任选自己喜欢的 harness。挑一个最适合你的工具就好。</p>
+<h2>可选的预备章节（An Optional Primer Section）</h2>
+<p>对于从未用过 coding harness 的朋友，或者只是想把 Claude Code 用得更透彻的朋友，我准备了一个可选的预备入门章节，让你在正式开始前先掌握基础。</p>
+<p>它会帮你打好底子，让你在开始本课程之前，把关于你的 agent 需要了解的事情都了解清楚。</p>
+<p>而如果你已经熟练使用自己选的 harness，多半还是能从中学到一些技巧——因为我讲的不只是基础，里面还混着一些进阶内容。</p>
+<p>干得漂亮，我们下一节见。</p>
+<h1 id="lesson-2">管理你的 Claude Code session（Managing Your Claude Code Session）</h1>
+<p>请确保你已经把 Claude Code 安装配置好、随时能用。如果还没完成，请回到 Before We Start 部分，跟着设置步骤把它装到你的系统上。</p>
+<p>整门课程我们都会在 VS Code 里运行 Claude。Claude 与 VS Code 本身的关系我们稍后会讲，但现在直接在集成终端（integrated terminal）里运行它完全没有问题。</p>
+<h2>打开 Claude Code 与输入框（Opening Claude Code And The Input Box）</h2>
+<p>先在终端里启动 Claude，然后把缩放比例稍微调大一点，看起来更清楚。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208739/ai-hero-images/drhuy9ftsr8f4rihhfq2.png" alt="在 VS Code 集成终端中启动 Claude Code，显示聊天界面"></p>
+<p>VS Code 集成终端中启动了 Claude Code，显示聊天界面</p>
+<p>你会看到一个底部带着巨大文本框的 UI。你所有的 prompt（提示词）都在这里输入。</p>
+<h2>你的第一条消息（Your First Message）</h2>
+<p>我们从简单的开始。你可以对 Claude 说任何话，就像你用过的任何聊天应用一样。</p>
+<pre><code>hello, how are you?
+</code></pre>
+<p>agent 会处理你的消息并自然地回应。这种熟悉的类聊天界面让你很容易上手。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208740/ai-hero-images/ysojubklhfwvfe2xc6al.png" alt="Claude Code 对问候做出友好回应"></p>
+<p>Claude Code 对问候做出友好回应</p>
+<h2>终端设置与多行输入（Terminal Setup And Multi-Line Input）</h2>
+<p>在继续之前，有一条重要命令要运行：<code>/terminal-setup</code>。</p>
+<pre><code>/terminal-setup
+</code></pre>
+<p>输入正斜杠，然后从自动补全列表里找到 <code>terminal setup</code>。找对了，命令会变成好看的淡紫色。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208741/ai-hero-images/ymjoq8uviweja7xyry0v.png" alt="自动补全菜单中以淡紫色高亮的 /terminal-setup 命令"></p>
+<p>自动补全菜单中以淡紫色高亮的 /terminal-setup 命令</p>
+<p>按 Enter 运行它。</p>
+<p>这条命令会为你配置键位绑定，专门针对 Shift+Enter。取决于你的操作系统，你可能需要手动运行它（比如在 Windows Subsystem Linux 上），但大多数用户直接运行一下就万事俱备。</p>
+<p>没有这个设置，你可能会遇到奇怪的键位问题。装好之后，Shift+Enter 就能让你在 prompt 里换行：</p>
+<pre><code>hello,
+and then press Shift+Enter here
+you can write multi-line prompts
+</code></pre>
+<p>这对给 agent 编写更复杂的指令来说必不可少。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208742/ai-hero-images/vj1dvha8bwggkpdnutp7.png" alt="在 Claude Code 中用 Shift+Enter 输入多行 prompt"></p>
+<p>在 Claude Code 中用 Shift+Enter 输入多行 prompt</p>
+<h2>查看你的用量（Checking Your Usage）</h2>
+<p>想知道你的套餐还剩多少额度，运行 <code>/usage</code> 命令：</p>
+<pre><code>/usage
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208743/ai-hero-images/k998yoxtgqpoyn75cgvw.png" alt="用量显示界面：context window 限额与当前 session 的 token"></p>
+<p>用量显示界面：context window 限额与当前 session 的 token</p>
+<p>它会告诉你：</p>
+<ul>
+<li>当前 session（会话）还剩多少用量</li>
+<li>你的每周限额</li>
+<li>相对该限额你目前的用量</li>
+</ul>
+<p>具体的数字和标签可能因套餐而异，也可能随 agent 版本变化。但这就是你随时查看剩余额度的方法。</p>
+<p>一旦用完了你的用量窗口，在限额重置之前，你就无法继续使用 agent。</p>
+<p>按 Escape 退出用量视图，回到聊天界面。</p>
+<h2>可视化你的 context window（Visualizing Your Context Window）</h2>
+<p>运行 <code>/context</code> 命令，看看你的 context window（上下文窗口）里现在装着什么：</p>
+<pre><code>/context
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208745/ai-hero-images/mrlhyo3koxhmbck4xkci.png" alt="context 可视化：system prompt、skills 与消息的 token 分布"></p>
+<p>context 可视化：system prompt、skills 与消息的 token 分布</p>
+<p>在调试配置时，这个展示非常有用。你可以看到：</p>
+<ul>
+<li><strong>System prompt tokens</strong>：发给 agent 的指令</li>
+<li><strong>Skills tokens</strong>：你添加的自定义 skills（技能）</li>
+<li><strong>Message tokens</strong>：对话历史</li>
+<li><strong>Context window size</strong>：总 token 容量（例如 Claude 3.5 Opus 有 100 万 token）</li>
+</ul>
+<p>理解是什么填满了你的 context window，是高效使用 agent 的关键。本课程会一路深入探讨 context（上下文）管理。</p>
+<h2>清空 context（Clearing The Context）</h2>
+<p>要重置 context window、从头开始，运行 <code>/clear</code>：</p>
+<pre><code>/clear
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208746/ai-hero-images/jauv0f4iwtyrl6irkv0l.png" alt="清空后的 context window：token 数大幅减少"></p>
+<p>清空后的 context window：token 数大幅减少</p>
+<p>这会移除当前对话里的所有消息，还你一张白纸。你可以再运行一次 <code>/context</code> 来验证它确实生效了。</p>
+<p>对比前后的 token 数：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>大致 token 数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>有对话历史</td>
+<td>~9,000</td>
+</tr>
+<tr>
+<td><code>/clear</code> 之后</td>
+<td>~6,600</td>
+</tr>
+</tbody></table>
+<p>这说明 model（模型）是 stateless（无状态）的。一旦清空 context，agent 对你之前的对话就一无所知。</p>
+<p>另外，你也可以按两次 Ctrl+C 退出，再开一个全新的 session。这同样会给你一个干净的 context window，对之前的对话毫无记忆。</p>
+<h2>打断 agent（Interrupting The Agent）</h2>
+<p>有时你需要在 agent 运行途中叫停它。按 Escape 打断：</p>
+<pre><code>explore the code base
+</code></pre>
+<p>如果 agent 开始干活之后你决定要它停下，只需按 Escape。agent 会取消它正在做的一切。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208821/ai-hero-images/ogumpia6yrtxyomq0env.png" alt="按下 Escape 后 Claude Code 显示 interrupted 消息"></p>
+<p>按下 Escape 后 Claude Code 显示 interrupted 消息</p>
+<p>打断之后，context window 里会出现一条 <code>interrupted</code> 消息，询问接下来该让 Claude 做什么。然后你可以给它新的方向，或者让它继续。</p>
+<p>你也可能在错误的时机按下 Escape，不小心触发打断。如果发生了，只需输入：</p>
+<pre><code>carry on
+</code></pre>
+<p>agent 就会从上次停下的地方继续。</p>
+<h2>小结（Summary）</h2>
+<p>你已经学会了使用 Claude Code 的必备命令：</p>
+<ul>
+<li><strong>打开并聊天</strong>：在终端里启动 agent，像任何聊天应用一样输入消息</li>
+<li><strong>多行输入</strong>：用 Shift+Enter 编写复杂的多行 prompt</li>
+<li><strong>查看限额</strong>：运行 <code>/usage</code> 查看剩余额度</li>
+<li><strong>检视 context</strong>：运行 <code>/context</code>，可视化查看 context window 里填了什么</li>
+<li><strong>重置</strong>：运行 <code>/clear</code>，以全新的 context 从头开始</li>
+<li><strong>打断</strong>：按 Escape 在运行途中停下 agent，再给它新的指示</li>
+</ul>
+<p>你已经准备好开始与 agent 协作了。干得漂亮，我们下一节见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你完成了一个任务，想在同一个终端里开始一件毫不相干的事，并且不让之前的任何对话影响 agent。你该怎么做？</p>
+<ul class="quiz-choices">
+<li class="correct">运行 /clear 清空对话历史</li>
+<li>运行 /context 查看 token 分布</li>
+<li>让 agent 忽略之前的消息</li>
+<li>按 Escape 打断当前运行</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">agent 正在做一项工作，却明显在朝错误的方向走。把它停下并拉回正轨，最省事的做法是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">按 Escape 停下它，再给它新的方向</li>
+<li>运行 /clear，把整个任务重新布置一遍</li>
+<li>按两次 Ctrl+C，开一个全新 session</li>
+<li>等它做完，再纠正它</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你想查看当前已加载内容的 token 分布：system prompt、skills 和对话历史。哪条命令能显示它？</p>
+<ul class="quiz-choices">
+<li class="correct">/context</li>
+<li>/usage</li>
+<li>/clear</li>
+<li>/terminal-setup</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# 在终端里写 prompt（Prompting in the Terminal）<p>了解了 prompting 的基础之后，这里有一些内置功能，可以改善你与 agent 协作的方式。</p>
+<h2>用 @ 引用文件（Referencing Files With @）</h2>
+<p>你可能想在 agent 里引用单个文件。为此，按 <code>@</code> 打开文件选择器。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208949/ai-hero-images/z6oyekrfm7u2j6avr61f.png" alt="Claude Code 界面：@ 文件选择器以模糊搜索过滤项目文件"></p>
+<p>Claude Code 界面：@ 文件选择器以模糊搜索过滤项目文件</p>
+<p>接下来你可以：</p>
+<ul>
+<li>用方向键浏览文件</li>
+<li>输入文字模糊搜索特定文件，比如 <code>routes.ts</code></li>
+<li>按 return 把该文件拉进你的文本框</li>
+</ul>
+<p>你可以用这种方式添加多个文件——重复这个过程就行。比如，你可以在 <code>drizzle.config.ts</code> 之后再添加 <code>components.json</code>。你也可以用 tab 把文件拉进文本窗口。</p>
+<p>一旦按下 enter，两个文件都会立刻被读入 context window。agent 在第一次请求时就会直接读到这些文件，无需额外的 tool call（工具调用）。</p>
+<p>当你需要传入一份 spec（规格）或某个 agent 应当直接参考的配置文件时，这尤其有用。</p>
+<h2>用 Ctrl+S 暂存 prompt（Stashing A Prompt With Ctrl+S）</h2>
+<p>有时你还没准备好发送某个 prompt，但又不想丢掉它。这时可以把它暂存（stash）起来。</p>
+<p>输入你的 prompt——比如 &quot;hello, how are you&quot;</p>
+<p>如果还没准备好发送，按 <code>Ctrl+S</code> 把它暂存。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208950/ai-hero-images/yhx1xupf5cuggzbyo3tb.png" alt="agent 界面显示 prompt 已暂存的标记"></p>
+<p>agent 界面显示 prompt 已暂存的标记</p>
+<p>你会看到一个 &quot;stashed&quot; 指示。现在你可以在文本框里输入别的内容。等你准备好了，被暂存的 prompt 会重新回到你的输入框里。</p>
+<p>举个例子：</p>
+<ul>
+<li>暂存：&quot;hello, how are you&quot;</li>
+<li>输入新内容：&quot;hello&quot;</li>
+<li>按 return</li>
+<li>原本暂存的 prompt 被恢复到文本框里</li>
+</ul>
+<p>在给 agent 反馈时这特别有用。你可能发了点什么，随即意识到还没准备好，收回来，在中间插入别的内容，然后再定稿你的 prompt 发出去。</p>
+<h2>粘贴图片（Pasting In Images）</h2>
+<p>你可以把图片直接复制粘贴给 agent——截图也行。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208950/ai-hero-images/abrqn57ei83mel35sezw.png" alt="浏览器显示斯洛文尼亚布莱德湖的 Wikipedia 图片"></p>
+<p>浏览器里显示着 Wikipedia 上斯洛文尼亚布莱德湖（Lake Bled）的图片</p>
+<p>比如，这是一张斯洛文尼亚布莱德湖的图片。右键点击图片并复制，然后粘贴进文本框。你会在左下角看到一个 &quot;pasting&quot; 指示，图片随后出现在你的输入里。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208951/ai-hero-images/brb1bpz1d0wdju6ojg8x.png" alt="图片粘贴进文本框后的 agent 界面"></p>
+<p>图片粘贴进文本框后的 agent 界面</p>
+<p>现在你可以就这张图片询问 agent。它会分析图片并给出回应。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784208952/ai-hero-images/kdabva7izboeuiskqdjn.png" alt="agent 回应布莱德湖的细节，提到圣母升天教堂及其钟楼"></p>
+<p>agent 回应布莱德湖的细节，提到圣母升天教堂及其钟楼</p>
+<p>图片会成为你 prompt 的一部分，所以你可以直接引用截图、设计稿和其他视觉素材，无需单独上传。</p>
+<h2>小结（Summary）</h2>
+<p>你现在掌握了三个强大的 prompting 技巧：</p>
+<ul>
+<li><strong>引用文件</strong>：用 <code>@</code> 把特定文件拉进 context</li>
+<li><strong>暂存 prompt</strong>：用 <code>Ctrl+S</code> 保存写到一半的 prompt，稍后再恢复</li>
+<li><strong>粘贴图片</strong>：把剪贴板里的图片贴进 prompt，纳入截图和视觉素材</li>
+</ul>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你已经确切知道 agent 必须遵循哪份配置文件。用 @ 把它拉进来，而不是用文字描述它，会发生什么？</p>
+<ul class="quiz-choices">
+<li class="correct">它的内容在第一次请求时就已进入 context window</li>
+<li>agent 在你的编辑器里打开它，让你先审查</li>
+<li>agent 被告知稍后发现重要时再读它</li>
+<li>指向该文件的链接被存储起来，仅在需要时才解析</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">一条长 prompt 写到一半，你意识到得先让 agent 做一次快速纠正。这份草稿怎么处理？</p>
+<ul class="quiz-choices">
+<li class="correct">按 Ctrl+S 暂存它，先发那条短的，它随后会回来</li>
+<li>把草稿复制进临时文件，之后再粘贴回来</li>
+<li>现在就发出写了一半的 prompt，之后再补完你的想法</li>
+<li>删掉草稿，发那条短消息，然后再重新打一遍</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# Claude 与你的 IDE（Claude and Your IDE）<p>Claude Code 通过 <code>/ide</code> 命令与你选择的编辑器集成。你不必像本课程这样用 VS Code——用 Cursor、Windsurf、Antigravity 或任何你可用的工具都行。</p>
+<p><code>/ide</code> 命令让你管理 IDE 集成并检查它们的状态。</p>
+<pre><code>/ide
+</code></pre>
+<p>运行这条命令时，它会显示你连接的是哪个编辑器。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209071/ai-hero-images/sd29y01a0go4rdmo7wbf.png" alt="终端显示 Visual Studio Code 连接状态"></p>
+<p>终端显示 Visual Studio Code 连接状态</p>
+<p>这里我们连接的是 Visual Studio Code，因为已经安装了 Claude Code for VS Code 扩展。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209072/ai-hero-images/xxf3s3vkctucxkka0osl.png" alt="编辑器中已安装 Claude Code for VS Code 扩展"></p>
+<p>编辑器中已安装 Claude Code for VS Code 扩展</p>
+<p>如果你在终端里运行 <code>/ide</code>，它会告诉你如何为你在用的 IDE 安装对应的扩展。</p>
+<p>确认并退出该命令后，你就可以开始使用这个集成功能了。</p>
+<h2>在编辑器里审查 diff（Reviewing Diffs in Your Editor）</h2>
+<p>连接编辑器的主要理由是管理 diff。与 agent 协作时，这件事会不断出现。</p>
+<p>比如，如果你让 agent「从 package.json 里移除 test watch 命令」，它会读取该文件并进行修改。</p>
+<p>没有编辑器连接时，diff 只能以文本形式显示在终端里，别扭又难审查。而连接了编辑器之后，diff 直接显示在你的 IDE 里。</p>
+<p>这就好用多了。你可以：</p>
+<ul>
+<li>滚动查看整个文件，了解上下文</li>
+<li>审查 agent 做出的确切改动</li>
+<li>用 &quot;Accept Proposed Changes&quot; 按钮接受所有改动</li>
+<li>点进 diff，在保存前手动微调</li>
+<li>保存文件以确认改动</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209072/ai-hero-images/ylxahtet8o6pqcaf7oc3.png" alt="在 VS Code 的 diff 视图中审查那次不错的改动"></p>
+<p>在 VS Code 的 diff 视图中审查那次不错的改动</p>
+<p>能在编辑器里深入查看并微调 agent 的输出，非常强大。而且在一个正经的 IDE 里而不是终端里审查 diff，让整个工作流顺畅得多。</p>
+<h2>为什么要用编辑器？（Why Use an Editor?）</h2>
+<p>编辑器与 agent 集成还有更多功能和更多方式，但 diff 功能是你 99% 的时间都会用到的那一个。这也是在编辑器里运行 agent、而不只是在终端里运行的首要理由。</p>
+<p>如果你在跟着练习，卡住了随时可以回看视频，遇到麻烦也可以在 Discord 里提问。</p>
+<p>干得漂亮——下一节见。</p>
+<h1 id="lesson-3">在时间中前进与后退（Going Forwards and Backwards in Time）</h1>
+<p>agent 允许你做的一件非常重要的事，是在对话中前后穿梭。当你想先试试某个东西、之后又想撤销时，这一点至关重要。</p>
+<h2>撤销改动（Reverting Changes）</h2>
+<p>在上一个视频里，你做了一个改动，移除了一条 dev script。现在你可以直接对 agent 说：</p>
+<pre><code>revert that, please
+</code></pre>
+<p>agent 会通过重写并重新加回内容来撤销这次改动。你按 <code>Control S</code> 保存 diff，即可接受。</p>
+<p>但还有一个更强大的选项——rewind mode（回退模式）。</p>
+<h2>使用 rewind mode（Using Rewind Mode）</h2>
+<p>快速连按两次 <code>Escape</code> 进入 rewind mode。在这个模式里，你可以把代码和对话恢复到 session 中的任何一个更早的时点。</p>
+<p>比如，如果你想撤销刚才做的那条命令，可以选择上一个 checkpoint（检查点）。最下面那个是你当前的状态，它上面那个是你刚说过 &quot;revert that please&quot; 的时点。</p>
+<p>用 <code>Enter</code> 选中它。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784279343/ai-hero-images/crtl1jtitc1wxy7mxc0s.png" alt="rewind mode 界面显示 checkpoint 历史"></p>
+<p>rewind mode 界面显示 checkpoint 历史</p>
+<h2>选择要恢复什么（Choosing What to Restore）</h2>
+<p>现在你有几个不同的选项：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>恢复代码和对话</strong></td>
+<td>把整个 session 回退到这次代码改动之前的时点</td>
+</tr>
+<tr>
+<td><strong>恢复对话但保留代码</strong></td>
+<td>回退对话的同时保留你当前的代码状态</td>
+</tr>
+<tr>
+<td><strong>恢复代码但保留对话</strong></td>
+<td>回退代码的同时保留你的对话历史</td>
+</tr>
+</tbody></table>
+<p>你最常用到的选项是完整恢复代码和对话。一旦这么做，代码就被回退，你回到了之前那个状态所在的时点。</p>
+<p>如果想回退得更远，再按两次 <code>Escape</code> 打开 rewind mode，选择更早的 checkpoint。你可以沿着 session 的整个历史一步步向后走。</p>
+<p>还有一个 <code>summarize from here</code> 命令可用，但那是以后的话题。想取消 rewind mode 的话，直接选择 &quot;nevermind&quot;，保持当前状态即可。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784279344/ai-hero-images/ode1lxlwmeiuor7rucux.png" alt="rewind mode 显示多个可供导航的 checkpoint"></p>
+<p>rewind mode 显示多个可供导航的 checkpoint</p>
+<h2>session 的持久化与恢复（Persisting and Resuming Sessions）</h2>
+<p>另一件非常重要的事是：agent 实际上会把 session 持久化保存在本地。这意味着你可以按两次 <code>Ctrl C</code> 退出，然后再用多种方式恢复。</p>
+<h3>方式一：用 UUID 恢复（Option 1: Resume with UUID）</h3>
+<p>退出时，输出里会显示一条你可以直接运行的命令：</p>
+<pre><code>claude --resume [UUID]
+</code></pre>
+<p>直接运行这条命令，你就会回到之前离开时的确切状态。</p>
+<h3>方式二：在全新 session 里恢复（Option 2: Resume in a Fresh Session）</h3>
+<p>另外，你也可以按两次 <code>Ctrl C</code> 退出，然后输入以下内容打开一个新 session：</p>
+<pre><code>claude
+</code></pre>
+<p>这会打开一个完全崭新的 session。在里面你可以输入：</p>
+<pre><code>/resume
+</code></pre>
+<p>现在你会看到你在这个仓库里进行过的所有对话。你甚至可以按需搜索所有 session。选中你刚才用的那一个，按 <code>Return</code> 回到同一个 session。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784279345/ai-hero-images/gnuaah32q9mvufyg1w2e.png" alt="resume 菜单显示以往 session 列表"></p>
+<p>resume 菜单显示以往 session 列表</p>
+<h3>方式三：继续上一个 session（Option 3: Continue the Previous Session）</h3>
+<p>如果你的 session 因任何原因被打断，你随时可以恢复它，因为 agent 会把 session 持久化到本地。</p>
+<p>从上次停下的地方继续，还有另一种方式：运行</p>
+<pre><code>claude --continue
+</code></pre>
+<p>这会直接把你带回刚才所在的位置，无需经过 resume 菜单。</p>
+<h2>小结（Summary）</h2>
+<p>agent 允许你用以下几种方式在对话中前后穿梭：</p>
+<ul>
+<li><strong>进入 rewind mode</strong>——按两次 <code>Escape</code>，快速浏览所有 checkpoint</li>
+<li><strong>选择要恢复什么</strong>——决定回退代码、对话，还是两者都回退</li>
+<li><strong>本地持久化 session</strong>——退出再恢复，不丢进度</li>
+<li><strong>多种恢复方式</strong>——用 <code>--continue</code>、<code>/resume</code> 或 UUID 命令</li>
+</ul>
+<p>有了这些工具，你可以放心大胆地试验，因为你知道随时都能退回到 session 里的任何一个之前的时点。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你尝试了一种做法，agent 改了文件，你想让这次尝试彻底消失：改动和产生这些改动的消息都不留。你选哪个 rewind 选项？</p>
+<ul class="quiz-choices">
+<li class="correct">恢复代码和对话</li>
+<li>恢复对话但保留代码</li>
+<li>恢复代码但保留对话</li>
+<li>选择 nevermind，然后手动撤销文件改动</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你回到了上周工作过的仓库，想要某一段较早的对话，而不是你最近的那一段。怎么找到它？</p>
+<ul class="quiz-choices">
+<li class="correct">运行 /resume，搜索过往 session 列表</li>
+<li>运行 claude --continue，再自己把它带回去</li>
+<li>按两次 Escape，选一个更早的 checkpoint</li>
+<li>开一个新 session，向它描述那段旧对话</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# 运行 bash 命令（Running Bash Commands）<p>使用 Claude Code 时有一个极其重要的部分：运行 bash 命令。bash 命令能把你的 agent 从一个被动的代码写手，变成一个能真正寻求 feedback loop（反馈循环）、能真正与你的项目打交道、并能随意调动 bash 全部威力来查信息、干实事的存在。</p>
+<p>当然，你大可以直接用自然语言让 Claude「好，帮我跑一下 dev server」——它相当聪明，会自己理解「好，我需要读一下 <code>package.json</code>，找到 dev server 在哪，然后照这样跑起来」。但话说回来，有些时候你就是知道想运行哪条命令，只想直接跑掉，然后把结果放进 agent 的 context。</p>
+<p>在 agent 里运行 bash 命令，实际上有三种主要方式：</p>
+<ol>
+<li>直接运行命令，让 agent 看到输出</li>
+<li>把长时间运行的进程放到后台并加以监控</li>
+<li>挂起 agent，运行它看不到的命令</li>
+</ol>
+<h2>用 bash mode 运行命令（Running commands with bash mode）</h2>
+<p>运行 agent 看得到的命令，靠的是 <strong>bash mode</strong>。我刚重启了我的 agent 实例。只要敲一个感叹号，现在我就进入了 bash mode。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209316/ai-hero-images/xrtyomhrfwizm4mthajj.png" alt="终端显示用 ! 前缀进入 bash mode"></p>
+<p>终端显示用 ! 前缀进入 bash mode</p>
+<pre><code>!
+</code></pre>
+<p>你在这里输入的任何内容都会变成 bash 命令，并真正为 agent 运行。比如，你可以在里面运行 <code>npm run typecheck</code>，按下 enter 之后命令就执行了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209317/ai-hero-images/zmfo6m2c9okz1u8ck8je.png" alt="终端显示在 bash mode 中用 ! 前缀执行 npm run typecheck"></p>
+<p>终端显示在 bash mode 中用 ! 前缀执行 npm run typecheck</p>
+<p>由于我在这个环境里还没运行过 <code>npm install</code>，冒出了一堆错误。这些错误现在就以 context 的形式呈现在 agent 面前。接下来我会让它帮我解决这些错误，它能看见这些错误并实际着手处理。</p>
+<p>它发现 Zod 在 <code>package.json</code> 里，但没有安装。于是它建议你运行 <code>npm install</code>。这就搞定了。</p>
+<h2>把长时间运行的进程放到后台（Backgrounding long-running processes）</h2>
+<p>这对那些有始有终的命令很有效。但那些需要一直运行的命令怎么办，比如长时间运行的 dev server？</p>
+<p>对此，你可以在 bash mode 里运行 <code>npm run dev</code>：</p>
+<pre><code>! npm run dev
+</code></pre>
+<p>在它运行期间，你可以按 <strong>Ctrl-B</strong> 把它放到后台。在这个版本的 Claude Code 里，会出现一条提示：&quot;command was manually backgrounded with <code>userID</code> this.&quot;</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209318/ai-hero-images/izo7fexocnkddnw8xetv.png" alt="确认命令已被用 userID 手动放到后台的消息"></p>
+<p>确认命令已被用 userID 手动放到后台的消息</p>
+<p>该任务的任何输出都会写进一个本地文件。你会看到状态行下方出现了一个小小的后台任务。你可以在那里用向下箭头往下进入，然后按 return 查看它。现在你就能真正查看这个 shell、看看里面在发生什么。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209319/ai-hero-images/tjzglv8owvxdfdtsmsnu.png" alt="后台任务面板显示 dev server 正运行在 localhost 5175"></p>
+<p>后台任务面板显示 dev server 正运行在 localhost 5175</p>
+<p>这里的选项很多。想停掉它可以用 X，也可以直接按左方向键返回，回到你的 agent 实例。</p>
+<p>在调试 dev server 的问题时，这格外有用，因为 agent 能看到所有日志都写到了哪里。它可以在 UI 里尝试一些操作，或者发一个 curl 请求，然后真正看到 dev server 的输出。</p>
+<h2>挂起 agent 以运行隐藏命令（Suspending the agent to run hidden commands）</h2>
+<p>我刚重置了我的实例，这样我们就能看另一个功能：挂起 agent。比如，你想运行某个你不希望 agent 看到结果的东西，或者懒得展示给它，同时你又想保留 agent 内部的某些状态，那就可以使用 suspend（挂起）。</p>
+<p>在这里按 <strong>Ctrl-Z</strong>，agent 就被挂起了。这意味着你现在可以随意运行任何命令。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209368/ai-hero-images/dpnfygieil8tzupfc7fm.png" alt="在挂起的终端 session 里运行 echo foo"></p>
+<p>在挂起的终端 session 里运行 echo foo</p>
+<pre><code>echo foo
+</code></pre>
+<p>agent 看不到这些。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209369/ai-hero-images/bfrsjj3knmfcmfwo80lg.png" alt="运行 fg，让 agent 带着完好状态回来"></p>
+<p>运行 fg，让 agent 带着完好状态回来</p>
+<p>想让 agent 回来，只需在这里运行 <code>fg</code>，你的 agent 实例就会带着全部状态回来。</p>
+<p>如果你只想说「好，先不管 agent，随便跑我想跑的命令，然后 <code>fg</code> 把它带回来」，这就非常合适。</p>
+<h2>何时使用哪种方式（When to use each approach）</h2>
+<p>这件事的决策树实际上长这样：</p>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>方式</th>
+<th>快捷操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>agent 需要看到输出</td>
+<td>使用 bash mode</td>
+<td><code>!</code> 前缀</td>
+</tr>
+<tr>
+<td>长时间运行的进程（dev server）</td>
+<td>用 Ctrl-B 放到后台</td>
+<td>在 <code>!</code> 命令之后</td>
+</tr>
+<tr>
+<td>命令要对 agent 隐藏</td>
+<td>挂起 agent</td>
+<td>Ctrl-Z，然后 <code>fg</code> 返回</td>
+</tr>
+</tbody></table>
+<p>如果你运行的 bash 命令的输出要让 agent 看见，就用感叹号进入 bash mode，再用 Ctrl-B 把它放到后台，然后管理那些后台任务。</p>
+<p>这对 dev server 真的非常有用。你不会每次都用它，但用的时候，通常是在调试某种 dev server 问题。</p>
+<p>但如果你想让命令对 agent 完全隐藏，用 Ctrl-Z 快速挂起就行。</p>
+<p>注意：这些快捷键在大多数系统上都管用，但如果你用的是 Mac，可能需要换一种做法。</p>
+<p>以上就是在你的 agent 设置里管理 bash 命令的所有方式。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你想自己运行 type check，然后让 agent 修复它报告的所有问题。该怎么运行？</p>
+<ul class="quiz-choices">
+<li class="correct">加上 ! 前缀，让 agent 看到输出</li>
+<li>用 Ctrl-Z 挂起，运行它，再用 fg 返回</li>
+<li>在第二个终端里运行，再把错误粘贴进去</li>
+<li>用 Ctrl-B 放到后台，盯着面板看</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你在 bash mode 里启动了 dev server，它一直不把输入框还给你，因为它根本不会退出。你该怎么办？</p>
+<ul class="quiz-choices">
+<li class="correct">按 Ctrl-B 把它放到后台，继续干活</li>
+<li>按 Ctrl-Z 挂起，再用 fg 回来</li>
+<li>按 Ctrl-C 杀掉它，让 agent 去启动</li>
+<li>等它结束再继续输入</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你需要运行一条命令，它的输出绝不能让 agent 看到，而且之后 agent 的状态要完好无损。你该怎么办？</p>
+<ul class="quiz-choices">
+<li class="correct">按 Ctrl-Z，运行命令，再按 fg</li>
+<li>在 bash mode 里运行，无视输出</li>
+<li>让 agent 无视它看到的东西</li>
+<li>退出 agent，事后再运行</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div>
+# 权限（Permissions）<p><strong>Commit Map（提交对照表）</strong></p>
+<p>make-a-schema-change</p>
+<p>开始本课：仓库保持 migrations 练习结束时的状态</p>
+<p>与 agent 协作时，你始终需要权衡风险与回报，尤其是你交给它多大的权力。如果你给一个 agent 无限的权力，它可能会意外做出危险的事，比如删掉你的整个文件系统。</p>
+<p>为了降低这一风险，Claude Code 有一套非常细致的权限（permissions）模型。默认情况下，它对自己非常严格，严格限制 agent 实际能去做什么。</p>
+<h2>审批流程（The Approval Flow）</h2>
+<p>比如你让 agent 运行一条像 <code>echo hello</code> 这样简单的命令。由于 <code>echo</code> 是一条极其安全的命令，agent 认为这条命令不必询问就可以直接运行。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209889/ai-hero-images/ovmugnfusfd7sybovzpc.png" alt="echo 命令无需许可直接运行"></p>
+<p>echo 命令无需许可直接运行</p>
+<p>但如果你让它做诸如对项目运行 type check 这类事情，它可能就有不同的表现。它不会自动运行，而是先请求许可。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209890/ai-hero-images/e5yepuoy7itc4awlb3az.png" alt="pnpm typecheck 命令的权限请求"></p>
+<p>pnpm typecheck 命令的权限请求</p>
+<p>当 agent 请求许可时，你会看到：</p>
+<ul>
+<li>它将要运行的确切命令</li>
+<li>它想运行这条命令的原因</li>
+<li>三个可选的响应方式</li>
+</ul>
+<p>比如，当它请求运行 <code>pnpm typecheck</code> 时，你可能会看到它想用 <code>react-router-typegen</code> 和 <code>tsc</code> 来运行 type check。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209891/ai-hero-images/yr0xzhtw2dfbrhrzezrz.png" alt="三个权限选项：allow once、allow always 或 reject"></p>
+<p>三个权限选项：allow once、allow always 或 reject</p>
+<p>你的三个选项是：</p>
+<ol>
+<li><strong>Allow once</strong>——好，这一次允许你这么做</li>
+<li><strong>Allow always</strong>——好，而且从现在起，允许你在本项目里运行任何 <code>pnpm typecheck</code> 命令</li>
+<li><strong>Reject and suggest</strong>——不行，而且你可以建议改用别的命令</li>
+</ol>
+<p>如果你不想让 agent 运行某条特定命令，可以拒绝并建议替代方案。比如，你更想用 <code>npx tsc</code> 而不是 <code>pnpm typecheck</code>，可以按 Tab 并给出这个理由。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209892/ai-hero-images/mdqopc8r8omaclqqrqh0.png" alt="用 npx tsc 建议替代命令"></p>
+<p>用 npx tsc 建议替代命令</p>
+<p>然后 agent 会询问能否改运行 <code>npx tsc</code>。如果你用 &quot;allow always&quot; 批准，你会看到类似 <code>Bash(npx tsc *)</code> 的条目被加进你的 permissions。</p>
+<h2>在 settings 里编辑权限（Editing Permissions in Settings）</h2>
+<p>你的权限偏好记录在 <code>.claude/settings.local.json</code> 文件里。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209893/ai-hero-images/ay8zh771boo7a8gpokuu.png" alt=".claude 文件夹中的 settings.local.json 文件"></p>
+<p>.claude 文件夹中的 settings.local.json 文件</p>
+<p>这里的语法值得好好理解。你完全可以提前自己编辑这个文件，允许某些操作在这个仓库里直接发生，不必每次都批准。</p>
+<p>想允许某条特定命令，就把它加进 <code>allow</code> 数组：</p>
+<pre><code>{
+&quot;permissions&quot;: {
+&quot;allow&quot;: [
+&quot;Bash(pnpm typecheck)&quot;
+]
+}
+}
+</code></pre>
+<p>想声明所有 <code>pnpm</code> 命令都可用，可以用通配符：</p>
+<pre><code>{
+&quot;permissions&quot;: {
+&quot;allow&quot;: [
+&quot;Bash(pnpm *)&quot;
+]
+}
+}
+</code></pre>
+<p>你也可以用 <code>deny</code> 数组禁止 agent 做某些事。</p>
+<p>比如，如果你不想让它运行 <code>git push</code>，可以禁止所有 git push 命令：</p>
+<pre><code>{
+&quot;permissions&quot;: {
+&quot;deny&quot;: [
+&quot;Bash(git push *)&quot;
+]
+}
+}
+</code></pre>
+<h2>bash 之外的权限（Permissions Beyond Bash）</h2>
+<p>agent 需要许可才能运行的不只是 bash 命令。agent 还可以搜索网络、抓取网页，来佐证它在本地看到的东西。</p>
+<p>比如，你可能让它从网上获取关于 <code>react-router-typegen</code> 的信息。agent 会请求你批准一次针对 &quot;React router typegen&quot; 的网络搜索。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209893/ai-hero-images/ew3jeyvecxkitgxs5spp.png" alt="网络搜索的权限请求"></p>
+<p>网络搜索的权限请求</p>
+<p>如果你选择同意且不再询问，agent 会把它加进 <code>settings.local.json</code>，并从 ReactRouter.com 之类的网站抓取内容。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209894/ai-hero-images/mrgzb9zgeseaz2avndpu.png" alt="从 ReactRouter.com 网站抓取内容"></p>
+<p>从 ReactRouter.com 网站抓取内容</p>
+<p>这条权限会以 <code>WebFetch(domain:reactrouter.com)</code> 的形式加进你的 settings 文件。</p>
+<p>抓到信息后，它就能基于真实文档给你总结 React Router typegen 的工作原理。</p>
+<h2>与团队共享权限（Sharing Permissions With Your Team）</h2>
+<p>默认情况下，<code>settings.local.json</code> 在你的项目里，且被版本控制忽略。这意味着这些权限只对你生效。</p>
+<p>但如果你想把这些权限共享给团队，让一组特定的操作在仓库里始终被允许，可以把 <code>settings.local.json</code> 重命名为 <code>settings.json</code>。</p>
+<p>这样这个文件就能提交进版本控制，与团队共享。</p>
+<p>团队里任何人在这个仓库上运行 agent，都会自动读到这些权限。对第一次接触你仓库的人来说，这强大得不可思议。他们只需运行 agent，它就已经知道这个仓库里允许做什么。这比每次都手动配置权限快得多。</p>
+<h2>auto mode 与手动权限处理（Auto Mode vs Manual Permission Handling）</h2>
+<p>还有另一种处理权限的方式：<strong>auto mode（自动模式）</strong>。你可以在 Claude Code 左下角看到模式选择器，用 Shift+Tab 在各模式之间循环切换。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209895/ai-hero-images/xfufdaijimu1fybc9ucs.png" alt="模式选择器显示 manual、edits、plan 和 auto 模式"></p>
+<p>模式选择器显示 manual、edits、plan 和 auto 模式</p>
+<p>可用的模式有：</p>
+<ul>
+<li>Manual mode（手动模式）</li>
+<li>Edits mode（编辑模式）</li>
+<li>Plan mode（计划模式）</li>
+<li>Auto mode（自动模式）</li>
+</ul>
+<p>Auto mode 使用一个 LLM 分类器来查看你的对话，检查 agent 即将运行的东西是否安全。比如，你运行 <code>npm run typecheck</code>，agent 会直接运行这条 shell 命令，而不先请求许可。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209896/ai-hero-images/qecy4laukd9n9yq34ihj.png" alt="在 auto mode 中运行 npm run typecheck，无权限提示"></p>
+<p>在 auto mode 中运行 npm run typecheck，无权限提示</p>
+<p>这与 manual mode 不同。agent 能自己判断命令危险与否。这确实意味着要花一些 token 来检查命令是否安全，也就多花一点时间。所以 auto mode 会稍微慢一点，但好处是你几乎不用干预就能让这些事情跑起来。</p>
+<p>主分类器 model 大概率是 Claude Haiku。不过，这个分类器并不完美。它确实会放行一些你不希望发生的事（比如有时会去迁移数据库），也会拦下一些你确实想做的事（比如创建 GitHub issue）。</p>
+<p>但对大多数使用场景来说，它的表现还是站在「没问题」这一边的。它确实能拦住大部分会发生的坏事，尤其是那些无论如何都是坏事的东西，比如对你的文件系统执行 <code>rm -rf</code>。它也不会把你的用量限额推得太高，因此是一个相当不错的取舍。</p>
+<p>在 auto mode 下，<code>settings.json</code> 文件依然非常有用。agent 会先检查 <code>settings.json</code>，然后才把命令交给分类器处理。这意味着只要在 <code>settings.json</code> 里写好条目，你就能给常用操作提速，不必再操心分类器。</p>
+<p>要把 auto mode 设为默认，进入 config 并选择 <code>default permission mode</code>。按 Enter 或 Space 即可选中。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784209896/ai-hero-images/hbixwvn8uzcnrptb9wdg.png" alt="config 菜单显示 default permission mode 设置"></p>
+<p>config 菜单显示 default permission mode 设置</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">团队里每个人都在同一个共享仓库上反复批准同样那几条命令。怎么让仓库的规则随 checkout 一起到位？</p>
+<ul class="quiz-choices">
+<li class="correct">把 settings.local.json 重命名为 settings.json</li>
+<li>让每个人各选一次 allow always</li>
+<li>让团队改开 auto mode</li>
+<li>把你的本地设置粘贴进 README</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">你切换到 auto mode，让 agent 自己判断命令是否安全。你要付出什么代价？</p>
+<ul class="quiz-choices">
+<li class="correct">每条命令在检查时会稍微慢一点</li>
+<li>settings.json 里的权限不再被查阅</li>
+<li>每条命令都会运行，包括对你磁盘的 rm -rf</li>
+<li>检查时你的用量限额会急剧攀升</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-q-text">有一条命令你绝不想让 agent 在这个仓库里运行，无论它当时怎么判断：git push。你该怎么设置？</p>
+<ul class="quiz-choices">
+<li class="correct">在 settings 里加一条 Bash(git push *) 的 deny 条目</li>
+<li>为除 push 之外的每条命令都加 allow 条目</li>
+<li>auto mode，它会把 push 判定为不安全</li>
+<li>在 prompt 里写一句不许 push</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p></div></main></div><script>
+  (function(){
+    var links=document.querySelectorAll('aside.toc a');
+    var map={};
+    links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+    var hs=document.querySelectorAll('main h1[id]');
+    if(!('IntersectionObserver' in window)||!hs.length)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active')});
+          var a=map[e.target.id];
+          if(a){a.classList.add('active');
+            if(a.scrollIntoViewIfNeeded)a.scrollIntoViewIfNeeded(false);
+          }
+        }
+      });
+    },{rootMargin:'0px 0px -70% 0px'});
+    hs.forEach(function(h){io.observe(h)});
+  })();
+</script></body></html>

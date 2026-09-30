@@ -1,0 +1,754 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>准备 · Before You Start · AI Coding Crash Course 中文版</title><style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;line-height:1.9;color:#1f2937;background:#fafafa}
+  .wrap{display:flex;gap:40px;max-width:1240px;margin:0 auto;padding:40px 24px 96px}
+  aside.toc{width:264px;flex-shrink:0;position:sticky;top:0;align-self:flex-start;max-height:calc(100vh - 48px);overflow-y:auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem 1.25rem}
+  aside.toc>p{margin:0 0 .5rem;font-weight:700;font-size:.95rem}
+  aside.toc a{display:block;color:#4b5563;text-decoration:none;padding:.3rem .5rem;border-radius:6px;font-size:.92rem;line-height:1.5}
+  aside.toc a:hover{color:#b45309;background:#fffbeb}
+  aside.toc a.active{color:#b45309;background:#fffbeb;font-weight:600}
+  main{flex:1;min-width:0;max-width:800px}
+  @media (max-width:960px){.wrap{flex-direction:column;gap:24px}aside.toc{position:static;width:auto;max-height:240px}}
+  h1{font-size:1.9rem;line-height:1.35;padding-bottom:.6rem;margin:3rem 0 1.5rem;scroll-margin-top:16px}
+  h1::after{content:'';display:block;width:96px;height:3px;margin-top:.6rem;border-radius:2px;background:linear-gradient(90deg,#f59e0b,#8b5cf6)}
+  h1:first-child{margin-top:0}
+  h2{font-size:1.35rem;margin:2.5rem 0 1rem}
+  h3{font-size:1.12rem;color:#6d28d9;margin:2rem 0 .8rem}
+  p{margin:0 0 1rem}
+  a{color:#b45309;text-decoration:none;border-bottom:1px solid rgba(180,83,9,.25)}
+  a:hover{border-bottom-color:#b45309}
+  strong{color:#111827;font-weight:700}
+  img{max-width:100%;border-radius:10px;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.08);margin:1.25rem 0}
+  code{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.875em;background:rgba(180,83,9,.09);color:#9a3412;padding:.15em .4em;border-radius:4px}
+  pre{background:#0d1117;border:1px solid #30363d;border-left:4px solid #8b5cf6;border-radius:0 8px 8px 0;padding:1.1rem 1.25rem;overflow-x:auto;margin:1rem 0 1.25rem;font-size:.875rem;line-height:1.6}
+  pre code{background:none;padding:0;color:#c9d1d9}
+  blockquote{border-left:4px solid #8b5cf6;background:#f5f3ff;border-radius:0 8px 8px 0;padding:.75rem 1.25rem;margin:1rem 0 1.25rem;font-size:.95rem;color:#374151}
+  table{border-collapse:collapse;margin:1rem 0 1.25rem;width:100%;font-size:.92em}
+  thead tr{background:#f3f4f6}
+  th,td{border:1px solid #e5e7eb;padding:.55rem .9rem;text-align:left;vertical-align:top}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.02)}
+  hr{border:none;border-top:1px solid #e5e7eb;margin:3rem 0}
+  ul li::marker{color:#d97706}
+  .quiz-block{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0 1.5rem;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+  .quiz-block-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6d28d9;margin:0 0 1rem}
+  .quiz-q-text{font-weight:600;color:#111827;margin:1.4rem 0 .75rem;padding-top:1rem;border-top:1px dashed #e5e7eb}
+  .quiz-choices{list-style:none;padding:0;margin:0 0 .75rem}
+  .quiz-choices li{padding:.4rem .6rem;margin-bottom:.3rem;border-radius:6px;font-size:.95em;color:#4b5563;border:1px solid transparent}
+  .quiz-choices li.correct{background:#ecfdf5;border-color:#6ee7b7;color:#047857;font-weight:600}
+  .quiz-choices li.correct::before{content:'✓ ';font-weight:700}
+  .quiz-answer-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b45309;margin:1rem 0 .35rem}
+  .quiz-answer{font-size:.92em;color:#4b5563;background:#f3f4f6;border-radius:8px;padding:.75rem 1rem;line-height:1.7}
+</style></head><body><div class="wrap"><aside class="toc"><p>本篇目录</p><a href="#lesson-1">我们要去哪里（Where We&#39;re Going）</a><a href="#lesson-2">选择你的订阅方案与 model（Choosing Your Plan and Model）</a><a href="#lesson-3">搭建项目（Setting Up the Project）</a><a href="#lesson-4">安装 Claude Code（Installing Claude Code）</a><a href="#lesson-5">如何运行练习（How To Run the Exercises）</a><a href="#lesson-6">数据库 Migrations（Database Migrations）</a><a href="#lesson-7">重置为干净状态（Resetting to a Clean Slate）</a><a href="#lesson-8">安装 Request Logger（Installing The Request Logger）</a></aside><main><h1 id="lesson-1">我们要去哪里（Where We&#39;re Going）</h1>
+<p>欢迎来到 AI Coding Crash Course。我叫 Matt Pocock，很高兴能担任你的讲师。感谢你的加入。</p>
+<p>这门课其实是我过去两年左右折腾 AI 编程、并努力把软件基础原理带回 AI 编程的成果浓缩。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785858290/ai-hero-images/gbl3qtijliifxrquvjpp.png" alt="GitHub 仓库 mattpocock/skills，star 数超过 200,000"></p>
+<p>GitHub 仓库 mattpocock/skills，star 数超过 200,000</p>
+<p>你们中的很多人大概是冲着我的 skills 仓库来的——录制这门课时，它的 star 数刚刚突破 200,000。</p>
+<p>这让它跻身 GitHub 历史上 star 数最多的前 20 个仓库之列。skills 的下载量也正在突破 1300 万次。</p>
+<h2>你将学到什么（What You&#39;ll Learn）</h2>
+<p>我开这门课，是想给你一套可以在职场里真正用起来、开始交付代码的实践方法。</p>
+<p>我会向你展示一套五步法：从 grilling（拷问）开始，到编写 spec（规格），再到为 spec 拆分 ticket（工票），然后实现，最后做 review。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785858291/ai-hero-images/pswtqhfo8ayjla4j7jwl.png" alt="五步法：grilling、spec、tickets、实现、review"></p>
+<p>五步法：grilling、spec、tickets、实现、review</p>
+<p>我之所以敢在此时开这门课，是因为无论我平时还折腾什么别的，这五个步骤始终没有变过。</p>
+<p>要把工作做得足够出色、能够顺利交付，这五个步骤绝对是不可或缺的。</p>
+<h2>Context 管理与拆分工作（Context Management and Breaking Up Work）</h2>
+<p>我会带你看看我们如何做 context 管理上的决策，深入思考随着你越深入 context window，注意力是如何衰减的。</p>
+<p>什么时候该 compact，什么时候该 clear，什么时候该 hand off（交接）。</p>
+<p>我们还会深入探讨如何把大块头的工作拆分成 agent 能处理的部分。</p>
+<h2>练习场：Cadence（The Playground: Cadence）</h2>
+<p>我们会借助一个练习场（playground）来做这件事。它叫 Cadence，是一个 TypeScript 和 Node 应用，功能相当成熟：人们可以在上面购买课程、学习课时、做随堂测。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785858291/ai-hero-images/khzk5arkpumfxbjfymwi.png" alt="Cadence 应用代码库，展示 TypeScript 和 Node 结构"></p>
+<p>Cadence 应用代码库，展示 TypeScript 和 Node 结构</p>
+<p>所以这是一门实践课。你将与你的 agent 携手交付功能，亲身走过我过去 10 年一直在用、并且发现与 agent 配合效果出奇之好的那套软件生命周期。</p>
+<h2>你该用哪个 agent？（Which Agent Should You Use?）</h2>
+<p>你可能在想：我该用哪个 agent？我的答案是：用任何一个能在终端里运行、又能使用 skills 的 agent。</p>
+<p>所以基本上所有 agent 都符合条件：Claude Code、Codex、OpenCode、GitHub Copilot，Gemini 那款（不管它叫什么）也一样。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785858292/ai-hero-images/agxrhainft5zak68lcyb.png" alt="编码 agent 列表：Claude Code、Codex、OpenCode、GitHub Copilot"></p>
+<p>编码 agent 列表：Claude Code、Codex、OpenCode、GitHub Copilot</p>
+<p>这门课不是让你盯着某一个特定 agent、去学它的各种怪癖，而是教你基本功，让你能把任何 agent 都用好。</p>
+<p>而且我们要讲的全部内容都会以 skills 的形式交付。你可以把这些 skills 带走，在任何 agent 里使用。</p>
+<h3>演示用 agent：Claude Code（The Demonstration Agent: Claude Code）</h3>
+<p>不过，我在课程中用作演示的 agent 是 Claude Code。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785858293/ai-hero-images/dwuo81hg1lpy6xnmtasi.png" alt="作为演示 agent 的 Claude Code 界面"></p>
+<p>作为演示 agent 的 Claude Code 界面</p>
+<p>它是我每天的主力工具，也可能是录制这门课时最流行的编码 agent。</p>
+<p>对于从未接触过 AI 编程的朋友，我会专门安排一节 Claude Code 的内容，让你达到足以跟完这门课的熟练程度即可。</p>
+<p>但除此之外，一旦进入课程的核心内容，我们基本不会再专门聊 Claude Code。</p>
+<p>这门速成课讲的全是可以搭配任何 harness、任何 agent 使用的基本功。</p>
+<h2>前置要求（Prerequisites）</h2>
+<p>这门课的前置要求其实就两条：</p>
+<ul>
+<li>你能读懂代码吗？能就好。</li>
+<li>你会用终端吗？</li>
+</ul>
+<p>会读代码能让你更轻松地在代码库中穿梭，弄清楚到底发生了什么。你甚至不一定需要会写代码。</p>
+<p>只要能看懂代码的大致轮廓，就会很有帮助。</p>
+<p>另外，你还需要能找到终端、会使用 <code>cd</code> 和 <code>ls</code> 这类基本命令，并大致明白里面在发生什么。</p>
+<h2>学完你能做什么（What You&#39;ll Be Able to Do）</h2>
+<p>学完这门课，你将能够以超高的质量交付海量的工作。</p>
+<p>这不是靠把 model 变得更强来实现的，而是靠让你变得更强——赋予你把 agent 驾驭得更好的技能。</p>
+<p>这套方法对 context 的负担非常轻。它只要求你多一点点理解。</p>
+<p>这正是这门课的使命：为你升级，让你的 AI 软件开发更上一层楼。</p>
+<h1 id="lesson-2">选择你的订阅方案与 model（Choosing Your Plan and Model）</h1>
+<p>在开始这门 AI 编程课之前，你需要先搞定自己的 AI 使用权限。这意味着选对 subscription（订阅）方案，并弄清楚你需要什么。</p>
+<h2>你需要一个付费方案（You Need a Paid Plan）</h2>
+<p>不巧的是，要完成这门课，你需要一个付费方案。</p>
+<p>各大 model 实验室的免费额度并不是为这类 agentic 工作设计的。第一个像样的 session 你就会撞墙。</p>
+<h2>Anthropic 的定价（Anthropic Pricing）</h2>
+<p>看一下 Anthropic 的定价页，免费档不足以完成这门课。</p>
+<p><strong>Pro</strong> 刚好够用，这也是我建议的起点。它能让你用上一款中端 model，足以支撑你学完这门课。</p>
+<p>如果你要以专业水准认真做这件事，我建议升级到 <strong>Max</strong>。Max 有两档：5X 或 20X。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785914282/ai-hero-images/tvc8kwnln1wqholvfdtc.png" alt="Anthropic 定价页，展示 Free、Pro 和 Max 订阅档位"></p>
+<p>Anthropic 定价页，展示 Free、Pro 和 Max 订阅档位</p>
+<h2>OpenAI 的定价（OpenAI Pricing）</h2>
+<p>OpenAI 的定价类似，中间多了一个 Go 档。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785914283/ai-hero-images/ayofpodmv1vza2xaush2.png" alt="OpenAI 定价页，展示 Plus、Go 和 Pro 订阅档位"></p>
+<p>OpenAI 定价页，展示 Plus、Go 和 Pro 订阅档位</p>
+<p><strong>Plus</strong> 相当于 Anthropic 的 Pro，提供基础权限——从这里起步即可。如果撞到用量上限，再升级到 <strong>Pro</strong>。</p>
+<h2>我录制时用的配置（What I Used While Recording）</h2>
+<p>这门课是用 20X 档的 Anthropic Max subscription 录制的。</p>
+<p>不过你最多只需要 5X 档。大约每月 £89（约合 $100）。</p>
+<h2>Subscription 与 API Key 的对比（Subscriptions vs API Keys）</h2>
+<p>你可能在想，subscription 和按 token 计费的 API key 相比如何。</p>
+<p>我的建议：买 subscription。它划算得多——通常便宜 20 到 50 倍，取决于你的档位，以及你能把多少工作量塞进用量上限之内。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785914284/ai-hero-images/scdpmcotjexz8yr5p08b.png" alt="Theo 的推文，显示 $50,000 的 token 开销只相当于 $800 的订阅费"></p>
+<p>Theo 的推文，显示 $50,000 的 token 开销只相当于 $800 的订阅费</p>
+<p>举个例子，Theo 单月的 token 开销接近 $50,000。如果用 subscription，那不过是三份 $200 的 Claude subscription 加一份 $200 的 Codex subscription。</p>
+<p>也就是用 $800 换来了约 $50,000 的 token 开销。</p>
+<h2>按 token 付费的心理影响（The Psychological Impact of Pay-Per-Token）</h2>
+<p>眼睁睁看着每个 session 的花费，还会带来心理上的影响。</p>
+<p>这就像家里装了电表——你会舍不得用电，工作方式也随之改变。你开始围绕 token 优化，而不是围绕效率优化。</p>
+<p>当你盯着成本而非质量时，会做出一些不太理性的决定。你可能为了让数字低一点而降级到更便宜的 model。</p>
+<p>用 subscription，你从一开始就知道自己付多少、得多少。没有预算焦虑。</p>
+<h2>我的建议（My Recommendations）</h2>
+<h3>默认选择：Claude Code + Pro（Default: Claude Code with Pro）</h3>
+<p>这门课是用 Claude Code 录制的。如果你没有特别的偏好，就用 Claude Code 作为默认选择，从 Pro subscription 起步。</p>
+<h3>专业用户：Max Subscription（For Professionals: Max Subscription）</h3>
+<p>如果你打算以职业态度认真做 AI 编程，那就上 Max。</p>
+<h2>选择你的 model（Choosing Your Model）</h2>
+<p>用你的方案自带的默认 model。如果你用的是 Pro，避开 Opus——它会把你的用量上限烧得飞快。</p>
+<p>model 的选择我们后面还会再讲。现在，先在开始之前把 subscription 定下来。</p>
+<h2>去 Discord 求助（Get Help on Discord）</h2>
+<p>如果你在 Anthropic 和 OpenAI 之间纠结，或者不知道不同档位该用哪些 model，去 Discord 求助。</p>
+<h1 id="lesson-3">搭建项目（Setting Up the Project）</h1>
+<p>我们接下来要做的大部分工作都在终端里进行。我们要运行的 agent 就是一个终端程序。</p>
+<p>这门课推荐的 IDE 是 Visual Studio Code。从 2017 年起，它就一直是我的首选工具，理由很充分：</p>
+<ul>
+<li>完全免费</li>
+<li>跨平台可用</li>
+<li>非常容易上手</li>
+<li>内置<strong>终端</strong></li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786012733/ai-hero-images/bdhhdedelbkpup0ayxuf.png" alt="code.visualstudio.com 上的 Visual Studio Code 官网"></p>
+<p>code.visualstudio.com 上的 Visual Studio Code 官网</p>
+<p>如果你已经有用得顺手的 IDE，直接用它就行——只要里面有终端、能查看代码，就没问题。</p>
+<h2>VSCode 的终端（The VSCode Terminal）</h2>
+<p>Mac 和 Windows 上都已自带终端。在 Windows 上，你还可以用 Windows Subsystem for Linux（WSL）获得一个 Linux 终端，从而使用 <code>cd</code>、<code>ls</code> 这类命令。</p>
+<p>装好并打开 VS Code 之后，按 <strong>Ctrl+`</strong> 打开集成终端。它会在 VS Code 当前打开的文件夹里启动终端。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786012734/ai-hero-images/dgapvaehyrpzheaf1fko.png" alt="VS Code 打开了集成终端面板"></p>
+<p>VS Code 打开了集成终端面板</p>
+<p>你可以上下拖动它、拆分编辑器，或者删掉终端再重新打开。终端显示出来之后，先想好项目目录放在哪里。比如 <code>cd</code> 进入一个 <code>repos</code> 文件夹：</p>
+<pre><code>cd repos/learning
+ls
+</code></pre>
+<p>对终端有一点基本的熟悉会非常有用。如果这是你的短板，去 Discord 找资源。</p>
+<h2>用 Git 克隆项目（Cloning the Project with Git）</h2>
+<p>项目托管在 GitHub 上。克隆它需要 <code>git</code>。运行以下命令检查你是否已安装：</p>
+<pre><code>git --version
+</code></pre>
+<p>如果你还没装 <code>git</code>，下面提供了下载链接。</p>
+<p>装好 <code>git</code> 后，打开 AI Coding Crash Course 的 GitHub 页面。点击 <strong>Code</strong> 按钮，选择 <strong>HTTPS</strong>，复制 URL。然后回到终端，运行：</p>
+<pre><code>git clone https://github.com/ai-hero-dev/ai-coding-crash-course.git
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786012736/ai-hero-images/otzrhq2jheh5tr24wwdf.png" alt="终端显示 git clone 命令正在执行并完成"></p>
+<p>终端显示 git clone 命令正在执行并完成</p>
+<p>它会被克隆到 <code>ai-coding-crash-course</code> 文件夹。完成后，在 VS Code 中打开该文件夹。你可以在终端里用这条命令：</p>
+<pre><code>code ai-coding-crash-course
+</code></pre>
+<p>现在你应该能在左侧的文件资源管理器里看到所有项目文件了。</p>
+<h2>安装 Node（Installing Node）</h2>
+<p>这个项目用 Node.js 在你的电脑上运行 JavaScript。检查你是否已安装：</p>
+<pre><code>node --version
+</code></pre>
+<p>当前安装的版本是 <code>22.21.1</code>。你应该选 <strong>LTS</strong>（Long-Term Support，长期支持）版本，它最稳定。这些版本标签的含义如下：</p>
+<table>
+<thead>
+<tr>
+<th>标签</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>LTS</strong></td>
+<td>长期支持——最稳定，推荐</td>
+</tr>
+<tr>
+<td><strong>Current</strong></td>
+<td>最新、最花哨的版本</td>
+</tr>
+<tr>
+<td><strong>EOL</strong></td>
+<td>已到生命周期终点——不再受支持</td>
+</tr>
+</tbody></table>
+<p>你可以从 Node.js 下载页安装 Node.js，目标是 22 或 24 版本。如果装完后终端里找不到 <code>node</code>，把终端关掉重开，刷新 PATH：</p>
+<pre><code>node --version
+</code></pre>
+<p>Node 自带 <code>npm</code>（Node Package Manager）。也检查一下它是否可用：</p>
+<pre><code>npm --version
+</code></pre>
+<h2>安装依赖（Installing Dependencies）</h2>
+<p>Node 装好后，在项目目录里运行以下命令，从 npm 包仓库拉取所有必需的包：</p>
+<pre><code>npm install
+</code></pre>
+<p>过程中可能出现一些警告或漏洞提示——这对 npm 来说很正常。完成后，你会在文件树里看到一个 <code>node_modules</code> 文件夹出现。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786012737/ai-hero-images/noq4gtopk9zufc78tcse.png" alt="终端显示 npm install 完成，node_modules 文件夹可见"></p>
+<p>终端显示 npm install 完成，node_modules 文件夹可见</p>
+<p>这些 node modules 是人们发布到 npm 上的包。比如 <code>ai-hero-sandcastle</code> 就是本项目依赖的包之一。</p>
+<h2>设置数据库（Setting Up the Database）</h2>
+<p>这个应用把数据存在一个本地文件里。新克隆的仓库不包含它，所以需要两条命令来构建它。</p>
+<p>首先，运行以下命令创建数据库：</p>
+<pre><code>npm run db:migrate
+</code></pre>
+<p>这会在项目根目录创建一个本地 <code>data.db</code> 文件。然后，用种子数据填充它：</p>
+<pre><code>npm run db:seed
+</code></pre>
+<p>这些脚本和其他脚本一起定义在 <code>package.json</code> 里：</p>
+<pre><code>{
+&quot;scripts&quot;: {
+&quot;db:migrate&quot;: &quot;...&quot;,
+&quot;db:seed&quot;: &quot;...&quot;,
+&quot;dev&quot;: &quot;...&quot;
+}
+}
+</code></pre>
+<h2>运行应用（Running the App）</h2>
+<p>现在启动开发服务器：</p>
+<pre><code>npm run dev
+</code></pre>
+<p>如果一切设置正确，你会看到一个本地 URL 输出，类似 <code>localhost:5173</code>。在 VS Code 里 <strong>Ctrl+点击</strong> 这个 URL，它就会直接在 IDE 内打开。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786012739/ai-hero-images/ilom2uwh2zuowapwatjo.png" alt="VS Code 在 IDE 浏览器面板内显示运行于 localhost:5175 的应用"></p>
+<p>VS Code 在 IDE 浏览器面板内显示运行于 localhost:5175 的应用</p>
+<h2>Cadence 应用（The Cadence App）</h2>
+<p>这就是 <strong>Cadence</strong>，整门课我们都要用 AI 在它上面开发功能。它的规模适中。</p>
+<p>把它切到深色模式，护护眼。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786012740/ai-hero-images/ei1kk0goajesq3dla7hd.png" alt="Cadence 应用显示 Emma Wilson 的仪表盘，包含 TypeScript 和 Node.js 课程"></p>
+<p>Cadence 应用显示 Emma Wilson 的仪表盘，包含 TypeScript 和 Node.js 课程</p>
+<p>有一个关键功能值得了解：底部的 <strong>dev UI</strong>，它能切换你当前登录的用户。比如，以 Emma Wilson 登录，可以看到她有权访问两门课程：TypeScript 和 Node.js。</p>
+<p>应用已经灌入了虚拟数据——课程、课时，以及由 Marcus Johnson 创建的用户。当你在 VS Code 里能看到这些虚拟数据时，本节就完成了。</p>
+<p>你已经成功装好了项目的全部依赖。下面附有详细步骤，遇到任何问题请去 Discord。</p>
+<h1 id="lesson-4">安装 Claude Code（Installing Claude Code）</h1>
+<p>项目已就绪，终端已就绪。唯一还缺的就是 agent 本尊。</p>
+<p>本节以 Claude Code 作为 agent。如果你用的是别的编码 agent，就按它自己的文档安装并登录！</p>
+<h2>完成步骤（Steps To Complete）</h2>
+<h3>安装 Claude Code（Install Claude Code）</h3>
+<ul>
+<li>在 VS Code 中，于你的项目文件夹内打开一个新终端</li>
+<li>前往 Claude Code 的设置页面，复制适配你平台的安装命令：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Linux / WSL / macOS</td>
+<td><code>npm install -g @anthropic-ai/claude-code</code></td>
+</tr>
+<tr>
+<td>Windows PowerShell</td>
+<td>（见设置页面）</td>
+</tr>
+<tr>
+<td>Windows CMD</td>
+<td>（见设置页面）</td>
+</tr>
+</tbody></table>
+<ul>
+<li>把命令粘贴到终端里运行</li>
+</ul>
+<h3>登录（Log In）</h3>
+<ul>
+<li>在项目文件夹内启动 Claude Code：</li>
+</ul>
+<pre><code>claude
+</code></pre>
+<ul>
+<li>当提示 <strong>do you trust this workspace?</strong>（你信任这个工作区吗？）时，回答 <strong>Yes</strong></li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786013117/ai-hero-images/otjxjac38kmztnqyoepq.png" alt="Claude Code 终端提示&quot;Do you trust this workspace?&quot;，带 Yes 选项"></p>
+<p>Claude Code 终端提示&quot;Do you trust this workspace?&quot;，带 Yes 选项</p>
+<ul>
+<li>当提示登录时：</li>
+<li>选择 <strong>subscription</strong> 选项</li>
+<li>让它打开你的浏览器</li>
+<li>在浏览器里完成授权</li>
+<li>回到终端</li>
+</ul>
+<h3>设置你的 model 与 effort（Set Your Model and Effort）</h3>
+<ul>
+<li>运行 <code>/model</code> 打开 model 选择器：</li>
+</ul>
+<pre><code>/model
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786013118/ai-hero-images/k2srsc4npvpwdbb9gjxy.png" alt="Claude Code 的 model 选择器，显示可用 model，默认项已选中"></p>
+<p>Claude Code 的 model 选择器，显示可用 model，默认项已选中</p>
+<ul>
+<li>选择你的订阅档位对应的 <strong>default</strong>（例如 Opus 5，带 100 万 token 的 context window）</li>
+<li>用左右方向键把 effort 档位调到 <strong>medium</strong>——它默认是 <code>xhigh</code>，记得调下来</li>
+</ul>
+<p>这门课的录制使用 Opus 5、medium effort。更高的 effort 会更快烧 token、运行也更慢——对本课程的工作来说，它换不来更好的答案。</p>
+<h3>验证一切正常（Verify Everything Works）</h3>
+<ul>
+<li>发一条快速自检消息：</li>
+</ul>
+<pre><code>hello
+</code></pre>
+<p>你应该会收到一句 <code>hello</code> 的回复。看到它，设置就大功告成了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786013119/ai-hero-images/vv1iissmsn8e8kwasgvg.png" alt="Claude Code 终端显示已发送 hello 消息并收到 hello 回复"></p>
+<p>Claude Code 终端显示已发送 hello 消息并收到 hello 回复</p>
+<h1 id="lesson-5">如何运行练习（How To Run the Exercises）</h1>
+<p>Commit 地图</p>
+<p>main
+本课起点：课程仓库，与你刚克隆下来时完全一致</p>
+<p>try-the-cli
+验证工具链：改动 <code>package.json</code> 中 <code>description</code> 字段的那个检查点</p>
+<p>这门课的教学方式是给你布置练习去完成——规划这个功能、加上这个改动、修掉这个 bug。所有代码课程都有一个共同的难题：进度漂移。你做了一个视频里没做的改动，三节课之后，你的代码库就和屏幕上的不是同一个了。</p>
+<p>为了解决这个问题，项目里内置了三个 CLI 工具，让你可以按需跳到任意练习的起始状态。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>对你的工作的影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>npm run reset</code></td>
+<td>替换它——你的 commit 全部消失</td>
+</tr>
+<tr>
+<td><code>npm run cherry-pick</code></td>
+<td>在其上叠加——检查点落在你的工作之上</td>
+</tr>
+<tr>
+<td><code>npm run pull</code></td>
+<td>围绕它更新——拉取上游变更</td>
+</tr>
+</tbody></table>
+<h2>完成步骤（Steps To Complete）</h2>
+<h3>创建你的开发分支（Create Your Development Branch）</h3>
+<ul>
+<li>新建一个 <code>dev</code> 分支，在它上面工作</li>
+</ul>
+<p>这是你的一次性学习分支。三个工具都在这个分支上操作，从而让 <code>main</code> 保持干净。</p>
+<pre><code>git checkout -b dev
+</code></pre>
+<blockquote>
+</blockquote>
+<p><strong>⚠️ 警告：</strong> 如果跳过这一步，工具会拒绝运行。你会看到类似 <code>Cannot reset to main while on the main branch.</code> 的错误。</p>
+<h3>重置到练习检查点（Reset to an Exercise Checkpoint）</h3>
+<ul>
+<li>运行 <code>npm run reset</code> 查看完整的课程检查点列表</li>
+</ul>
+<pre><code>npm run reset
+</code></pre>
+<p>这会打开一个交互式选择器，按顺序列出课程中的每个检查点。你可以输入文字搜索——比如输入 <code>try the cli</code> 就能筛到 <code>try-the-cli</code>。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786013951/ai-hero-images/mv0uyjie1uuavdlghzsi.png" alt="npm run reset 的交互式选择器，显示课程检查点列表"></p>
+<p>npm run reset 的交互式选择器，显示课程检查点列表</p>
+<ul>
+<li>选中一个检查点，然后选择 <strong>Reset current branch</strong></li>
+</ul>
+<p>工具会把你的分支回退到那个确切的 commit。你会看到类似这样的输出：</p>
+<pre><code>Resetting to try-the-cli...
+✓ Reset to try-the-cli
+</code></pre>
+<p>你也可以直接传入检查点名，跳过选择器：</p>
+<pre><code>npm run reset try-the-cli
+</code></pre>
+<blockquote>
+</blockquote>
+<p><strong>⚠️ reset 是破坏性操作。</strong> 它会回退整个工作分支——不只是练习涉及的那几个文件。未提交的工作会全部丢失。在 reset <em>之前</em>，先把想保留的东西 commit 或 stash 起来。</p>
+<h3>用 cherry-pick 保留你自己的工作（Keep Your Own Work With Cherry-Pick）</h3>
+<ul>
+<li>在 <code>package.json</code> 里加一个脚本用来试验，比如：</li>
+</ul>
+<pre><code>&quot;foobar&quot;: &quot;echo &#39;foobar&#39;&quot;
+</code></pre>
+<ul>
+<li>通过 VS Code 的源代码管理面板（<strong>Ctrl+Shift+G</strong>）或终端提交这个改动</li>
+<li>运行 <code>npm run cherry-pick</code> 而不是 <code>reset</code></li>
+</ul>
+<pre><code>npm run cherry-pick
+</code></pre>
+<p>它显示的是同一个选择器，但不会回退你的分支，而是<strong>把检查点的 commit 应用到你现有工作的上面</strong>。你的 commit 会原封不动地留在下面。</p>
+<pre><code>Cherry-picking c4a46e5 onto current branch...
+✓ Successfully cherry-picked lesson try-the-cli
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>对你的工作的影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>npm run reset</code></td>
+<td>替换它——你的 commit 全部消失</td>
+</tr>
+<tr>
+<td><code>npm run cherry-pick</code></td>
+<td>在其上叠加——检查点落在你的工作之上</td>
+</tr>
+<tr>
+<td><code>npm run pull</code></td>
+<td>围绕它更新——拉取上游变更</td>
+</tr>
+</tbody></table>
+<blockquote>
+</blockquote>
+<p>如果你对 Git 和解决合并冲突不太熟，整门课就坚持用 <code>reset</code>。</p>
+<h3>拉取课程更新（Pull in Course Updates）</h3>
+<ul>
+<li>运行 <code>npm run pull</code>，拉取课程发布的所有更新</li>
+</ul>
+<pre><code>npm run pull
+</code></pre>
+<p>它会从上游仓库抓取变更并合入你的分支。它<strong>不会</strong> reset，也不会碰你的 commit。当 Discord 里公告了修复时，你主要会用到它。</p>
+<pre><code>Fetching main from upstream...
+Merging upstream/main into dev...
+✓ Successfully merged upstream/main into dev
+</code></pre>
+<h3>验证设置（Verify the Setup）</h3>
+<ul>
+<li>运行 <code>npm run reset</code>，选择 <code>try-the-cli</code>，确认 <code>package.json</code> 的 <code>description</code> 字段从 <code>&quot;An awesome horse platform&quot;</code> 变成了 <code>&quot;An awesome course platform&quot;</code></li>
+<li>再运行一次 <code>npm run reset</code>，选择 <code>main</code>，确认它变回 <code>&quot;An awesome horse platform&quot;</code></li>
+</ul>
+<p>如果你能看到这两个字符串来回切换，说明工具链工作正常。</p>
+<h1 id="lesson-6">数据库 Migrations（Database Migrations）</h1>
+<p>Commit 地图</p>
+<p>try-the-cli
+本课起点：已应用 CLI 检查的仓库，尚未做任何 schema 改动</p>
+<p>make-a-schema-change
+跟练检查点：<code>schema.ts</code> 中新增 <code>notes</code> 列，外加对应的 migration</p>
+<p>之所以有这一节，是因为很多上过这门课的同学都在这一点上栽过跟头。如果你已经熟悉数据库是什么、数据库与源代码的区别，可以跳过本节；但这些信息相当关键，值得深入讲一遍。</p>
+<h2>两个单元（The Two Units）</h2>
+<table>
+<thead>
+<tr>
+<th>单元</th>
+<th>它是什么</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>源代码（Source code）</strong></td>
+<td>你编辑的、用来改变应用行为的文件</td>
+<td><code>app/db/schema.ts</code>、<code>app/components/dev-ui.tsx</code></td>
+</tr>
+<tr>
+<td><strong>数据库（Database）</strong></td>
+<td>独立存放实际数据的地方</td>
+<td><code>data.db</code>（磁盘上的一个文件）</td>
+</tr>
+</tbody></table>
+<p>这个项目用的是 SQLite，所谓数据库其实就是磁盘上一个叫 <code>data.db</code> 的文件。而源代码，比如 <code>app/components/course-image.tsx</code> 和 <code>app/components/dev-ui.tsx</code>，是可读的文本，你可以修改它们来改变应用的行为。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014206/ai-hero-images/d8mrvllr88iovnn9vq9w.png" alt="文件树显示 data.db 位于仓库根目录，与源代码文件夹并列"></p>
+<p>文件树显示 data.db 位于仓库根目录，与源代码文件夹并列</p>
+<p>如果打开 <code>app/db/schema.ts</code> 看一眼，你会发现源代码实际上定义了数据库的形状——声明了表和它们的列。</p>
+<h2>数据库 Migrations 是如何工作的（How Database Migrations Work）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014207/ai-hero-images/bvwx7actgcpdbyxe5zkt.png" alt="示意图：source code 与 database 之间的方向性关系，migrations 是中间那一步"></p>
+<p>示意图：source code 与 database 之间的方向性关系，migrations 是中间那一步</p>
+<blockquote>
+</blockquote>
+<p><strong>关键洞察：</strong> 源代码定义了数据库应该长什么样，但在数据库跟上之前，你需要手动做点什么。</p>
+<p>这一步就是 <strong>database migration</strong>：手动更新数据库，让它与 schema 声明的样子保持一致。</p>
+<p>之所以要手动做，是因为传统上数据库里存着相当重要的信息：你的全部用户数据，神圣不可侵犯的东西。在真实应用中，你需要手动做 migration 来让两者同步。</p>
+<p>这意味着你的源代码和数据库必须一起管理版本：</p>
+<ul>
+<li>如果源代码变了，但数据库没有跟着 migrate，你很可能会收到报错。</li>
+<li>在这个项目里，<code>app/db/schema.ts</code> 是源代码，<code>data.db</code> 是数据库的实时状态。</li>
+<li>要做 migration，运行：</li>
+</ul>
+<pre><code>npm run db:migrate
+</code></pre>
+<h2>动手 Migration 实操（Hands-On Migration Walkthrough）</h2>
+<p>要看实际效果，打开 <code>app/db/schema.ts</code>，在一个新终端里运行 <code>npm run reset</code>。选择 <code>make-a-schema-change</code> 这节课的 commit（选择器里显示为 &quot;Make a Schema Change&quot;），重置当前分支。</p>
+<p>这个改动非常细微：它在 <code>schema.ts</code> 的 <code>courses</code> 表里加了一个 <code>notes</code> 列。</p>
+<pre><code>description: text(&quot;description&quot;).notNull(),
++ notes: text(&quot;notes&quot;),
+salesCopy: text(&quot;sales_copy&quot;),
+</code></pre>
+<p>它还在 <code>drizzle/</code> 文件夹里生成了一个新 migration 文件 <code>0003_lean_hex.sql</code>：</p>
+<pre><code>ALTER TABLE `courses` ADD `notes` text;
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014208/ai-hero-images/ryubvk7jelsvsy4nxfis.png" alt="drizzle/ 文件夹中的四个 migration SQL 文件"></p>
+<p>drizzle/ 文件夹中的四个 migration SQL 文件</p>
+<p><code>drizzle/</code> 文件夹基本上就是所有已应用数据库 migrations 的历史。从新到旧依次是：</p>
+<ul>
+<li><code>0003_lean_hex.sql</code>——给 <code>courses</code> 加 <code>notes</code> 列 <em>（刚加的）</em></li>
+<li><code>0002_lying_shriek.sql</code>——添加优惠券</li>
+<li><code>0001_cynical_sunspot.sql</code>——给 lessons 加 <code>github_repo_url</code></li>
+<li><code>0000_dizzy_fenris.sql</code>——初始 migration</li>
+</ul>
+<p>这些文件将由 agent 负责管理，并随着应用发展不断增多。你不必太直接操心它们。</p>
+<h2>排查 Schema 不匹配错误（Debugging the Schema Mismatch Error）</h2>
+<p>就算只是这么一点小改动，如果不 migrate 就运行开发服务器，也足以把事情搞坏。</p>
+<p>打开 <code>http://localhost:5175</code>，进入某个具体课程。首页看起来正常，但课程详情页报错了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014210/ai-hero-images/fjczpgcrhmkkpgp4ucsd.png" alt="浏览器中报错的课程详情页"></p>
+<p>浏览器中报错的课程详情页</p>
+<p>看终端，有一个 <code>SqliteError</code>：</p>
+<pre><code>no such column: notes
+</code></pre>
+<p>它来自 <code>getCourseBySlug</code> 函数。schema 文件已经改了，但 <code>data.db</code> 还没有更新到与之匹配。</p>
+<p>在重置源代码状态时，你会经常遇到这种情况。<strong><code>npm run reset</code> 只动源代码，它不会替你运行 <code>db:migrate</code>。</strong></p>
+<p>解决办法是另开一个终端，运行：</p>
+<pre><code>npm run db:migrate
+</code></pre>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014210/ai-hero-images/s5tl0ldib6t9qhpokjmq.png" alt="运行 npm run db:migrate 的终端"></p>
+<p>运行 npm run db:migrate 的终端</p>
+<p>跑完之后刷新页面，一切正常。<code>data.db</code> 和 schema 现在同步了。</p>
+<h2>搞坏并重置你的数据库（Breaking and Resetting Your Database）</h2>
+<p>还有一点值得说明：你随时可以把数据库搞坏，完全没关系。这<strong>不是</strong>生产数据。</p>
+<p>你在前面的设置环节运行过一个 seed 脚本来给数据库灌数据。它做的事情是：</p>
+<ol>
+<li>删掉所有表</li>
+<li>重建它们</li>
+<li>灌入一堆虚拟数据</li>
+</ol>
+<p>虚拟数据里包括管理员 Alex Rivera，以及讲师 Sarah Chen 和 Marcus Johnson 等用户。</p>
+<p>如果你在测试某些场景、需要特定的种子数据，agent 可能会想更新这个脚本。</p>
+<h2>要记住的流程（The Flow to Remember）</h2>
+<p>当 agent 修改了 <code>schema.ts</code>，你要么让 agent 自己去 migrate，要么手动 migrate。运行 <code>npm run reset</code> 之后尤其如此，因为 schema 很可能与数据库失去了同步。</p>
+<p>三个关键脚本的速查表：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>npm run db:generate</code></td>
+<td>根据改动后的 <code>schema.ts</code> 向 <code>drizzle/</code> 写入新的 migration 文件</td>
+</tr>
+<tr>
+<td><code>npm run db:migrate</code></td>
+<td>把待执行的 migration 文件应用到 <code>data.db</code></td>
+</tr>
+<tr>
+<td><code>npm run db:seed</code></td>
+<td>清空数据库并重新灌入虚拟数据</td>
+</tr>
+</tbody></table>
+<p>任何涉及 <code>schema.ts</code> 的 <code>npm run reset</code> 之后，一定要运行 <code>npm run db:migrate</code>。</p>
+<h1 id="lesson-7">重置为干净状态（Resetting to a Clean Slate）</h1>
+<p>上这门课的大多数人，都已经折腾过某种 agentic 配置。</p>
+<p>你可能试过：</p>
+<ul>
+<li>一些 MCP server</li>
+<li>调来调去的设置</li>
+<li>装了一大堆 skills</li>
+<li>插件</li>
+</ul>
+<p>这些多半意味着你<strong>把环境配置过度了</strong>。大多数人来上这门课时，配置都已经堆得太多。</p>
+<h2>删掉它（或者先备份）（Delete It (Or Back It Up)）</h2>
+<p>这里的建议很可能是<strong>全部删掉</strong>。其中很多东西你根本用不上。从小巧的起点开始工作是最好的。</p>
+<p>但如果你很珍惜这些配置、想留着它们，那一定要先备份。</p>
+<h2>让你的 agent 来做（Let Your Agent Do It）</h2>
+<p>推荐的做法是<strong>让你的 agent 来干这件事</strong>。你的 agent 应当是它自己配置方面的专家。</p>
+<p>用下面的 prompt，复制粘贴给你的 agent，让它把一切恢复到一张白纸的状态，同时备份好所有东西。</p>
+<pre><code>You are the expert on your own configuration. Reset me to a clean slate (the config a fresh install would have) with everything I have now preserved so you can restore it on request later.
+
+**1. Inventory.** Consult your own documentation for where your configuration lives, then find every piece of it that applies to me, both global (user-level) and local (this project). Cover settings files, instruction/memory files, MCP servers, skills, plugins/extensions, subagents, custom commands, hooks, and output styles. Report every path you find with a one-line description of what it does. Done when every location named in your docs has been checked and reported, including the ones that turned out to be empty.
+
+**2. Back it up.** Create `~/agent-config-backup-&lt;today&#39;s date&gt;/` and MOVE each item there, mirroring its original path inside the backup so the layout is self-describing. The backup is the only surviving copy, so verify each move landed before continuing.
+
+**3. Write the restore instructions.** Add `RESTORE.md` at the root of the backup listing every backed-up item, its original absolute path, and the exact commands to put it all back. Written well enough that a future agent with no memory of this conversation can restore everything from that file alone.
+
+**4. Verify.** Re-run the inventory from step 1. Report what remains and confirm each remaining item is a genuine default rather than something I configured.
+
+Keep me signed in - leave auth, credential, and session files exactly where they are. Keep this project&#39;s source code untouched; only configuration moves.
+
+Finish with a table of what was moved and the one-line command I can give you later to restore it.
+</code></pre>
+<p>这样你之后就可以提醒它从这份备份里恢复。这应该相当简单，因为这些配置大多基于文件——它会把所有东西存到一个单独的目录里，随时可以按需恢复原状。</p>
+<h2>运行时会发生什么（What Happens When You Run It）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014395/ai-hero-images/gnvt1xnkq3waicwbvawu.png" alt="Claude Code 终端运行重置 prompt"></p>
+<p>Claude Code 终端运行重置 prompt</p>
+<p>在 Claude Code 里，它会先查阅自己的文档，弄清配置都存在哪里，然后把所有东西盘点一遍。</p>
+<p>盘点完成后，它开始把你的配置备份到一个安全的地方。</p>
+<p>盘点表格大概是这个样子：</p>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>~/.claude/settings.json</code></td>
+<td>主设置：工具拒绝项、<code>defaultMode</code>、<code>effortLevel</code>、<code>tui</code>、自动记忆等</td>
+</tr>
+<tr>
+<td><code>~/.claude/settings.local.json</code></td>
+<td><code>WebFetch</code> 允许规则 + <code>WebSearch</code></td>
+</tr>
+<tr>
+<td><code>~/.claude/CLAUDE.md</code></td>
+<td>全局记忆文件</td>
+</tr>
+<tr>
+<td><code>~/.claude/skills/</code></td>
+<td>用户 skills（通常是符号链接）</td>
+</tr>
+<tr>
+<td><code>~/.claude/hooks/</code></td>
+<td>可执行的 hook 脚本</td>
+</tr>
+<tr>
+<td><code>~/.claude/plugins/</code></td>
+<td>已安装的插件</td>
+</tr>
+<tr>
+<td><code>~/.claude.json</code></td>
+<td>MCP server、各项目的权限/信任设置，外加认证 + 身份信息</td>
+</tr>
+</tbody></table>
+<p>它还会检查那些结果为空的位置，比如 <code>~/.claude/agents/</code>、<code>commands/</code>、<code>output-styles/</code> 和 <code>rules/</code>。</p>
+<h2>备份之后（After the Backup）</h2>
+<p>备份完成后，你的 agent 会给你一句简短的 prompt，之后可以用它恢复一切。大概像这样：</p>
+<pre><code>Restore my config from ~/agent-config-backup-&lt;date&gt;/RESTORE.md
+</code></pre>
+<h2>试试恢复（Trying the Restore）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014396/ai-hero-images/cye0fumy5jso6ho4smbz.png" alt="运行 /clear 之后的 Claude Code 终端，即将恢复配置"></p>
+<p>运行 /clear 之后的 Claude Code 终端，即将恢复配置</p>
+<p>要测试的话，先 clear 你的 agent session（如果你还不知道这是什么意思也别担心，后面会讲到），然后把那条恢复命令粘贴进去。你的 agent 会读取 <code>RESTORE.md</code>，把所有东西放回原位。</p>
+<h2>为什么要这么折腾？（Why Bother?）</h2>
+<p>如果你有一套下了苦功打磨出来的深度配置，你肯定不想丢掉它。但感受一下没有它的样子，也是值得的。</p>
+<p>跑一遍上面的 prompt，学完这门课，之后再精确挑选你想恢复哪些东西。</p>
+<p>这样做能保证课程内容不会和你的&quot;垃圾堆&quot;相互干扰。</p>
+<p>……抱歉，口误，不是垃圾堆。是你精心策划的奥运火炬。</p>
+<h1 id="lesson-8">安装 Request Logger（Installing The Request Logger）</h1>
+<p>agent 常常让人觉得像个黑盒。你输入一条消息，harness 向 model provider 发出一个请求，而你永远看不到里面装了什么——看不到 system prompt，看不到 tool 定义，什么都看不到。</p>
+<p>课程仓库自带一个 <strong>request logger</strong> 来解决这个问题。它是一个小型代理，架在你的 agent 和 model provider 之间，把一切原样透传，并把每个请求的可读副本写到磁盘上。</p>
+<h2>完成步骤（Steps To Complete）</h2>
+<h3>启动 Request Logger（Start The Request Logger）</h3>
+<ul>
+<li>在终端里，从仓库根目录启动 request logger：</li>
+</ul>
+<pre><code>npm run request-logger
+</code></pre>
+<p>第一次运行时，它会问你用的是哪个编码 agent。如果你的 agent 能用不止一个 model provider，它还会问是哪一个。然后它会问要不要记住你的答案，这样只需问一次。</p>
+<p>随后它会启动一个监听 <code>localhost:8787</code> 的本地 web server，并打印出针对你所选 agent 的精确启动命令。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014759/ai-hero-images/t5aykyifb0qwyqmrdjqa.png" alt="终端显示 request logger 正在监听 localhost:8787"></p>
+<p>终端显示 request logger 正在监听 localhost:8787</p>
+<ul>
+<li>在第二个终端里，复制粘贴 request logger 打印出来的命令并运行</li>
+</ul>
+<p>这条命令会启动你的 agent 并让它指向 logger。不要自己手写。logger 会为你的 agent 生成这条命令，打印出来的就是正确的。有些 agent 还需要一个小配置文件，logger 也会把它打印出来。</p>
+<p>这条命令会在启动时设置好一切，所以你的 agent 必须带着它启动。</p>
+<ul>
+<li>给 agent 发一条短消息，确认它像平常一样响应</li>
+</ul>
+<p>代理会把一切原样透传。你的 agent 用起来应该毫无区别。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014760/ai-hero-images/ioaevqmr7z5d5kr7ubbx.png" alt="request logger 运行期间 agent 正常响应"></p>
+<p>request logger 运行期间 agent 正常响应</p>
+<h3>浏览日志文件（Explore The Log Files）</h3>
+<ul>
+<li>打开 <code>request-logger/logs/</code> 文件夹</li>
+</ul>
+<p>发送一条消息后，你会看到带时间戳的文件出现。每个时间戳都是 UTC 时间。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014760/ai-hero-images/zqzsalw3zkmr9ao3gkng.png" alt="request-logger/logs 文件夹中的带时间戳日志文件"></p>
+<p>request-logger/logs 文件夹中的带时间戳日志文件</p>
+<ul>
+<li>打开最新的 <code>.md</code> 文件——这是可读渲染版，从这里看起</li>
+</ul>
+<p>每个请求对应的三种文件类型：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.md</code></td>
+<td>可读渲染版——从这里看起</td>
+</tr>
+<tr>
+<td><code>.request.txt</code></td>
+<td>逐字节的请求体原文</td>
+</tr>
+<tr>
+<td><code>.response.txt</code></td>
+<td>原始响应流</td>
+</tr>
+</tbody></table>
+<ul>
+<li>注意，你发的每条消息可能对应不止一条日志记录</li>
+</ul>
+<p>Claude Code 会在启动时发一个配额探测——一个刻意为之的单 token 请求，用来检查订阅额度余量。这个探测会作为一条独立的日志记录落地（通常是一个 429 错误），与真正的 turn 分开。所以一条消息出现两条记录是正常现象，不是重试。</p>
+<h3>浏览可读渲染版（Navigate The Readable Render）</h3>
+<ul>
+<li>熟悉一下 <code>.md</code> 文件的 XML 标签结构</li>
+</ul>
+<p>这个文件用 XML 标签而不是 Markdown 标题来划分区块，因为捕获的内容本身就满是 Markdown 标题。各区块如下：</p>
+<pre><code>&lt;meta&gt; - timestamp, model, endpoint, status
+&lt;headers&gt; - request headers (authorization is redacted)
+&lt;request&gt;
+&lt;params&gt; - max_tokens, stream, thinking settings
+&lt;/params&gt;
+&lt;system-prompt&gt;
+&lt;/system-prompt&gt;
+&lt;tools&gt;
+&lt;/tools&gt;
+&lt;messages&gt;
+&lt;/messages&gt;
+&lt;/request&gt;
+&lt;response&gt; - stop reason and token usage
+&lt;/response&gt;
+</code></pre>
+<ul>
+<li>滚动浏览 <code>&lt;tools&gt;</code> 区块，注意它相对于文件其余部分有多大</li>
+</ul>
+<p>工具 schema 是 JSON，占了文件的大头。对于一个像 <code>Hello!</code> 这样只有一个词的 prompt，光这一块就可能超过 1,000 行，而整份文件大约 1,300 行。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1786014761/ai-hero-images/abvgx5bs47gxuq2btcip.png" alt="打开的可读 .md 日志文件，显示庞大的 tools 区块"></p>
+<p>打开的可读 .md 日志文件，显示庞大的 tools 区块</p>
+<ul>
+<li>找到 <code>&lt;system-prompt&gt;</code> 区块，读一读里面的内容</li>
+</ul>
+<p>这是你的 agent 在你还没输入任何内容之前就附加到每个请求开头的一份常设简报，内容包括你的工作目录、平台以及 session 使用指引之类。</p>
+<ul>
+<li>找到 <code>&lt;messages&gt;</code> 区块，在里面定位你真正的消息</li>
+</ul>
+<p>你还会看到在你的消息之前注入了一个 system-reminder turn，带着当前日期之类的 context。它是一条消息，不属于 system prompt 的一部分——只有靠 logger 你才能看到它。</p>
+<ul>
+<li>查看 <code>&lt;response&gt;</code> 区块里的 token 用量数字</li>
+</ul>
+<p>哪怕只是一句 <code>Hello!</code>，也可能导致数以万计的 cache token 被读取。完整的 system prompt 和 tool 定义每一轮都会发送。</p>
+<p>现在你可以把 request logger 关掉了。课程后面再需要它的时候，我会特别提醒。</p>
+</main></div><script>
+  (function(){
+    var links=document.querySelectorAll('aside.toc a');
+    var map={};
+    links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+    var hs=document.querySelectorAll('main h1[id]');
+    if(!('IntersectionObserver' in window)||!hs.length)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active')});
+          var a=map[e.target.id];
+          if(a){a.classList.add('active');
+            if(a.scrollIntoViewIfNeeded)a.scrollIntoViewIfNeeded(false);
+          }
+        }
+      });
+    },{rootMargin:'0px 0px -70% 0px'});
+    hs.forEach(function(h){io.observe(h)});
+  })();
+</script></body></html>

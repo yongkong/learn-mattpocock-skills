@@ -1,0 +1,1241 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>核心概念 · Concepts · AI Coding Crash Course 中文版</title><style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;line-height:1.9;color:#1f2937;background:#fafafa}
+  .wrap{display:flex;gap:40px;max-width:1240px;margin:0 auto;padding:40px 24px 96px}
+  aside.toc{width:264px;flex-shrink:0;position:sticky;top:0;align-self:flex-start;max-height:calc(100vh - 48px);overflow-y:auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1rem 1.25rem}
+  aside.toc>p{margin:0 0 .5rem;font-weight:700;font-size:.95rem}
+  aside.toc a{display:block;color:#4b5563;text-decoration:none;padding:.3rem .5rem;border-radius:6px;font-size:.92rem;line-height:1.5}
+  aside.toc a:hover{color:#b45309;background:#fffbeb}
+  aside.toc a.active{color:#b45309;background:#fffbeb;font-weight:600}
+  main{flex:1;min-width:0;max-width:800px}
+  @media (max-width:960px){.wrap{flex-direction:column;gap:24px}aside.toc{position:static;width:auto;max-height:240px}}
+  h1{font-size:1.9rem;line-height:1.35;padding-bottom:.6rem;margin:3rem 0 1.5rem;scroll-margin-top:16px}
+  h1::after{content:'';display:block;width:96px;height:3px;margin-top:.6rem;border-radius:2px;background:linear-gradient(90deg,#f59e0b,#8b5cf6)}
+  h1:first-child{margin-top:0}
+  h2{font-size:1.35rem;margin:2.5rem 0 1rem}
+  h3{font-size:1.12rem;color:#6d28d9;margin:2rem 0 .8rem}
+  p{margin:0 0 1rem}
+  a{color:#b45309;text-decoration:none;border-bottom:1px solid rgba(180,83,9,.25)}
+  a:hover{border-bottom-color:#b45309}
+  strong{color:#111827;font-weight:700}
+  img{max-width:100%;border-radius:10px;border:1px solid #e5e7eb;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.08);margin:1.25rem 0}
+  code{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.875em;background:rgba(180,83,9,.09);color:#9a3412;padding:.15em .4em;border-radius:4px}
+  pre{background:#0d1117;border:1px solid #30363d;border-left:4px solid #8b5cf6;border-radius:0 8px 8px 0;padding:1.1rem 1.25rem;overflow-x:auto;margin:1rem 0 1.25rem;font-size:.875rem;line-height:1.6}
+  pre code{background:none;padding:0;color:#c9d1d9}
+  blockquote{border-left:4px solid #8b5cf6;background:#f5f3ff;border-radius:0 8px 8px 0;padding:.75rem 1.25rem;margin:1rem 0 1.25rem;font-size:.95rem;color:#374151}
+  table{border-collapse:collapse;margin:1rem 0 1.25rem;width:100%;font-size:.92em}
+  thead tr{background:#f3f4f6}
+  th,td{border:1px solid #e5e7eb;padding:.55rem .9rem;text-align:left;vertical-align:top}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.02)}
+  hr{border:none;border-top:1px solid #e5e7eb;margin:3rem 0}
+  ul li::marker{color:#d97706}
+  .quiz-block{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0 1.5rem;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+  .quiz-block-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6d28d9;margin:0 0 1rem}
+  .quiz-q-text{font-weight:600;color:#111827;margin:1.4rem 0 .75rem;padding-top:1rem;border-top:1px dashed #e5e7eb}
+  .quiz-choices{list-style:none;padding:0;margin:0 0 .75rem}
+  .quiz-choices li{padding:.4rem .6rem;margin-bottom:.3rem;border-radius:6px;font-size:.95em;color:#4b5563;border:1px solid transparent}
+  .quiz-choices li.correct{background:#ecfdf5;border-color:#6ee7b7;color:#047857;font-weight:600}
+  .quiz-choices li.correct::before{content:'✓ ';font-weight:700}
+  .quiz-answer-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b45309;margin:1rem 0 .35rem}
+  .quiz-answer{font-size:.92em;color:#4b5563;background:#f3f4f6;border-radius:8px;padding:.75rem 1rem;line-height:1.7}
+</style></head><body><div class="wrap"><aside class="toc"><p>本篇目录</p><a href="#lesson-1">Model、Harness、Agent 与 Environment（Models, Harnesses, Agents, Environments）</a></aside><main><h1 id="lesson-1">Model、Harness、Agent 与 Environment（Models, Harnesses, Agents, Environments）</h1>
+<p>要用好 AI agent，头一件必须搞懂的事就是：agent 究竟是什么、它由哪些部件组成、这些部件彼此之间是什么关系。</p>
+<p>需要理解四个关键要素：</p>
+<ul>
+<li><strong>Environment（环境）</strong>——agent 所交互的外部世界</li>
+<li><strong>Model（模型）</strong>——负责思考的引擎</li>
+<li><strong>Agent（智能体）</strong>——套上 harness、放进 environment 里的 model</li>
+<li><strong>Harness（挽具）</strong>——把 model 连接到 environment 的东西</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783682671/ai-hero-images/zc6ciwnbhrbifp4mrxsy.png" alt="图示：environment、model、agent 与 harness 四个组件"></p>
+<p>图示：environment、model、agent 与 harness 四个组件</p>
+<h2>Model：思考引擎（The Model: The Thinking Engine）</h2>
+<p>Model 就是汽车里的发动机，是整套系统内部负责思考的大脑。</p>
+<p>一些 model 的例子：</p>
+<ul>
+<li>Claude Opus</li>
+<li>Claude Sonnet</li>
+<li>GPT 5.5</li>
+<li>Grok</li>
+</ul>
+<p>这些 model 通常跑在某个远程服务器上，你向它们发请求是要付费的。</p>
+<p>单独的 model 其实做不了什么：你给它一段文本，它还你一段文本。要让它真正在现实世界里派上用场，就得在它外面包一层 harness。</p>
+<h2>Harness：把 Model 连接到世界（The Harness: Connecting Model to World）</h2>
+<p>Harness 负责把 model（那个只会产出文本的 stateless（无状态）东西）连接到外部世界，而外部世界就由 environment 来代表。</p>
+<p>Harness 与它所处的 environment 绑定在一起，就是围绕那个 environment 设计出来的。</p>
+<p>举几个例子：</p>
+<ul>
+<li><strong>代码编辑器和 IDE</strong> 的 environment 是文件系统（filesystem）。它们通过 tool call（工具调用）与文件系统交互：保存文件、编辑文件、搜索网页。</li>
+<li><strong>聊天界面</strong>，比如 ChatGPT 或 Claude.ai，则有自己的 environment。在 Claude.ai 里，你可以保存文档、搜索网页——这是一个与文件系统略有不同的虚拟环境。</li>
+</ul>
+<h2>定义 Agent（Defining an Agent）</h2>
+<p><strong>Agent 就是套上 harness、放进 environment 里的 model</strong>。</p>
+<p>Agent 并不是一个独立存在的东西，它只是「harness 加 model 合在一起」的称呼。当我们说 Claude Opus 跑在 IDE 里、作用于文件系统时，那就是一个 agent——同时也是「一层 harness 包着一个 model」。</p>
+<p>下面是几个具体的 agent 例子：</p>
+<ul>
+<li><strong>跑在 IDE 里的 Opus</strong>，作用于文件系统</li>
+<li><strong>Grok（model）</strong> 跑在 Pi（harness）上，作用于文件系统（environment）</li>
+<li><strong>GPT 5.5</strong> 跑在 ChatGPT 上，处于 ChatGPT 的 environment 中，可以创建文档、搜索网页、连接 MCP 服务器</li>
+</ul>
+<h2>模糊的边界（The Blurry Lines）</h2>
+<p>和所有类比一样，这个类比也不完美：harness 和 environment 之间的界限有点模糊。</p>
+<p>举个例子：一个 NPM 脚本算 harness 的一部分吗？它是 harness 能调用的东西，还是 environment 里的东西？它属于 environment，但也有人会说它属于 harness。两者之间确实有一点互相渗透。</p>
+<h2>超越 Model 本身去提升表现（Improving Performance Beyond Just the Model）</h2>
+<p>人们对 model 有点疯狂崇拜：人人都想换上最新最强的 model，指望一切瞬间变得完美。</p>
+<p>但 model 只是更大生态系统中的一环，它不过是汽车的发动机而已。</p>
+<p>想让你的 agent 表现更好，能做的不只是换 model。你可以从这些方面入手：</p>
+<ul>
+<li>改进 harness</li>
+<li>改进 harness 和 model 运作所处的 environment</li>
+</ul>
+<p>训练一个新 model 的成本高得离谱，绝大多数人和公司都负担不起。所以你真正该下功夫的地方，是改进 harness、改进 agent 所工作的 environment。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">agent 是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">套上 harness、放进 environment 里的 model</li>
+<li>在你自己的代码库上训练出来的 model</li>
+<li>用脚本包起来的一串 tool call</li>
+<li>能搜索网页的聊天界面</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">Agent 并不是独立的东西——它只是「harness 加 model」的合称。单独的 model 只能把文本变成文本，所以光有 model 不算 agent。Tool call 是 harness 伸向 environment 的手段，不是 agent 本身。而聊天界面只是「harness + environment」的一个例子，不是定义。</p>
+<p class="quiz-q-text">你的 agent 在你的项目里总是表现不佳。最大的改进抓手在哪里？</p>
+<ul class="quiz-choices">
+<li class="correct">改进 harness 和它工作的 environment</li>
+<li>换上你能找到的最新最强 model</li>
+<li>用你们团队写过的代码训练一个新 model</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">Model 只是更大生态系统中的一环——汽车的发动机。换 model 是所有人的第一反应，但另外两个部分原封不动。训练新 model 贵得离谱，绝大多数人和公司玩不起。剩下的就是 harness 和 environment——这才是你真正该使劲的地方。</p></div>
+# 非确定性（Non-Determinism）<p>Model 只是 agent 的一部分，此外还有 harness 和 environment。理解这些部件如何协同工作，是左右 AI coding agent 结果的关键。</p>
+<p>我们先把焦点放在 model 本身上，因为理解了它，就能抓住这一切运作的核心。</p>
+<h2>下一 Token 预测（Next Token Prediction）</h2>
+<p>关于 model，最需要理解的一点是：它在做 next token prediction（下一 token 预测）。无论你怎么尝试改变它、操纵它，它始终是 non-deterministic（非确定性）的。</p>
+<h3>Token 预测是如何工作的（How Token Prediction Works）</h3>
+<p>Model 的工作方式是接收一串 token 作为输入。可以把它想成补全一个句子：</p>
+<p>my space favorite space color space is space</p>
+<p>这些都是下一个 token 的候选。Model 必须猜接下来是什么。</p>
+<p>关键在于：model 是在让自己挑选下一个 token。一组候选早已存放在它的训练权重里。</p>
+<p>Model 会扫过所有可能的 token，找出最可能的候选，然后给每个候选分配一个概率。</p>
+<table>
+<thead>
+<tr>
+<th>候选</th>
+<th>概率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>red</td>
+<td>32%</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>28%</td>
+</tr>
+<tr>
+<td>orange</td>
+<td>14%</td>
+</tr>
+</tbody></table>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783688617/ai-hero-images/wwkmhs2fabb9t9stguwy.png" alt="token 候选及其概率分布的可视化"></p>
+<p>token 候选及其概率分布的可视化</p>
+<h3>采样过程（The Sampling Process）</h3>
+<p>到这一步，预测结果进入采样器（sampler）。采样器对每个候选取样，本质上就是挑出一个来。</p>
+<p>你可能会想：「为什么不每次都直接挑概率最高的那个？」这样才最合理，不是吗？</p>
+<p>大语言模型有意思的地方就在于：它有时挑概率最高的，有时挑概率较低的，有时甚至会挑一个概率相当低的选项。</p>
+<p>这是因为采样器通常被调校成随机或偏随机的，一种「加权随机」。采样算法有很多种，多数是非确定性的，也有少数是确定性的。但绝大多数 agent 选择了 non-determinism。</p>
+<h2>Temperature 控制（Temperature Control）</h2>
+<p>还有一个叫 <code>temperature</code> 的概念，可以传给大多数采样器。大多数 model 都接受 temperature 设置。</p>
+<ul>
+<li><strong>高 temperature</strong>：model 的选择更随机</li>
+<li><strong>低 temperature</strong>：model 的选择没那么随机，总会挑概率最高的那个</li>
+</ul>
+<p>所以你的问题很可能是：「那我为什么不干脆把 temperature 设成 0？」写代码嘛，总该有一个最优的正确答案，理应能让 model 每次都选中它才对。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783688618/ai-hero-images/qvqdrxuc2y6mfvc9aonp.png" alt="temperature 刻度图：temperature、多样性与输出质量之间的关系"></p>
+<p>temperature 刻度图：temperature、多样性与输出质量之间的关系</p>
+<h2>似然陷阱（The Likelihood Trap）</h2>
+<p>这其实是语言建模领域一个众所周知的陷阱，叫做 <strong>likelihood trap（似然陷阱）</strong>，出自一篇名为 &quot;Trading Off Diversity and Quality in Natural Language Generation&quot; 的论文。</p>
+<p>研究显示了这样的结果：</p>
+<p>当你降低 temperature、去掉输出的多样性，让 model 总是选同一个东西时，质量反而会下降。</p>
+<p>论文的数据里能看到这一点：temperature 起初升高时，质量变得更好，到达一个峰值；而继续朝更低温的方向调整时，响应质量又开始变差。</p>
+<p>这个刻度基于人类评判。人类确实认为这些高度确定性的响应更差。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783688619/ai-hero-images/vhmbguji3w6cj42arlf9.png" alt="likelihood trap 图表：质量在中等 temperature 处达到峰值，而非零点"></p>
+<p>likelihood trap 图表：质量在中等 temperature 处达到峰值，而非零点</p>
+<h2>Non-Determinism 是一种特性（Non-Determinism Is a Feature）</h2>
+<p>这意味着 non-determinism 是个特性，不是 bug。</p>
+<p>如果你让 agent 每次都选概率最高的候选，就会掉进 likelihood trap，响应质量会变差。</p>
+<p>顺带一提：就算你真的把 temperature 调到 0，由于 model 的工作方式（大规模并行计算，而计算顺序会影响结果），哪怕在同一个 GPU 上跑同一个 model，每次返回的响应也会不同。非常诡异。</p>
+<p>也就是说，non-determinism 是烤进这块饼里的，我们甩不掉它。</p>
+<h2>这对 AI Coding 意味着什么（What This Means for AI Coding）</h2>
+<p>你观察练习执行时会发现，你的 agent 很可能每次做的事都不一样。这种差异和方差，我们需要习惯它，并越来越擅长应对它。</p>
+<p>Non-determinism 也会一路传导到权限（permissions）上。agent 总有非零的概率做出非常怪异、非常糟糕的事，哪怕它非常聪明。</p>
+<p>时刻记住：<strong>non-determinism 是与生俱来的，你无法移除它。</strong> 你可以让系统运行得更可靠，但在最底层，永远有这台非确定性的发动机。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你希望 coding agent 每次都给出同样好的答案，于是把 temperature 设成了 0。你实际得到的是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">质量更低的输出：这正是 likelihood trap</li>
+<li>每次运行都拿到它所能给出的最高质量答案</li>
+<li>每次运行都得到一模一样的响应</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">likelihood trap 背后的研究表明：质量在中等 temperature 处达到峰值，随着多样性被继续削减而再度下滑，所以 0 并不是人们以为的「质量档位」。一模一样的输出也得不到：model 大规模并行计算且计算顺序会影响结果，所以同一个 model 在同一个 GPU 上，temperature 为 0 时每次返回的响应依然不同。</p>
+<p class="quiz-q-text">你的 agent 用着非常强的 model，整个星期都表现良好。这应该如何改变你对它权限的看法？</p>
+<ul class="quiz-choices">
+<li class="correct">完全不该改变：聪明的 agent 依然可能干坏事</li>
+<li>放宽权限，因为聪明的 model 已经赢得了信任</li>
+<li>放宽权限，但前提是先把 temperature 设成 0</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">Non-determinism 会一路传导到权限上：agent 总有非零的概率做出非常怪异、非常糟糕的事，哪怕它非常聪明。一个好星期的表现只是一个样本，不是保证，聪明在这里换不来信任。temperature 设 0 也补不上这个缺口，因为 non-determinism 是与生俱来、无法移除的。</p></div>
+# Turn 与 Model Provider Request（Turns And Model Provider Requests）<p>很多 AI 加持的开发者缺的是一种描述能力：说清楚与 agent 的一次真实 turn（轮次）到底长什么样。</p>
+<p>通常跑在本地的 harness，是怎么和通常待在云端的 model 通信的？理解这一点，对你后面要做的优化和思考至关重要。</p>
+<h2>配置 Request Logger（Setting Up the Request Logger）</h2>
+<p>要理解这种通信，你要用上 request logger。运行：</p>
+<pre><code>npm run request-logger
+</code></pre>
+<p>它会问你用的是哪个 coding agent，如果这个 agent 能接多个 model provider，还会问你用的是哪家。它可以记住你的答案，所以只需要问一次。然后它会打印出通过 logger 启动该 agent 的确切命令。</p>
+<p>把这条命令复制粘贴到一个新终端里运行。现在，你的 agent 不再指向 model provider 的服务器，而是指向你本地的 request logger。</p>
+<p>接着，打开侧边栏，进入 <code>./request-logger/logs</code> 目录。目前它应该是空的，只有一个 <code>.gitkeep</code> 文件。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783947825/ai-hero-images/qgmdzjbancwqaoragjph.png" alt="文件管理器：只含 .gitkeep 的空 logs 目录"></p>
+<p>文件管理器：只含 .gitkeep 的空 logs 目录</p>
+<h2>见证你的第一个 Model Provider Request（Seeing Your First Model Provider Request）</h2>
+<p>跟 agent 打个招呼。它会回应一句类似 &quot;hello, what would you like to work on today?&quot; 的话。</p>
+<p>现在刷新 logs 目录，出现了一个新文件，记录的是发往 Anthropic API 上 <code>v1/messages</code> 的请求。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783947828/ai-hero-images/f0xhekvfvrpabxjhizvn.png" alt="请求日志：带 XML 标签与元数据的 model provider request"></p>
+<p>请求日志：带 XML 标签与元数据的 model provider request</p>
+<h2>请求的内部构造（Inside the Request）</h2>
+<p>这个文件包含了发给 model 和从 model 收到的一切。各种 XML 标签标明了请求里的内容。</p>
+<p>顶部是元信息和请求头。往下大约第 50 行，你会看到 system prompt，即发给 agent 的所有文本。</p>
+<p>继续往下滚动，找到你说 hello 的地方，再找到 agent 的响应。在最底部，你会看到：</p>
+<pre><code>Hello, what would you like to work on today?
+</code></pre>
+<p>这整个巨大的请求，加上你收回的那一小条响应——这就是一个 <strong>model provider request（模型供应商请求）</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Model Provider Request</td>
+<td>发给 model 的一个请求，加返回的一个响应</td>
+</tr>
+<tr>
+<td>Model Provider（模型供应商）</td>
+<td>处理请求的服务（Anthropic、Ollama 等）</td>
+</tr>
+</tbody></table>
+<h2>追踪对话（Following the Conversation）</h2>
+<p>回到 agent，再问一句：</p>
+<pre><code>tell me my hair looks nice
+</code></pre>
+<p>agent 回应一句类似 &quot;your hair looks nice&quot; 的话，同时 logs 里又多了一条 model provider request。</p>
+<h3>多个隐藏的请求（Multiple Hidden Requests）</h3>
+<p>刷新 logs 目录。你会注意到新请求其实有好几条，不止一条。agent 不只是回复你的消息——它还在幕后干别的活。</p>
+<p>要分清哪条请求是干什么的，点开一条滚到底部，你会看到一个标题，说明这条请求的用途，比如「关于头发的夸赞请求」。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783947829/ai-hero-images/f1g0knzkhogbfkyec5z5.png" alt="请求日志：多条带描述性标题的请求"></p>
+<p>请求日志：多条带描述性标题的请求</p>
+<h3>建议请求（Suggestion Requests）</h3>
+<p>另一些请求的标题可能是「现在开始处理 proxy.ts」。这些请求运行在 <code>SuggestionMode</code> 下——它们生成的是你接下来可能会自然输入给 agent 的内容。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783947830/ai-hero-images/qmmjsbz1bzhwojn19xls.png" alt="请求日志：SuggestionMode 生成下一条输入建议"></p>
+<p>请求日志：SuggestionMode 生成下一条输入建议</p>
+<p>界面里任何看起来像 AI 生成的东西，背后都是一次 model provider request 的产物。连建议都是 model 给的。</p>
+<h2>完整的对话历史（The Full Conversation History）</h2>
+<p>翻看日志时你会注意到一件重要的事：每次你向 agent 发请求，你的整段对话历史都会随请求一起被传过去。</p>
+<p>请求里包括：</p>
+<ul>
+<li>你之前发的消息</li>
+<li>agent 之前的响应</li>
+<li>到目前为止积累的全部 context</li>
+</ul>
+<p>随着对话增长，这个文件会越来越长。</p>
+<h2>触发 Tool Use（Triggering Tool Use）</h2>
+<p>现在让 agent 干点更复杂的事：</p>
+<pre><code>I would like you to write a file containing a list of compliments to me in a markdown file in the repository root.
+</code></pre>
+<p>查看日志——现在有好几条请求了。第一条的时间戳正是你发消息的时刻。</p>
+<p>在文件里找到你发请求的位置。agent 处理它，然后发生了不一样的事：它没有直接用文本回应，而是出现了一个 tool use 部分。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783947831/ai-hero-images/yki1pp9tz2zck5qzztvh.png" alt="请求日志：带 file_path 与 content 参数的 JSON tool use"></p>
+<p>请求日志：带 file_path 与 content 参数的 JSON tool use</p>
+<p>model 传出的不是纯文本，而是一个 <code>file_path</code> 和一个 <code>content</code>。</p>
+<h2>什么是 Tool？（What Is a Tool?）</h2>
+<p><strong>Tool（工具）</strong> 是 harness 提供给 model、让它能与 environment 交互的东西。这里是一个 <code>write</code> tool，它接受：</p>
+<ul>
+<li>一个 <code>file_path</code> 参数</li>
+<li>一个 <code>content</code> 参数</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783947832/ai-hero-images/vslqcuzrx9fva1ifmeff.png" alt="请求日志：带 JSON schema 的 write tool 定义"></p>
+<p>请求日志：带 JSON schema 的 write tool 定义</p>
+<p>再往请求前面翻，你会看到这个 tool 定义的地方。它传入了 JSON schema，告诉 model 该怎么调用它。</p>
+<h2>Tool Call 的响应（The Tool Call Response）</h2>
+<p>在这单独一次 model provider request 里，harness 发送了：</p>
+<ol>
+<li>关于如何调用 tool 的说明</li>
+<li>你要写文件的请求</li>
+</ol>
+<p>model 回应：「好，就用这个 tool。」</p>
+<p>然后，这个 tool use 部分由 harness 来解释并执行。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783947833/ai-hero-images/m1gpmctcb3kgyjds8kbx.png" alt="请求日志：tool result 显示文件创建成功"></p>
+<p>请求日志：tool result 显示文件创建成功</p>
+<p>看下一条请求，你会看到一条 tool result 消息。harness 随后在另一次请求里把这个结果发回给 model，并收到新的响应：</p>
+<pre><code>Done, I created compliments.md in the repo root.
+</code></pre>
+<h2>定义 Turn（Defining a Turn）</h2>
+<p>这整个流程就叫一个 <strong>turn</strong>。</p>
+<p>这两次 model provider request 都发生在同一个 turn 里：</p>
+<ol>
+<li>第一次请求：你发出消息，收到了调用 tool 的指令</li>
+<li>第二次请求：tool result 被发过去，收回一条消息</li>
+</ol>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783947902/ai-hero-images/roquqmwc6036brvvbnlo.png" alt="图示：包含多次 model provider request 的完整 turn"></p>
+<p>图示：包含多次 model provider request 的完整 turn</p>
+<p>单个 turn 可以持续数小时，包含几百次 model provider request。</p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Model Provider Request</td>
+<td>与 model 的一次往返（请求 + 响应）</td>
+</tr>
+<tr>
+<td>Tool Call</td>
+<td>model 发出的「要用某个 tool」的指令（不是执行本身）</td>
+</tr>
+<tr>
+<td>Tool Result</td>
+<td>执行该 tool 得到的输出</td>
+</tr>
+<tr>
+<td>Turn</td>
+<td>从用户消息到 agent 响应的完整循环，包括所有 tool call 和 tool result</td>
+</tr>
+</tbody></table>
+<p>这就是驱动一切的发动机。</p>
+<h2>下一步（Next Steps）</h2>
+<p>继续和你的 agent 对话，观察日志里请求不断累积。多玩一玩，看看你能发现什么。model provider request、turn、tool call、tool result 这套语言，现在应该能帮你理解 agent 是如何工作的了。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你让 agent 写一个文件。它调用了 write tool，拿到结果，然后告诉你完成了。这个流程怎么拆解？</p>
+<ul class="quiz-choices">
+<li class="correct">两次 model provider request，发生在同一个 turn 内</li>
+<li>两个 turn，每次 model provider request 算一个</li>
+<li>一次 model provider request，构成一个 turn</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">一次 model provider request 就是一个往返：请求出去，响应回来。写文件用了两次——一次是 model 请求调用 tool，一次是带着 tool result 过去。Turn 是从你的消息到 agent 回复的整个循环，所以这两次请求都在同一个 turn 里。一个 turn 可以持续数小时、装下几百次请求，所以「每次请求算一个 turn」恰恰搞反了。</p>
+<p class="quiz-q-text">model 的响应里有一个带 file_path 和 content 的 tool use 块。真正把这个文件写到磁盘上的是谁？</p>
+<ul class="quiz-choices">
+<li class="correct">harness 解释这个 tool use 并执行它</li>
+<li>model 在响应中顺手把文件写了</li>
+<li>model provider 在自己的服务器上运行这个 tool</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">Tool call 是 model 发出的「要用某个 tool」的指令，不是执行本身。Model 只产出文本，碰不了文件系统；model provider 只是处理请求的服务。真正在本地运行、能触及 environment 的是 harness，所以由它执行 tool，并在下一次请求里把结果发回去。</p>
+<p class="quiz-q-text">在一场对话里，harness 每次发起新的 model provider request 时，发给 model 的是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">每次都是到目前为止的整段对话历史</li>
+<li>只有你最新的消息，因为 model 记得其余部分</li>
+<li>session 前面说过内容的一份简短摘要</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">日志显示同一个文件越来越长：你之前发的消息、agent 之前的响应、以及到当前为止积累的全部 context，每次请求都会跟着一起发出去。只发最新消息的前提是 model 记得前面的内容，而它并不记得。请求里也没有任何东西被摘要——历史是原封不动全量传过去的。</p></div>
+# Session 与 Context（Sessions And The Context）<p>回看上一课的 request logs，我们需要引入一个关键术语：agent 的 context（上下文）。</p>
+<p>所有这些文本——关于如何使用 Git 的说明、参数、范围（scope）、各种各样的 tool call——就是我们所说的 agent 的 context。它是 agent 能接触到的全部可用信息。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783949674/ai-hero-images/xwy8khw7l0ovbyhc997s.png" alt="请求日志：Git 指令、参数、scope 与 tool call"></p>
+<p>请求日志：Git 指令、参数、scope 与 tool call</p>
+<p>这些文本会被切分成 token，然后 agent 在此基础上做 next token prediction。在这一切 context 之后，agent 做的不过是生成一小段文本作为回应。</p>
+<h2>Context Window 的上限（Context Window Limits）</h2>
+<p>你大概也知道，任何 model 能接收的 context 都有一个上限。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783949675/ai-hero-images/ggnfzfhryjcu6xifnrxy.png" alt="Arena.ai 排行榜：各 LLM 的 context window 规格"></p>
+<p>Arena.ai 排行榜：各 LLM 的 context window 规格</p>
+<p>我们来看一个 LLM 排行榜。可以看到右侧列出了分数、每百万 token 的价格和 context window：</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context Window</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GPT 5.6 Sol</td>
+<td>1.1 million tokens</td>
+</tr>
+<tr>
+<td>Gemini 3 Pro</td>
+<td>1 million tokens</td>
+</tr>
+<tr>
+<td>GPT 5.2 Chat Latest</td>
+<td>128k tokens</td>
+</tr>
+</tbody></table>
+<p>这个 context window 是个相当随意的数字，由开发者根据他们认为自家 model 和基础设施能承受多少 context 来定。</p>
+<p>如果你在单次请求里发给 model provider 太多 token，请求会失败，不会产出任何 output tokens。</p>
+<h2>管理 Context 与成本（Managing Context and Costs）</h2>
+<p>管理 context 里的文本，真的、真的非常重要。</p>
+<p>每次你向 model provider 发请求，这些文本都会被计费。你必须确保：</p>
+<ul>
+<li>发出去的东西值得发</li>
+<li>发出去的东西与手头任务相关</li>
+</ul>
+<p>如果你给 model 塞一大堆文本，它们会像人类一样被搞糊涂、被分散注意力。</p>
+<h2>System Prompt 与 Harness（System Prompts and Harnesses）</h2>
+<p>只要你在用 harness（某种 agentic 框架或封装），context window 就永远不会从零开始。</p>
+<p>Harness 包裹着 agent，从一开始就给它定制好的指令：</p>
+<ul>
+<li>告诉 agent 有哪些 tools 可用</li>
+<li>给出 agent 应该做什么的高层指示</li>
+<li>指定 agent 应该扮演什么角色</li>
+</ul>
+<p>这通常被称为 system prompt。下面是一个例子：</p>
+<pre><code>You are Claude Code, Anthropic&#39;s official CLI for Claude.
+
+&lt;!-- cache_control breakpoint --&gt;
+
+You are an interactive agent that helps users with software engineering tasks.
+
+IMPORTANT: Assist with authorized security testing, defensive security, CTF challenges, and educational contexts. Refuse requests for destructive techniques, DoS attacks, mass targeting, supply chain compromise, or detection evasion for malicious purposes. Dual-use security tools (C2 frameworks, credential testing, exploit development) require clear authorization context: pentesting engagements, CTF competitions, security research, or defensive use cases.
+</code></pre>
+<p>你选择的 harness 对发给 agent 的文本有很大影响。不同的 harness 发送的文本量各不相同。</p>
+<h2>Session 与 Turn（Sessions and Turns）</h2>
+<p>我们需要一个词来描述「跨多个 turn 不断积累 context」这件事：session（会话）。</p>
+<p>与 agent 交互的多个 turn 中，context 里的东西不断累积，于是 agent 能看到这个 session 里发生过的每一件事。</p>
+<p>举例来说，一场对话里：</p>
+<ul>
+<li>Turn 1：五次 model provider request</li>
+<li>Turn 2：三次请求</li>
+<li>Turn 3：四次请求</li>
+</ul>
+<p>在最后一次 model provider request 里，你把到目前为止的整段对话历史发过去、收回响应，那就是 context 里最新的内容。而这整件事，就是 session。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783949676/ai-hero-images/fe1hm4txutzugjyzpbzd.png" alt="图示：session 内多个 turn 逐步累积 context"></p>
+<p>图示：session 内多个 turn 逐步累积 context</p>
+<p>这个概念很重要，因为你可以：</p>
+<ul>
+<li>清空 context，开一个新 session</li>
+<li>压缩（compact）这个 session</li>
+<li>切到另一个 session，之后再回来</li>
+</ul>
+<p>在思考和安排与 agent 的交互时，有这么一个专门的词非常重要。</p>
+<h2>关键术语（Key Terms）</h2>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Context</td>
+<td>agent 能接触到的全部可用信息，包括指令、参数、scope 和 tool call</td>
+</tr>
+<tr>
+<td>Context Window</td>
+<td>model 单次请求能接收的 context 上限（以 token 计）</td>
+</tr>
+<tr>
+<td>System Prompt</td>
+<td>harness 给 agent 的初始指令，定义它的角色和行为</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>与 agent 的一段连续对话，context 随多个 turn 不断累积</td>
+</tr>
+</tbody></table>
+<h2>下一步（Next Steps）</h2>
+<p>继续探索这些日志，这次专门看看 system prompt 里都有些什么。</p>
+<p>你的 agent 大概率和我们展示的不太一样，就算你用的也是 Claude Code，这些内容他们也在不停改动。所以屏幕上展示的这些，到你那里很可能已有不同的调整。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你发给 model provider 的 token 数超过了 model 的 context window 允许的上限。会发生什么？</p>
+<ul class="quiz-choices">
+<li class="correct">请求失败，不产出任何 output tokens</li>
+<li>最老的消息被丢弃，其余照发</li>
+<li>请求照常通过，但按更高费率计费</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">Context window 是单次请求的硬性上限：超了请求就失败，一个 output token 都不会产出。没有任何东西会悄悄替你裁剪历史，所以指望最老的消息自动掉出去，只会让你吃惊。也不存在「超额价」——你没法花钱买通这个窗口。</p>
+<p class="quiz-q-text">你在 harness 里开了一个全新的 session，还什么都没输入。此时里面已经有多少 context？</p>
+<ul class="quiz-choices">
+<li class="correct">已经有一些：harness 已经发出了 system prompt</li>
+<li>一点没有：context window 从精确的零开始</li>
+<li>在 agent 发起第一次 tool call 之前是零</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">只要你在用 harness，context 就不会从零开始。Harness 早就告诉了 model 有哪些 tools、该做什么、该扮演什么角色——这就是 system prompt。Tool call 之后会往 context 里添东西，但最初那批 token 不是它们放进去的；而且不同 harness 发送的这类文本量差异巨大。</p>
+<p class="quiz-q-text">为什么要把不相关的文本挡在 context 之外？</p>
+<ul class="quiz-choices">
+<li class="correct">每次请求你都为它付费，而且它会分散 model 的注意力</li>
+<li>只有接近 context window 上限时才有影响</li>
+<li>它会拖慢 harness 保存 session 的速度</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">这里有两种成本并行：这些文本每次请求都要计费，而且 session 里每次请求都会把它重新发送一遍。除此之外，被塞了一大堆文本的 model 会像人类一样犯迷糊、走神，所以伤害早在你接近窗口上限之前就开始了。Harness 的保存速度根本不是问题所在。</p></div>
+# 聪明区 / 愚蠢区（Smart Zone / Dumb Zone）<p>对着几千 token 的日志看，可能让人有点发怵。一次典型的 agent 交互大约用掉 18k token，而现代 model 的 context window 最多能装下 100 万 token。你完全可以发过去 950,000 个 token、收回来 50,000 个。</p>
+<p>但这里有个很自然的疑问：<strong>model 真的能同时对所有这些文本进行推理吗？</strong></p>
+<h2>注意力关系（Attention Relationships）</h2>
+<p>要理解表象之下的机制，先想想 model 是如何处理 token 的。</p>
+<p>只发一个 token，比如单词 &quot;the&quot;，没有什么关系需要追踪，就一个东西而已。</p>
+<p>但加上第二个 token，比如 &quot;frog&quot;，情况就变了。现在 model 需要：</p>
+<ul>
+<li>记住这两个 token</li>
+<li>追踪它们之间的关系</li>
+</ul>
+<p>哪怕只有两个 token，你追踪的也已经是三样东西：token 一、token 二，以及它们的关系。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783951630/ai-hero-images/gj8hqwdawe7gkdbt7zba.png" alt="图示：两个 token 与其间的一条关系"></p>
+<p>图示：两个 token 与其间的一条关系</p>
+<p>再加第三个 token，问题开始成倍增长。现在你要追踪：</p>
+<ul>
+<li>全部三个 token</li>
+<li>token 1 与 token 2 之间的关系</li>
+<li>token 1 与 token 3 之间的关系</li>
+<li>token 2 与 token 3 之间的关系</li>
+</ul>
+<p>也就是三个 token、三条关系。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783951631/ai-hero-images/y85xwe9nfovohbwntu87.png" alt="图示：三个 token 与连接它们的三条关系"></p>
+<p>图示：三个 token 与连接它们的三条关系</p>
+<p>**这个模式按平方级增长。**每加一个 token，关系的数量都会爆炸：</p>
+<table>
+<thead>
+<tr>
+<th>Token 数</th>
+<th>关系数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5</td>
+<td>10</td>
+</tr>
+</tbody></table>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783951632/ai-hero-images/kro1sersqoefocgetom2.png" alt="图示：五个 token 与十条关系"></p>
+<p>图示：五个 token 与十条关系</p>
+<p>这就像往联赛里加一支球队：听起来没什么，但联赛要打的比赛数量瞬间暴涨。</p>
+<p><strong>看看 token 上千时的规模：</strong> 100 万条关系。<strong>10,000 个 token：</strong> 1 亿条。<strong>100,000 个 token：</strong> 约 100 亿条。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783951633/ai-hero-images/pojsmqiun7ajunirti1s.png" alt="AI coding dictionary：token 与关系的规模增长"></p>
+<p>AI coding dictionary：token 与关系的规模增长</p>
+<p>这些注意力关系（attention relationships）就是 model 在文本中寻找关联、来回跳转、理解文本的方式。要追踪的关系越多，表现就越差——就像在拥挤的房间里一大群人争着喊「看我」。</p>
+<h2>注意力衰减（Attention Degradation）</h2>
+<p>这带来一个直接后果：<strong>发给 model 的文本越多，它的表现越差。</strong></p>
+<p>它更难把注意力放在重要的东西上。这就是 <strong>attention degradation（注意力衰减）</strong>。注意力机制——理解 token 之间关系的那套系统——要处理的东西越多，就越糟糕。</p>
+<p>实际表现就是：随着你传入的 context 越来越多，你的 agent 开始做出越来越蠢的事情。</p>
+<h2>Smart Zone 与 Dumb Zone（Smart Zone vs. Dumb Zone）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783951634/ai-hero-images/epsqhluqhaoz4vfpp5bn.png" alt="图示：context window 中的 smart zone 与 dumb zone"></p>
+<p>图示：context window 中的 smart zone 与 dumb zone</p>
+<p>Agent 有两个区域：</p>
+<p><strong>Smart Zone（聪明区）</strong>——在 context window 靠前的位置，agent 能出色完成复杂任务：</p>
+<ul>
+<li>规划</li>
+<li>构建复杂软件</li>
+<li>战略决策</li>
+</ul>
+<p><strong>Dumb Zone（愚蠢区）</strong>——随着 context 填满，agent 开始吃力：</p>
+<ul>
+<li>简单的文件写入</li>
+<li>关闭 issue</li>
+<li>写简单 spec</li>
+</ul>
+<p>在 dumb zone 里你可能还是能拿到结果，但你没有发挥出 agent 的最佳水平。</p>
+<p>还有成本上的惩罚：发进 dumb zone 的每一次请求，都意味着一次性发送海量 token，让你花更多钱。</p>
+<h2>Dumb Zone 从哪里开始？（Where Does The Dumb Zone Start?）</h2>
+<p>这一点争议很大，而且随 model 不同而移动。录制本课时，对最先进的 model，共识是 dumb zone 大约从 <strong>150,000 token</strong> 开始。</p>
+<p>这个数字已经大幅上移。本课程上一版录制时，估计是 100k 到 120k token。随着 model 不断进步，dumb zone 还会继续后移，留给你更多可用的 smart zone。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783951635/ai-hero-images/v8ferohrfba45oz3agz5.png" alt="文字：150,000 token 是当前的 dumb zone 门槛"></p>
+<p>文字：150,000 token 是当前的 dumb zone 门槛</p>
+<p>当 model provider 们宣传百万 token 的 context window 时，150k 这个数听起来低得离谱。<strong>为什么他们宣称一种自己实际用不上的能力？</strong></p>
+<p>首先，这是个漂亮的头条数字。其次，并非所有用例都需要 smart zone。如果你只是在一大篇幅文本里做检索，而不是构建软件，你不需要巅峰性能——这就是百万 token 窗口存在的原因。</p>
+<p>对于编码工作，你要待在 smart zone 里。如果你在 dumb zone 里干了大量活，产出的代码质量更低，之后还得再花 token 去清理。</p>
+<h2>是斜坡，不是悬崖（It&#39;s A Slope, Not A Cliff）</h2>
+<p>Dumb zone 不是那种一脚踩空立刻坠落的悬崖，而是一个缓慢的下坡。</p>
+<p>把 150k token 这条线当作信号。当你的 session 到达这个位置，就该开始想怎么撤退了：怎么把工作 handoff（交接）出去？怎么调整方法，回到 smart zone？</p>
+<p>这种偏执，对「以最低 token 成本拿到高质量产出」极其有用。</p>
+<p>整套方法论都应该围绕「把 smart zone 榨干用尽」来设计。</p>
+<h2>底层机制不会改变（The Underlying Mechanism Doesn&#39;t Change）</h2>
+<p>到你看这份教程的时候，数字可能已经变了，不同 model 可能门槛不同。但底层的机制——attention degradation——不会消失。</p>
+<p>它是当下所有 LLM 共同面对的底层约束，根源在于注意力关系随 token 增加而膨胀的方式。</p>
+<p>理解这个机制，是从 agent 手里拿到最佳结果的关键。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">对当今最先进的 model 来说，dumb zone 大致从哪里开始？</p>
+<ul class="quiz-choices">
+<li class="correct">大约 150,000 token</li>
+<li>大约 110,000 token</li>
+<li>大约 1,000,000 token</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">共识是大约 150,000 token。100k 到 120k 是这个门槛过去的位置——随着 model 进步它已经上移，而且还会继续移动。一百万 token 是宣传用的 context window，不是质量开始下滑的点位；这两个数字本来就差得远。</p>
+<p class="quiz-q-text">让 model 在收到更多文本时表现变差的机制是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">注意力关系随 token 平方级增长</li>
+<li>harness 截断了 context 最老的部分</li>
+<li>采样器随 context 增长调高 temperature</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">每新增一个 token，都要与所有其他 token 建立关系，于是关系数爆炸：1,000 个 token 是 100 万条关系，100,000 个 token 约 100 亿条。追踪得越多，注意力越差。没有任何东西被截断，也没有任何设置在背后被改动——这就是 attention degradation，也是为什么数字会变、约束却不会消失。</p>
+<p class="quiz-q-text">你的 session 刚刚突破 150,000 token，编码工作还没完成。现在怎么办？</p>
+<ul class="quiz-choices">
+<li class="correct">开始琢磨怎么把工作交接出去并重置</li>
+<li>继续干，因为质量要到很久之后才会断崖式下跌</li>
+<li>换到宣传百万 token 窗口的 model</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">把 150k 这条线当作撤退信号——把工作 handoff 出去，或者改变方法回到 smart zone。继续干恰恰想反了：下滑是斜坡不是悬崖，你已经在损失质量，而不是在等一个断点。百万 token 窗口也买不来 smart zone；它是为长文本检索而生，不是为构建软件。</p></div>
+# 无状态（Statelessness）<p>一个 session 由多个 turn 组成，每个 turn 里又包含若干 model provider request。Context 随时间不断积累，每一次 model provider request 都保留着该 session 中之前对话的状态。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783953638/ai-hero-images/qoygrg1ilnthckrxknoq.png" alt="图示：由多个 turn（内含 model provider request）组成的 session"></p>
+<p>图示：由多个 turn（内含 model provider request）组成的 session</p>
+<p>但关键在这里：所有这些状态都存放在 harness 里，而不是 model 本身。Model 是完全 stateless（无状态）的。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783953638/ai-hero-images/dmzffxmuvw5ukrn83bdq.png" alt="图示：session 状态保存在 harness 中，model 保持 stateless"></p>
+<p>图示：session 状态保存在 harness 中，model 保持 stateless</p>
+<h2>Harness 与 Model 的对比（The Harness vs The Model）</h2>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>是否有状态？</th>
+<th>范围</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Model</td>
+<td>Stateless</td>
+<td>不适用</td>
+<td>基于给定的 context 处理单次请求</td>
+</tr>
+<tr>
+<td>Harness</td>
+<td>Stateful</td>
+<td>单个 session 内</td>
+<td>记住所有消息和 session 历史</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>Stateful</td>
+<td>不限时长</td>
+<td>把文件、更改和数据持久化在磁盘上</td>
+</tr>
+</tbody></table>
+<p>Harness 负责记住整个 session——记住到目前为止的所有消息，并把这一切一大块地传给 model。因为 model 什么都不记得，不保留任何状态。</p>
+<p>Harness 会把信息往前带，但只在 session 存续期间。它记得这个 session 里各个 turn 发生的一切；可你一清空，它就又全忘了。</p>
+<h2>这为什么重要（Why This Matters）</h2>
+<p>很多人把 agent 的无状态看作坏事。他们想要 agent 是有状态的：记住关于他们的事，随着时间越来越好。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783953639/ai-hero-images/ujjryazw2kby70sywrt4.png" alt="关于 agent 无状态与对记忆的渴望的讨论"></p>
+<p>关于 agent 无状态与对记忆的渴望的讨论</p>
+<p>这就是为什么你会看到很多人在搭建 memory system（记忆系统）：他们试图把状态注入一个无状态的系统，让 agent 能跨时间记住事情。</p>
+<h2>真正的解法：存进 Environment（The Real Solution: Save to the Environment）</h2>
+<p>让 agent 拥有记忆的办法，是把东西保存进 environment。文件系统和 agent 所处的 environment，对保留状态至关重要。</p>
+<p>你在文件系统里存了一个文件，然后清空 session——那个状态还在，文件依然保存着。</p>
+<p>拆开来看：</p>
+<ul>
+<li><strong>Model</strong>：完全 stateless</li>
+<li><strong>Harness</strong>：仅在同一个 session 内 stateful</li>
+<li><strong>Environment</strong>：永远 stateful</li>
+</ul>
+<p>你随时可以把东西存进 environment，然后 harness 和 model 再合力把它从 environment 里取出来。</p>
+<p>Memory system 是增强 environment、帮它记住更多东西的手段，让 agent 能跨 session 记住事情。你有时也会看到 harness 试图跨 session 多保留一点状态。</p>
+<h2>默认 Stateless（Default to Statelessness）</h2>
+<p>正如 Pi 的创造者 Mario Zechner 所说：</p>
+<p>经常有人问我用的是什么 memory system。我的回答一直是：我的 codebase 就是我的 memory system。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1783953640/ai-hero-images/nxibfzl6ltuyuxfmqwig.png" alt="Mario Zechner 关于「codebase 就是 memory system」的引言"></p>
+<p>Mario Zechner 关于「codebase 就是 memory system」的引言</p>
+<p>和 Mario 一样，我们更倾向于在可能的情况下默认保持 stateless，把对记忆重要的东西存进 codebase 里。</p>
+<p>理由就是纯粹的简单，而且实践发现这样效果更好。默认情况下：</p>
+<ul>
+<li>model 完全 stateless</li>
+<li>harness 在一个 session 内 stateful</li>
+<li>environment 永远 stateful，因为你可以往里面存东西</li>
+</ul>
+<p>很多人想在 agent 本体上外挂一个 memory system。但要对这种做法保持警惕：直接改 codebase 通常就够了。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你清空了 session。整套系统里哪一部分还保留着之前发生了什么？</p>
+<ul class="quiz-choices">
+<li class="correct">environment：磁盘上的文件原地不动</li>
+<li>harness：它记得你发给它的消息</li>
+<li>model：它保留着对你的了解</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">Environment 永远有状态——存一个文件，清空 session，文件还在那里。Harness 也有状态，但只限一个 session 的存续期：一清空它就全忘了。Model 则是完全彻底的 stateless：它基于给到的 context 处理一次请求，什么也不保留。</p>
+<p class="quiz-q-text">你想让 agent 在这个 session 结束后仍然记住一个决策。你的第一选择是什么？</p>
+<ul class="quiz-choices">
+<li class="correct">把它写进 codebase，供 agent 回读</li>
+<li>给 agent 外挂一个 memory system 来存它</li>
+<li>保持 session 不关，让 harness 抓着它不放</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">给无状态系统记忆的办法是把东西存进 environment，而 codebase 就是你现成的 environment——正如 Mario Zechner 说的，codebase 就是 memory system。给 agent 外挂 memory system 的人很多，但要保持警惕：改 codebase 通常就够，而且更简单。让 session 一直开着只是把问题往后拖，因为你一清空，harness 立刻就忘。</p></div>
+# 成本到底花在哪儿了？（How Much Did It Cost?）<p>搞清楚 agent 的工作到底是怎么计费的非常重要，而且这件事比你想象的要难得多。成本分散在 session、turn 和 model provider request 之中。</p>
+<p>为 agent 的工作付费时，常见的体验就是眼睁睁看着账单越爬越高，却说不清钱到底花在了哪里。你看得见账单在涨，却不太清楚优化的切入点在哪里。该怎么改进？怎么才能更便宜，或者改掉那些让 session 变得昂贵的坏习惯？</p>
+<h2>数字确实存在（The numbers do exist）</h2>
+<p>其实，能解释这一切的数字是存在的。每一次 model provider request，provider 都会把它们返回给你。</p>
+<p>在一个 turn 里，你每发出一次 model provider request，就会送出 input tokens，然后从响应里收回 output tokens。</p>
+<ul>
+<li><strong>input tokens</strong> 是你发送的内容：仓库的当前状态、agent 在 environment 中已知的当前状态</li>
+<li><strong>output tokens</strong> 是 agent 生成的内容</li>
+</ul>
+<p>而且 output tokens 的计费单价远高于 input tokens。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244793/ai-hero-images/jeogsbavdgjtc9l5eeqb.png" alt="Claude API 定价页面：input tokens 每百万 10 美元，output tokens 每百万 50 美元"></p>
+<p>Claude API 定价页面：input tokens 每百万 10 美元，output tokens 每百万 50 美元</p>
+<h3>价格对比（Pricing comparison）</h3>
+<p>举个例子，看看 API 价目表上的 Claude Haiku 4：input tokens 是每百万 10 美元，而 output tokens 是它的五倍——每百万 50 美元。</p>
+<p>通常 input tokens 才是大头。请求的输出往往只有几百个 token——要么生成一个 tool call，要么回复你刚发给它的内容——而输入却是截至目前整个 session 的内容。</p>
+<p>每一次 model provider request，你都在累积状态，这些状态随后都会计入 input tokens，而 output tokens 则相对稳定。</p>
+<h2>探索 request logger（Exploring the request logger）</h2>
+<p>要观察这一点，我们可以用 request logger。启动它，然后把它打印出来的命令复制粘贴到一个新终端里，通过它来启动一个 agent。</p>
+<p>我们先发一条简单的消息，然后到日志里查看返回的第一个请求。</p>
+<p>一路往下翻到 response 标签，可以看到一段 usage 输出，里面有些非常有趣的数字：input tokens 只用了 2 个，output tokens 是 14 个。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244794/ai-hero-images/tkk1rqmz2u4qrsexhtok.png" alt="request logger 展示的 usage 统计：input tokens、output tokens 和 cache tokens 的数量"></p>
+<p>request logger 展示的 usage 统计：input tokens、output tokens 和 cache tokens 的数量</p>
+<p>于是它回复了那句标志性的&quot;你好，今天我能帮你做点什么？&quot;。有趣的问题来了：为什么这里 input tokens 只有 2 个？要知道，它是连同完整的 system prompt 一起发出去的。</p>
+<p>我们可以看到 <code>cache_creation_input_tokens</code> 和 <code>cache_read_input_tokens</code> 这两个字段。换句话说，其中一部分 input tokens 已经被 prefix cache 缓存了。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244795/ai-hero-images/o740h2dnzjvvv8jm8gnq.png" alt="request logger 展示的 cache_creation_input_tokens 和 cache_read_input_tokens 字段"></p>
+<p>request logger 展示的 cache_creation_input_tokens 和 cache_read_input_tokens 字段</p>
+<h2>prefix cache 的工作原理（How the prefix cache works）</h2>
+<p>大多数 provider 都维护着一份 prefix cache。当某个请求的开头与最近一个请求的 token 序列相同时，provider 就会复用之前对这一段做过的处理，并按 cached input tokens 计费。</p>
+<p>回到定价页面可以看到，缓存命中和刷新的计费是基础 input tokens 的十分之一。</p>
+<p>不过，刚才那一次并不是 cache read，而是 cache write。日志里显示 <code>cache_creation_input_tokens: 22214</code>。也就是说，我们刚刚创建了缓存，之后的请求就会命中它。</p>
+<h2>给缓存预热（Warming up the cache）</h2>
+<p>我们再回到 agent 那里发一条消息，然后看它生成的日志：响应显示它拉入了 504 个 input tokens，新建了 59 个缓存，但读取了 22,000 个。</p>
+<p>换句话说，现在缓存已经预热完毕，我们正在命中缓存。所以实际上，这一次我们只为大约 500、接近 600 个 input tokens 买了单，外加产生的 46 个 output tokens。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1785244796/ai-hero-images/j2ex7ctahoswcajbhadp.png" alt="request logger 展示的第二次请求：大部分 token 来自 cache_read_input_tokens"></p>
+<p>request logger 展示的第二次请求：大部分 token 来自 cache_read_input_tokens</p>
+<p>可以看到除了 output tokens，还有 thinking tokens，它们的计费与 output tokens 相同，因为本质上是一回事。</p>
+<p>这意味着后续请求确实会变便宜：你的 input tokens 写入缓存，之后作为 cached input tokens 命中，而 cached input tokens 的计费要低得多。</p>
+<h2>session 与缓存（Sessions and the cache）</h2>
+<p>这自然与 session 的工作方式契合，因为 session 是靠追加增长的。每个请求都是前一个请求再加一点点新内容。</p>
+<p>这也解释了请求为什么被设计成现在这个样子——很少变化的内容放在请求开头，变化较频繁的内容放在靠后的位置，后者往往其实是放在 user message 里传递的。</p>
+<h2>session 计费的复杂性（The complexity of session billing）</h2>
+<p>这就是为什么算清一个 session 的账单如此复杂——这里的变量实在太多了。</p>
+<p>是的，第一次 model provider request 你在写缓存，第二次大多在读缓存；但到了第三次，你可能生成了大量 output tokens——那可是很贵的。</p>
+<p>也可能你在第 2 个 turn 和第 3 个 turn 之间休息了一个小时，缓存已经完全失效——到那时候它早就超时了。</p>
+<h2>上下文管理很重要（Context management matters）</h2>
+<p>当然，这些大多是 harness 该操心的事。把 context window 里的信息组织好、让你的缓存发挥最大效用，是 harness 的职责。</p>
+<p>但我想让你注意到一件事：你提供给 agent 的每一个 input token，都会在之后的每一次请求中被重新加进 session。换句话说，最早那次 model provider request 里很容易淤积起一些&quot;沉淀物&quot;，它们会被一路带着走，在每一次 model provider request 里反复重建。</p>
+<p>这意味着，让 context 保持精简、保持相关，不仅对 agent 有好处，也对你的钱包有好处。</p>
+<p>希望帮你理清 input tokens、cached input tokens 和 output tokens 之间的区别之后，这整件事会显得不那么扑朔迷离。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">provider 从它的 prefix cache 里复用了你请求中的一段。这一段是如何计费的？</p>
+<ul class="quiz-choices">
+<li class="correct">按基础 input tokens 的十分之一计费</li>
+<li>按基础 input tokens 的十倍计费</li>
+<li>与基础 input tokens 完全同价</li>
+<li>完全不计费，因为这部分工作已经做过一次</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">缓存命中和刷新按基础 input tokens 的十分之一计费。它们并不是免费的——cache read 仍会以 cache_read_input_tokens 的名义出现在账单上——它们比基础 input tokens 便宜，而不是同价，更不会更贵。</p>
+<p class="quiz-q-text">你发了一条消息，休息了一个小时，再发另一条。第二条消息计费的 input tokens 远比休息前的消息多。发生了什么？</p>
+<ul class="quiz-choices">
+<li class="correct">prefix cache 超时了，什么也读不出来</li>
+<li>session 重启了，system prompt 被第二次发送</li>
+<li>休息把 session 推进了愚蠢区（dumb zone），触发了重试</li>
+<li>上一 turn 的 thinking tokens 被当作 input 重新计费</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">间隔足够长就会耗尽 prefix cache，于是整段前缀重新按基础 input 单价计费。session 并没有重启——它一直在追加，这正是休息前前缀能够匹配上的原因。愚蠢区描述的是输出质量，而不是账单；thinking tokens 的计费与 output tokens 相同，而不是按 input 计费。</p>
+<p class="quiz-q-text">为什么保持 context 精简能帮你省钱，而不只是改善 agent 的产出？</p>
+<ul class="quiz-choices">
+<li class="correct">每个 input token 都会在每一次 model provider request 中重新发送</li>
+<li>session 更短时，output tokens 的单价更低</li>
+<li>context 小就能跳过 prefix cache 及其写入成本</li>
+<li>context 小能让 harness 在每个 session 里发送更少的 turn</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">session 靠追加增长，所以第一个请求里加入的 token 在之后的每个请求里都会再发一遍——那里的&quot;沉淀物&quot;要反复付钱。output tokens 无论 session 多长都是同一单价；prefix cache 是你想要的省钱手段，而不是要避开的成本；turn 的数量由工作本身决定，而不是由 context 的大小决定。</p></div>
+# 幻觉（Hallucination）<p>在前面一课里，我们讲过愚蠢区（dumb zone）和聪明区（smart zone）：随着 session 变长，注意力衰减（attention degradation）开始生效，模型表现越来越差。但我们没有真正展开讲那些&quot;愚蠢的表现&quot;到底是什么——在愚蠢区里、有时甚至在聪明区里，你可能看到哪些症状。</p>
+<h2>核心问题：hallucination（The Core Problem: Hallucination）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784024580/ai-hero-images/k4qdql452l89nqf1yhhx.png" alt="屏幕上展示的 hallucination 定义"></p>
+<p>屏幕上展示的 hallucination 定义</p>
+<p>最大的那个问题，也是我们不惜一切代价都要设法防止的，就是 <strong>hallucination（幻觉）</strong>——模型一本正经地给出错误输出。</p>
+<p>写代码时，hallucination 可能带来彻头彻尾的灾难。它可以：</p>
+<ul>
+<li>产出跑不起来的坏代码</li>
+<li>把产品带向你并不想去的方向</li>
+<li>推荐你使用已经不再安全的 API</li>
+<li>干出各种真正危险的事情</li>
+</ul>
+<p>我们通常要做的，就是搭建一个 environment，给模型提供能降低 hallucination 发生概率的素材。</p>
+<p>这一课我们要为 hallucination 编一部&quot;词典&quot;——弄清它们究竟是什么，以及如何防止。</p>
+<h2>hallucination 的两大类型（Two Main Flavors of Hallucination）</h2>
+<p>hallucination 有两大类型：**factuality（事实性）**和 <strong>faithfulness（忠实性）</strong>。</p>
+<h3>事实性 hallucination（Factuality Hallucination）</h3>
+<p>**factuality hallucination（事实性幻觉）**是指编造出来的、或者干脆搞错的世界事实。例如：</p>
+<ul>
+<li>一个并不存在的函数</li>
+<li>一个错误的 API 签名</li>
+<li>一篇并不存在的文章的引用</li>
+</ul>
+<p>之所以会出现，是因为缺乏 <strong>parametric knowledge（参数化知识）</strong>。</p>
+<h2>理解 parametric knowledge（Understanding Parametric Knowledge）</h2>
+<p>模型最初接受训练时，训练中的信息存储在它的 **parameters（参数）**里。每个模型的大脑——本质上是它的记忆——都存放在这些巨大的数字数组中，有时是几十亿、上百亿个数字。</p>
+<p>这些数字有时被称为 <strong>weights（权重）</strong>。parametric knowledge 就是编码在这些参数里的知识，而且是在模型训练时一次性编码进去的。</p>
+<p>模型之所以是无状态的（stateless），就是因为这些参数在此之后永不再变。训练过程结束后，它们就字面意义上地被冻结了。</p>
+<h3>parametric knowledge 的问题（The Problem With Parametric Knowledge）</h3>
+<p>不过想一想：把几 TB 又几 TB 的训练数据压缩进几十亿个数字里，必然有大量信息丢失。</p>
+<p>就像把一张细节极其丰富的图片压缩到很小的尺寸，有些精细的细节就看不出来了。</p>
+<p>不仅如此，parametric knowledge 还有一个截止点。模型是在某个时间点训练的，那之后出现的数据——新事件、新库、新 API——模型统统不知道。模型需要持续更新，才能确保掌握新东西。</p>
+<h2>知识截止日期（Knowledge Cutoff）</h2>
+<p>所有模型都有 <strong>knowledge cutoff（知识截止日期）</strong>。而且训练的机制决定了，你没法往模型里打补丁塞进新信息——只能从头重新训练。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784024581/ai-hero-images/bz1izt12vqibu1oaeoma.png" alt="屏幕上展示的 knowledge cutoff 概念"></p>
+<p>屏幕上展示的 knowledge cutoff 概念</p>
+<p>这意味着 factuality hallucination 可能来自两个地方：</p>
+<ol>
+<li>你在询问 knowledge cutoff 之后的信息</li>
+<li>你在询问 knowledge cutoff 之前的信息，但它手里只有一张模糊的 JPEG——一团看不清的图像可供参考</li>
+</ol>
+<p>由于存储方式的原因，模型从 parametric knowledge 里检索信息的能力并不会太强。它不是像事实数据库那样存的，而是存成了一团模糊的印象（fuzzy vibes）。</p>
+<h2>一个真实例子：X API 的定价（A Real Example: The X API Pricing）</h2>
+<p>下面是 Claude Opus 的一次 hallucination。当被问到&quot;X API 有多贵？不要搜索信息，就凭你知道的告诉我&quot;时，它回答：</p>
+<p>根据我可能已经过时的知识，以下是我训练数据中 X Twitter API 的大致档位：</p>
+<ul>
+<li>免费版：限制非常多</li>
+<li>基础版：100 美元/月</li>
+<li>专业版：5,000 美元/月</li>
+<li>企业版：定制价格</li>
+</ul>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784024582/ai-hero-images/x6gp672wjetimr2b2cnp.png" alt="agent 回复中过时的 X API 定价"></p>
+<p>agent 回复中过时的 X API 定价</p>
+<p>这其实并不属实。定价在不久前已经大幅下调。当我们接着让它去搜索信息时，它就会跑出去搜索——使用 web search——并核对自己的 parametric knowledge 是否正确。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784024582/ai-hero-images/exjhndztsp3fzlfvfrar.png" alt="agent 正在执行 web search"></p>
+<p>agent 正在执行 web search</p>
+<p>搜索结果显示，定价模式在 2 月发生了重大变化。这其实发生在这个模型 knowledge cutoff 之前，所以我们刚才看到的就是一次 factuality hallucination——编造的或错误的世界事实。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784024583/ai-hero-images/dmwdrmmgiklfy8wscou1.png" alt="web search 之后修正的 X API 定价"></p>
+<p>web search 之后修正的 X API 定价</p>
+<h2>解决办法：contextual knowledge（The Fix: Contextual Knowledge）</h2>
+<p>解决办法这一栏告诉我们：装填 <strong>contextual knowledge（情境知识）</strong>。contextual knowledge 就是位于模型 context window 里的知识。</p>
+<p>研究表明，当 agent 基于 contextual knowledge 工作时，hallucination 会少得多。答案就摆在它眼前，而不是从模糊的记忆里打捞出来的。</p>
+<p>然而，contextual knowledge 并不能治愈 hallucination，因为我们还有 <strong>faithfulness hallucination（忠实性幻觉）</strong>。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784024584/ai-hero-images/uzmdia0d3or52wnsfb79.png" alt="faithfulness hallucination 的定义"></p>
+<p>faithfulness hallucination 的定义</p>
+<h2>忠实性 hallucination（Faithfulness Hallucination）</h2>
+<p><strong>faithfulness hallucination</strong> 是指：即使你已经把信息放进了 LLM 的 context 里，它还是会：</p>
+<ul>
+<li>无视它</li>
+<li>偏离它</li>
+<li>拿它搞出些略微奇怪的东西</li>
+</ul>
+<p>这正是愚蠢区里因为注意力衰减而变得极其糟糕的问题。context 里的信息太多，模型找不到相关的内容。需要追踪的注意力关系（attention relationship）太多，它分不清哪些才是重要的。</p>
+<p>这意味着，你可以把所有相关信息都交给 agent，可以把一切都布置得完美无缺。但如果它的 context window 里塞的东西实在太多，它就没法很好地遵循指令，hallucination 也会更多。</p>
+<p>这意味着它会写出更差的代码，让你暴露在安全风险之下，还会干出非常奇怪的事情。</p>
+<h2>一棵诊断 hallucination 的决策树（A Decision Tree for Hallucinations）</h2>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784024585/ai-hero-images/unchljbemloc0eaegyxm.png" alt="用于诊断 hallucination 的决策树流程图"></p>
+<p>用于诊断 hallucination 的决策树流程图</p>
+<p>当你看到一次 hallucination 时，可以用下面这棵决策树：</p>
+<p><strong>第一个问题：这些信息在模型的 context window 里可用吗？</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>问题类型</th>
+<th>解决办法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>不在</strong></td>
+<td>factuality 问题</td>
+<td>把信息装进 context</td>
+</tr>
+<tr>
+<td><strong>在</strong></td>
+<td>faithfulness 问题</td>
+<td>清空你的 context window，减轻注意力衰减</td>
+</tr>
+</tbody></table>
+<h3>如果是事实性问题（If It&#39;s a Factuality Problem）</h3>
+<p>如果信息不在 context 里，那就是 factuality 问题。模型去翻它的 parametric knowledge，结果发现不够用。</p>
+<p>解决办法：<strong>永远不要相信没有出处（unsourced）的 LLM。</strong> 始终确保 agent 依据有出处的信息、依据 contextual info 来工作。</p>
+<p>然而，你可能转眼又撞上另一次 hallucination。而如果信息就在 context 里，那你面对的就是 faithfulness 问题。</p>
+<h3>如果是忠实性问题（If It&#39;s a Faithfulness Problem）</h3>
+<p>agent 没有忠实于你提供给它的信息。</p>
+<p>这种情况在聪明区也可能发生，但大多数时候，你要做的就是赶紧离开愚蠢区。清空你的 context window，让注意力衰减降下来，让 agent 松口气。</p>
+<p>它通常不会发生在聪明区，但由于模型是非确定性的（non-deterministic），你偶尔还是会在聪明区里碰上 faithfulness 错误。</p>
+<h2>长期来看（The Long Game）</h2>
+<p>我们希望 model provider 们能把模型改进到让我们不必那么担心 hallucination 的程度。factuality 和 faithfulness 错误确实是他们的测试项目，但很难想象一个我们完全不用偶尔应付这些问题的世界。</p>
+<p>了解它们的运作机制、在深层面上理解它们，是 AI 编程中非常重要的一部分。在课程的剩余部分里，请留心 factuality 错误和 faithfulness 错误——而现在你已经知道该怎么应对了。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你把 agent 需要的那个文件原原本本粘贴进了 context，它却仍然用了别处的函数。你第一步该做什么？</p>
+<ul class="quiz-choices">
+<li class="correct">清空 context window，然后把文件再交给它</li>
+<li>为了保险起见，把周边文件也一并粘贴进去</li>
+<li>让它去 web 上搜索正确的签名</li>
+<li>把同样的 prompt 再发一遍，看看这次行不行</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">信息就在 context 里，而 agent 偏离了它，所以这是 faithfulness 问题，解决办法是通过清空 context 来减轻注意力衰减。粘贴更多文件只会让衰减更严重。搜索 web 解决的是 factuality 问题，而这里不是——事实早就摆在模型眼前了。重发同样的 prompt 是在赌非确定性，而不是消除病因。</p>
+<p class="quiz-q-text">agent 说出了一个从没人告诉过它的 API 定价，而且这个价格是错的。这是什么问题，该怎么解决？</p>
+<ul class="quiz-choices">
+<li class="correct">factuality 问题——把有出处的信息装进 context</li>
+<li>faithfulness 问题——清空 context window 再问一次</li>
+<li>factuality 问题——等模型为此重新训练</li>
+<li>faithfulness 问题——模型偏离了它的训练</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">这个事实从没进过 context，所以模型是在从 parametric knowledge 里打捞——这是一次 factuality hallucination，解决办法是永远不要相信没有出处的模型，并给它一个出处。它不可能是 faithfulness 问题，因为 faithfulness 讲的是无视模型已经被给予的信息。而等待重新训练也不是你能掌控的解决办法——只要你把它放进 context，答案现在就有。</p>
+<p class="quiz-q-text">某个模型的 knowledge cutoff 早于你在用的一个库。新信息要怎样才能进入它的 parametric knowledge？</p>
+<ul class="quiz-choices">
+<li class="correct">模型必须从头重新训练</li>
+<li>provider 把新事实打补丁进参数里</li>
+<li>你放进 context 的任何东西都会回写进去</li>
+<li>模型执行的 web search 会更新它的参数</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">参数在训练结束时就被冻结了，这正是模型无状态的原因，所以新信息意味着重新训练，而不是打补丁。context 和 web search 结果确实能帮模型作答，但它们属于 contextual knowledge，会随 context window 一起消失——两者都不会往参数里回写任何东西。</p></div>
+# 推理努力（Effort）<p>effort 是模型上的一个可调旋钮，如今几乎每家 model provider 都提供它。在 Claude Code 里，你可以输入 <code>/effort</code>，然后选择想要的 effort 档位。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784118751/ai-hero-images/qextun0tafvvlwomeyud.png" alt="Claude Code 中的 /effort 命令，展示了不同的 effort 档位"></p>
+<p>Claude Code 中的 /effort 命令，展示了不同的 effort 档位</p>
+<p>这个旋钮从左到右排列，左边是更快的 effort 档位，右边是更聪明的 effort 档位。本节就来探讨如何为你的工作选择合适的 effort 档位。</p>
+<h2>对比 low 与 max effort（Comparing Low vs Max Effort）</h2>
+<p>我们来看看实际使用中的差别。把 effort 设为 <code>max</code>，让 agent 探索一个代码库并向你汇报，与设为 <code>low</code> 相比，结果截然不同。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784118752/ai-hero-images/fvjdpc479zlti8pno7ri.png" alt="终端显示 max effort 运行：消耗 41,000 个 token，耗时 2 分 15 秒"></p>
+<p>终端显示 max effort 运行：消耗 41,000 个 token，耗时 2 分 15 秒</p>
+<p>用不同 effort 档位运行同一个 prompt 时：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>low effort</th>
+<th>max effort</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>耗时</td>
+<td>1 分 11 秒</td>
+<td>2 分 15 秒</td>
+</tr>
+<tr>
+<td>消耗 token</td>
+<td>11,000</td>
+<td>41,000</td>
+</tr>
+<tr>
+<td>分析深度</td>
+<td>基本事实、技术栈</td>
+<td>更深入的探索、功能、文件结构、潜在问题</td>
+</tr>
+</tbody></table>
+<p>low effort 的版本抓住了仓库的基本事实——它弄清了 request logger 这个子项目和技术栈。</p>
+<p>max effort 的版本挖得更深，探索了实际功能、认证实现细节和文件结构，甚至发现了 low effort 版本漏掉的一些文档漂移（documentation drift）。</p>
+<p>max effort 的方式投入了更多工作，换回了稍微好一点的反馈，但为此多花了四倍的 token。这就是核心权衡：更多思考，更多成本。</p>
+<p>那么这里到底发生了什么？它为什么投入了更多努力？它用的是什么机制？</p>
+<h2>推理 token 是如何工作的（How Reasoning Tokens Work）</h2>
+<p>模型可以产出三类输出：文本、tool call 和 reasoning（推理）。那些 reasoning tokens 是模型自己的思路，一种关于模型在想什么的意识流。</p>
+<p>在一些界面里，这些 reasoning tokens 会展示给用户。有些 agent 直接显示它们。但在 Claude Code 里，你只能看到文本和 tool call——reasoning 在幕后进行。</p>
+<p>这背后的理论来自一项更早的技术，叫做 <strong>Chain of Thought Prompting（思维链提示）</strong>。研究表明，当你要求模型展示解题过程时，它会做得更好。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784118753/ai-hero-images/xg4rlrubh81kj1b8cnay.png" alt="Chain of Thought 论文：standard prompting 示例给出了错误答案"></p>
+<p>Chain of Thought 论文：standard prompting 示例给出了错误答案</p>
+<p>例如，使用 standard prompting：</p>
+<pre><code>The cafeteria had 23 apples. If they used 20 to make lunch
+and bought 6 more, how many apples do they have?
+
+Answer: 27
+</code></pre>
+<p>这个答案是错的。但如果你让模型把步骤过一遍：</p>
+<pre><code>They had 23 apples originally
+They used 20 to make lunch: 23 - 20 = 3
+They bought 6 more apples: 3 + 6 = 9
+
+Answer: 9
+</code></pre>
+<p>通过展示自己的推理，模型得到了正确答案。</p>
+<p>当你调高 effort，本质上就是在告诉模型：多产出一些 reasoning tokens，多展示一些你的思考。</p>
+<h2>effort 档位与 benchmark 表现（Effort Levels and Benchmark Performance）</h2>
+<p>这一方法在各类 benchmark 上被证明能提升表现。DeepSWE 是一个很有声誉的 benchmark，展示了不同模型在不同 effort 档位下的表现。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784118753/ai-hero-images/rziqhl3gcttxmsfsxsbf.png" alt="DeepSWE benchmark 图表：不同 effort 档位的性能与成本对比"></p>
+<p>DeepSWE benchmark 图表：不同 effort 档位的性能与成本对比</p>
+<p>看看这些表现数据：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>Low</th>
+<th>Medium</th>
+<th>High</th>
+<th>Extra High</th>
+<th>Max</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Claude</td>
+<td>60%</td>
+<td>65%</td>
+<td>69%</td>
+<td>70%</td>
+<td>70%</td>
+</tr>
+<tr>
+<td>GPT 5.6</td>
+<td>45%</td>
+<td>61%</td>
+<td>69%</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>effort 越高，每个任务的成本也越高。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784118754/ai-hero-images/m6igfxeysyi8nurhzw6z.png" alt="DeepSWE 图表：Claude Sonnet 5 的成本与性能指标"></p>
+<p>DeepSWE 图表：Claude Sonnet 5 的成本与性能指标</p>
+<p>比如，Claude Sonnet 5 在 low effort 下质量为 31%，但每个任务要花 26 美元。想要更好的表现，你可以切换到 GPT 5.6，只需 1.86 美元就能超过那条基线。</p>
+<p><strong>关键的洞见</strong>：effort 不仅仅是质量上的权衡，也是延迟上的权衡。你用的 token 越多，就越快撞上愚蠢区——在那里模型的推理能力已经劣化。effort 越高，意味着你烧掉 token 预算的速度越快，留给实际工作的空间就越小。</p>
+<h2>选择你的 effort 档位（Choosing Your Effort Level）</h2>
+<p>第一个要点：避开 <code>max</code> effort。max 乃至 <code>extra high</code> 都是对 token 极其浪费的用法。model provider 之所以提供这些档位，主要是为了把 benchmark 分数再推高几个百分点。如果能在 benchmark 上挤出 2% 的提升，排名就可能压过竞争对手。</p>
+<p>而你关心的是另一回事：日常成本、延迟和质量。</p>
+<p>对于 GPT 5.6 这样的模型，low、medium、high 之间的差距，感觉就像在用完全不同的模型。这是实实在在影响巨大的差别。不过，也不要为了过度优化而针对每个任务不停微调 effort 档位。</p>
+<p>正确做法是选定一个设置并坚持用它。作者本人用的是 <strong>Claude Opus 4.8 加 medium effort</strong>，不会逐个任务去改。理由很简单：一致性比优化更重要。</p>
+<p>当你改动、调校模型和它的 effort 档位时，你只是在修改系统的一个部分。而当你改动 harness 和 environment 时，你可以随时换掉模型，让整个系统都受益。保持模型无关（model agnostic）、保持 effort 档位稳定，你就保住了灵活性。</p>
+<p>这是一种主观见解——不同的工作流适合不同的做法。你可以在 Discord 里分享自己的经验，讨论哪些模型最适合你。关键在于做出深思熟虑的选择并衡量结果，而不是不停地拧旋钮。</p>
+<h3>选择 effort 时要考虑什么（What to Consider When Choosing Effort）</h3>
+<p>在决定 effort 档位时，你需要权衡多个因素：</p>
+<table>
+<thead>
+<tr>
+<th>因素</th>
+<th>low effort</th>
+<th>medium effort</th>
+<th>high effort</th>
+<th>max effort</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>成本</strong></td>
+<td>最便宜</td>
+<td>适中</td>
+<td>较高</td>
+<td>最贵</td>
+</tr>
+<tr>
+<td><strong>速度</strong></td>
+<td>最快</td>
+<td>快</td>
+<td>较慢</td>
+<td>最慢</td>
+</tr>
+<tr>
+<td><strong>质量</strong></td>
+<td>基础</td>
+<td>良好</td>
+<td>更好</td>
+<td>略好一点</td>
+</tr>
+<tr>
+<td><strong>愚蠢区风险</strong></td>
+<td>最低</td>
+<td>低</td>
+<td>较高</td>
+<td>最高</td>
+</tr>
+<tr>
+<td><strong>最适合</strong></td>
+<td>机械性修改、简单任务</td>
+<td>日常工作</td>
+<td>真正困难的问题</td>
+<td>仅限跑 benchmark</td>
+</tr>
+</tbody></table>
+<p>对大多数工作来说，medium effort 是最佳平衡点。它在成本、速度和质量之间取得了不错的平衡，又不会毫无必要地烧光你的 token 预算。</p>
+<h2>最终建议（Final Recommendations）</h2>
+<p>effort 设置会极大地改变你所用模型的成本和质量。在敲定方案之前：</p>
+<ul>
+<li><strong>看看 benchmark</strong> —— 到 DeepSWE 这类网站上查看你所用模型的性能图表。它们展示了 token 花费比例，以及 low、medium、high 之间的差别。</li>
+<li><strong>记住 benchmark 有局限</strong> —— 你每天做的工作很可能与 benchmark 测的东西大不相同。想知道什么适合你，唯一的办法就是在你的真实工作流里尝试不同的 effort 档位。</li>
+<li><strong>避免无休止地 min-maxing</strong> —— 选一个感觉合适的模型和 effort 档位，然后坚持用。你花在调优上的时间，就是你没在交付的时间。</li>
+<li><strong>保持一致</strong> —— 一个稳定、可预期的设置，胜过无数次为单一场景优化出来的&quot;最优解&quot;。</li>
+</ul>
+<p>目标是做出一个知情的决定然后向前走，而不是找到完美设置。你的设置应该服务于你的工作流，而不是束缚它。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你坐下来开始平常一天的功能开发，打开 effort 菜单。你选哪个？</p>
+<ul class="quiz-choices">
+<li class="correct">medium，接下来的任务也保持不动</li>
+<li>max，因为这个功能比上一个更重要</li>
+<li>哪个合适用哪个，工作变了就换</li>
+<li>low，只在输出看起来不对时才调高</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">medium 是日常工作的最佳平衡点，而选它的意义就在于你从此不再动它——一致性胜过优化，花在调优上的时间就是没在交付的时间。max 是跑 benchmark 的设置，不是干活的设置。逐个任务去调，或者一出问题就从 low 往上拧，正是那种得不偿失的持续 min-maxing。</p>
+<p class="quiz-q-text">调高 effort 档位会让你花更多的钱。它还要付出什么代价？</p>
+<ul class="quiz-choices">
+<li class="correct">token 预算，让你更早进入愚蠢区</li>
+<li>质量，因为额外的推理会把模型绕晕</li>
+<li>tool call，因为代之而生的是 reasoning tokens</li>
+<li>没有别的了，token 账单是唯一的成本</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">effort 既是对质量的权衡，也是对延迟的权衡——更多的 reasoning tokens 更快烧掉预算，离愚蠢区也更近。额外的推理是提升质量而非降低质量，这正是 chain of thought 的全部意义所在。reasoning 并不会取代 tool call，因为文本、tool call 和 reasoning 是三种彼此独立的输出。账单也并不是唯一的成本，否则这个选择就太容易了。</p>
+<p class="quiz-q-text">model provider 们到底为什么要提供 max effort 档位？</p>
+<ul class="quiz-choices">
+<li class="correct">为了把 benchmark 分数推高几分</li>
+<li>为了让日常工作得到最好的输出</li>
+<li>为了让重度用户在难任务上买到更快的答案</li>
+<li>为了让长 session 在聪明区里待得更久</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">max 存在的意义，是让 provider 能在 benchmark 上多挤出几个百分点、在排名上压过竞争对手。它不是为日常工作准备的——在日常工作里，它相对 high 的质量提升微乎其微，token 成本却不是。effort 越高越慢，而不是越快。而在 reasoning 上花更多 token，只会把你推向愚蠢区，而不是把你留在聪明区。</p></div>
+# 如何选择模型（Choosing A Model）<p>我最常被问到的问题之一是：我该用什么 model？某些情况下换 model 有没有意义？</p>
+<p>我的商业伙伴 Joel 曾经注意到，直播时只要聊天区让我换一个 model、而我不得不再解释一遍时，我就会叹气。确实，不断有人向我轰炸&quot;试试这个模型，试试这个模型。这个新模型把其他模型打得落花流水。你必须试试，不然就落后了&quot;，这让我有点烦。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784126474/ai-hero-images/bahfbz5sbwsrpuufel1l.png" alt="关于切换模型的 Twitter 对话"></p>
+<p>关于切换模型的 Twitter 对话</p>
+<h2>model、harness 与 environment（Model, Harness, and Environment）</h2>
+<p>在我的心智模型里，model 只是更大生态系统的一部分。包围着它的是 harness，而 harness 加 model 又运转在 environment 之中。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784126475/ai-hero-images/mppgqhhchshzkgothgqy.png" alt="展示 model、harness 和 environment 的示意图"></p>
+<p>展示 model、harness 和 environment 的示意图</p>
+<p>我认为 model 与&quot;harness 加 environment&quot;大致五五开。换句话说，model 是整个运作中影响非常大的一环。要是换成一个烂 model，你哪儿也去不了。</p>
+<p>但如果你手上的 model 已经运转良好，那么在 harness 和 environment 里往往还有很多可以做的事，能让你从模型那里得到更好的输出。</p>
+<p>这一课我确实要讲怎么选 model，但我也想淡化它，不想把它说成最举足轻重的事。</p>
+<p>只要你用的是第一梯队里的某个 model，大概就不会有问题。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784126476/ai-hero-images/xh0m0f9e408uoy4xtnpa.png" alt="图表：位于右上角的模型"></p>
+<p>图表：位于右上角的模型</p>
+<p>录制这节课时，我用的是 Claude Opus 4.8 medium。我的 model 或许还有一些优化空间，但我更想先优化我的 harness 和代码运行所在的 environment。</p>
+<p>我随时都能看到可以摘的低垂果实。而且关键是，如果我肯下功夫改进 environment 和 harness，那就意味着我可以随时换成任何 model，结果应该都还不错。</p>
+<p>我有点把 model 当成你公司里的一名员工，而员工总是来了又走。所以，如果你能投资公司的基础设施，确保任何一位新来的员工都能成功，那你的处境就会非常好。</p>
+<h2>效率：每个任务的成本（Efficiency: Cost Per Task）</h2>
+<p>话虽如此，我还是想给你一个心智模型，让你能在合适的场景里选出合适的 model。</p>
+<p>DeepSWE 这个 benchmark 有一点我很喜欢：它在底部标出了每个任务的平均成本（cost per task）。</p>
+<p>如果我们切到上面的 output tokens 筛选项，就会发现选出 output tokens 后完全是另一幅图景。比如，Gemini 3.5 Flash 花掉海量的 token，却没干成多少事。</p>
+<p>但如果真正去看每个 token 的成本，你会发现它其实相当便宜，一下子被拉回到图上这一侧。所以有些 model provider 的 token 单价就是比别人贵。</p>
+<p>不仅如此，比如这些 token 大概是按 API token 单价计费的，而如果你购买订阅（subscription），就会便宜得多得多。</p>
+<p>所以你不只是在选一个 model，同时也在选它附带的一整套定价结构。</p>
+<p>所以无论什么时候做这类比较，都要记住：效率才是关键。重要的不是 token 的原始成本，而是这些 token 给你换来了什么。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784126477/ai-hero-images/aetvpuxgpmmuogjtvipl.png" alt="DeepSWE 图表：模型聚集在右上角"></p>
+<p>DeepSWE 图表：模型聚集在右上角</p>
+<p>这张图很棒，因为可以看到所有模型都朝右上角聚拢——那里是效率最高的区域——但它仍然是一个相当抽象的 benchmark，未必对应你的实际工作。</p>
+<p>想进一步了解订阅与 API 定价的对比，可以看 Anthropic 的套餐比较。</p>
+<h2>让质量匹配任务需求（Matching Quality to Task Needs）</h2>
+<p>接下来说的是：不同的任务需要不同水平的质量。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784126478/ai-hero-images/zaygpyx8yrxgifr4bro7.png" alt="图表：GPT 5.6 SOL 的 effort 档位"></p>
+<p>图表：GPT 5.6 SOL 的 effort 档位</p>
+<p>比如，看 GPT 5.6 SOL 这样的模型，有些场景可能只需要用 low effort 档位。比如探索、调研和总结，可能 low effort 就够了。</p>
+<p>而详细的规划或 code review，你可能忍不住想升到 high effort 档位——那可是实打实的一大步跨越。所以这里有一点&quot;为活儿选对工具&quot;的意思。</p>
+<p>这可能意味着：规划难活儿时用一个 model，实现时用另一个 model。</p>
+<h2>用你自己的数据评估模型（Assess Models With Your Own Data）</h2>
+<p>说到这里要说明一下，我一直指着这张图讲，好像它就是你该信任的东西，但其实我只是拿它来类比你自己该做的评估。</p>
+<p>你真正该做的，是观察自己的使用情况，像鹰一样盯着账单，同时对一个 model 建立手感。model 确实像员工，而要从员工身上得到最好的产出，唯一的办法就是去了解他们。</p>
+<p>于是你会形成自己的一套 model 与 effort 档位的偏好排序。不过我要再说一遍：别在这么多选项之间花太多时间做 min-maxing。</p>
+<p>我更喜欢选定一个喜欢的，然后坚持用下去。而且我发现，我用同一个 model、同一个 effort 档位工作得越久，我就越懂得怎么 prompt 它。</p>
+<p>课程后面我们会看一种更实证的模型评估方法。它其实非常简单：用同样的输入，搭起两个不同的 model——或者同一个 model 配不同 effort 档位，甚至不同的 harness——让两套设置执行同一个任务。</p>
+<p>然后你评估哪个更好，也许在什么地方记一笔，也许把实验多跑几轮，你就拿到了相当不错的数据。这比盯着这些图表强，因为这些图表并不对应你的 agent 每天在公司里要做的真实任务。</p>
+<h2>关于模型选择的关键要点（Key Takeaways on Model Selection）</h2>
+<p>总结一下：model 只是全局画面的一部分。它是重要的一部分，但大致只占五五开。</p>
+<p>选 model 的时候，你不只是在选 output tokens，也不只是在权衡 output tokens 与质量，还要看每个任务的成本。</p>
+<p>当你开始用几个不同的 model 之后，就会逐渐摸清在某些场景下你最喜欢的是哪个。而在我看来，你最好还是坚持用一个 model、一个 effort 档位，把它摸得透透彻彻。</p>
+<p>人人对模型选择都有一套看法。我很想听听你的观点——你怎么看这件事？你怎么评估不同的 model 和不同的 effort 档位？</p>
+<p>欢迎到 AI Hero Discord 参与讨论。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你已经在用第一梯队的 model，但 agent 给你的输出还是不够好。下一个小时你该花在哪里？</p>
+<ul class="quiz-choices">
+<li class="correct">harness 和 environment 上，任何 model 都能从中受益</li>
+<li>换到最新 benchmark 榜首的那个 model 上</li>
+<li>调高你现有 model 的 effort 档位</li>
+<li>反复重写 prompt，直到这个 model 把任务做对</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">model 只占全局的一半左右，而投入 harness 和 environment 的功夫在换掉 model 之后依然有效——就像能让任何员工成功的公司基础设施。你已经身处第一梯队，换成最新 benchmark 榜首也带来不了多少收益。effort 调优和 prompt 重写都只改善单一套设置，一旦换掉 model，收益就归零。</p>
+<p class="quiz-q-text">一位同事坚称另一个 model 更适合你的代码库。你怎么一锤定音？</p>
+<ul class="quiz-choices">
+<li class="correct">让两套设置执行同一个任务，评判哪个结果更好</li>
+<li>看 benchmark 图，选最靠近右上角的那个 model</li>
+<li>选平均每个任务成本最低的那个 model</li>
+<li>每周换一个 model，直到哪个用起来感觉最好</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">同样的输入、两套设置、评判输出、多跑几轮——这才是关于你自己工作的真实数据。benchmark 图是抽象的，未必对应你的 agent 真正执行的任务，所以无论是看图选型还是挑图上最便宜的点，都靠不住。每周轮换 model 是 min-maxing，而且会让你对哪个 model 的 prompt 手感都练不出来。</p>
+<p class="quiz-q-text">你在比较两个 model 的成本。单纯的每 token 单价漏掉了什么？</p>
+<ul class="quiz-choices">
+<li class="correct">每个任务的成本，以及你按 API 价还是订阅价付费</li>
+<li>context window 大小，它限制单个任务能装多少东西</li>
+<li>每个任务的耗时，这才是慢 model 的真正成本</li>
+<li>effort 档位，它与 model 是分开选择的</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">效率指的是这些 token 给你换来了什么，所以关键问题是每个任务的成本，而订阅能让同一个 model 比 API 价格便宜得多。一个烧掉大量廉价 token 的 model 照样可能胜出。context window 大小和 effort 档位是真实存在的选择，但都不藏在 token 单价里。延迟也很重要，但它不是 benchmark 底部那个每任务成本数字在告诉你的东西。</p></div>
+# 子智能体（Subagents）<p>现在我们已经理解了模型的一些限制，比如聪明区和愚蠢区，以及 context window 如何被填满、如何逐渐劣化。接下来看看 harness 们常用的一种技术，用来缓解这些缺点。</p>
+<h2>可视化 agent 的 context 使用（Visualizing Agent Context Usage）</h2>
+<p>我这里有一个关于 agent context 的小可视化。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784121226/ai-hero-images/hqce2ycvtkbcipev6y4d.png" alt="可视化图：agent 的 context 被分成几个彩色区块"></p>
+<p>可视化图：agent 的 context 被分成几个彩色区块</p>
+<p>每个区块代表 agent 在这个 session 里需要做的不同任务。</p>
+<ul>
+<li><strong>灰色区块</strong>：一直待在 system prompt 里的内容——request logger</li>
+<li><strong>黄色区块</strong>：探索</li>
+<li><strong>绿色区块</strong>：实现</li>
+</ul>
+<h2>token 优化难题（The Token Optimization Problem）</h2>
+<p>任何 harness 的梦想都是把这些块变小。我们想花更少的 token。这有两个好处：</p>
+<ol>
+<li>我们花更少的钱</li>
+<li>context window 里有更多空间，注意力衰减更少，聪明区里有更多余地</li>
+</ol>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784121226/ai-hero-images/g96q1padgph4vsj2s4hy.png" alt="context 可视化：表达缩小各区块大小的愿望"></p>
+<p>context 可视化：表达缩小各区块大小的愿望</p>
+<p>然而，这里有个权衡。如果我们在探索阶段少跑腿，探索结果就会变差，这意味着实现阶段可能因为信息糟糕而受损。感觉上我们像是被锁死了：探索阶段就必须花这么多 token。</p>
+<p><strong>怎么跨过这道鸿沟？</strong> 怎样让探索、或某个特定阶段变得更便宜，同时让其他阶段照样受益？</p>
+<h2>把工作委托给 subagent（Delegating Work to Subagents）</h2>
+<p>很多 harness 采用了一个非常聪明的解决方案：把活儿委托给另一个 agent。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784121227/ai-hero-images/lgzghqp97a6gpmraier0.png" alt="可视化图：从主 agent 派生出一个 subagent"></p>
+<p>可视化图：从主 agent 派生出一个 subagent</p>
+<p>主 agent 派生出另一个 agent，这个 agent 可以花大量 token 深入探索代码库，然后把信息总结后汇报给主 agent。这有点像资深开发者对初级开发者说：&quot;帮我调研个东西，然后把你的发现汇报给我。&quot;</p>
+<h3>并行工作的 subagent（Parallel Subagent Work）</h3>
+<p>主 agent（即 orchestrator）还可以同时并行派生多个 subagent 去做不同的任务。也许它需要同时调研两件事，这两个&quot;初级开发者&quot;就可以分头并行工作，然后各自汇报发现。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784121228/ai-hero-images/w8redztjkgmkbkinlonk.png" alt="可视化图：并行派生多个 subagent"></p>
+<p>可视化图：并行派生多个 subagent</p>
+<h3>灵活的 subagent 配置（Flexible Subagent Configuration）</h3>
+<p>这些 subagent 可以带着不同的配置被派生：</p>
+<ul>
+<li>不同的 system prompt</li>
+<li>不同的 model</li>
+<li>不同的 effort 档位</li>
+</ul>
+<h3>递归的 subagent（Recursive Subagents）</h3>
+<p>你甚至可以让一个 subagent 再派生它自己的 subagent。有的 harness 支持，有的不支持。有的只允许你往下钻一层，但这意味着 subagent 可以发挥出与上层 agent 同等强大的作用。</p>
+<p><img src="https://res.cloudinary.com/total-typescript/image/upload/v1784121229/ai-hero-images/uk8mosnbzotudxlxz0cc.png" alt="可视化图：嵌套的 subagent 派生它们自己的 subagent"></p>
+<p>可视化图：嵌套的 subagent 派生它们自己的 subagent</p>
+<p>我们暂时把探索停留在理论层面，因为等到进入基础篇，我们会大量使用 subagent。</p>
+<p>干得漂亮，我们下一节再见。</p>
+<div class="quiz-block"><p class="quiz-block-title">随堂测 · Quiz</p>
+<p class="quiz-q-text">你的主 agent 把一次深入的代码库探索交给了一个 subagent。主 agent 从中得到了什么？</p>
+<ul class="quiz-choices">
+<li class="correct">它收到的是总结，而不是为找到总结而烧掉的 token</li>
+<li>探索完成得比它自己动手更快</li>
+<li>它不用为 subagent 烧掉的 token 付一分钱</li>
+<li>它自己的 context window 被清空回到起点</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">token 由 subagent 花在探索上，发现被汇报回来，所以落进主 agent context 的只有那份总结——钱花得更少，聪明区也更宽敞。subagent 的 token 依然被花了，只是没花在 orchestrator 的窗口里。速度是并行 subagent 买来的东西，光靠委托本身买不来。而且，派生 subagent 这件事丝毫不会清空主 agent 已经装着的内容。</p>
+<p class="quiz-q-text">派生 subagent 时，哪些配置可以与派生它的 agent 不同？</p>
+<ul class="quiz-choices">
+<li class="correct">它自己的 system prompt、model 和 effort 档位</li>
+<li>它自己的 system prompt，但用父级的 model</li>
+<li>它自己的 model，但用父级的 system prompt</li>
+<li>什么都不行，subagent 会继承整套设置</li>
+</ul>
+<p class="quiz-answer-label">答案与解析</p>
+<p class="quiz-answer">三者都可以配置，正因如此，你才能派一个便宜快的 subagent 去做机械搜索，派一个更强的去啃难题。那些更窄的选项都低估了它，而一个全盘继承的 subagent 不会比在主 agent 里干活便宜——在某些 harness 里，它甚至能派生自己的 subagent。</p></div></main></div><script>
+  (function(){
+    var links=document.querySelectorAll('aside.toc a');
+    var map={};
+    links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+    var hs=document.querySelectorAll('main h1[id]');
+    if(!('IntersectionObserver' in window)||!hs.length)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active')});
+          var a=map[e.target.id];
+          if(a){a.classList.add('active');
+            if(a.scrollIntoViewIfNeeded)a.scrollIntoViewIfNeeded(false);
+          }
+        }
+      });
+    },{rootMargin:'0px 0px -70% 0px'});
+    hs.forEach(function(h){io.observe(h)});
+  })();
+</script></body></html>
