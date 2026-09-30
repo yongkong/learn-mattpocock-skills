@@ -1,5 +1,6 @@
 import { AppLink } from "@/components/site/app-link";
 import { Kicker } from "@/components/site/kicker";
+import { ProgressDot } from "@/components/lesson/progress-dot";
 import { LESSONS, lessonHref, MODULE_LABELS, MODULES, TOP_LEVELS } from "@/lib/structure";
 
 /** 课程目录树:五章 + 各章课件 + 顶级类目,全部由结构注册表派生。 */
@@ -26,7 +27,7 @@ export function CourseTree({ currentNum }: { currentNum?: string }) {
                         }`}
                         title={l.title}
                       >
-                        <span className="font-mono">{l.num}</span> {l.short}
+                        <ProgressDot num={l.num} /> <span className="font-mono">{l.num}</span> {l.short}
                       </AppLink>
                     </li>
                   ))}

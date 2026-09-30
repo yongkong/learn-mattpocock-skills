@@ -10,6 +10,7 @@ import { workshopProgressId } from "@/lib/progress";
 import { AppLink } from "@/components/site/app-link";
 import { Kicker } from "@/components/site/kicker";
 import { PageShell } from "@/components/site/page-shell";
+import { ProgressDot } from "@/components/lesson/progress-dot";
 import { ProgressToggle } from "@/components/lesson/progress-toggle";
 import { Prose } from "@/components/site/prose";
 import { WORKSHOP_BODIES } from "@/content/workshop/bodies.generated";
@@ -41,6 +42,7 @@ function WorkshopTree({ currentNum }: { currentNum: string }) {
               }`}
               title={l.title}
             >
+              <ProgressDot num={workshopProgressId(l.num)} />{" "}
               <span className="font-mono">{l.num}</span> {l.short}
             </AppLink>
           </li>

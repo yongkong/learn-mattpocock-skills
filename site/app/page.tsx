@@ -30,7 +30,7 @@ export default function Home() {
         <Badge variant="outline" className="mb-4 font-normal text-muted-foreground">
           非官方社区课程 · 源出 Matt Pocock 的 skills 体系
         </Badge>
-        <h1 className="text-4xl font-semibold tracking-tight">Agent Skills 中文课</h1>
+        <h1 className="font-display text-4xl font-semibold tracking-tight">Agent Skills 中文课</h1>
         <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
           教你系统使用 Matt Pocock 的{" "}
           <a
@@ -78,7 +78,7 @@ export default function Home() {
                         <AppLink href={lessonHref(l.num)} className="font-medium hover:underline">
                           {l.title}
                         </AppLink>
-                        <span className="ml-auto">
+                        <span className="ml-auto shrink-0">
                           <ProgressToggle num={l.num} />
                         </span>
                       </li>
@@ -112,7 +112,7 @@ export default function Home() {
                 <AppLink href={workshopHref(l.num)} className="font-medium hover:underline">
                   {l.title}
                 </AppLink>
-                <span className="ml-auto">
+                <span className="ml-auto shrink-0">
                   <ProgressToggle num={workshopProgressId(l.num)} />
                 </span>
               </li>

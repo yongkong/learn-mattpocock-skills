@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 export function Callout({ children }: { children: ReactNode }) {
   return (
-    <div className="my-6 rounded-r-lg border-l-4 border-amber-600 bg-amber-50 px-5 py-4 dark:bg-amber-950/40 [&>p]:my-1">
+    <div className="my-6 rounded-r-lg border-l-4 border-amber-600 bg-amber-50 px-5 py-4 dark:bg-amber-950/40 [&>p]:my-1!">
       {children}
     </div>
   );
