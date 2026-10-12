@@ -14,7 +14,7 @@ export const quiz0006: QuizQuestion[] = [
     scenario: "/handoff 生成的交接文档,存放在哪里?",
     options: [
       "仓库根目录,随代码一起提交",
-      "CONTEXT.md 同级的 docs 目录",
+      "GLOSSARY.md 同级的 docs 目录",
       "收件人的邮箱草稿箱",
       "系统临时目录,不落进工作区",
     ],
@@ -46,7 +46,7 @@ export const quiz0006: QuizQuestion[] = [
     options: ["/to-questionnaire", "/handoff", "/wait-what", "/grill-me"],
     answer: 2,
     explain:
-      "消息没落地,当场触发 /wait-what:agent 补上你缺的上下文,用简化技术英语和 CONTEXT.md 的共同词汇,把这条消息重新讲一遍。",
+      "消息没落地,当场触发 /wait-what:agent 补上你缺的上下文,用简化技术英语和 GLOSSARY.md 的共同词汇,把这条消息重新讲一遍。",
   },
   {
     scenario: "协作模块六个技能里,唯一属于 model-invoked(模型可自己拉进来)的是?",

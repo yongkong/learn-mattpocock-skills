@@ -49,12 +49,39 @@ import { Cite } from "@/components/lesson/elements";
 
 发布后干活的口令:**work the frontier**——blocker 全部完成的工单随时可领,纯线性链就从头到尾。
 
+## PR 正文长什么样(/pr 的模板)
+
+主流程收尾开 PR 时,/pr(v1.3 新增,model-invoked)按这个骨架写正文——三个部分,每部分回答审查者的一个问题:
+
+```md
+## Summary
+
+<最小的那张图:pseudocode / 调用树 / 组件树 / 文件树 / Mermaid / diff>
+(只保留能回答「这次改了什么」的调用、文件与状态)
+
+## Evidence
+
+- **Before:** <截图 / 失败的测试输出>
+  **After:** <截图 / 通过的测试输出>
+
+## Merge Danger
+
+**Door:** <one-way 或 two-way>
+**Blast Radius:** <一个词:爆炸半径>
+```
+
+- **Summary 回答「改了什么」**:逻辑给伪代码,控制流给调用树,UI 给组件树,重构给文件树,交互/数据流给 Mermaid,纯改动点给 diff。选最小的那张某用。
+- **Evidence 回答「凭什么说它能跑」**:before/after 硬证据;截图是 S 级,执行证据(测试输出)是 A 级。挡住「我读了代码,应该能跑」。
+- **Merge Danger 回答「该往哪儿看」**:单向门还是双向门(回退便宜吗)+ 爆炸半径(布局位移、消费方破坏、移动端)。
+
+正文措辞用 `GLOSSARY.md` 的领域语言。模板改编自 Dex Horthy 的 show-me 技能(上游 CREDITS.md 署名)。
+
 ## grill-with-docs 的全部秘密
 
-它的 SKILL.md 正文只有一句:_“Call the Skill tool twice, for 'grilling' and 'domain-modeling'.”_(中译:调用两次 Skill 工具,先 grilling,后 domain-modeling。)——参考层组合式的活例子:访谈方法 + 领域建模,一次调用两个都上。所以你会看到:编号问题带推荐答案(grilling),同时 CONTEXT.md/ADR 被顺手更新(domain-modeling)。
+它的 SKILL.md 正文只有一句:_“Call the Skill tool twice, for ‘grilling’ and ‘domain-modeling’.”_(中译:调用两次 Skill 工具,先 grilling,后 domain-modeling。)——参考层组合式的活例子:访谈方法 + 领域建模,一次调用两个都上。所以你会看到:编号问题带推荐答案(grilling),同时 GLOSSARY.md/ADR 被顺手更新(domain-modeling)。
 
 <Cite>
-  来源:本地插件 to-spec/SKILL.md、to-tickets/SKILL.md、grill-with-docs/SKILL.md(v1.2.3,见
+  来源:本地插件 to-spec/SKILL.md、to-tickets/SKILL.md、grill-with-docs/SKILL.md、pr/SKILL.md(v1.3.1,见
   [github.com/mattpocock/skills](https://github.com/mattpocock/skills))。
 </Cite>
 

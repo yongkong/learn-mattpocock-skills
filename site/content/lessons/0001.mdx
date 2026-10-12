@@ -1,8 +1,8 @@
 ---
 num: "0001"
 short: "全局地图"
-title: "全局地图:25 个技能,一条流水线"
-lede: "25 个技能,一张地图:一条从想法到上线的流水线,加每个技能在图上的位置。学完它的检验标准只有一个——任何情境,10 秒内说出该用哪个技能。"
+title: "全局地图:27 个技能,一条流水线"
+lede: "27 个技能,一张地图:一条从想法到复盘的流水线,加每个技能在图上的位置。学完它的检验标准只有一个——任何情境,10 秒内说出该用哪个技能。"
 module: 主流程
 ---
 import { Callout, Card, Cards, Cite, Flow, Step } from "@/components/lesson/elements";
@@ -20,13 +20,13 @@ Matt Pocock 的出发点是:你手边有一群「中等到良好」的工程师(
 
 这句话解释了整套体系的设计:为什么先访谈再写 spec,为什么 spec 要拆成工单,为什么实现必须测试先行——每一步都是在给没有记忆的工人补上「上次说到哪了」。
 
-## 主流程:idea → ship 的五步
+## 主流程:idea → ship 的六步
 
 这是整套体系的主干。每个技能吃进上一步的产物,吐出下一步的原料:
 
 <Flow>
   <Step cmd="/grill-with-docs">
-    把你访谈到共识为止(每次 grilling 可能 16~50 个问题),决策顺手沉淀进 CONTEXT.md / ADR
+    把你访谈到共识为止(每次 grilling 可能 16~50 个问题),决策顺手沉淀进 GLOSSARY.md / ADR
   </Step>
   <Step cmd="/to-spec">
     把已达成的共识写成 spec(含 user stories),发布到 issue tracker。注意:它**不再访谈你**,访谈在上一轮已经完成
@@ -35,26 +35,31 @@ Matt Pocock 的出发点是:你手边有一群「中等到良好」的工程师(
     把 spec 拆成 tracer-bullet 工单:每张都是打通所有层的薄竖切片,并声明 blocking 关系,可以多 agent 并行认领
   </Step>
   <Step cmd="/implement">
-    按工单写代码:内部驱动 `/tdd`(红-绿-重构),收尾自动跑 `/code-review`
+    按工单写代码:内部驱动 `/tdd`(红-绿-重构),收尾自动跑 `/code-review`。工单多想一次跑完?批量化路线 `/implement-spec` 见[工程一章](/lessons/0005)
   </Step>
   <Step cmd="/code-review">
     两轴审查:Standards 轴(代码规范 + Fowler 坏味道基线)与 Spec 轴(是否忠实实现来源 spec),并行子 agent 执行
   </Step>
+  <Step cmd="/retro">
+    复盘这次会话:不评代码,评**环境**——把它踩过的坑变成导航指针、自动检查、标准的改进,下次会话少踩一遍(v1.3 新增的第六步)
+  </Step>
 </Flow>
 
 <Cite>
-  流程顺序来源:[aihero.dev/skills](https://www.aihero.dev/skills) The Main Flow
-  模块;各步骤细节来源:[5 agent skills I use every day](https://www.aihero.dev/5-agent-skills-i-use-every-day)。
+  流程顺序来源:[aihero.dev/skills](https://www.aihero.dev/skills) The Main Flow;
+  各步骤细节来源:[5 agent skills I use every day](https://www.aihero.dev/5-agent-skills-i-use-every-day)
+  与 [Skills changelog v1.3](https://www.aihero.dev/skills-changelog-v13-implement-spec-pr-retro-and-glossary-md)。
 </Cite>
 
 ## 主流程底下:参考层 Reference
 
-有四个技能你很少直接敲,它们是被上面调用的**公共层**:
+有五个技能你很少直接敲,它们是被上面调用(或在你开 PR 时自动进场)的**公共层**:
 
 - `/tdd` — 被 `/implement` 驱动
 - `/grilling` — 被 `/grill-me`、`/grill-with-docs` 等一切访谈类技能复用
-- `/domain-modeling` — 被 `/grill-with-docs` 调用,同步维护 CONTEXT.md 和 ADR
+- `/domain-modeling` — 被 `/grill-with-docs` 调用,同步维护 GLOSSARY.md 和 ADR
 - `/codebase-design` — deep module 的共同词汇,贯穿全部
+- `/pr` — 写 PR 正文时被模型拉进场,定下「摘要图 + 前后证据 + 合并危险」的骨架(v1.3 新增)
 
 这意味着:当你直接用 `/grill-me` 时,实际运行的是 `/grilling` 的方法;当你 `/implement` 时,内部走的是 `/tdd`。理解这一点,你就明白为什么文档说「参考层是被其他技能调用的可复用层」。<Cite>(来源:本地插件 engineering/README.md,见 [GitHub 仓库](https://github.com/mattpocock/skills))</Cite>
 
@@ -66,17 +71,22 @@ Matt Pocock 的出发点是:你手边有一群「中等到良好」的工程师(
     - `/prototype`
     - `/research`
   </Card>
-  <Card title="Upkeep — 保持健康" hint="不服务于某个具体特性,而是让代码库和工单池不腐烂。Garbage codebase → garbage agent output。">
+  <Card title="Engineering — 保养仓库,批量施工" hint="v1.3 起由 Upkeep 更名而来。一半保养流程的原料——工单池不堆烂票,代码库不积烂账;另一半为流程生成工作:一个 spec 一次并行施工。">
     - `/improve-codebase-architecture`
     - `/diagnosing-bugs`
-    - `/resolving-merge-conflicts`
     - `/triage`
     - `/wizard`
+    - `/implement-spec`(v1.3 新增)
   </Card>
   <Card title="Productivity — 人自己的工作流" hint="与代码无关:访谈(/grill-me)、交接(/handoff)、问卷(/to-questionnaire)、教学(/teach)、没读懂的消息(/wait-what)。">
     - `/grill-me` 等 6 个
   </Card>
 </Cards>
+
+<Callout>
+    <strong>v1.3 的两处地图变化。</strong>
+    其一,旧地图上的 <code>/resolving-merge-conflicts</code> 被移除:冲突处理被视为 harness 层的活,agent 现在自己会解,不再需要专门技能——遇到冲突直接让 agent 处理即可,「先读懂两个意图再让路」的思路仍然成立。其二,文件 <code>CONTEXT.md</code> 全面更名为 <code>GLOSSARY.md</code>(词汇表名副其实;迁移就是一条 <code>git mv</code>,见 [0002](/lessons/0002))。
+</Callout>
 
 ## 一个必须记住的二分:user-invoked vs model-invoked
 
@@ -84,8 +94,8 @@ engineering 和 productivity 两个 README 把技能分成两类:
 
 | 类型          | 怎么触发                                        | 例子                                                            |
 | ------------- | ----------------------------------------------- | --------------------------------------------------------------- |
-| user-invoked  | 只有你主动敲 `/技能名` 才会运行,模型不会自己拉进来 | `/grill-me`、`/to-spec`、`/implement`、`/triage`、`/ask-matt`    |
-| model-invoked | 模型可以根据语境自己触发,你也可以手动敲           | `/tdd`、`/prototype`、`/research`、`/code-review`、`/domain-modeling` |
+| user-invoked  | 只有你主动敲 `/技能名` 才会运行,模型不会自己拉进来 | `/grill-me`、`/to-spec`、`/implement`、`/retro`、`/ask-matt`    |
+| model-invoked | 模型可以根据语境自己触发,你也可以手动敲           | `/tdd`、`/prototype`、`/research`、`/code-review`、`/pr`        |
 
 推论:主流程的骨架(访谈→spec→工单→实现→审查)几乎全是 user-invoked——**节奏由你掌握**。你不说,agent 不会擅自开始写 spec。
 
@@ -103,7 +113,7 @@ engineering 和 productivity 两个 README 把技能分成两类:
 
 ## 首读材料
 
-[5 agent skills I use every day](https://www.aihero.dev/5-agent-skills-i-use-every-day) —— Matt Pocock 亲述主流程上最核心的五个技能,15 分钟。本课的心法和流程细节几乎全部出自这里,值得读原文。
+[5 agent skills I use every day](https://www.aihero.dev/5-agent-skills-i-use-every-day) —— Matt Pocock 亲述主流程上最核心的五个技能,15 分钟。本课的心法和流程细节几乎全部出自这里,值得读原文。想追本图最新的变化(第六步 /retro、工程模块批量施工、GLOSSARY.md 改名),读 [Skills changelog v1.3](https://www.aihero.dev/skills-changelog-v13-implement-spec-pr-retro-and-glossary-md)。
 
 <Callout>
     <strong>卡住了怎么办。</strong>

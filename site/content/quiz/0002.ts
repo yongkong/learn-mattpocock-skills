@@ -1,6 +1,6 @@
 import type { QuizQuestion } from "@/lib/quiz";
 
-/** 0002 随堂测验(10 题混编,正确项已打散)。 */
+/** 0002 随堂测验(11 题混编,正确项已打散)。 */
 export const quiz0002: QuizQuestion[] = [
   {
     scenario: "grilling 的某一轮,agent 该问哪些问题?",
@@ -24,7 +24,7 @@ export const quiz0002: QuizQuestion[] = [
     scenario: "(domain-modeling)「你说 account,到底指 Customer 还是 User?」属于它的哪个动作?",
     options: ["对照词汇表挑战冲突", "逼模糊词变精确的术语", "编造边界场景压测", "和代码交叉验证"],
     answer: 1,
-    explain: "把模糊词磨成精确的 canonical term 并当场写进 CONTEXT.md,是 domain-modeling 的日常动作;account/Customer/User 是 SKILL.md 原例。",
+    explain: "把模糊词磨成精确的 canonical term 并当场写进 GLOSSARY.md,是 domain-modeling 的日常动作;account/Customer/User 是 SKILL.md 原例。v1.3 起你讨论术语、或直接改 GLOSSARY.md/ADR 时,它也会自己进场。",
   },
   {
     scenario: "(domain-modeling)什么时候才值得立一个 ADR?",
@@ -61,5 +61,16 @@ export const quiz0002: QuizQuestion[] = [
     options: ["code-review 阶段,循环之外", "每次 green 之后循环内", "实现开始前的设计期", "测试失败时的应急动作"],
     answer: 0,
     explain: "和经典口诀最大的差异:refactor 被移出 red-green 循环,归 code-review 管,防止 agent 边加功能边大改结构。",
+  },
+  {
+    scenario: "(pr)agent 开 PR 时,按 /pr 模板正文该有哪三段?",
+    options: [
+      "Summary 图解 + Evidence 前后证据 + Merge Danger 合并危险",
+      "背景介绍 + 方案描述 + 测试计划",
+      "commit 列表 + 完整 diff + 审阅人名单",
+      "标题 + 标签 + 指派对象",
+    ],
+    answer: 0,
+    explain: "三段各答审查者一问:Summary 用最小可视图(伪代码/调用树/Mermaid/diff)答「改了什么」;Evidence 用 before/after 硬证据答「凭什么能跑」;Merge Danger 用单向/双向门加爆炸半径答「该往哪儿看」。模板改编自 Dex Horthy 的 show-me。",
   },
 ];

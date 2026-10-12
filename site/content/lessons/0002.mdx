@@ -1,8 +1,8 @@
 ---
 num: "0002"
 short: "参考层深挖"
-title: "参考层四技能:流程的四台发动机"
-lede: "主流程(grill → spec → tickets → implement → review)的每一步里,真正干活的是参考层这四个可复用技能:grilling、domain-modeling、codebase-design、tdd。这课四个全讲,最后混编出题。主流程全景见 0001。"
+title: "参考层五技能:流程的五台发动机"
+lede: "主流程(grill → spec → tickets → implement → review → retro)的每一步里,真正干活的是参考层这五个可复用技能:grilling、domain-modeling、codebase-design、tdd、pr。这课五个全讲,最后混编出题。主流程全景见 0001。"
 module: 参考层
 ---
 import { Callout, Cite, Flow, Step } from "@/components/lesson/elements";
@@ -11,18 +11,19 @@ import { quiz0002 } from "@/content/quiz/0002";
 
 <Callout>
     <strong>本课目标:学完你能做什么。</strong>
-    只会敲命令是「会用」;知道主流程每一步里哪个可复用技能在转、它按什么规则工作,才是「系统化」。这四个技能你几乎不直接敲——所以这课的重点是
+    只会敲命令是「会用」;知道主流程每一步里哪个可复用技能在转、它按什么规则工作,才是「系统化」。这五个技能你几乎不直接敲——所以这课的重点是
     <strong>认出它们在什么时候被调用、按什么规则工作</strong>。
 </Callout>
 
-## 先上全景:四个词条一张表
+## 先上全景:五个词条一张表
 
 | 技能                 | 管什么                       | 被谁调用                                             | 一句话记法                 |
 | -------------------- | ---------------------------- | ---------------------------------------------------- | -------------------------- |
 | `/grilling`          | design tree + frontier 访谈法 | grill-me、grill-with-docs、improve-codebase-architecture | 问完树的每个分支才动手     |
-| `/domain-modeling`   | 统一语言、CONTEXT.md、ADR     | grill-with-docs                                       | 逼所有人(和 agent)说同一套话 |
+| `/domain-modeling`   | 统一语言、GLOSSARY.md、ADR    | grill-with-docs;讨论术语、改 GLOSSARY.md/ADR 时也会自动进场 | 逼所有人(和 agent)说同一套话 |
 | `/codebase-design`   | deep module 设计词典          | 所有设计讨论(tdd 点名查它)                           | 词典是用来查的,不是跑的   |
 | `/tdd`               | red → green,seam 上的好测试  | implement                                             | 先红后绿,一次一片         |
+| `/pr`                | PR 正文的三段骨架             | 写 PR body 时模型自动进场(v1.3 新增)                  | 一眼看清改了什么、凭什么是安全的 |
 
 <Cite>别忘了:/prototype 不属于参考层——它是 Shaping 模块的技能(用完即弃的原型答题,见 [0004](/lessons/0004))。</Cite>
 
@@ -52,16 +53,18 @@ import { quiz0002 } from "@/content/quiz/0002";
 
 ## 二、domain-modeling:磨利项目的统一语言
 
-它管的是<strong>领域模型</strong>——不是数据库模型,而是:这个项目的业务概念词汇表 + 关键决策记录。落地为两个文件:`CONTEXT.md`(纯词汇表,<strong>零实现细节</strong>,不是 spec 也不是草稿本)和 `docs/adr/`(架构决策记录)。
+它管的是<strong>领域模型</strong>——不是数据库模型,而是:这个项目的业务概念词汇表 + 关键决策记录。落地为两个文件:`GLOSSARY.md`(纯词汇表,<strong>零实现细节</strong>,不是 spec 也不是草稿本)和 `docs/adr/`(架构决策记录)。文件原名 `CONTEXT.md`,v1.3 起更名:名字源自 DDD 的「限界上下文」,但过于含糊,agent 该触发时没触发;而文件实际早已收缩成一份纯词汇表——`GLOSSARY.md` 名副其实。旧仓库迁移就是一条 `git mv CONTEXT.md GLOSSARY.md`(团队要在一个所有人都拉取的提交里一起改,否则先升级的人的 agent 会在旁边新建一个空文件)。
 
 四个具体动作(SKILL.md 原文):
 
-1. **对照词汇表挑战**——你用了和 CONTEXT.md 冲突的词,立刻指出:"你的词汇表定义 cancellation 是 X,你现在说的像 Y,到底是哪个?"
+1. **对照词汇表挑战**——你用了和 GLOSSARY.md 冲突的词,立刻指出:"你的词汇表定义 cancellation 是 X,你现在说的像 Y,到底是哪个?"
 2. **逼模糊词变精确**——"你一直说 account,到底是指 Customer 还是 User?这是两个东西。"
 3. **用具体场景压测**——编造边界场景逼你说清概念边界:"VIP 用户在下单瞬间被降级,这单还享折扣吗?"
 4. **和代码交叉验证**——你说支持部分取消,代码却只能整单取消,它把矛盾摆上桌:"哪个是对的?"
 
-术语一旦敲定,<strong>当场写进 CONTEXT.md</strong>,不攒批。ADR 则很克制,要同时满足三个条件才提议:<strong>难以逆转</strong>(改主意代价大)+ <strong>没有上下文会让人困惑</strong>(未来读者会问为什么)+ <strong>真实权衡的结果</strong>(存在过真选项)。三者缺一,就不立 ADR。<Cite>(来源:本地插件 [engineering/domain-modeling/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md))</Cite>
+术语一旦敲定,<strong>当场写进 GLOSSARY.md</strong>,不攒批。ADR 则很克制,要同时满足三个条件才提议:<strong>难以逆转</strong>(改主意代价大)+ <strong>没有上下文会让人困惑</strong>(未来读者会问为什么)+ <strong>真实权衡的结果</strong>(存在过真选项)。三者缺一,就不立 ADR。<Cite>(来源:本地插件 [engineering/domain-modeling/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md))</Cite>
+
+v1.3 还放宽了它的触发条件:不只是被 grill-with-docs 调用——<strong>你在讨论代码库术语、或直接编写/编辑 GLOSSARY.md 与 ADR 时,它也会自己进场</strong>。词汇表的维护从「访谈的副产品」变成了随时可触发的独立纪律。
 
 为什么值得单独一个技能?整套体系的心法是:agent 没有记忆。统一语言就是给 agent 的共享记忆——词汇表写清楚后,grilling 提问、写 spec、命名测试、/wait-what 重新解释消息,全都用同一套词。
 
@@ -95,7 +98,7 @@ SKILL.md 的自我定位:循环本身(red → green)很简单,这个技能的价
 
 ### 测试写在哪?——seam 上,而且是「预先约定」的 seam
 
-测试放在 seam(公共边界),永远不伸进内部。更严格的是:开写任何测试之前,agent 必须先列出「本次测哪些 seams」并<strong>跟你确认</strong>——不可能什么都测,提前约定才让测试力气花在关键路径上。开写前它还会读 CONTEXT.md,让测试命名用项目的领域词汇——domain-modeling 的产物在这里被消费。
+测试放在 seam(公共边界),永远不伸进内部。更严格的是:开写任何测试之前,agent 必须先列出「本次测哪些 seams」并<strong>跟你确认</strong>——不可能什么都测,提前约定才让测试力气花在关键路径上。开写前它还会读 GLOSSARY.md,让测试命名用项目的领域词汇——domain-modeling 的产物在这里被消费。
 
 ### 三个反模式
 
@@ -109,23 +112,33 @@ SKILL.md 的自我定位:循环本身(red → green)很简单,这个技能的价
     阶段管。实现循环只管红变绿,评审阶段再统一找坏味道。这防止了 agent 在循环里一边加功能一边大改结构。
 </Callout>
 
-## 四台发动机怎么咬合
+## 五、pr:让 PR 正文一眼可审
 
-一条真实的链:`/grill-with-docs` 调用 grilling(frontier 访谈)<strong>+ domain-modeling</strong>(顺手沉淀 CONTEXT.md/ADR);访谈聊到接口形状,codebase-design 的词汇进场;共识交给 `/to-spec` 写成 spec;`/implement` 拿到工单后调用 tdd,在 spec 约定的 seam 上 red-green;`/code-review` 收尾,重构在这时才发生。参考层的四个技能,就这样各自被主流程的不同站点调用——<strong>你不直接敲它们,但每次主流程都在踩它们</strong>。
+参考层里最新的一个(v1.3):model-invoked——你(或实现技能)要开 PR 时,模型自动拉它进场,把 PR 正文按一个固定骨架写出来。它解决的问题很具体:agent 写的 PR 描述常常是一句「实现了 XX 特性」,审查者没法从一句话里看出改动形状、也没法判断往哪儿看。模板三段(SKILL.md 原文):
 
-## 练一练:四个技能混着辨
+1. **Summary(摘要)**:用<strong>最小的那张图</strong>说清改动的关键——逻辑用伪代码、运行时控制流用调用树、UI 结构用组件树、重构用文件树、交互/数据流用 Mermaid、纯改动点用 diff。只保留能回答「这次改动是什么」的调用、文件和状态,不堆全量细节。
+2. **Evidence(证据)**:<strong>before / after</strong> 的硬证据——改之前测试怎么红、改之后怎么绿。截图是 S 级(环境支持且改动可视时),执行证据是 A 级(测试结果、控制台输出)。这是在挡 agent 那句最危险的「我读了代码,应该能跑」。
+3. **Merge Danger(合并危险)**:这是一扇<strong>单向门还是双向门</strong>(roll back 便宜吗?有没有破坏性、难回退的动作?)加<strong>爆炸半径</strong>(一个词:影响面在哪——布局位移、消费方破坏、移动端?)——告诉审查者该把注意力花在哪。
 
-下面 10 题覆盖全部四个技能,混着出(interleaving)——混着练比一串同类的题更接近真实使用场景,记忆也更牢。
+正文措辞要用 `GLOSSARY.md` 里的领域语言——参考层内部又一次互相咬合:domain-modeling 攒下的词汇,在 PR 正文这里被消费。可视化的模板改编自 Dex Horthy 的 show-me 技能(上游 CREDITS.md 有署名)。<Cite>(来源:本地插件 [engineering/pr/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/pr/SKILL.md))</Cite>作者对它的评价很高:他见过<strong>最可靠的 model-invoked 技能之一</strong>——因为「写 PR body」这个触发时机极其明确,模板又硬。
+
+## 五台发动机怎么咬合
+
+一条真实的链:`/grill-with-docs` 调用 grilling(frontier 访谈)<strong>+ domain-modeling</strong>(顺手沉淀 GLOSSARY.md/ADR);访谈聊到接口形状,codebase-design 的词汇进场;共识交给 `/to-spec` 写成 spec;`/implement` 拿到工单后调用 tdd,在 spec 约定的 seam 上 red-green;`/code-review` 收尾,重构在这时才发生;开 PR 时 `/pr` 自动进场,用 GLOSSARY.md 的语言写正文。参考层的五个技能,就这样各自被主流程的不同站点调用——<strong>你不直接敲它们,但每次主流程都在踩它们</strong>。
+
+## 练一练:五个技能混着辨
+
+下面 11 题覆盖全部五个技能,混着出(interleaving)——混着练比一串同类的题更接近真实使用场景,记忆也更牢。
 
 <Quiz questions={quiz0002} />
 
 ## 合上页面,回忆一遍
 
-检索练习,2 分钟:白纸上给四个技能各写一张「卡片」——管什么 + 被谁调用 + 一句话记法。写不出卡片的技能就是盲区,回头重读对应章节。间隔复习:第一次学完后的第 1、3、7 天各回来,把本课和 [0001](/lessons/0001) 的测验重做一遍——每次几分钟,比重读课文有效得多。
+检索练习,2 分钟:白纸上给五个技能各写一张「卡片」——管什么 + 被谁调用 + 一句话记法。写不出卡片的技能就是盲区,回头重读对应章节。间隔复习:第一次学完后的第 1、3、7 天各回来,把本课和 [0001](/lessons/0001) 的测验重做一遍——每次几分钟,比重读课文有效得多。
 
 ## 首读材料
 
-[My Grill Me skill has gone viral](https://www.aihero.dev/my-grill-me-skill-has-gone-viral) —— grill-me 走红背后,design tree 方法论的完整故事。想更深可以读 Ousterhout《A Philosophy of Software Design》(codebase-design 的词源,注意 Matt 改写了深度的定义)。
+[My Grill Me skill has gone viral](https://www.aihero.dev/my-grill-me-skill-has-gone-viral) —— grill-me 走红背后,design tree 方法论的完整故事。想更深可以读 Ousterhout《A Philosophy of Software Design》(codebase-design 的词源,注意 Matt 改写了深度的定义)。/pr 与 GLOSSARY.md 改名的来龙去脉,读 [Skills changelog v1.3](https://www.aihero.dev/skills-changelog-v13-implement-spec-pr-retro-and-glossary-md)。
 
 <Callout>
     <strong>卡住了怎么办。</strong>

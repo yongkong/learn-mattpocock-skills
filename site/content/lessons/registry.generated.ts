@@ -6,22 +6,22 @@ export const LESSONS: LessonEntry[] = [
   {
     "num": "0001",
     "short": "全局地图",
-    "title": "全局地图:25 个技能,一条流水线",
-    "lede": "25 个技能,一张地图:一条从想法到上线的流水线,加每个技能在图上的位置。学完它的检验标准只有一个——任何情境,10 秒内说出该用哪个技能。",
+    "title": "全局地图:27 个技能,一条流水线",
+    "lede": "27 个技能,一张地图:一条从想法到复盘的流水线,加每个技能在图上的位置。学完它的检验标准只有一个——任何情境,10 秒内说出该用哪个技能。",
     "module": "主流程"
   },
   {
     "num": "0002",
     "short": "参考层深挖",
-    "title": "参考层四技能:流程的四台发动机",
-    "lede": "主流程(grill → spec → tickets → implement → review)的每一步里,真正干活的是参考层这四个可复用技能:grilling、domain-modeling、codebase-design、tdd。这课四个全讲,最后混编出题。主流程全景见 0001。",
+    "title": "参考层五技能:流程的五台发动机",
+    "lede": "主流程(grill → spec → tickets → implement → review → retro)的每一步里,真正干活的是参考层这五个可复用技能:grilling、domain-modeling、codebase-design、tdd、pr。这课五个全讲,最后混编出题。主流程全景见 0001。",
     "module": "参考层"
   },
   {
     "num": "0003",
     "short": "实战",
     "title": "实战:跑通主流程前三站",
-    "lede": "地图(0001)和四台发动机(0002)都认识了。这课没有新知识——它是一份飞行清单,带你在你自己的仓库把 /grill-with-docs → /to-spec → /to-tickets 真正跑一遍。跑完,前三站就从「知道」变成「做过」。",
+    "lede": "地图(0001)和五台发动机(0002)都认识了。这课没有新知识——它是一份飞行清单,带你在你自己的仓库把 /grill-with-docs → /to-spec → /to-tickets 真正跑一遍。跑完,前三站就从「知道」变成「做过」。",
     "module": "主流程"
   },
   {
@@ -33,10 +33,10 @@ export const LESSONS: LessonEntry[] = [
   },
   {
     "num": "0005",
-    "short": "保养技能",
-    "title": "保持健康:不让仓库腐烂的五个保养技能",
-    "lede": "主流程默认进料是干净的:spec 有共识、工单说得清、代码改得动。Upkeep 模块的五个技能不服务于某个特性,它们保养的是这两样东西本身——工单池不堆烂票,代码库不积烂账:/triage、/diagnosing-bugs、/resolving-merge-conflicts、/improve-codebase-architecture、/wizard。",
-    "module": "Upkeep"
+    "short": "工程技能",
+    "title": "保养与批量施工:工程模块的五个技能",
+    "lede": "主流程默认进料是干净的:spec 有共识、工单说得清、代码改得动。工程(Engineering,v1.3 前叫 Upkeep)模块的五个技能守着流程的两端——四个保养工单池与代码库不腐烂:/triage、/diagnosing-bugs、/improve-codebase-architecture、/wizard;一个批量施工:整个 spec 一次并行跑完(/implement-spec)。",
+    "module": "Engineering"
   },
   {
     "num": "0006",

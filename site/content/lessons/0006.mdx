@@ -33,7 +33,7 @@ import { quiz0006 } from "@/content/quiz/0006";
 
 ## 一、/grill-me:全家最薄的一个
 
-它的 SKILL.md 只有一行:调用 grilling。机制全部在[参考层](/lessons/0002)讲过——一轮轮只问「前提已解决」的问题,把设计树走到每个分支都有答案。grill-me 只是把方向盘交到你手里:user-invoked,拷问的对象是**你脑子里的计划**,不是仓库。和 [grill-with-docs](/lessons/0003) 的分工:想法还没碰代码 → `/grill-me`;对象是仓库和文档、要顺手沉淀 CONTEXT.md 和 ADR → `/grill-with-docs`。<Cite>(来源:本地插件 [productivity/grill-me/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md))</Cite>
+它的 SKILL.md 只有一行:调用 grilling。机制全部在[参考层](/lessons/0002)讲过——一轮轮只问「前提已解决」的问题,把设计树走到每个分支都有答案。grill-me 只是把方向盘交到你手里:user-invoked,拷问的对象是**你脑子里的计划**,不是仓库。和 [grill-with-docs](/lessons/0003) 的分工:想法还没碰代码 → `/grill-me`;对象是仓库和文档、要顺手沉淀 GLOSSARY.md 和 ADR → `/grill-with-docs`。<Cite>(来源:本地插件 [productivity/grill-me/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md))</Cite>
 
 ## 二、/handoff:会话边界的记忆
 
@@ -71,7 +71,7 @@ import { quiz0006 } from "@/content/quiz/0006";
 
 ## 四、/wait-what:没读懂,就 re-pitch
 
-它的 SKILL.md 本身就是触发口号:「停,刚才那条消息没落地,重新讲」。收到一条读了三遍还不知道要你干什么的邮件、工单、Slack 消息——不猜,当场敲 `/wait-what`,agent 会补上你缺的上下文,把这条消息换个方式重新讲一遍。两条讲话约束:用 **ASD-STE100 简化技术英语**(一种用受限词汇表消歧义的工程英语规范);用 `CONTEXT.md` 里的**共同词汇**——[domain-modeling](/lessons/0002) 维护的那份语言,在这里接上了:你和对话者共享的词,才是消歧义的底座。<Cite>(来源:本地插件 [productivity/wait-what/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md))</Cite>
+它的 SKILL.md 本身就是触发口号:「停,刚才那条消息没落地,重新讲」。收到一条读了三遍还不知道要你干什么的邮件、工单、Slack 消息——不猜,当场敲 `/wait-what`,agent 会补上你缺的上下文,把这条消息换个方式重新讲一遍。两条讲话约束:用 **ASD-STE100 简化技术英语**(一种用受限词汇表消歧义的工程英语规范);用 `GLOSSARY.md` 里的**共同词汇**——[domain-modeling](/lessons/0002) 维护的那份语言,在这里接上了:你和对话者共享的词,才是消歧义的底座。(v1.3 起文件名随大迁移从 CONTEXT.md 更名;仓库里若用 GLOSSARY-MAP.md 索引多个上下文,它也会跟着地图找到正确的那份词汇表。)<Cite>(来源:本地插件 [productivity/wait-what/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md))</Cite>
 
 ## 五、/writing-for-agents:为没有记忆的读者写作
 
@@ -97,7 +97,7 @@ import { quiz0006 } from "@/content/quiz/0006";
 | 要建 skill 或改 AGENTS.md / CLAUDE.md    | `/writing-for-agents`(或模型自动进场) | 一份对 agent 可预测的文档 |
 | 想系统学会一样东西                        | `/teach`             | 有状态的教学工作区           |
 
-可打印的全景路由表见[全局地图](/reference/skill-flow-map)。至此,25 个技能的五个模块全部走完——那张地图上已经没有你没见过的入口了。
+可打印的全景路由表见[全局地图](/reference/skill-flow-map)。至此,27 个技能的五个模块全部走完——那张地图上已经没有你没见过的入口了。
 
 ## 练一练:情境路由(混编 grilling 谱系 + 触发方式)
 
@@ -115,7 +115,7 @@ import { quiz0006 } from "@/content/quiz/0006";
 
 ## 首读材料
 
-本课最值得通读的原文:<strong>[Skills changelog v1.2](https://www.aihero.dev/skills/skills-changelog-v12-wait-what-writing-for-agents-claude-code-plugin-and-more)</strong>——作者亲述 /wait-what 与 /writing-for-agents 的设计动机,正是本课两个最新的技能。其余五个 SKILL.md 都很短,值得顺手全部过一遍;想深入写 skill 的手艺,再啃 [productivity/writing-for-agents/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md) 全文。
+本课最值得通读的原文:<strong>[Skills changelog v1.2](https://www.aihero.dev/skills/skills-changelog-v12-wait-what-writing-for-agents-claude-code-plugin-and-more)</strong>——作者亲述 /wait-what 与 /writing-for-agents 的设计动机,正是本课两个最新的技能。其余五个 SKILL.md 都很短,值得顺手全部过一遍;想追技能体系最新一章(/implement-spec、/pr、/retro 与 GLOSSARY.md 改名),读 [Skills changelog v1.3](https://www.aihero.dev/skills-changelog-v13-implement-spec-pr-retro-and-glossary-md);想深入写 skill 的手艺,再啃 [productivity/writing-for-agents/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md) 全文。
 
 <Callout>
     <strong>卡住了怎么办。</strong>

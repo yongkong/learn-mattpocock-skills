@@ -1,6 +1,6 @@
 import type { QuizQuestion } from "@/lib/quiz";
 
-/** 0001 随堂测验(7 题,正确项已打散)。 */
+/** 0001 随堂测验(8 题,正确项已打散)。 */
 export const quiz0001: QuizQuestion[] = [
   {
     scenario: "你脑子里有个新特性想法,但边界、取舍都还没想清。",
@@ -28,9 +28,15 @@ export const quiz0001: QuizQuestion[] = [
   },
   {
     scenario: "diff 已经完成,提交前要对照规范和原始 spec 各查一遍。",
-    options: ["/codebase-design", "/code-review", "/resolving-merge-conflicts", "/improve-codebase-architecture"],
+    options: ["/codebase-design", "/code-review", "/implement-spec", "/improve-codebase-architecture"],
     answer: 1,
     explain: "/code-review 是双轴:Standards 轴(规范 + Fowler 坏味道)与 Spec 轴(忠实实现),两轴由并行子 agent 分别执行。",
+  },
+  {
+    scenario: "code-review 通过了。这次会话踩了不少坑:绕远找文件、被 linter 逮住低级错。你想让这些教训变成仓库的长期改进,该敲哪个?",
+    options: ["/retro", "/improve-codebase-architecture", "/handoff", "/diagnosing-bugs"],
+    answer: 0,
+    explain: "/retro(v1.3 新增的主流程第六步)复盘会话,建议的是环境改进:导航指针、自动检查、标准文件——你批准才落地。/improve-codebase-architecture 只从代码本身找加深机会,不看会话过程。",
   },
   {
     scenario: "这个项目要做的事太大,一个 agent 会话根本装不下。",
@@ -42,6 +48,6 @@ export const quiz0001: QuizQuestion[] = [
     scenario: "一条消息(PR 描述、同事回复)你看了两遍还是没懂。",
     options: ["/ask-matt", "/handoff", "/to-questionnaire", "/wait-what"],
     answer: 3,
-    explain: "/wait-what 就是为「这条消息没落地」设计的:agent 会补上你缺的上下文,用 CONTEXT.md 的词汇重新讲一遍。/ask-matt 管的是『该用哪个技能』,不是『这条消息什么意思』。",
+    explain: "/wait-what 就是为「这条消息没落地」设计的:agent 会补上你缺的上下文,用 GLOSSARY.md 的词汇重新讲一遍。/ask-matt 管的是『该用哪个技能』,不是『这条消息什么意思』。",
   },
 ];

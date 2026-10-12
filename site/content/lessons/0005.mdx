@@ -1,9 +1,9 @@
 ---
 num: "0005"
-short: "保养技能"
-title: "保持健康:不让仓库腐烂的五个保养技能"
-lede: "主流程默认进料是干净的:spec 有共识、工单说得清、代码改得动。Upkeep 模块的五个技能不服务于某个特性,它们保养的是这两样东西本身——工单池不堆烂票,代码库不积烂账:/triage、/diagnosing-bugs、/resolving-merge-conflicts、/improve-codebase-architecture、/wizard。"
-module: Upkeep
+short: "工程技能"
+title: "保养与批量施工:工程模块的五个技能"
+lede: "主流程默认进料是干净的:spec 有共识、工单说得清、代码改得动。工程(Engineering,v1.3 前叫 Upkeep)模块的五个技能守着流程的两端——四个保养工单池与代码库不腐烂:/triage、/diagnosing-bugs、/improve-codebase-architecture、/wizard;一个批量施工:整个 spec 一次并行跑完(/implement-spec)。"
+module: Engineering
 ---
 import { Callout, Cite } from "@/components/lesson/elements";
 import { Quiz } from "@/components/lesson/quiz";
@@ -11,26 +11,31 @@ import { quiz0005 } from "@/content/quiz/0005";
 
 <Callout>
     <strong>本课目标:学完你能做什么。</strong>
-    主流程与 Shaping 管的是「往前走」;这课管的是「不烂掉」。学完的检验:给出任何一个保养情境——烂票、疑症、冲突、腐化、人肉流程——10 秒内说出该用五个保养技能里的哪一个,并说出它的核心动作。
+    主流程与 Shaping 管的是「往前走」;这课管的是「不烂掉」和「一次干完」。学完的检验:给出任何一个工程情境——烂票、疑症、腐化、人肉流程、整包施工——10 秒内说出该用五个技能里的哪一个,并说出它的核心动作。
 </Callout>
 
-## 为什么需要保养:agent 会放大仓库的质量
+<Callout>
+    <strong>v1.3 变化说明(老读者从这里补课)。</strong>
+    其一,本章由 Upkeep 更名 <strong>Engineering</strong>:作者对它的定位扩成「保养代码库与工单池,并为流程生成工作」。其二,<code>/resolving-merge-conflicts</code> 被<strong>移除</strong>,没有替代:冲突处理被视为 harness 层的活,现在的 agent 自己会解,不再需要专门技能——「先找 primary source、读懂两个意图再让路、绝不 abort」的思路仍然值得沿用,只是不再是一个技能了。其三,<code>/implement-spec</code> 加入本章:一整个 spec 一次并行施工。其四,文件 <code>CONTEXT.md</code> 全面更名为 <code>GLOSSARY.md</code>(见 [0002](/lessons/0002))。
+</Callout>
 
-这套体系的设计前提([0001](/lessons/0001) 的心法):agent 是一群没有记忆的工人。由此有一个不那么显眼的推论——**agent 只看你给它看的仓库,而它读到的质量,决定它产出的质量**。工单池堆满说不清的票、合并冲突拖着不解、文档与代码悄悄脱节,agent 读到的就是这些,产出的也是这些。<Cite>(来源:[Make codebases AI agents love](https://www.aihero.dev/how-to-make-codebases-ai-agents-love))</Cite>
+## 为什么需要这一章:agent 会放大仓库的质量
 
-Upkeep 模块的五个技能因此不服务于任何具体特性——它们保养的是流程的两样原料本身:**工单池**与**代码库**。
+这套体系的设计前提([0001](/lessons/0001) 的心法):agent 是一群没有记忆的工人。由此有一个不那么显眼的推论——**agent 只看你给它看的仓库,而它读到的质量,决定它产出的质量**。工单池堆满说不清的票、文档与代码悄悄脱节,agent 读到的就是这些,产出的也是这些。<Cite>(来源:[Make codebases AI agents love](https://www.aihero.dev/how-to-make-codebases-ai-agents-love))</Cite>
 
-## 五个保养技能全景
+工程模块的五个技能因此围绕流程的两端:四个不服务于任何具体特性——保养的是流程的两样原料本身,**工单池**与**代码库**;一个(interleaving 进主流程的批量档)让「一整个 spec」可以一次并行施工。
 
-| 技能                            | 保养什么               | 触发方式      | 一句话记法               |
+## 五个工程技能全景
+
+| 技能                            | 管什么                 | 触发方式      | 一句话记法               |
 | ------------------------------- | ---------------------- | ------------- | ------------------------ |
 | `/triage`                       | 工单池:让每张票说得清 | user-invoked  | 进料口的质检员           |
 | `/diagnosing-bugs`              | 代码库:疑难 bug 的根因 | model-invoked | 先造红信号,再谈原因     |
-| `/resolving-merge-conflicts`    | 代码库:合并中的冲突   | model-invoked | 读懂两个意图,再判谁让路 |
 | `/improve-codebase-architecture` | 代码库:模块的深浅     | user-invoked  | 找浅模块,做加深手术     |
 | `/wizard`                       | 人:只有人能做的步骤   | model-invoked | 人肉流程的脚手架         |
+| `/implement-spec`               | 施工:整个 spec 一次跑完 | user-invoked | 工单当任务图,worktree 并行 |
 
-触发方式的完整二分表见 [0001](/lessons/0001)。本模块记一条规律:triage 和 improve-codebase-architecture 是 user-invoked——模型永远不会自作主张动你的工单池、给你的仓库开刀;其余三个是 model-invoked,你说「debug 这个」「把冲突解了」「帮我配个 CI secrets」,它们就来了。
+触发方式的完整二分表见 [0001](/lessons/0001)。本模块记一条规律:triage、improve-codebase-architecture 和 implement-spec 是 user-invoked——模型永远不会自作主张动你的工单池、给你的仓库开刀、替你开整条施工线;其余两个是 model-invoked,你说「debug 这个」「帮我配个 CI secrets」,它们就来了。
 
 ## 一、/triage:工单池的质检员
 
@@ -64,25 +69,21 @@ Phase 1 的完成判据:手里有一条**一条命令**能触发的信号,并且
 
 回归测试还有一条与 [tdd](/lessons/0002) 同源的判定词:测试要落在**正确的 seam** 上——真实 bug 在调用点发生的位置。如果现有接缝太浅、测试触发不了真实调用链,**没有正确的 seam 本身就是发现**:记录它,架构在阻止这个 bug 被锁死。
 
+修完还有一步新路由(v1.3):ask-matt 现在会把「修完 bug」引向 `/retro`——复盘这个 bug 为什么能溜进来,把教训变成仓库的自动检查,而不只是这一次修好了。retro 是[主流程](/lessons/0001)第六步,详见那里的讲解。
+
 <Callout>
     <strong>呼应 [0002](/lessons/0002) 的两个关联机制:</strong>
     其一,tdd 的红-绿循环与这里的红信号是同一个判定词——tdd 的红来自「还没实现的正确行为」,诊断的红来自「已经存在的错误行为」,先红后修的次序相同。其二,「正确的 seam」用的正是 codebase-design 的深浅词汇:单测触发不了真实调用链 = 接缝太浅,与「一个 adapter = 假想 seam,两个 = 真 seam」是同一套判断。
 </Callout>
 
-## 三、/resolving-merge-conflicts:读懂两个意图
-
-五步:看清合并/rebase 的当前状态 → 找每处冲突的 **primary source**(读 commit、PR、原 issue,弄懂两侧各自为什么改)→ 逐块解决 → 跑项目的自动检查(typecheck → tests → format,修掉合并弄坏的东西)→ 完成合并/rebase。
-
-原则:**尽量保留双方意图**;确实互斥时,按本次合并的目标选边,并把权衡记录下来;**不发明新行为**。两条铁律:总是解决,绝不 `--abort`。冲突的本质是两个合理的意图在同一行相遇——先读懂两边,才轮到判谁让路。<Cite>(来源:本地插件 [engineering/resolving-merge-conflicts/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md))</Cite>
-
-## 四、/improve-codebase-architecture:找浅模块,做加深手术
+## 三、/improve-codebase-architecture:找浅模块,做加深手术
 
 目标词是 **deepening**(加深):把浅模块变成深模块,为了可测试性与 AI 可导航性。它与 [codebase-design](/lessons/0002) 用同一套词汇(module、interface、depth、seam、adapter、leverage、locality)——那个技能给共同语言,这个技能找手术位置。两步走:
 
 1. **扫描,但先定范围(YAGNI)**。加深是为「未来的改动」买单,所以给最近常改的地方加权:走一遍 git log 找热区,而不是全仓库无差别扫。对每个嫌疑模块上**删除测试(deletion test)**:删掉它,复杂度是集中还是只是挪走?「集中」才是它真在扛复杂度的信号。
-2. **报告 + 访谈**。候选写成自包含 HTML 报告放进系统临时目录(不落仓库),每个候选带 before/after 图与推荐强度(Strong / Worth exploring / Speculative);你挑一个,它转入 grilling 访谈回路,把加深方案问成型。新概念随手进 CONTEXT.md;被否决且理由承重的候选,提议立 ADR,防止将来的扫描把同一方案重新端上来。<Cite>(来源:本地插件 [engineering/improve-codebase-architecture/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md))</Cite>
+2. **报告 + 访谈**。候选写成自包含 HTML 报告放进系统临时目录(不落仓库),每个候选带 before/after 图与推荐强度(Strong / Worth exploring / Speculative);你挑一个,它转入 grilling 访谈回路,把加深方案问成型。新概念随手进 GLOSSARY.md;被否决且理由承重的候选,提议立 ADR,防止将来的扫描把同一方案重新端上来。<Cite>(来源:本地插件 [engineering/improve-codebase-architecture/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md))</Cite>
 
-## 五、/wizard:只有人能做的步骤,交给脚本陪着走
+## 四、/wizard:只有人能做的步骤,交给脚本陪着走
 
 配 CI secrets、在陌生的第三方后台找开关、做一次性数据迁移——这些步骤 agent 替不了:要点浏览器、要人眼核对、要身份。wizard 把它们写成一个 bash 脚本:打开对应网址、逐屏说明点什么抄什么、收下值写到该去的地方(`.env`、GitHub secrets)、每步确认、显示还剩几步。三条边界:
 
@@ -92,15 +93,26 @@ Phase 1 的完成判据:手里有一条**一条命令**能触发的信号,并且
 
 *案例:本站诞生记。* 上线排障时发过一枚 Vercel token,用完需要在后台手动 Revoke:登录、找到 token、点删除,每一步都得人来做——这正是 wizard 的标准领地,哪怕流程只有三步。你自己的仓库里,凡是「得登录别人的后台」的活,都长这个样子。
 
-## 十秒路由:保养情境进哪个技能
+## 五、/implement-spec:一整个 spec,一次并行施工
+
+[主流程](/lessons/0001)上的 `/implement` 一次吃一张工单;spec 一拆十几张票,逐张敲既慢又丢全局。`/implement-spec`(v1.3)是它的批量档:**把整个 spec 一次跑完**,目标是全部工单落在一条**集成分支(integration branch)**上。四个机制(SKILL.md 原文):
+
+1. **工单不是列表,是任务图**。票之间的 blocking 关系构成图,所以任何时刻都有一批**可开工的 frontier**——一个实现子代理完工,frontier 前移,就点火下一批。这和 [to-tickets](/lessons/0003) 声明依赖的方式、wayfinder 的 frontier 是同一套词汇。
+2. **实现子代理各占一个 worktree**。每个子代理在自己的工作树里干活:开工前确认自己的分支基于集成分支(不是就重置过去);内部调用 [tdd](/lessons/0002) 建票;完工前把集成分支的最新尖端合进自己分支,保证回来时都是快进合并。子代理之间不传话,只传**上下文指针**(spec、工单、笔记、commit)——信息靠指针够到,不靠复述。
+3. **合并交给合并子代理,审查统一收口**。谁完工谁被并进集成分支;全部完工后,在集成分支上跑一次 `/code-review`,发现的问题交给**单个**实现子代理一次修完。默认不开 PR(除非你的 tracker 以 PR 关单、或你开口要)——产出物就是那条集成分支。
+4. **没有 tracker,先跑 setup**。它不默认 GitHub:没配置 issue tracker 就让你先跑 `/setup-matt-pocock-skills`。
+
+两条作者自认的边界,值得抄在心上:这条 agent 流水线**不比确定性脚本省心**(「The agent loop is worse than a deterministic loop」)——票的依赖是纯线性、动作高度机械时,写个脚本跑更稳;它真正的价值是 AFK 工作的入门形态。此外所有工作落在大分支上,worktree 只是把撞车推迟到合并时刻——**收尾那次 code-review 是唯一的关口**。<Cite>(来源:本地插件 [engineering/implement-spec/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/implement-spec/SKILL.md) 与 [Skills changelog v1.3](https://www.aihero.dev/skills-changelog-v13-implement-spec-pr-retro-and-glossary-md))</Cite>
+
+## 十秒路由:工程情境进哪个技能
 
 | 情境                                       | 技能                            | 出口                           |
 | ------------------------------------------ | ------------------------------- | ------------------------------ |
 | 工单池堆了没看过的 issue / 外部 PR          | `/triage`                       | ready-for-agent + agent 简报   |
 | 疑难 bug / 性能回归,根因不明                | `/diagnosing-bugs`              | 修复 + 回归测试 + 结论进 commit |
-| 合并 / rebase 被冲突挡住                    | `/resolving-merge-conflicts`    | 双方意图都保住的干净合并       |
 | 仓库越来越难改、难测,agent 越来越难导航    | `/improve-codebase-architecture` | 加深机会报告 → 访谈 → 工单    |
 | 一段只有人能做的手工流程(凭证 / 后台 / 迁移) | `/wizard`                       | 一次性 bash 向导               |
+| 一整个 spec 十几张票,想一次跑完            | `/implement-spec`               | 集成分支上全部工单落地 + code-review |
 
 可打印的全景路由表见[全局地图](/reference/skill-flow-map)。
 
@@ -113,7 +125,7 @@ Phase 1 的完成判据:手里有一条**一条命令**能触发的信号,并且
 1. diagnosing-bugs 的红信号要同时满足哪四个词?
 2. 没有红信号之前,哪个动作被明令禁止?
 3. triage 里,报告者回复之后,`needs-info` 的票回到哪个状态?
-4. 解冲突的两条铁律是什么?
+4. implement-spec 的产出落在一条什么分支上?工单在那里被当成什么来组织?
 5. 删除测试的「好信号」是哪两个字?
 6. wizard 的准入判据,一句话是什么?
 

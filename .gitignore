@@ -19,3 +19,4 @@ site/public/crash-course-html-zh/
 
 # 本机个人配置
 .claude/settings.local.json
+.agents/

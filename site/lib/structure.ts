@@ -1,18 +1,20 @@
 export const SITE_NAME = "Agent Skills 中文课";
 
 /** Module(模块章):Course 目录的顶级分类单位,五枚。key 是数据身份(frontmatter/持久化),展示一律走 MODULE_LABELS。 */
-export const MODULES = ["主流程", "参考层", "Shaping", "Upkeep", "协作"] as const;
+export const MODULES = ["主流程", "参考层", "Shaping", "Engineering", "协作"] as const;
 export type ModuleName = (typeof MODULES)[number];
 
 /**
  * 模块的展示名:中文·英文,英文取 Matt Pocock 原著分类(aihero.dev/skills)原词,不得意译改写。
- * Shaping / Upkeep 原著即英文,中文为讲授用译名(塑形 / 保养)。
+ * Shaping / Engineering 原著即英文,中文为讲授用译名(塑形 / 工程)。
+ * v1.3 起原著把 Upkeep 更名 Engineering(保养代码库与工单池,并为流程生成工作),
+ * 并把 implement-spec 收入本章(原 resolving-merge-conflicts 移除),本课随之更名(见 docs/adr/0003)。
  */
 export const MODULE_LABELS: Record<ModuleName, string> = {
   主流程: "主流程·The Main Flow",
   参考层: "参考层·Reference Skills",
   Shaping: "塑形·Shaping",
-  Upkeep: "保养·Upkeep",
+  Engineering: "工程·Engineering",
   协作: "协作·Productivity Skills",
 };
 

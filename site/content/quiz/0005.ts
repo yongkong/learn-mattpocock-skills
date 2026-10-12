@@ -4,11 +4,11 @@ import type { QuizQuestion } from "@/lib/quiz";
 export const quiz0005: QuizQuestion[] = [
   {
     scenario:
-      "合并 main 时撞出冲突,两侧改动都不是你写的,当时为什么改已经说不清。该用哪个技能进场?",
-    options: ["/code-review", "/resolving-merge-conflicts", "/diagnosing-bugs", "/triage"],
+      "一个 spec 拆出了十几张工单,你不想一张张敲 /implement,而想让它一口气全部落地。该用哪个?",
+    options: ["/to-tickets", "/implement-spec", "/code-review", "/wizard"],
     answer: 1,
     explain:
-      "冲突挡在合并路上就是它的领地:先找每处冲突的 primary source,读懂双方各自为什么改,再逐块解决。两条铁律:总是解决,绝不 abort。",
+      "implement-spec 把工单当任务图:目标是一条集成分支,每个实现子代理占一个 worktree 并行施工、内部各走 tdd,完工由合并子代理收进集成分支,收尾统一跑一次 code-review。逐票手工仍然是 /implement;两者是单张与整包的关系。",
   },
   {
     scenario: "一张 bug 票缺复现步骤,triage 已请报告者补充,正在等他回复。此刻这张票停在哪个状态?",

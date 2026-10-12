@@ -2,7 +2,7 @@
 num: "0003"
 short: "实战"
 title: "实战:跑通主流程前三站"
-lede: "地图(0001)和四台发动机(0002)都认识了。这课没有新知识——它是一份飞行清单,带你在你自己的仓库把 /grill-with-docs → /to-spec → /to-tickets 真正跑一遍。跑完,前三站就从「知道」变成「做过」。"
+lede: "地图(0001)和五台发动机(0002)都认识了。这课没有新知识——它是一份飞行清单,带你在你自己的仓库把 /grill-with-docs → /to-spec → /to-tickets 真正跑一遍。跑完,前三站就从「知道」变成「做过」。"
 module: 主流程
 ---
 import { Callout, Cite } from "@/components/lesson/elements";
@@ -27,8 +27,8 @@ import { quiz0003 } from "@/content/quiz/0003";
 | ------------------ | ---------------------------------------------------------------------- |
 | **你敲什么**       | `/grill-with-docs`(或直接对你的 agent 说「开始实战课」)                |
 | **agent 会做什么** | 按 frontier 分轮提问:每轮一批编号问题,每题附推荐答案;能查代码自己查,只有决策问你 |
-| **交接物**         | 达成共识的设计 + 顺手更新的 `CONTEXT.md` 词条 / ADR(如有够格的)        |
-| **你的验收点**     | 结束标志是 frontier 清空<strong>且你确认共识</strong>;结束后看一眼 CONTEXT.md 是否多了词条 |
+| **交接物**         | 达成共识的设计 + 顺手更新的 `GLOSSARY.md` 词条 / ADR(如有够格的)        |
+| **你的验收点**     | 结束标志是 frontier 清空<strong>且你确认共识</strong>;结束后看一眼 GLOSSARY.md 是否多了词条 |
 
 ## 第二站:/to-spec(综合成文)
 
@@ -52,7 +52,7 @@ import { quiz0003 } from "@/content/quiz/0003";
 
 三站跑完后,与你的 agent 一起复盘:逐份查看产出的 spec 和工单,对照 [spec 与工单速查](/reference/artifact-shapes)审查——格式跑样、竖切不竖、blocking 边画错,都是这一课最有价值的收获。
 
-想继续飞?下一站是 `/implement`:挑一张无阻塞的工单(工作 frontier),它会内部驱动 `/tdd`(red → green,seam 上见)并在收尾自动跑 `/code-review`——那已经是另一课的内容了。
+想继续飞?下一站是 `/implement`:挑一张无阻塞的工单(工作 frontier),它会内部驱动 `/tdd`(red → green,seam 上见)并在收尾自动跑 `/code-review`。工单一次拆了很多?批量化路线 `/implement-spec` 把整个 spec 一次并行跑完(见 [0005](/lessons/0005))。开 PR 时 `/pr` 会自动定下正文骨架,review 过后别忘主流程的最后一站 `/retro`——把这次飞行踩过的坑变成仓库的改进(见 [0001](/lessons/0001))。
 
 ## 练一练:飞行手册考核
 

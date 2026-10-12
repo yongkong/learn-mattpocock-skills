@@ -18,7 +18,7 @@ _Avoid_: 文档、 cheatsheet 之外的说法、notes
 
 **Dictionary(AI 编码词典)**:
 收录 AI 编码核心术语的 Reference,本身构成一门相对独立的概念课程:释义以中文撰写、术语保留英文,一词一个 MD 文件,卡片弹层阅读。源出 mattpocock/dictionary-of-ai-coding。
-_Avoid_: 字典、词汇表(「词汇表」特指本文件 CONTEXT.md)、单词表
+_Avoid_: 字典、词汇表(「词汇表」特指本文件 GLOSSARY.md)、单词表
 
 **Site(站点)**:
 面向公众的 Course 网站,名为「Agent Skills 中文课」,以「非官方社区课程」自居并注明源出 Matt Pocock 的 skills 体系;部署于本仓库,与教学工作区同体。
@@ -29,7 +29,7 @@ Site 的首页,同时是 Course 的总览入口(仓库根 `index.html`):按 Modu
 _Avoid_: 首页、主页(单独使用时)、index 页
 
 **Module(模块章)**:
-Course 目录的顶级分类单位,共五章:主流程 / 参考层 / Shaping / Upkeep / 协作。每份 Lesson 恰属一章(独立系列的 Workshop 课件除外);Reference 与 Dictionary 不入章,是导航中的顶级类目。五章的 key 取 Matt Pocock 原著分类原词(aihero.dev/skills):The Main Flow / Reference Skills / Shaping / Upkeep / Productivity Skills,不得意译改写。展示名一律「中文·英文」,映射收在 `site/lib/structure.ts` 的 `MODULE_LABELS`。
+Course 目录的顶级分类单位,共五章:主流程 / 参考层 / Shaping / Engineering / 协作。每份 Lesson 恰属一章(独立系列的 Workshop 课件除外);Reference 与 Dictionary 不入章,是导航中的顶级类目。五章的 key 取 Matt Pocock 原著分类原词(aihero.dev/skills):The Main Flow / Reference Skills / Shaping / Engineering / Productivity Skills,不得意译改写。展示名一律「中文·英文」,映射收在 `site/lib/structure.ts` 的 `MODULE_LABELS`。(原名 Upkeep,skills v1.3 起原著更名 Engineering 并纳入 implement-spec、移除 resolving-merge-conflicts,本仓随动;决策见 `docs/adr/0003-skills-v1.3.1.md`。)
 _Avoid_: 分类、部分、chapter
 
 **Workshop(实战系列)**:
