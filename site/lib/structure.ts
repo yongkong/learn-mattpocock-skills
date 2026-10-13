@@ -21,6 +21,14 @@ export const MODULE_LABELS: Record<ModuleName, string> = {
 /** 课件的内容归属:五枚模块章之一,或独立系列「实战」(Workshop,不入章,见 TOP_LEVELS)。 */
 export type CourseTag = ModuleName | "实战";
 
+/**
+ * 课件散文里引用的三个上游计数。唯一来源是这里——课件/速查的行文用模板引用或与常量对齐,
+ * 断言在 lib/counts.test.ts:上游版本升级改了数字,测试红,改一处 + 全文检索即可。
+ */
+export const SKILL_COUNT = 27; // 上游 skills v1.3.1 技能总数
+export const FLOW_STEP_COUNT = 6; // 主流程步数(v1.3 起 /retro 入图)
+export const REFERENCE_SKILL_COUNT = 5; // 参考层技能数(v1.3 起 /pr 入列)
+
 export interface LessonEntry {
   /** 课件编号,即路由参数(如 "0001")。 */
   num: string;

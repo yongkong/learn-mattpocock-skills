@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 站点检查:对构建产物 out/ 执行五类检查。
+ * 站点检查:对构建产物 out/ 执行五类检查,外加一条源码级旧词守卫。
  * 禁语清单是数据(取自 docs/register.md 三类禁语与口语词表),清单更新即检查范围更新。
  * 站名与内容路由(课件/速查)读 content/lessons/manifest.generated.json——与站点同一来源,
  * 本脚本不再手抄任何事实。测验数据的有效性在构建期由 content/quiz/check.generated.ts 把关。
@@ -35,6 +35,21 @@ const FORBIDDEN = [
   "挑毛病",
   "发车",
 ];
+
+/**
+ * 旧词守卫(源码级,独立于构建产物):上游 skills 改名/移除后,旧词只允许出现在
+ * 讲「变化本身」的文件里(变化说明 callout、教学性提及)。白名单之外的文件出现旧词 = 漏改。
+ * 清单更新即检查范围更新:上游再改名时,加旧词、移白名单条目。
+ */
+const STALE_TERMS = ["Upkeep", "resolving-merge-conflicts", "CONTEXT.md", "CONTEXT-MAP.md"];
+const STALE_ALLOWLIST = new Set([
+  "content/lessons/0001.mdx", // v1.3 变化说明 callout
+  "content/lessons/0002.mdx", // GLOSSARY.md 改名缘由
+  "content/lessons/0005.mdx", // v1.3 变化说明 callout
+  "content/lessons/0006.mdx", // wait-what 一节的改名注记
+  "content/reference/skill-flow-map.mdx", // 地图变化注记
+  "lib/structure.ts", // Engineering 更名注释
+]);
 
 /** 站点契约:必须存在的公开路由(静态导出为 <route>.html)。
  *  顶级路由近乎不变,列在这里;课件与速查来自 manifest.generated.json(与内容文件同源)。 */
@@ -173,6 +188,40 @@ const sitePages = htmlFiles.filter((f) => !isEmbeddedCopy(f));
   }
   if (hits.length === 0) ok(`语域禁语:${FORBIDDEN.length} 个禁语模式全站零命中`);
   else fail("语域禁语", hits);
+}
+
+// 6. 旧词守卫(源码级 × 白名单):改名后旧词只准活在讲变化的文件里
+{
+  const contentRoot = siteRoot;
+  const staleHits = [];
+  for (const term of STALE_TERMS) {
+    const rels = collectSourceFiles(contentRoot);
+    for (const rel of rels) {
+      if (STALE_ALLOWLIST.has(rel)) continue;
+      const text = fs.readFileSync(path.join(contentRoot, rel), "utf-8");
+      if (text.includes(term)) staleHits.push(`${rel} 含「${term}」`);
+    }
+  }
+  if (staleHits.length === 0)
+    ok(`旧词守卫:${STALE_TERMS.length} 个旧词在白名单(${STALE_ALLOWLIST.size} 文件)之外零命中`);
+  else fail("旧词守卫", staleHits);
+}
+
+/** 枚举旧词扫描范围:content/(mdx/md/ts)与 lib/(ts)。相对 siteRoot,正斜杠。 */
+function collectSourceFiles(root) {
+  const acc = [];
+  for (const dir of ["content", "lib"]) {
+    const walk = (d) => {
+      for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+        const p = path.join(d, entry.name);
+        if (entry.isDirectory()) walk(p);
+        else if (/\.(mdx|md|ts)$/.test(entry.name) && !entry.name.endsWith(".generated.ts"))
+          acc.push(path.relative(root, p).replaceAll("\\", "/"));
+      }
+    };
+    walk(path.join(root, dir));
+  }
+  return acc;
 }
 
 // (原第 6 类已删除:测验答案分布改由构建期 validateQuiz 把关(content/quiz/check.generated.ts),

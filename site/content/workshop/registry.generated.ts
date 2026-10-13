@@ -49,7 +49,7 @@ export const WORKSHOP_LESSONS: LessonEntry[] = [
     "num": "0007",
     "short": "大型交付",
     "title": "大型任务交付:spec、tickets 与 review",
-    "lede": "把五步法开到大项目上:issue tracker、/to-spec 写规格、/to-tickets 拆工票、跨 context window 逐票执行、rerouting 与 /goal、coding standards 的强制化。对应视频 P57–P70。",
+    "lede": "把流程开到大项目上:issue tracker、/to-spec 写规格、/to-tickets 拆工票、跨 context window 逐票执行、rerouting 与 /goal、coding standards 的强制化。对应视频 P57–P70。",
     "module": "实战"
   }
 ];

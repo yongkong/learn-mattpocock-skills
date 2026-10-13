@@ -2,6 +2,10 @@
 
 Guidance for coding agents working in this repo.
 
+## Verify before done
+
+改动 `site/` 后跑(都在 `site/` 下):`npm test`(vitest,含课件计数一致性)、`npm run build`、`npm run check:site`(路由/链接/禁语/旧词守卫)。CI 同序跑这四步,见 `.github/workflows/site-check.yml`。
+
 ## Agent skills
 
 ### Issue tracker

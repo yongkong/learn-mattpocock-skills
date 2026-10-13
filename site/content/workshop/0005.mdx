@@ -69,7 +69,7 @@ Execute 阶段:不清空、不重启,带着 grilling 的全部上下文直接开
 
 为什么比直接实现好?不 grilling,你很可能漏掉 empty state、讲师队列、XSS 过滤这三样;也很可能做出更差的选择——扁平列表加 seen 状态比一层回复更复杂,给学生开放完整 HTML 渲染则很危险。grilling 让你在写码之前想清这一切,实现因此变得机械:难的决定已经做完。agent 不是在耍聪明,它用压力(矛盾、边界情况、安全问题)把你的真实意图逼到光下,然后照你们同意的方案精确实现。
 
-于是有了这个循环的完整一圈:Grill——问到共享心智模型;Execute——带着还热的 context 自信实现;Clear——feature 完成并 commit 之后清空,下一个任务从零开始,重新走[主流程五步法](/lessons/0003)。session 历史没了,但 grilling 留下的东西(spec 与全部决策)正是你需要的。<Cite>(来源:《AI Coding Crash Course》P39–P40,aihero.dev,Matt Pocock)</Cite>
+于是有了这个循环的完整一圈:Grill——问到共享心智模型;Execute——带着还热的 context 自信实现;Clear——feature 完成并 commit 之后清空,下一个任务从零开始,重新走[主流程](/lessons/0003)。session 历史没了,但 grilling 留下的东西(spec 与全部决策)正是你需要的。<Cite>(来源:《AI Coding Crash Course》P39–P40,aihero.dev,Matt Pocock;视频时代的口径是五步,v1.3 起 /retro 入图为六步,见 [0001](/lessons/0001))</Cite>
 
 ## P41 ｜ Compaction
 
